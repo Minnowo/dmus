@@ -1,4 +1,6 @@
+import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
+import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +22,19 @@ class _SongsPageState extends State<SongsPage> {
   void initState() {
     super.initState();
 
-    MusicFetcher().getAllMusic().then((value) => value.forEach((element) {
-          songs.add(element);
-        }));
+    MusicFetcher().getAllMusic().then((value) => songs = value);
   }
 
-  void addSong(BuildContext context) {
+  Future<void> addSong(BuildContext context) async {
     debugPrint("Adding new song");
+
+    var files = await pickMusicFiles();
+
+    files?.forEach((element) {
+
+      debugPrint(element.path);
+
+    });
   }
 
   void openMenu(BuildContext context) {
@@ -35,6 +43,10 @@ class _SongsPageState extends State<SongsPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    debugPrint("Songs length is ${songs.length}");
+
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -42,7 +54,7 @@ class _SongsPageState extends State<SongsPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () => addSong(context),
+              onPressed: () => showDialog(context: context, builder: (BuildContext context) => ImportDialog()),
               icon: Icon(Icons.add),
             ),
           ],

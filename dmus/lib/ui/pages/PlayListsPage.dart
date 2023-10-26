@@ -1,4 +1,5 @@
 
+import 'package:dmus/core/audio/AudioTest.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/SettingsDrawer.dart';
@@ -30,12 +31,16 @@ class _PlaylistsPageState extends State<PlaylistsPage>
           ],
         ),
         body: Container(
-          color: Colors.green,
-          child: const Center(
-            child: Text('Page 2',
-                style: TextStyle(fontSize: 24, color: Colors.white)),
-          ),
-        ),
+            color: Colors.green,
+            child: Center(
+              child:
+              ElevatedButton(onPressed: (){
+
+                StaticAudioTest.playerTestSong();
+
+              }, child: Text("play song"),
+              ),
+            )),
         drawer: SettingsDrawer()
     );
   }

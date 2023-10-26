@@ -61,7 +61,7 @@ class _RootPageState extends State<RootPage> {
 
     _pageController.animateToPage(
       page,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 100),
       curve: Curves.ease,
     );
   }
