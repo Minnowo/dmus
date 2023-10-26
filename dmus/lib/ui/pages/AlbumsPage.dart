@@ -1,12 +1,12 @@
 
+import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/SettingsDrawer.dart';
 
-class AlbumsPage extends StatefulWidget {
+class AlbumsPage extends NavigationPage {
 
-
-  const AlbumsPage({super.key});
+  const AlbumsPage({super.key}) : super(icon: Icons.album, title: "Albums");
 
   @override
   State<AlbumsPage> createState() => _AlbumsPageState();
@@ -15,15 +15,12 @@ class AlbumsPage extends StatefulWidget {
 
 class _AlbumsPageState extends State<AlbumsPage>
 {
-
-  static const String TITLE = "Albums";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text(TITLE),
+          title: Text(widget.title),
           centerTitle: true,
           actions: [
             IconButton(

@@ -1,4 +1,5 @@
 import 'package:dmus/ui/pages/AlbumsPage.dart';
+import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:flutter/material.dart';
@@ -32,35 +33,57 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
+class PageNavItem{
+  final String title;
+  final Icon icon;
+  final Widget page;
+
+  const PageNavItem({required this.title, required this.icon,required this.page});
+}
+
 class _RootPageState extends State<RootPage> {
 
   PageController _pageController = PageController();
   int _currentPage = 0;
 
-  final List<Widget> _pages = <Widget>[
+  final List<NavigationPage> _pages = [
     const SongsPage(),
     const PlaylistsPage(),
     const AlbumsPage(),
   ];
 
-  void _changePage(int page) {
+  void navigatePage(int page) {
+
+    if(page < 0 || page >= _pages.length || page == _currentPage)
+      return;
+
+    setState(() => _currentPage = page);
+
     _pageController.animateToPage(
       page,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.ease,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: _pages
-            );
+
+    return Scaffold(
+      body: PageView(
+          controller: _pageController,
+          onPageChanged: (page) {
+            setState(() {
+              _currentPage = page;
+            });
+          },
+          children: _pages
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex:_currentPage,
+        destinations: _pages .map((e) => NavigationDestination(icon: Icon(e.icon), label: e.title)).toList(),
+        onDestinationSelected: navigatePage,
+      ),
+    );
   }
 }

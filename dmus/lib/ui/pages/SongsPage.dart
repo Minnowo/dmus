@@ -4,16 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/data/DataEntity.dart';
+import 'NavigationPage.dart';
 
-class SongsPage extends StatefulWidget {
-  const SongsPage({super.key});
+class SongsPage extends  NavigationPage {
+  const SongsPage({super.key}) : super(icon: Icons.music_note, title: "Songs");
 
   @override
   State<SongsPage> createState() => _SongsPageState();
 }
 
 class _SongsPageState extends State<SongsPage> {
-  static const String TITLE = "Songs";
   static List<Song> songs = [];
 
   @override
@@ -38,7 +38,7 @@ class _SongsPageState extends State<SongsPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text(TITLE),
+          title: Text(widget.title),
           centerTitle: true,
           actions: [
             IconButton(
@@ -54,12 +54,10 @@ class _SongsPageState extends State<SongsPage> {
                   var song = songs[index];
 
                   return GestureDetector(
-                    child: Container(
                       child: ListTile(
                         title: Text(song.displayTitle),
                         subtitle: Text(song.duration.toString()),
                       ),
-                    ),
                   );
                 })),
         drawer: SettingsDrawer());
