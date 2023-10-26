@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,linux,windows,macos,java,kotlin,flutter,dart
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,linux,windows,macos,java,kotlin,flutter,dart
 
+*.flac
+*.wav
+*.mp3
+*.opus
+*.ogg
+
 ### Android ###
 # Gradle files
 .gradle/
