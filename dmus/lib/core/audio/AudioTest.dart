@@ -1,4 +1,5 @@
 
+
 import 'package:audioplayers/audioplayers.dart';
 
 class StaticAudioTest {
@@ -8,6 +9,13 @@ class StaticAudioTest {
   static Future<void> playURL(String url) async {
 
     await player.setSourceUrl(url); // equivalent to setSource(UrlSource(url));
+    await player.resume();
+  }
+
+
+  static Future<void> playPath(String path) async {
+
+    await player.play(DeviceFileSource(path));
     await player.resume();
   }
 

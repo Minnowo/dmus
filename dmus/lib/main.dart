@@ -1,10 +1,13 @@
-import 'package:dmus/ui/pages/AlbumsPage.dart';
+import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
-import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
+
   runApp(const DMUSApp());
 }
 
@@ -13,14 +16,19 @@ class DMUSApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const RootPage(title: 'Flutter Demo Home Page'),
-    );
+
+    AudioController.instance.setup();
+
+    return ChangeNotifierProvider(
+        create: (context) => AudioControllerModel(),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const RootPage(title: 'Flutter Demo Home Page'),
+        ));
   }
 }
 
@@ -48,8 +56,9 @@ class _RootPageState extends State<RootPage> {
 
   final List<NavigationPage> _pages = [
     const SongsPage(),
-    const PlaylistsPage(),
-    const AlbumsPage(),
+    const SongsPage(),
+    // const PlaylistsPage(),
+    // const AlbumsPage(),
   ];
 
   void navigatePage(int page) {

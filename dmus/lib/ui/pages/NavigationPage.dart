@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 
-abstract class NavigationPage extends StatefulWidget {
+abstract class NavigationPage extends StatelessWidget {
 
   final String title;
   final IconData icon;

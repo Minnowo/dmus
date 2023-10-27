@@ -1,77 +1,93 @@
-import 'package:dmus/core/data/FileDialog.dart';
-import 'package:dmus/core/data/MusicFetcher.dart';
+import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
+import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../core/data/DataEntity.dart';
+import '../model/AudioControllerModel.dart';
+import '../model/SongsPageModel.dart';
 import 'NavigationPage.dart';
 
-class SongsPage extends  NavigationPage {
+
+class SongsPage extends NavigationPage {
+
   const SongsPage({super.key}) : super(icon: Icons.music_note, title: "Songs");
 
   @override
-  State<SongsPage> createState() => _SongsPageState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => SongsModel(),
+      child: _SongsPage(this),
+    );
+  }
 }
 
-class _SongsPageState extends State<SongsPage> {
-  static List<Song> songs = [];
+class _SongsPage extends  StatefulWidget {
+
+  SongsPage parent;
+
+  _SongsPage(this.parent);
 
   @override
-  void initState() {
-    super.initState();
+  State<_SongsPage> createState() => _SongsPageState();
+}
 
-    MusicFetcher().getAllMusic().then((value) => songs = value);
-  }
-
-  Future<void> addSong(BuildContext context) async {
-    debugPrint("Adding new song");
-
-    var files = await pickMusicFiles();
-
-    files?.forEach((element) {
-
-      debugPrint(element.path);
-
-    });
-  }
-
-  void openMenu(BuildContext context) {
-    debugPrint("Opening menu");
-  }
+class _SongsPageState extends State<_SongsPage> {
 
   @override
   Widget build(BuildContext context) {
 
-    debugPrint("Songs length is ${songs.length}");
+    var songsModel = context.watch<SongsModel>();
 
+    debugPrint("Rebuilding stuff");
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
+          title: Text(widget.parent.title),
           centerTitle: true,
           actions: [
             IconButton(
               onPressed: () => showDialog(context: context, builder: (BuildContext context) => ImportDialog()),
               icon: Icon(Icons.add),
             ),
+            IconButton(
+              onPressed: () {
+                songsModel.update();
+              },
+              icon: Icon(Icons.update),
+            ),
+            IconButton(
+              onPressed: () {
+                AudioController.instance.stopAndEmptyQueue();
+              },
+              icon: Icon(Icons.stop),
+            ),
           ],
         ),
-        body: Center(
-            child: ListView.builder(
-                itemCount: songs.length,
+        body: Column(
+            children: [
+              Expanded(child: ListView.builder(
+                itemCount: songsModel.songs.length,
                 itemBuilder: (context, index) {
-                  var song = songs[index];
+                  var song = songsModel.songs[index];
 
                   return GestureDetector(
-                      child: ListTile(
-                        title: Text(song.displayTitle),
-                        subtitle: Text(song.duration.toString()),
-                      ),
+                    child: ListTile(
+                      title: Text(song.displayTitle),
+                      trailing: Text('${song.duration}'),
+                      subtitle: Text(song.duration.toString()),
+                    ),
+                    onTap: () async {
+                      debugPrint("Playing tapped");
+                      await AudioController.instance.playSong(song);
+                    },
                   );
                 })),
+              CurrentlyPlayingBar()
+            ]),
+        endDrawerEnableOpenDragGesture: true,
         drawer: SettingsDrawer());
   }
 }

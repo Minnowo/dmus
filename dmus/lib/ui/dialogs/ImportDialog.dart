@@ -1,4 +1,5 @@
 import 'package:dmus/core/data/FileDialog.dart';
+import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:flutter/material.dart';
 
 /// Flutter code sample for [Dialog].
@@ -15,8 +16,6 @@ class ImportDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('This is a typical dialog.'),
-            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -26,6 +25,9 @@ class ImportDialog extends StatelessWidget {
 
                     pickMusicFiles().then((value) => value?.forEach((element) {
                       debugPrint(element.path);
+
+                      MusicFetcher.instance.addFile(element);
+
                     }));
 
                     Navigator.pop(context);

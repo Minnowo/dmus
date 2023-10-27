@@ -1,3 +1,5 @@
+import 'package:file_picker/file_picker.dart';
+
 abstract class DataEntity {
   String displayTitle;
 
@@ -7,7 +9,10 @@ abstract class DataEntity {
 }
 
 class Song extends DataEntity {
-  Song(String displayTitle, double duration) : super(displayTitle, duration);
+
+  PlatformFile file;
+
+  Song(this.file, String displayTitle, double duration) : super(displayTitle, duration);
 }
 
 class Playlist extends DataEntity {
