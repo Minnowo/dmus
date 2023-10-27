@@ -40,7 +40,7 @@ class _SongsPageState extends State<_SongsPage> {
 
     var songsModel = context.watch<SongsModel>();
 
-    debugPrint("Rebuilding stuff");
+    debugPrint("Rebuilding stuff: length of songsModel sonogs ${songsModel.songs.length}");
 
     return Scaffold(
         appBar: AppBar(
@@ -67,26 +67,35 @@ class _SongsPageState extends State<_SongsPage> {
           ],
         ),
         body: Column(
-            children: [
-              Expanded(child: ListView.builder(
-                itemCount: songsModel.songs.length,
-                itemBuilder: (context, index) {
-                  var song = songsModel.songs[index];
 
-                  return GestureDetector(
-                    child: ListTile(
-                      title: Text(song.displayTitle),
-                      trailing: Text('${song.duration}'),
-                      subtitle: Text(song.duration.toString()),
-                    ),
-                    onTap: () async {
-                      debugPrint("Playing tapped");
-                      await AudioController.instance.playSong(song);
-                    },
-                  );
-                })),
-              CurrentlyPlayingBar()
-            ]),
+          children: <Widget>[
+
+            if(songsModel.songs.isEmpty)
+              Center(child: Text("Nothing is here!"),)
+
+            else
+              Expanded(
+                  child:ListView.builder(
+                      itemCount: songsModel.songs.length,
+                      itemBuilder: (context, index) {
+                        var song = songsModel.songs[index];
+
+                        return GestureDetector(
+                          child: ListTile(
+                            title: Text(song.displayTitle),
+                            trailing: Text('${song.duration}'),
+                            subtitle: Text(song.duration.toString()),
+                          ),
+                          onTap: () async {
+                            debugPrint("Playing tapped");
+                            await AudioController.instance.playSong(song);
+                          },
+                        );
+                      })
+              )
+          ],
+
+        ) ,
         endDrawerEnableOpenDragGesture: true,
         drawer: SettingsDrawer());
   }

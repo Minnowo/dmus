@@ -1,8 +1,10 @@
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
+import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
+import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
+import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,20 +53,20 @@ class PageNavItem{
 
 class _RootPageState extends State<RootPage> {
 
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
 
   final List<NavigationPage> _pages = [
     const SongsPage(),
-    const SongsPage(),
-    // const PlaylistsPage(),
-    // const AlbumsPage(),
+    const PlaylistsPage(),
+    const AlbumsPage(),
   ];
 
   void navigatePage(int page) {
 
-    if(page < 0 || page >= _pages.length || page == _currentPage)
+    if(page < 0 || page >= _pages.length || page == _currentPage) {
       return;
+    }
 
     setState(() => _currentPage = page);
 
@@ -77,16 +79,22 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: PageView(
-          controller: _pageController,
-          onPageChanged: (page) {
-            setState(() {
-              _currentPage = page;
-            });
-          },
-          children: _pages
+      body: Column(
+        children: [
+          Expanded(
+              child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  children: _pages
+              )
+          ),
+          const CurrentlyPlayingBar(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex:_currentPage,

@@ -2,8 +2,6 @@ import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [Dialog].
-
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 

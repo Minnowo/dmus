@@ -10,6 +10,7 @@ class MusicFetcher {
 
   static MusicFetcher instance = MusicFetcher();
 
+  // this is the database rightnow
   static List<PlatformFile> files = [];
 
   void addFiles(List<PlatformFile> paths) {
@@ -19,6 +20,9 @@ class MusicFetcher {
   }
 
   void addFile(PlatformFile path){
+    if(files.contains(path)) {
+      return;
+    }
     files.add(path);
     debugPrint("Adding $path to music list");
   }
