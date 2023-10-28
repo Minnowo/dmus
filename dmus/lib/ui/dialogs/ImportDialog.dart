@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:flutter/material.dart';
 
 class ImportDialog extends StatelessWidget {
@@ -21,14 +24,11 @@ class ImportDialog extends StatelessWidget {
                   child: const Text('Add Files'),
                   onPressed: () {
 
-                    pickMusicFiles().then((value) => value?.forEach((element) {
-                      debugPrint(element.path);
-
-                      MusicFetcher.instance.addFile(element);
-
-                    }));
-
-                    Navigator.pop(context);
+                    pickMusicFiles()
+                        .then((value) => value
+                        ?.where((e) => e.path != null)
+                        .forEach((element) => TableSong.insertSong(File(element.path!))))
+                        .then((value) => Navigator.pop(context));
                   },
                 ),
                 TextButton(

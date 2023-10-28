@@ -50,8 +50,8 @@ class _SongsPageState extends State<_SongsPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () => showDialog(context: context, builder: (BuildContext context) => ImportDialog()),
-              icon: Icon(Icons.add),
+              onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()).then((value) => songsModel.update()),
+              icon: const Icon(Icons.add),
             ),
             IconButton(
               onPressed: () {
