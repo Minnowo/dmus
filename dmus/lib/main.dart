@@ -1,4 +1,5 @@
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/localstorage/Database.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
@@ -7,8 +8,14 @@ import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:logging/logging.dart';
 
 void main() {
+
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((record) {
+      print('${record.level.name}: ${record.time}: ${record.message}');
+  });
 
   runApp(const DMUSApp());
 }
@@ -20,6 +27,7 @@ class DMUSApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     AudioController.instance.setup();
+    DatabaseController.instance.database.then((value) => debugPrint("database ready"));
 
     return ChangeNotifierProvider(
         create: (context) => AudioControllerModel(),

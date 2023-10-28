@@ -1,5 +1,6 @@
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
+import 'package:dmus/core/localstorage/Database.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
@@ -55,6 +56,7 @@ class _SongsPageState extends State<_SongsPage> {
             IconButton(
               onPressed: () {
                 songsModel.update();
+                debugPrint(DatabaseController.instance.database.toString());
               },
               icon: Icon(Icons.update),
             ),

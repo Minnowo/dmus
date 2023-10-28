@@ -1,4 +1,8 @@
 
+import 'package:logging/logging.dart';
+
+
+final logging = Logger('DMUS');
 
 String formatTimeDisplay(Duration sp, Duration sd) {
 
