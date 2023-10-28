@@ -1,4 +1,7 @@
+import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
+
+import '../dialogs/ImportDialog.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
@@ -37,12 +40,18 @@ class SettingsDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.add),
             title: const Text("Add Music"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              showDialog(context: context, builder: (BuildContext context) => const ImportDialog());
+            },
           ),
           ListTile(
             leading: const Icon(Icons.folder),
-            title: Text("Watch Directories"),
-            onTap: () {},
+            title: const Text("Watch Directories"),
+            onTap: () async {
+              Navigator.pop(context);
+              await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => const WatchDirectoriesPage()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.refresh),

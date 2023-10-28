@@ -2,12 +2,10 @@ import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
-import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/AudioControllerModel.dart';
 import '../model/SongsPageModel.dart';
 import 'NavigationPage.dart';
 
@@ -81,7 +79,7 @@ class _SongsPageState extends State<_SongsPage> {
           children: <Widget>[
 
             if(songsModel.songs.isEmpty)
-              Center(
+              const Center(
                 child: Text("Nothing is here!\nHit the + in the top right to import music.", textAlign: TextAlign.center,),)
 
             else
@@ -92,17 +90,16 @@ class _SongsPageState extends State<_SongsPage> {
                         var song = songsModel.songs[index];
 
                         return InkWell(
-                          child: ListTile(
-                            title: Text(song.displayTitle),
-                            trailing: Text('${song.duration}'),
-                            subtitle: Text(song.duration.toString()),
-                          ),
-                          onTap: () async {
-                            debugPrint("Playing tapped");
-                            await AudioController.instance.playSong(song);
-                          },
+                            child: ListTile(
+                              title: Text(song.displayTitle),
+                              trailing: Text('${song.duration}'),
+                              subtitle: Text(song.duration.toString()),
+                            ),
+                            onTap: () async {
+                              debugPrint("Playing tapped");
+                              await AudioController.instance.playSong(song);
+                            },
                             onLongPress: () {
-                              // Show a dialog with options
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) => SongContextDialog(songContext: song,),
