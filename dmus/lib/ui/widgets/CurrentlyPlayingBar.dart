@@ -4,21 +4,11 @@ import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/Util.dart';
+
 class CurrentlyPlayingBar extends  StatelessWidget {
   const CurrentlyPlayingBar({super.key});
 
-
-  String formatTimeDisplay(Duration sp, Duration sd) {
-
-    return '${(sp.inMinutes % 60).toString().padLeft(2, '0')}'
-        ':'
-        '${(sp.inSeconds % 60).toString().padLeft(2, '0')}'
-        ' / '
-        '${(sd.inMinutes % 60).toString().padLeft(2, '0')}'
-        ':'
-        '${(sd.inSeconds % 60).toString().padLeft(2, '0')}'
-    ;
-  }
 
 
   @override

@@ -1,5 +1,7 @@
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
+import 'package:dmus/ui/dialogs/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
@@ -64,14 +66,23 @@ class _SongsPageState extends State<_SongsPage> {
               },
               icon: Icon(Icons.stop),
             ),
+            IconButton(
+              onPressed: () {
+                MusicFetcher.files.clear();
+                songsModel.update();
+              },
+              icon: Icon(Icons.delete),
+            ),
           ],
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
 
           children: <Widget>[
 
             if(songsModel.songs.isEmpty)
-              Center(child: Text("Nothing is here!"),)
+              Center(
+                child: Text("Nothing is here!\nHit the + in the top right to import music.", textAlign: TextAlign.center,),)
 
             else
               Expanded(
@@ -80,7 +91,7 @@ class _SongsPageState extends State<_SongsPage> {
                       itemBuilder: (context, index) {
                         var song = songsModel.songs[index];
 
-                        return GestureDetector(
+                        return InkWell(
                           child: ListTile(
                             title: Text(song.displayTitle),
                             trailing: Text('${song.duration}'),
@@ -90,6 +101,13 @@ class _SongsPageState extends State<_SongsPage> {
                             debugPrint("Playing tapped");
                             await AudioController.instance.playSong(song);
                           },
+                            onLongPress: () {
+                              // Show a dialog with options
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => SongContextDialog(songContext: song,),
+                              );
+                            }
                         );
                       })
               )
