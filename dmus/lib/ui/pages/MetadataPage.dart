@@ -2,6 +2,8 @@
 
 
 
+import 'dart:typed_data';
+
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,81 +31,88 @@ class MetadataPage extends StatelessWidget {
     String? writerName = metadata.writerName;
     int? discNumber = metadata.discNumber;
     String? mimeType = metadata.mimeType;
-    Duration trackDuration = Duration(milliseconds: metadata.trackDuration ?? 0);
+    int? trackDuration =metadata.trackDuration;
     int? bitrate = metadata.bitrate;
+    Uint8List? art = metadata.albumArt;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Metadata Information'),
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columnSpacing: 20.0, // Adjust spacing as needed
-            dataRowHeight: 40.0, // Adjust row height as needed
-            columns: const [
-              DataColumn(label: Text('Property')),
-              DataColumn(label: Text('Value')),
-            ],
-            rows: [
-              DataRow(cells: [
-                const DataCell(Text('Track Name')),
-                DataCell(Text(trackName ?? 'N/A')),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Track Artist Names')),
-                DataCell(Text(trackArtistNames?.join(', ') ?? 'N/A')),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Album Name')),
-                DataCell(Text(albumName ?? 'N/A')),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Album Artist Name')),
-                DataCell(Text(albumArtistName ?? 'N/A')),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Track Duration')),
-                DataCell(Text(formatDuration(trackDuration))),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Bitrate (bits/sec)')),
-                DataCell(Text(bitrate?.toString() ?? "N/A")),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Mime Type')),
-                DataCell(Text(mimeType ?? "N/A")),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Year')),
-                DataCell(Text(year == null ? "N/A" : year.toString())),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Genre')),
-                DataCell(Text(genre ?? "N/A")),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Track Number')),
-                DataCell(Text(trackNumber == null ? "N/A" : trackNumber.toString())),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Disk Number')),
-                DataCell(Text(discNumber == null ? "N/A" : discNumber.toString())),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Author Name')),
-                DataCell(Text(authorName?? 'N/A')),
-              ]),
-              DataRow(cells: [
-                const DataCell(Text('Writer Name')),
-                DataCell(Text(writerName ?? 'N/A')),
-              ]),
-              // Add more rows for other metadata properties
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Metadata Information'),
         ),
-      ),
+        body: ListView(
+          children: [
+
+            if(art != null)
+              Image.memory(art),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                // columnSpacing: 20.0, // Adjust spacing as needed
+                // dataRowHeight: 40.0, // Adjust row height as needed
+                columns: const [
+                  DataColumn(label: Text('Property')),
+                  DataColumn(label: Text('Value')),
+                ],
+                rows: [
+                  DataRow(cells: [
+                    const DataCell(Text('Track Name')),
+                    DataCell(Text(trackName ?? 'N/A')),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Track Artist Names')),
+                    DataCell(Text(trackArtistNames?.join(', ') ?? 'N/A')),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Album Name')),
+                    DataCell(Text(albumName ?? 'N/A')),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Album Artist Name')),
+                    DataCell(Text(albumArtistName ?? 'N/A')),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Track Duration')),
+                    DataCell(Text(trackDuration == null ? "N/A" : formatDuration(Duration(milliseconds: trackDuration)))),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Bitrate (bits/sec)')),
+                    DataCell(Text(bitrate?.toString() ?? "N/A")),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Mime Type')),
+                    DataCell(Text(mimeType ?? "N/A")),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Year')),
+                    DataCell(Text(year == null ? "N/A" : year.toString())),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Genre')),
+                    DataCell(Text(genre ?? "N/A")),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Track Number')),
+                    DataCell(Text(trackNumber == null ? "N/A" : trackNumber.toString())),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Disk Number')),
+                    DataCell(Text(discNumber == null ? "N/A" : discNumber.toString())),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Author Name')),
+                    DataCell(Text(authorName?? 'N/A')),
+                  ]),
+                  DataRow(cells: [
+                    const DataCell(Text('Writer Name')),
+                    DataCell(Text(writerName ?? 'N/A')),
+                  ]),
+                  // Add more rows for other metadata properties
+                ],
+              ),
+            ),
+          ],
+
+        )
     );
 
   }
