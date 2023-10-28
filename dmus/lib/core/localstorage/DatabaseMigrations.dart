@@ -51,7 +51,7 @@ class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_SONG (
         id INTEGER PRIMARY KEY,
-        song_path VARCHAR UNIQUE
+        song_path VARCHAR UNIQUE NOT NULL
     ) 
     ''');
 
@@ -60,7 +60,7 @@ class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_ALBUM (
         id INTEGER PRIMARY KEY,
-        title VARCHAR
+        title VARCHAR NOT NULL
     ) 
     ''');
 
@@ -69,7 +69,7 @@ class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_PLAYLIST (
         id INTEGER PRIMARY KEY,
-        title VARCHAR
+        title VARCHAR NOT NULL
     ) 
     ''');
 
@@ -78,8 +78,8 @@ class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_WATCH_DIRECTORY (
         directory_path VARCHAR PRIMARY KEY,
-        check_interval INTEGER,
-        is_recursive BOOLEAN
+        check_interval INTEGER NOT NULL,
+        is_recursive BOOLEAN NOT NULL
     ) 
     ''');
 
@@ -91,8 +91,8 @@ class DatabaseMigrations {
 
     await db.execute('''
     CREATE TABLE $TBL_ALBUM_SONG (
-        $ALBUM_ID INTEGER,
-        $SONG_ID INTEGER,
+        $ALBUM_ID INTEGER NOT NULL,
+        $SONG_ID INTEGER NOT NULL,
         FOREIGN KEY ($ALBUM_ID) REFERENCES $TBL_ALBUM(id) ON DELETE CASCADE,
         FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
         CONSTRAINT ${ALBUM_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_ALBUM(id),
@@ -107,8 +107,8 @@ class DatabaseMigrations {
 
     await db.execute('''
     CREATE TABLE $TBL_PLAYLIST_SONG (
-        $PLAYLIST_ID INTEGER,
-        $SONG_ID INTEGER,
+        $PLAYLIST_ID INTEGER NOT NULL,
+        $SONG_ID INTEGER NOT NULL,
         FOREIGN KEY ($PLAYLIST_ID) REFERENCES $TBL_PLAYLIST(id) ON DELETE CASCADE,
         FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
         CONSTRAINT ${PLAYLIST_ID}_fk FOREIGN KEY ($PLAYLIST_ID) REFERENCES $TBL_PLAYLIST(id),

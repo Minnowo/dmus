@@ -11,13 +11,13 @@ import '../../Util.dart';
 final class TableSong {
 
   final int id;
-  final String song_path;
+  final String songPath;
 
-  TableSong.privateConstructor({required this.id, required this.song_path});
+  TableSong.privateConstructor({required this.id, required this.songPath});
 
   static const String name = "tbl_song";
-  static const String id_col = "id";
-  static const String song_path_col = "song_path";
+  static const String idCol = "id";
+  static const String songPathCol = "song_path";
 
   static Future<int?> insertSong(File path) async {
 
@@ -30,7 +30,7 @@ final class TableSong {
       return await db.insert(
           name,
           {
-            song_path_col : path.absolute.path
+            songPathCol : path.absolute.path
           }
       );
     }
@@ -43,7 +43,7 @@ final class TableSong {
     return null;
   }
 
-  static Future<List<TableSong>> selectAllSongs() async {
+  static Future<List<TableSong>> selectAll() async {
 
     logging.finest("Selecting all songs from the $name table");
 
@@ -51,7 +51,7 @@ final class TableSong {
 
     var result = await db.query( name );
 
-    return  result.map((e) => TableSong.privateConstructor(id: e[id_col] as int, song_path: e[song_path_col] as String )).toList();
+    return  result.map((e) => TableSong.privateConstructor(id: e[idCol] as int, songPath: e[songPathCol] as String )).toList();
   }
 
   static Future<TableSong> selectSong(File path) async {
@@ -62,10 +62,10 @@ final class TableSong {
 
     var result = (await db.query(
         name,
-        where: "$song_path_col = ?",
+        where: "$songPathCol = ?",
         whereArgs: [path.absolute.path]
     )).first;
 
-    return TableSong.privateConstructor(id: result[id_col] as int, song_path: result[song_path_col] as String );
+    return TableSong.privateConstructor(id: result[idCol] as int, songPath: result[songPathCol] as String );
   }
 }

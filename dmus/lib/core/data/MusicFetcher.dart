@@ -20,7 +20,9 @@ class MusicFetcher {
 
   void addFiles(List<PlatformFile> paths) {
 
-    paths.forEach((e) => addFile(e));
+    for (var e in paths) {
+      addFile(e);
+    }
 
   }
 
@@ -35,9 +37,9 @@ class MusicFetcher {
 
   Future<List<Song>> getAllMusic() async {
 
-    var s = await TableSong.selectAllSongs();
+    var s = await TableSong.selectAll();
 
-    return s.map((e) => PlatformFile(name:Path.basename(e.song_path), size: e.id, path: e.song_path)).map((e) => Song(e, e.name, 0)).toList();
+    return s.map((e) => PlatformFile(name:Path.basename(e.songPath), size: e.id, path: e.songPath)).map((e) => Song(e, e.name, 0)).toList();
   }
 
   Future<List<Playlist>> getAllPlaylists() async {

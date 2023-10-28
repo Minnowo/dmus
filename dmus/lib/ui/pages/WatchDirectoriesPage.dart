@@ -1,6 +1,9 @@
 
 
+import 'dart:io';
+
 import 'package:dmus/core/data/FileDialog.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableWatchDirectory.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,19 +13,47 @@ class WatchDirectoriesModel extends ChangeNotifier {
 
   List<String> directoryPaths = [];
 
+  WatchDirectoriesModel(){
+    update();
+  }
+
+  void update(){
+
+    TableWatchDirectory.selectAll().then((value) {
+
+      directoryPaths.clear();
+
+      for(var element in value)  {
+        directoryPaths.add(element.directoryPath);
+      }
+
+      notifyListeners();
+    });
+  }
+
+
   void addDirectory(String dir){
     if(directoryPaths.contains(dir)) {
       return;
     }
 
-    directoryPaths.add(dir);
-    notifyListeners();
+    TableWatchDirectory.insertDirectory(File(dir), 0, true)
+        .then((value) {
+
+      directoryPaths.add(dir);
+      notifyListeners();
+    });
   }
 
   void removeDirectory(String dir){
-    if(directoryPaths.remove(dir)) {
-      notifyListeners();
-    }
+
+    TableWatchDirectory.removeDirectory(File(dir))
+        .then((value) {
+
+      if(directoryPaths.remove(dir)) {
+        notifyListeners();
+      }
+    });
   }
 }
 
@@ -72,6 +103,16 @@ class _WatchDirectoriesState extends State<_WatchDirectoriesPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: pickAddDirectory,
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+
+              if(directoryModel.directoryPaths.isNotEmpty) {
+
+                directoryModel.removeDirectory(directoryModel.directoryPaths.first);
+              }
+            },
           ),
         ],
       ),
