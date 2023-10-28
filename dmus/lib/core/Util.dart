@@ -9,7 +9,7 @@ String formatTimeDisplay(Duration sp, Duration sd) {
   String hoursSP = "";
   String hoursSD = "";
 
-  if(sp.inHours >= 1 ) {
+  if(sd.inHours >= 1 ) {
 
     hoursSP = '${(sp.inHours % 60).toString().padLeft(2, '0')}:';
     hoursSD = '${(sd.inHours % 60).toString().padLeft(2, '0')}:';
@@ -29,7 +29,14 @@ String formatTimeDisplay(Duration sp, Duration sd) {
 
 String formatDuration(Duration d) {
 
-  return '${(d.inMinutes % 60).toString().padLeft(2, '0')}'
+  String hours = "";
+
+  if(d.inHours >= 1 ) {
+
+    hours = '${(d.inHours % 60).toString().padLeft(2, '0')}:';
+  }
+  return '$hours'
+      '${(d.inMinutes % 60).toString().padLeft(2, '0')}'
       ':'
       '${(d.inSeconds % 60).toString().padLeft(2, '0')}'
   ;
