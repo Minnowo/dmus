@@ -11,6 +11,11 @@ class SongsModel extends ChangeNotifier {
 
   List<Song> songs = [];
 
+  SongsModel(){
+
+    update();
+  }
+
   void update(){
 
     songs.clear();
@@ -24,9 +29,7 @@ class SongsModel extends ChangeNotifier {
             debugPrint("adding $element");
             songs.add(element);
           }
-        });
-
-    notifyListeners();
+        }).then((value) => notifyListeners());
   }
 
   void add(Song s){
