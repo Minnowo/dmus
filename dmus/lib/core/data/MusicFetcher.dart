@@ -1,10 +1,15 @@
 
 
+import 'dart:io';
+
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'DataEntity.dart';
 
+
+import 'package:path/path.dart' as Path;
 
 class MusicFetcher {
 
@@ -20,16 +25,19 @@ class MusicFetcher {
   }
 
   void addFile(PlatformFile path){
-    if(files.contains(path)) {
+    if(path.path == null || files.contains(path)) {
       return;
     }
     files.add(path);
+    TableSong.insertSong(File(path.path!));
     debugPrint("Adding $path to music list");
   }
 
   Future<List<Song>> getAllMusic() async {
 
-    return files.map((e) => Song(e, e.name, 0)).toList();
+    var s = await TableSong.selectAllSongs();
+
+    return s.map((e) => PlatformFile(name:Path.basename(e.song_path), size: e.id, path: e.song_path)).map((e) => Song(e, e.name, 0)).toList();
   }
 
   Future<List<Playlist>> getAllPlaylists() async {

@@ -1,5 +1,5 @@
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/localstorage/Database.dart';
+import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';

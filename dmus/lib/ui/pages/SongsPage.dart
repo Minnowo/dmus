@@ -1,6 +1,6 @@
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
-import 'package:dmus/core/localstorage/Database.dart';
+import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';

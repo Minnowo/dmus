@@ -13,6 +13,11 @@ class Song extends DataEntity {
   PlatformFile file;
 
   Song(this.file, String displayTitle, double duration) : super(displayTitle, duration);
+
+  @override
+  String toString() {
+    return "<Song $displayTitle file: $file>";
+  }
 }
 
 class Playlist extends DataEntity {

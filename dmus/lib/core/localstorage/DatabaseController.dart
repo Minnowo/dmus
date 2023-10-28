@@ -17,7 +17,7 @@ class DatabaseController {
 
   static const int VERSION = 1;
 
-  static const bool alwaysCreateDb = true;
+  static const bool alwaysCreateDb = false;
 
   DatabaseController._privateConstructor();
 
@@ -59,6 +59,4 @@ class DatabaseController {
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     await DatabaseMigrations.runMigrations(db, oldVersion, newVersion);
   }
-
-
 }
