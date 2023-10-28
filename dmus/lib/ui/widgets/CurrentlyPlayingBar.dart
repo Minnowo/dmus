@@ -38,14 +38,17 @@ class CurrentlyPlayingBar extends  StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            songTitle,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Expanded(
+            child: Text(
+              songTitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           Expanded(
             child: Column(
               children: <Widget>[
-                Text( formatTimeDisplay(currentSongPosition, songDuration) ),
+                Text(formatTimeDisplay(currentSongPosition, songDuration)),
                 LinearProgressIndicator(
                   value: progress,
                 ),
