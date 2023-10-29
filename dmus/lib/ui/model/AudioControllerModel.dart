@@ -28,6 +28,7 @@ class AudioControllerModel extends ChangeNotifier {
     AudioController.instance.onComplete.listen(_onPlayerComplete);
     AudioController.instance.onSongChanged.listen(_onSongChanged);
 
+
   }
 
   void _onSongChanged(Song? event){
@@ -45,19 +46,49 @@ class AudioControllerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _onStateChanged(PlayerState state){
-    this.state=state;
-    isPlaying = state == PlayerState.playing;
-    isPaused = state == PlayerState.paused;
-    notifyListeners();
-  }
-
   void _onPlayerComplete(void data) {
-
     debugPrint("Player is finished with current audio!");
     isPlaying = false;
     isPaused = false;
+    notifyListeners();
   }
 
+  void _onStateChanged(PlayerState state) {
+    this.state = state;
+    if (state == PlayerState.playing) {
+      isPlaying = true;
+      isPaused = false;
+    } else if (state == PlayerState.paused) {
+      isPlaying = false;
+      isPaused = true;
+    }
+    notifyListeners();
+  }
+
+  void pause() {
+    if (AudioController.instance.isPlaying())
+    {
+      AudioController.instance.togglePause();
+      notifyListeners();
+    }
+  }
+
+  void resume()
+  {
+    AudioController.instance.togglePause();
+    notifyListeners();
+  }
+
+  void stopSong()
+  {
+    debugPrint("Audio Player Stopped");
+    isPlaying = false;
+    isPaused = false;
+    notifyListeners();
+  }
+
+
+
 }
+
 

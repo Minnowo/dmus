@@ -43,9 +43,10 @@ dependencies:
   path: ^1.8.3
   logging: ^1.2.0
   crypto: ^3.0.3
-  firstbase_auth:
+
   cloud_firestore:
   firebase_core:
+  marquee: ^2.0.0
 
 
 dev_dependencies:

@@ -16,9 +16,11 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
     AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
-    if(!audioControllerModel.isPlaying) {
+    if(!audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
       return Container();
     }
+
+
 
     var currentSongPosition = audioControllerModel.position;
     var songDuration = audioControllerModel.duration;
@@ -36,22 +38,36 @@ class CurrentlyPlayingBar extends  StatelessWidget {
       ),
       padding: const EdgeInsets.all(8.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Expanded(
-            child: Text(
-              songTitle,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-              overflow: TextOverflow.ellipsis,
+          Visibility(
+            visible: !audioControllerModel.isPlaying,
+            child: IconButton(
+              icon: Icon(Icons.play_arrow), // Play button
+              onPressed: () {
+                audioControllerModel.resume();// Add your play action here
+              },
+            ),
+          ),
+          Visibility(
+            visible: audioControllerModel.isPlaying,
+            child: IconButton(
+              icon: Icon(Icons.pause), // Pause button
+              onPressed: () {audioControllerModel.pause();
+              },
             ),
           ),
           Expanded(
             child: Column(
               children: <Widget>[
-                Text(formatTimeDisplay(currentSongPosition, songDuration)),
+                Text(
+                  songTitle,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
                 LinearProgressIndicator(
                   value: progress,
                 ),
+                Text(formatTimeDisplay(currentSongPosition, songDuration)),
               ],
             ),
           ),

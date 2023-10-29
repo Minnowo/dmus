@@ -98,6 +98,10 @@ class AudioController {
     }
   }
 
+
+
+
+
   Future<void> playSong(Song src) async {
 
     if(src.file == null || src.file.path == null) {
