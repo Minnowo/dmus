@@ -22,7 +22,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
     var currentSongPosition = audioControllerModel.position;
     var songDuration = audioControllerModel.duration;
-    var songTitle = audioControllerModel.currentlyPlaying?.displayTitle ?? "INVALID";
+    var songTitle = audioControllerModel.currentlyPlaying?.title ?? "INVALID";
 
     double progress = currentSongPosition.inMilliseconds.toDouble();
 

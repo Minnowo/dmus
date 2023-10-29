@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 
 abstract class DataEntity {
   String displayTitle;
@@ -8,17 +11,31 @@ abstract class DataEntity {
   DataEntity(this.displayTitle, this.duration);
 }
 
-class Song extends DataEntity {
 
-  PlatformFile file;
 
-  Song(this.file, String displayTitle, double duration) : super(displayTitle, duration);
+class Song {
 
-  @override
-  String toString() {
-    return "<Song $displayTitle file: $file>";
-  }
+  String title;
+  File file;
+  Duration duration;
+  Metadata metadata;
+
+  Song({required this.title, required this.duration, required this.file, required this.metadata});
+
 }
+
+
+// class Song extends DataEntity {
+//
+//   PlatformFile file;
+//
+//   Song(this.file, String displayTitle, double duration) : super(displayTitle, duration);
+//
+//   @override
+//   String toString() {
+//     return "<Song $displayTitle file: $file>";
+//   }
+// }
 
 class Playlist extends DataEntity {
   List<Song> songs;
@@ -26,9 +43,6 @@ class Playlist extends DataEntity {
   Playlist(this.songs, String displayTitle, double duration)
       : super(displayTitle, duration) {
 
-    this.duration = songs
-        .map((s) => s.duration)
-        .reduce((value, element) => value + element);
   }
 }
 

@@ -39,19 +39,52 @@ class DatabaseMigrations {
 
   static Future<void> _migration_1(Database db) async {
 
+    const String TBL_HASH = "tbl_hash";
     const String TBL_SONG = "tbl_song";
     const String TBL_ALBUM = "tbl_album";
+    const String TBL_FMETADATA = "tbl_fmetadata";
     const String TBL_PLAYLIST = "tbl_playlist";
     const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
     const String TBL_ALBUM_SONG = "tbl_album_song";
     const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
 
+    logging.config("Creating $TBL_HASH");
+
+    await db.execute('''
+    CREATE TABLE $TBL_HASH (
+        id INTEGER PRIMARY KEY,
+        sha256 BLOB UNIQUE NOT NULL
+    ) 
+    ''');
+
     logging.config("Creating $TBL_SONG");
+
+    const String HASH_ID = "hash_id";
 
     await db.execute('''
     CREATE TABLE $TBL_SONG (
-        id INTEGER PRIMARY KEY,
-        song_path VARCHAR UNIQUE NOT NULL
+        $HASH_ID INTEGER,
+        song_path VARCHAR UNIQUE NOT NULL,
+        FOREIGN KEY ($HASH_ID) REFERENCES $TBL_HASH(id) ON DELETE CASCADE
+    ) 
+    ''');
+
+    logging.config("Creating $TBL_FMETADATA");
+
+    await db.execute('''
+    CREATE TABLE $TBL_FMETADATA (
+        $HASH_ID INTEGER PRIMARY KEY,
+        title VARCHAR,
+        album VARCHAR,
+        album_artist VARCHAR,
+        track_artist VARCHAR,
+        genre VARCHAR,
+        mimetype VARCHAR,
+        bitrate INTEGER,
+        disc_number INTEGER,
+        year INTEGER,
+        duration_ms INTEGER,
+        FOREIGN KEY ($HASH_ID) REFERENCES $TBL_HASH(id) ON DELETE CASCADE
     ) 
     ''');
 
@@ -85,19 +118,17 @@ class DatabaseMigrations {
 
     logging.config("Creating $TBL_ALBUM_SONG");
 
-    const String SONG_ID = "song_id";
-
     const String ALBUM_ID = "album_id";
 
     await db.execute('''
     CREATE TABLE $TBL_ALBUM_SONG (
         $ALBUM_ID INTEGER NOT NULL,
-        $SONG_ID INTEGER NOT NULL,
+        $HASH_ID INTEGER NOT NULL,
         FOREIGN KEY ($ALBUM_ID) REFERENCES $TBL_ALBUM(id) ON DELETE CASCADE,
-        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
-        CONSTRAINT ${ALBUM_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_ALBUM(id),
-        CONSTRAINT ${SONG_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id),
-        PRIMARY KEY ($ALBUM_ID, $SONG_ID)
+        FOREIGN KEY ($HASH_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
+        CONSTRAINT ${ALBUM_ID}_fk FOREIGN KEY ($ALBUM_ID) REFERENCES $TBL_ALBUM(id),
+        CONSTRAINT ${HASH_ID}_fk FOREIGN KEY ($HASH_ID) REFERENCES $TBL_HASH(id),
+        PRIMARY KEY ($ALBUM_ID, $HASH_ID)
     ) 
     ''');
 
@@ -108,12 +139,12 @@ class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_PLAYLIST_SONG (
         $PLAYLIST_ID INTEGER NOT NULL,
-        $SONG_ID INTEGER NOT NULL,
+        $HASH_ID INTEGER NOT NULL,
         FOREIGN KEY ($PLAYLIST_ID) REFERENCES $TBL_PLAYLIST(id) ON DELETE CASCADE,
-        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
+        FOREIGN KEY ($HASH_ID) REFERENCES $TBL_HASH(id) ON DELETE CASCADE,
         CONSTRAINT ${PLAYLIST_ID}_fk FOREIGN KEY ($PLAYLIST_ID) REFERENCES $TBL_PLAYLIST(id),
-        CONSTRAINT ${SONG_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id),
-        PRIMARY KEY ($PLAYLIST_ID, $SONG_ID)
+        CONSTRAINT ${HASH_ID}_fk FOREIGN KEY ($HASH_ID) REFERENCES $TBL_HASH(id),
+        PRIMARY KEY ($PLAYLIST_ID, $HASH_ID)
     ) 
     ''');
   }

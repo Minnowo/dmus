@@ -5,8 +5,6 @@
 import 'dart:typed_data';
 
 import 'package:dmus/core/Util.dart';
-import 'package:dmus/core/audio/AudioMetadata.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 
@@ -14,7 +12,7 @@ class MetadataPage extends StatelessWidget {
 
   final Metadata metadata;
 
-  MetadataPage({required this.metadata});
+  const MetadataPage({super.key, required this.metadata});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class MetadataPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Metadata Information'),
+          title: const Text('Metadata Information'),
         ),
         body: ListView(
           children: [
@@ -106,14 +104,11 @@ class MetadataPage extends StatelessWidget {
                     const DataCell(Text('Writer Name')),
                     DataCell(Text(writerName ?? 'N/A')),
                   ]),
-                  // Add more rows for other metadata properties
                 ],
               ),
             ),
           ],
-
         )
     );
-
   }
 }

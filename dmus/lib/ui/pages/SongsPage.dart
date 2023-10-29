@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
+import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableHash.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
@@ -50,7 +56,7 @@ class _SongsPageState extends State<_SongsPage> {
           centerTitle: true,
           actions: [
             IconButton(
-              onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()).then((value) => songsModel.update()),
+              onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()).whenComplete(songsModel.update),
               icon: const Icon(Icons.add),
             ),
             IconButton(
@@ -58,13 +64,15 @@ class _SongsPageState extends State<_SongsPage> {
                 songsModel.update();
                 debugPrint(DatabaseController.instance.database.toString());
               },
-              icon: Icon(Icons.update),
+              icon: const Icon(Icons.update),
             ),
             IconButton(
               onPressed: () {
+
+                TableSong.selectAllWithMetadata().then((value) => null);
                 AudioController.instance.stopAndEmptyQueue();
               },
-              icon: Icon(Icons.stop),
+              icon: const Icon(Icons.stop),
             ),
             IconButton(
               onPressed: () {
@@ -91,11 +99,17 @@ class _SongsPageState extends State<_SongsPage> {
                       itemBuilder: (context, index) {
                         var song = songsModel.songs[index];
 
+                        var subtitle = "";
+
+                        if(song.metadata.authorName != null) {
+                          subtitle += song.metadata.authorName!;
+                        }
+
                         return InkWell(
                             child: ListTile(
-                              title: Text(song.displayTitle),
-                              trailing: Text('${song.duration}'),
-                              subtitle: Text(song.duration.toString()),
+                              title: Text(song.title),
+                              trailing: Text(formatDuration(song.duration)),
+                              subtitle: Text(subtitleFromMetadata(song.metadata)),
                             ),
                             onTap: () async {
                               debugPrint("Playing tapped");

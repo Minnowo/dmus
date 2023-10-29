@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 
 import 'DataEntity.dart';
 
@@ -39,7 +40,9 @@ class MusicFetcher {
 
     var s = await TableSong.selectAll();
 
-    return s.map((e) => PlatformFile(name:Path.basename(e.songPath), size: e.id, path: e.songPath)).map((e) => Song(e, e.name, 0)).toList();
+    return s.map((e) => PlatformFile(name:Path.basename(e.songPath), size: e.id, path: e.songPath))
+        .map((e) => Song(title: e.path!, duration: const Duration(milliseconds: 0), file: File(e.path!), metadata: const Metadata() ))
+        .toList();
   }
 
   Future<List<Playlist>> getAllPlaylists() async {

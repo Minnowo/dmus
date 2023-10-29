@@ -2,6 +2,7 @@
 
 
 
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/data/DataEntity.dart';
@@ -11,22 +12,20 @@ class PlaylistModel extends ChangeNotifier {
 
   List<Playlist> playlists = [];
 
+  PlaylistModel() {
+    update();
+  }
+
   void update(){
 
-    playlists.clear();
+    TablePlaylist.selectAll().then((value) {
 
-    debugPrint("About to update music");
+      playlists.clear();
+      playlists.addAll(value.map((e) => Playlist([], e.title, 0)));
+      notifyListeners();
 
-    // MusicFetcher.instance.getAllMusic().then(
-    //         (value) {
-    //       debugPrint("Adding songs to song page");
-    //       for (var element in value) {
-    //         debugPrint("adding $element");
-    //         playlists.add(element);
-    //       }
-    //     });
-    //
-    notifyListeners();
+    });
+
   }
 
   void add(Playlist p){

@@ -1,4 +1,5 @@
 
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
 
 
@@ -40,4 +41,28 @@ String formatDuration(Duration d) {
       ':'
       '${(d.inSeconds % 60).toString().padLeft(2, '0')}'
   ;
+}
+
+
+String subtitleFromMetadata(Metadata m) {
+
+  logging.finest("Getting subtitle from metadata: $m");
+
+  List<String> a = [];
+
+  if(m.albumName != null) {
+    a.add(m.albumName!);
+  }
+  else if(m.albumArtistName != null) {
+    a.add(m.albumArtistName!);
+  }
+
+  if(m.authorName != null) {
+    a.add(m.authorName!);
+  }
+  else if(m.trackArtistNames != null) {
+    a.add(m.trackArtistNames!.join(", "));
+  }
+
+  return a.join(" - ");
 }

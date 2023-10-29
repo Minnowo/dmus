@@ -3,10 +3,26 @@ import 'dart:io';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+
+import '../Util.dart';
 
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
+
+  Future<void> doImportFromFiles(List<PlatformFile> files) async {
+    for(var f in files) {
+      if(f.path == null) {
+        continue;
+      }
+      await TableSong.insertSong(File(f.path!));
+    }
+  }
+
+  Future<void> doImportFromDir(String dir) async {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +38,17 @@ class ImportDialog extends StatelessWidget {
               children: [
                 TextButton(
                   child: const Text('Add Files'),
-                  onPressed: () {
-
-                    pickMusicFiles()
-                        .then((value) => value
-                        ?.where((e) => e.path != null)
-                        .forEach((element) => TableSong.insertSong(File(element.path!))))
-                        .then((value) => Navigator.pop(context));
-                  },
+                  onPressed: () => pickMusicFiles()
+                      .then((value) =>  doImportFromFiles(value ?? [])
+                      .whenComplete(() => popNavigatorSafe(context))),
                 ),
                 TextButton(
                   onPressed: () {
-
-                    pickDirectory().then((value) => value?? debugPrint(value));
-                    Navigator.pop(context);
-                  },
+                    pickDirectory().then((value) {
+                      if (value != null) {
+                        doImportFromDir(value).whenComplete(() => popNavigatorSafe(context));
+                      }
+                    });                  },
                   child: const Text('Add Folder'),
                 )
               ],

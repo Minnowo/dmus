@@ -2,10 +2,11 @@
 
 
 
+import 'package:dmus/core/Util.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/data/DataEntity.dart';
-import '../../core/data/MusicFetcher.dart';
 
 class SongsModel extends ChangeNotifier {
 
@@ -18,18 +19,17 @@ class SongsModel extends ChangeNotifier {
 
   void update(){
 
-    songs.clear();
 
-    debugPrint("About to update music");
+    TableSong.selectAllWithMetadata().then( (value) {
 
-    MusicFetcher.instance.getAllMusic().then(
-            (value) {
-          debugPrint("Adding songs to song page");
-          for (var element in value) {
-            debugPrint("adding $element");
-            songs.add(element);
-          }
-        }).then((value) => notifyListeners());
+      songs.clear();
+      songs.addAll(value);
+
+    }).whenComplete((){
+      notifyListeners();
+
+      logging.info("Finished updating");
+    });
   }
 
   void add(Song s){
@@ -46,9 +46,10 @@ class SongsModel extends ChangeNotifier {
 
     var c = songs.length;
 
-    songs.removeWhere((element) => element.displayTitle.compareTo(title) == 0);
+    songs.removeWhere((element) => element.title.compareTo(title) == 0);
 
-    if(c != songs.length)
+    if(c != songs.length) {
       notifyListeners();
+    }
   }
 }
