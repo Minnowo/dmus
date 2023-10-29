@@ -1,5 +1,6 @@
 
 
+import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,18 +43,15 @@ class CurrentlyPlayingBar extends  StatelessWidget {
           Visibility(
             visible: !audioControllerModel.isPlaying,
             child: IconButton(
-              icon: Icon(Icons.play_arrow), // Play button
-              onPressed: () {
-                audioControllerModel.resume();// Add your play action here
-              },
+              icon: const Icon(Icons.play_arrow), // Play button
+              onPressed: () async { await AudioController.instance.resume(); },
             ),
           ),
           Visibility(
             visible: audioControllerModel.isPlaying,
             child: IconButton(
-              icon: Icon(Icons.pause), // Pause button
-              onPressed: () {audioControllerModel.pause();
-              },
+              icon: const Icon(Icons.pause), // Pause button
+              onPressed: () async { await AudioController.instance.pause(); },
             ),
           ),
           Expanded(

@@ -43,7 +43,6 @@ class _SongsPageState extends State<_SongsPage> {
   Widget build(BuildContext context) {
 
     var songsModel = context.watch<SongsModel>();
-    AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
     debugPrint("Rebuilding stuff: length of songsModel sonogs ${songsModel.songs.length}");
 
@@ -66,11 +65,8 @@ class _SongsPageState extends State<_SongsPage> {
             ),
             IconButton(
               onPressed: () {
-
                 TableSong.selectAllWithMetadata().then((value) => null);
                 AudioController.instance.stopAndEmptyQueue();
-                audioControllerModel.stopSong();
-
               },
               icon: const Icon(Icons.stop),
             ),
@@ -79,7 +75,7 @@ class _SongsPageState extends State<_SongsPage> {
                 MusicFetcher.files.clear();
                 songsModel.update();
               },
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
             ),
           ],
         ),

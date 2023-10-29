@@ -98,9 +98,13 @@ class AudioController {
     }
   }
 
+  Future<void> pause() async {
+    await _player.pause();
+  }
 
-
-
+  Future<void> resume() async {
+    await _player.resume();
+  }
 
   Future<void> playSong(Song src) async {
 
