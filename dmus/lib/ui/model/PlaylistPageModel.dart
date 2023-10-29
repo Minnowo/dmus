@@ -21,7 +21,7 @@ class PlaylistModel extends ChangeNotifier {
     TablePlaylist.selectAll().then((value) {
 
       playlists.clear();
-      playlists.addAll(value.map((e) => Playlist(title: e.title)));
+      playlists.addAll(value);
       notifyListeners();
     });
 

@@ -1,10 +1,16 @@
 
 
 
+import 'dart:math';
+
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../Util.dart';
+import '../../data/DataEntity.dart';
+import 'TableFMetadata.dart';
 
 final class TablePlaylist {
 
@@ -17,62 +23,62 @@ final class TablePlaylist {
   static const String idCol = "id";
   static const String titleCol = "title";
 
-  static Future<int?> insertPlaylist(String title) async {
+  static Future<bool> createPlaylist(String title, List<Song> songs) async {
 
     if(title.isEmpty) {
       logging.warning("Cannot insert playlist with title $title because it is empty");
-      return null;
+      return false;
     }
 
-    logging.finest("Inserting new playlist with title $title into the $name table");
+    logging.finest("Creating playlist with title: $title and songs $songs");
 
     var db = await DatabaseController.instance.database;
 
-    try {
+    var playlistId = await db.insert(name, { titleCol: title });
 
-      return await db.insert(
-          name,
-          {
-            titleCol: title
-          }
-      );
-    }
-    catch(e) {
+    TablePlaylistSong.addSongsToPlaylist(playlistId, songs);
 
-      if(e is! DatabaseException) {
-        rethrow;
-      }
-    }
-    return null;
+    return true;
   }
 
-  static Future<List<TablePlaylist>> selectAll() async {
 
-    logging.finest("Selecting all songs from the $name table");
+  static Future<Iterable<Song>> getPlaylistSongs(int playlistId) async {
 
     var db = await DatabaseController.instance.database;
 
-    var result = await db.query( name );
+    const String sql = "SELECT * FROM ${TablePlaylistSong.name}"
+        " JOIN ${TableSong.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
+        " WHERE ${TablePlaylistSong.name}.${TablePlaylistSong.playlistIdCol} = ?";
+    ;
 
-    return  result.map((e) => TablePlaylist.privateConstructor(id: e[idCol] as int, title: e[titleCol] as String )).toList();
+    var result = await db.rawQuery(sql, [playlistId]);
+
+    return result.map((e) => TableSong.fromMappedObjects(e));
   }
 
-  static Future<TablePlaylist?> selectPlaylist(String title) async {
 
-    logging.finest("Selecting $title from the $name table");
+  static Future<List<Playlist>> selectAll() async {
 
     var db = await DatabaseController.instance.database;
 
-    var result = (await db.query(
-        name,
-        where: "$titleCol = ?",
-        whereArgs: [title]
-    )).firstOrNull;
+    var playlistsReult = await db.query(TablePlaylist.name);
 
-    if(result == null) {
-      return null;
+    List<Playlist> playlists = [];
+
+    for(var e in playlistsReult) {
+
+      int id = e[TablePlaylist.idCol] as int;
+
+      Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
+
+      p.songs.addAll(await getPlaylistSongs(id));
+
+      p.updateDuration();
+
+      playlists.add(p);
     }
 
-    return TablePlaylist.privateConstructor(id: result[idCol] as int, title: result[titleCol] as String );
+    return playlists;
   }
 }

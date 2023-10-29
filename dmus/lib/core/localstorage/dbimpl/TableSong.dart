@@ -74,27 +74,29 @@ final class TableSong {
 
     var result = await db.rawQuery(sql);
     
-    return result.map((e) {
+    return result.map((e) => fromMappedObjects(e)).toList();
+  }
 
-      Metadata m = TableFMetadata.fromMap(e);
+  static Song fromMappedObjects(Map<String, Object?> e) {
 
-      String path = e[TableSong.songPathCol] as String;
-      String title = Path.basename(path);
-      int duration = 0;
+    Metadata m = TableFMetadata.fromMap(e);
 
-      if(m.trackName != null) {
-        title = m.trackName!;
-      }
+    String path = e[TableSong.songPathCol] as String;
+    String title = Path.basename(path);
+    int duration = 0;
 
-      if(m.trackDuration != null) {
-        duration = m.trackDuration!;
-      }
+    if(m.trackName != null) {
+      title = m.trackName!;
+    }
 
-      Song s = Song.withDuration(title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
+    if(m.trackDuration != null) {
+      duration = m.trackDuration!;
+    }
 
-      return s;
-      
-    }).toList();
+    int id = e[TableSong.idCol] as int;
+    Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
+
+    return s;
   }
 
 }

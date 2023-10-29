@@ -1,5 +1,6 @@
 
 import 'package:dmus/core/audio/AudioTest.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/ui/dialogs/PlaylistCreationForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -43,9 +44,13 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
 
     Future<void> createPlaylist(BuildContext context) async {
 
-      List<Song> songs =  await Navigator.push(context, MaterialPageRoute(builder: (ctx) => const PlaylistCreationForm()));
+      PlaylistCreationFormResult? result =  await Navigator.push(context, MaterialPageRoute(builder: (ctx) => const PlaylistCreationForm()));
 
-      logging.info("Creating playlist with songs $songs");
+      if(result == null) {
+        return;
+      }
+
+      TablePlaylist.createPlaylist(result.title, result.songs);
 
     }
 
@@ -82,7 +87,8 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
                               title: Text(playlist.title),
                               trailing: Text(formatDuration(playlist.duration)),
                             ),
-                            onTap: () async {
+                            onTap: () {
+                              logging.finest(playlist);
                             },
                             onLongPress: () {
                               // showDialog(

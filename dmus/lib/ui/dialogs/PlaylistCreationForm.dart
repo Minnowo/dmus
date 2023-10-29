@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,14 @@ import 'package:flutter/material.dart';
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/dbimpl/TableSong.dart';
+
+
+class PlaylistCreationFormResult {
+  final List<Song> songs;
+  final String title;
+
+  const PlaylistCreationFormResult({required this.title, required this.songs});
+}
 
 class PlaylistCreationForm extends StatefulWidget {
 
@@ -24,9 +34,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
   final _formKey = GlobalKey<FormState>();
   final _playlistTitleTextController = TextEditingController();
-  final _playlistSongSelectionController = ();
 
-  bool isSongSelecting = false;
   List<Song> songsToSelect = [];
   List<Song> selectedSongs = [];
 
@@ -49,101 +57,73 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     }).whenComplete(() => setState(() { }));
   }
 
-  Widget buildTitleCreation(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar( title: const Text(title), backgroundColor: Theme.of(context).colorScheme.inversePrimary, ),
-      body: Padding(
-        padding: const EdgeInsets.all(pad),
-        child: Form(
+      body: Form(
           key: _formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextFormField(
-                  decoration: const InputDecoration(labelText: 'Playlist Title'),
-                  controller: _playlistTitleTextController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Title cannot be empty!";
-                    }
-                    if (value.length > maxTitleLength) {
-                      return "Title should be less than $maxTitleLength";
-                    }
-                    return null;
-                  }),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-          tooltip: 'Increment',
-          child: const Icon(Icons.save),
-          onPressed: () {
-            if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-              setState(() => isSongSelecting = true);
-            }
-          }),
-    );
-  }
+            children: [
+              Padding(
+                  padding: const EdgeInsets.all(pad),
+                  child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Playlist Title'),
+                      controller: _playlistTitleTextController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "title cannot be empty!";
+                        }
+                        if (value.length > maxTitleLength) {
+                          return "title should be less than $maxTitleLength";
+                        }
+                        return null;
+                      }
+                  )),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: songsToSelect.length,
+                      itemBuilder: (context, index) {
+                        var song = songsToSelect[index];
+                        return InkWell(
+                            child: CheckboxListTile(
+                              title: Text(song.title),
+                              // trailing: text(formatduration(song.duration)),
+                              subtitle: Text(subtitleFromMetadata(song.metadata)),
+                              onChanged: (checked) {
+                                logging.finest("check changed for $song to value $checked");
+                                if(checked != null && checked) {
+                                  selectedSongs.add(song);
+                                }
+                                else {
+                                  selectedSongs.remove(song);
+                                }
 
-  Widget buildSongSelect(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar( title: const Text(title), backgroundColor: Theme.of(context).colorScheme.inversePrimary, ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-
-        children: <Widget>[
-            Expanded(
-                child:ListView.builder(
-                    itemCount: songsToSelect.length,
-                    itemBuilder: (context, index) {
-                      var song = songsToSelect[index];
-                      return InkWell(
-                          child: CheckboxListTile(
-                            title: Text(song.title),
-                            // trailing: Text(formatDuration(song.duration)),
-                            subtitle: Text(subtitleFromMetadata(song.metadata)),
-                            onChanged: (checked) {
-                              logging.finest("Check changed for $song to value $checked");
-                              if(checked != null && checked) {
-                                selectedSongs.add(song);
-                              }
-                              else {
-                                selectedSongs.remove(song);
-                              }
-
-                              setState(() { });
+                                setState(() { });
+                              },
+                              value: selectedSongs.contains(song),
+                            ),
+                            onTap: () async {
                             },
-                            value: selectedSongs.contains(song),
-                          ),
-                          onTap: () async {
-                          },
-                          onLongPress: () {
-                          }
-                      );
-                    })
-            )
-        ],
+                            onLongPress: () {
+                            }
+                        );
+                      }
+                  )
+              )
+            ],
+          )
       ) ,
       floatingActionButton: FloatingActionButton(
           tooltip: 'Increment',
           child: const Icon(Icons.save),
           onPressed: () {
-            popNavigatorSafeWithArgs<List<Song>>(context, selectedSongs);
+            if(_formKey.currentState != null && _formKey.currentState!.validate()) {
+              popNavigatorSafeWithArgs<PlaylistCreationFormResult>(context, PlaylistCreationFormResult(title: _playlistTitleTextController.text, songs: selectedSongs));
+            }
           }),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    if(isSongSelecting) {
-      return buildSongSelect(context);
-    }
-    return buildTitleCreation(context);
-
   }
 }
 
