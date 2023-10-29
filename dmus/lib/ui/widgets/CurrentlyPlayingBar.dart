@@ -7,6 +7,7 @@ import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
+import '../../core/data/DataEntity.dart';
 
 class CurrentlyPlayingBar extends  StatelessWidget {
   const CurrentlyPlayingBar({super.key});
@@ -18,15 +19,14 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
     AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
-    if(!audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
+    Song? song = audioControllerModel.currentlyPlaying;
+
+    if(!audioControllerModel.isPlaying && !audioControllerModel.isPaused || song == null) {
       return Container();
     }
 
-
-
     var currentSongPosition = audioControllerModel.position;
     var songDuration = audioControllerModel.duration;
-    var currentSongMetaData= audioControllerModel.currentlyPlaying?.metadata;
 
     double progress = currentSongPosition.inMilliseconds.toDouble();
 
@@ -61,7 +61,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
                 SizedBox(
                   height: 20,
                   child: Marquee (
-                    text: currentlyPlayingTextFromMetadata(currentSongMetaData!),
+                    text: currentlyPlayingTextFromMetadata(song),
                     blankSpace: 20.0,
                     velocity: 30.0,
                   ),

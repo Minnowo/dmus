@@ -2,6 +2,8 @@
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
 
+import 'data/DataEntity.dart';
+
 
 final logging = Logger('DMUS');
 
@@ -67,8 +69,10 @@ String subtitleFromMetadata(Metadata m) {
   return a.join(" - ");
 }
 
-String currentlyPlayingTextFromMetadata(Metadata m) {
-  logging.finest("Getting Artist(s) Name and Song Title from MetaData : $m");
+String currentlyPlayingTextFromMetadata(Song s) {
+  logging.finest("Getting Artist(s) Name and Song Title from MetaData : $s");
+
+  var m = s.metadata;
   List<String> a = [];
 
   if(m.authorName != null) {
@@ -78,12 +82,7 @@ String currentlyPlayingTextFromMetadata(Metadata m) {
     a.add(m.trackArtistNames!.join(", "));
   }
 
-  if (m.trackName != null)
-    {
-      a.add(m.trackName!);
-    }
-
+  a.add(s.title);
 
   return a.join(" --- ");
-
 }

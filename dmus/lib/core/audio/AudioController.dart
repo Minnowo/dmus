@@ -122,9 +122,9 @@ class AudioController {
   Future<void> playQueue() async {
 
     switch(_player.state){
-
-      case PlayerState.disposed:
       case PlayerState.playing:
+        return;
+      case PlayerState.disposed:
         _currentSong = null;
         return;
       case PlayerState.paused:
