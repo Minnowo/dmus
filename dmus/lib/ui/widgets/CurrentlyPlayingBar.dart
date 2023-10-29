@@ -3,6 +3,7 @@
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
@@ -26,6 +27,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
     var currentSongPosition = audioControllerModel.position;
     var songDuration = audioControllerModel.duration;
     var songTitle = audioControllerModel.currentlyPlaying?.title ?? "INVALID";
+    var songArtist =audioControllerModel.currentlyPlaying!.metadata.trackArtistNames?[0]??"No Artist";
 
     double progress = currentSongPosition.inMilliseconds.toDouble();
 
@@ -57,15 +59,21 @@ class CurrentlyPlayingBar extends  StatelessWidget {
           Expanded(
             child: Column(
               children: <Widget>[
-                Text(
-                  songTitle,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
+                Container(
+                  height: 40,
+
+                  child: Marquee (
+
+                    text:songArtist+"-"+songTitle,
+                      blankSpace: 20.0,
+                      velocity: 50.0,
+
+                ),
                 ),
                 LinearProgressIndicator(
                   value: progress,
                 ),
-                Text(formatTimeDisplay(currentSongPosition, songDuration)),
+                 Text(formatTimeDisplay(currentSongPosition, songDuration)),
               ],
             ),
           ),
