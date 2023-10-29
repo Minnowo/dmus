@@ -58,16 +58,13 @@ class CurrentlyPlayingBar extends  StatelessWidget {
           Expanded(
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 40,
-
+                SizedBox(
+                  height: 20,
                   child: Marquee (
-
-                    text:currentlyPlayingTextFromMetadata(currentSongMetaData!),
-                      blankSpace: 20.0,
-                      velocity: 50.0,
-
-                ),
+                    text: currentlyPlayingTextFromMetadata(currentSongMetaData!),
+                    blankSpace: 20.0,
+                    velocity: 30.0,
+                  ),
                 ),
                 LinearProgressIndicator(
                   value: progress,
