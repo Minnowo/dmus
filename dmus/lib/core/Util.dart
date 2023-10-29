@@ -66,3 +66,24 @@ String subtitleFromMetadata(Metadata m) {
 
   return a.join(" - ");
 }
+
+String currentlyPlayingTextFromMetadata(Metadata m) {
+  logging.finest("Getting Artist(s) Name and Song Title from MetaData : $m");
+  List<String> a = [];
+
+  if(m.authorName != null) {
+    a.add(m.authorName!);
+  }
+  else if(m.trackArtistNames != null) {
+    a.add(m.trackArtistNames!.join(", "));
+  }
+
+  if (m.trackName != null)
+    {
+      a.add(m.trackName!);
+    }
+
+
+  return a.join(" --- ");
+
+}

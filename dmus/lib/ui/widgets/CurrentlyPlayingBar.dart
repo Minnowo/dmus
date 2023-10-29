@@ -26,8 +26,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
     var currentSongPosition = audioControllerModel.position;
     var songDuration = audioControllerModel.duration;
-    var songTitle = audioControllerModel.currentlyPlaying?.title ?? "INVALID";
-    var songArtist =audioControllerModel.currentlyPlaying!.metadata.trackArtistNames?[0]??"No Artist";
+    var currentSongMetaData= audioControllerModel.currentlyPlaying?.metadata;
 
     double progress = currentSongPosition.inMilliseconds.toDouble();
 
@@ -64,7 +63,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
                   child: Marquee (
 
-                    text:songArtist+"-"+songTitle,
+                    text:currentlyPlayingTextFromMetadata(currentSongMetaData!),
                       blankSpace: 20.0,
                       velocity: 50.0,
 
