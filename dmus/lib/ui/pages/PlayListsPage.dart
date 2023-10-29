@@ -1,8 +1,11 @@
 
 import 'package:dmus/core/audio/AudioTest.dart';
+import 'package:dmus/ui/dialogs/PlaylistCreationForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/Util.dart';
+import '../../core/data/DataEntity.dart';
 import '../model/PlaylistPageModel.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
@@ -34,6 +37,18 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
 {
   @override
   Widget build(BuildContext context) {
+
+
+    PlaylistModel playlistModel = context.watch<PlaylistModel>();
+
+    Future<void> createPlaylist(BuildContext context) async {
+
+      List<Song> songs =  await Navigator.push(context, MaterialPageRoute(builder: (ctx) => const PlaylistCreationForm()));
+
+      logging.info("Creating playlist with songs $songs");
+
+    }
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -41,22 +56,46 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
           centerTitle: true,
           actions: [
             IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {},
+              icon: const Icon(Icons.add),
+              onPressed: () => createPlaylist(context),
             ),
           ],
         ),
-        body: Container(
-            color: Colors.green,
-            child: Center(
-              child:
-              ElevatedButton(onPressed: (){
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
 
-                StaticAudioTest.playerTestSong();
+          children: <Widget>[
 
-              }, child: Text("play song"),
-              ),
-            )),
+            if(playlistModel.playlists.isEmpty)
+              const Center(
+                child: Text("Nothing is here!\nHit the + in the top right to create a playlist.", textAlign: TextAlign.center,),)
+
+            else
+              Expanded(
+                  child:ListView.builder(
+                      itemCount: playlistModel.playlists.length,
+                      itemBuilder: (context, index) {
+                        var playlist = playlistModel.playlists[index];
+
+                        return InkWell(
+                            child: ListTile(
+                              title: Text(playlist.title),
+                              trailing: Text(formatDuration(playlist.duration)),
+                            ),
+                            onTap: () async {
+                            },
+                            onLongPress: () {
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext context) => SongContextDialog(songContext: song,),
+                              // );
+                            }
+                        );
+                      })
+              )
+          ],
+
+        ) ,
         drawer: SettingsDrawer()
     );
   }

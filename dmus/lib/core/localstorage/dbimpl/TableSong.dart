@@ -90,7 +90,7 @@ final class TableSong {
         duration = m.trackDuration!;
       }
 
-      Song s = Song(title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
+      Song s = Song.withDuration(title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
 
       return s;
       

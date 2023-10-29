@@ -21,9 +21,8 @@ class PlaylistModel extends ChangeNotifier {
     TablePlaylist.selectAll().then((value) {
 
       playlists.clear();
-      playlists.addAll(value.map((e) => Playlist([], e.title, 0)));
+      playlists.addAll(value.map((e) => Playlist(title: e.title)));
       notifyListeners();
-
     });
 
   }
@@ -42,9 +41,10 @@ class PlaylistModel extends ChangeNotifier {
 
     var c = playlists.length;
 
-    playlists.removeWhere((element) => element.displayTitle.compareTo(title) == 0);
+    playlists.removeWhere((element) => element.title.compareTo(title) == 0);
 
-    if(c != playlists.length)
+    if(c != playlists.length) {
       notifyListeners();
+    }
   }
 }
