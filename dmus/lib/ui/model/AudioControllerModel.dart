@@ -11,7 +11,7 @@ import '../../core/data/DataEntity.dart';
 class AudioControllerModel extends ChangeNotifier {
 
   bool isPlaying = false;
-  bool isPaused = true;
+  bool isPaused = false;
   PlayerState state = PlayerState.stopped;
 
   Duration duration = const Duration(microseconds: 0);
@@ -62,6 +62,10 @@ class AudioControllerModel extends ChangeNotifier {
       isPlaying = false;
       isPaused = true;
     }
+
+   isPlaying = (state == PlayerState.playing);
+    isPaused = (state == PlayerState.paused);
+
     notifyListeners();
   }
 
