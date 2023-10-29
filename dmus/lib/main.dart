@@ -17,6 +17,7 @@ void main() {
       print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
+
   runApp(const DMUSApp());
 }
 

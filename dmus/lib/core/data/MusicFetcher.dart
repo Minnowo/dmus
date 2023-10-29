@@ -38,11 +38,7 @@ class MusicFetcher {
 
   Future<List<Song>> getAllMusic() async {
 
-    var s = await TableSong.selectAll();
-
-    return s.map((e) => PlatformFile(name:Path.basename(e.songPath), size: e.id, path: e.songPath))
-        .map((e) => Song(title: e.path!, duration: const Duration(milliseconds: 0), file: File(e.path!), metadata: const Metadata() ))
-        .toList();
+    throw DoNothingAction();
   }
 
   Future<List<Playlist>> getAllPlaylists() async {

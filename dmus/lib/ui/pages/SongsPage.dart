@@ -1,11 +1,7 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableHash.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
@@ -98,12 +94,6 @@ class _SongsPageState extends State<_SongsPage> {
                       itemCount: songsModel.songs.length,
                       itemBuilder: (context, index) {
                         var song = songsModel.songs[index];
-
-                        var subtitle = "";
-
-                        if(song.metadata.authorName != null) {
-                          subtitle += song.metadata.authorName!;
-                        }
 
                         return InkWell(
                             child: ListTile(

@@ -16,7 +16,7 @@ class DatabaseController {
 
   static const int VERSION = 1;
 
-  static const bool alwaysCreateDb =true;
+  static const bool alwaysCreateDb = true;
 
   DatabaseController._privateConstructor();
 

@@ -3,12 +3,10 @@
 
 import 'dart:io';
 
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
-import 'package:path/path.dart' as Path;
-import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableHash.dart';
+import 'package:flutter_media_metadata/flutter_media_metadata.dart';
+import 'package:path/path.dart' as Path;
 import 'package:sqflite/sqflite.dart';
 
 import '../../Util.dart';
@@ -22,8 +20,15 @@ final class TableSong {
   TableSong.privateConstructor({required this.id, required this.songPath});
 
   static const String name = "tbl_song";
-  static const String hashIdCol = "hash_id";
+  static const String idCol = "id";
   static const String songPathCol = "song_path";
+
+  static Future<int?> selectId_unchecked(Database db, File path) async {
+
+    var result = await db.query(name, columns: [idCol], where: "$songPathCol = ?", whereArgs: [path.absolute.path]);
+
+    return (result.firstOrNull?[idCol]) as int?;
+  }
 
   static Future<int?> insertSong(File path) async {
 
@@ -36,58 +41,35 @@ final class TableSong {
 
     var db = await DatabaseController.instance.database;
 
-    var digest = await sha256.bind(path.openRead()).first;
+    var existingSongId = await selectId_unchecked(db, path);
 
-    var hashId = await TableHash.insertHash(digest);
+    if(existingSongId != null) {
 
-    if(hashId == null) {
-      logging.severe("Failed to get a hash from the digest of $digest");
-      return null;
-    }
+      logging.info("Song with path $path already exists in the database, updating metadata");
 
-    await TableFMetadata.insertMetadataFor_unchecked(hashId, path);
-
-    logging.info("Inserting song $path with hash_id $hashId");
-
-    try {
-
-      return await db.insert(
-          name,
-          {
-            hashIdCol: hashId,
-            songPathCol : path.absolute.path
-          }
-      );
-    }
-    catch(e) {
-
-      if(e is! DatabaseException) {
-        rethrow;
+      if(!(await TableFMetadata.updateMetadataFor_unchecked(db, existingSongId, path))) {
+        logging.warning("Could not update the metadata for song with id $existingSongId");
       }
+
+      return existingSongId;
     }
 
-    return null;
+
+    var songId = await db.insert( name, { songPathCol : path.absolute.path } );
+
+    if(!await TableFMetadata.insertMetadataFor_unchecked(db, songId, path)) {
+      logging.warning("Could not insert the metadata for song with id $songId");
+    }
+
+    return songId;
   }
-
-  static Future<List<TableSong>> selectAll() async {
-
-    logging.finest("Selecting all songs from the $name table");
-
-    var db = await DatabaseController.instance.database;
-
-    var result = await db.query( name );
-
-    return  result.map((e) => TableSong.privateConstructor(id: e[hashIdCol] as int, songPath: e[songPathCol] as String )).toList();
-  }
-
 
   static Future<List<Song>> selectAllWithMetadata() async {
 
     var db = await DatabaseController.instance.database;
 
-    const String sql = "SELECT * FROM ${TableHash.name}"
-        " JOIN ${TableFMetadata.name} ON ${TableHash.name}.${TableHash.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
-        " JOIN ${TableSong.name} ON ${TableHash.name}.${TableHash.idCol} = ${TableSong.name}.${TableSong.hashIdCol}"
+    const String sql = "SELECT * FROM ${TableSong.name}"
+        " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
     ;
 
     var result = await db.rawQuery(sql);
