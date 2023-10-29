@@ -5,6 +5,7 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
 import 'package:dmus/ui/dialogs/SongContextDialog.dart';
+import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,7 @@ class _SongsPageState extends State<_SongsPage> {
   Widget build(BuildContext context) {
 
     var songsModel = context.watch<SongsModel>();
+    AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
     debugPrint("Rebuilding stuff: length of songsModel sonogs ${songsModel.songs.length}");
 
@@ -67,6 +69,8 @@ class _SongsPageState extends State<_SongsPage> {
 
                 TableSong.selectAllWithMetadata().then((value) => null);
                 AudioController.instance.stopAndEmptyQueue();
+                audioControllerModel.stopSong();
+
               },
               icon: const Icon(Icons.stop),
             ),
