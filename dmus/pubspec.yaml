@@ -42,13 +42,7 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   logging: ^1.2.0
-
-
   marquee: ^2.0.0
-  firebase_ui_auth:
-  cloud_firestore:
-  firebase_core:
-  go_router:
 
 
 

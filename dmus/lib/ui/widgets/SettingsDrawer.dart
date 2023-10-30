@@ -1,9 +1,7 @@
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
-import 'package:dmus/ui/pages/cloud/SignIn.dart';
 import 'package:flutter/material.dart';
 
 import '../dialogs/ImportDialog.dart';
-import '../pages/cloud/registerPage.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
@@ -79,14 +77,12 @@ class SettingsDrawer extends StatelessWidget {
             leading: const Icon(Icons.login),
             title: const Text('Login'),
             onTap: () async {
-              await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => SignInWidget()));
             },
           ),
           ListTile(
             leading: const Icon(Icons.create),
             title: const Text('Create Account'),
             onTap: () async {
-              await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
             },
           )
         ],
