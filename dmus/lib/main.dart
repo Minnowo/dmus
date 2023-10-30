@@ -30,7 +30,7 @@ class DMUSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    AudioController.instance.setup();
+    AudioController.setup();
     DatabaseController.instance.database.then((value) => logging.finest("database ready"));
 
     return ChangeNotifierProvider(

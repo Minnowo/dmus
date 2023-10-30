@@ -6,21 +6,22 @@ import 'dart:async';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../Util.dart';
 import '../data/DataEntity.dart';
 
 class AudioController {
 
-  final AudioPlayer _player = AudioPlayer();
-  final List<Song> _playQueue = [];
+  static final AudioPlayer _player = AudioPlayer();
+  static final List<Song> _playQueue = [];
 
-  final _currentlyPlayingNotifier = StreamController<Song?>();
+  static final _currentlyPlayingNotifier = StreamController<Song?>.broadcast();
 
-  Song? _currentSong;
-  bool _isPlayerReady = false;
-
-  AudioController._();
+  static Song? _currentSong;
+  static bool _isPlayerReady = false;
 
   static final AudioController _instance = AudioController._();
+
+  AudioController._();
 
   static AudioController get instance {
     return _instance;
@@ -30,35 +31,35 @@ class AudioController {
     return _instance;
   }
 
-  Stream<Song?> get onSongChanged {
+  static Stream<Song?> get onSongChanged {
     return _currentlyPlayingNotifier.stream;
   }
 
-  Stream<Duration> get onPositionChanged {
+  static Stream<Duration> get onPositionChanged {
     return _player.onPositionChanged;
   }
 
-  Stream<Duration> get onDurationChanged {
+  static Stream<Duration> get onDurationChanged {
     return _player.onDurationChanged;
   }
 
-  Stream<PlayerState> get onStateChanged {
+  static Stream<PlayerState> get onStateChanged {
     return _player.onPlayerStateChanged;
   }
 
-  Stream<void> get onComplete {
+  static Stream<void> get onComplete {
     return _player.onPlayerComplete;
   }
 
-  void _onLog(String event){
+  static void _onLog(String event){
     debugPrint(event);
   }
-  void _onError(Object e, [StackTrace? stackTrace]){
+  static void _onError(Object e, [StackTrace? stackTrace]){
     debugPrint(e.toString());
   }
 
 
-  void setup(){
+  static void setup(){
 
     if(_isPlayerReady) {
       return;
@@ -72,18 +73,18 @@ class AudioController {
     _isPlayerReady = true;
   }
 
-  bool isPlaying(){
+  static bool isPlaying(){
     return _player.state == PlayerState.playing;
   }
 
-  Future<void> stopAndEmptyQueue() async {
+  static Future<void> stopAndEmptyQueue() async {
 
     await _player.stop();
 
     _playQueue.clear();
   }
 
-  Future<void> togglePause() async{
+  static Future<void> togglePause() async{
 
     switch(_player.state){
 
@@ -92,25 +93,29 @@ class AudioController {
       case PlayerState.disposed:
         return;
       case PlayerState.playing:
-        return await _player.pause();
+        return await pause();
       case PlayerState.paused:
-        return await _player.resume();
+        return await resume();
     }
   }
 
-  Future<void> pause() async {
+  static Future<void> pause() async {
+    logging.info("Pausing playback");
     await _player.pause();
   }
 
-  Future<void> resume() async {
+  static Future<void> resume() async {
+    logging.info("Resuming playback");
     await _player.resume();
   }
 
-  Future<void> playSong(Song src) async {
+  static Future<void> playSong(Song src) async {
 
     if(src.file == null || src.file.path == null) {
       return;
     }
+
+    logging.info("Playing song $src");
 
     _currentSong = src;
 
@@ -119,7 +124,7 @@ class AudioController {
     await _player.play(DeviceFileSource(src.file.path!));
   }
 
-  Future<void> playQueue() async {
+  static Future<void> playQueue() async {
 
     switch(_player.state){
       case PlayerState.playing:
@@ -140,7 +145,7 @@ class AudioController {
       Song next = _playQueue.removeAt(0);
 
       if(next.file == null || next.file.path == null) {
-        debugPrint("Could not play next song $next ");
+        logging.warning("Could not play next song $next ");
         continue;
       }
 
@@ -148,13 +153,9 @@ class AudioController {
     }
   }
 
-  Future<void> queueSong(Song s) async {
+  static Future<void> queueSong(Song s) async {
     _playQueue.add(s);
     await playQueue();
   }
-
-
-
-
 }
 

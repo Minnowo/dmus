@@ -64,6 +64,24 @@ final class TableSong {
     return songId;
   }
 
+  static Future<Song?> selectFromId(int songId) async {
+
+    var db = await DatabaseController.instance.database;
+
+    const String sql = "SELECT * FROM ${TableSong.name}"
+        " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
+        " WHERE ${TableSong.idCol} = ?"
+    ;
+
+    var result = (await db.rawQuery(sql, [songId])).firstOrNull;
+
+    if(result == null) {
+      return null;
+    }
+
+    return fromMappedObjects(result);
+  }
+
   static Future<List<Song>> selectAllWithMetadata() async {
 
     var db = await DatabaseController.instance.database;

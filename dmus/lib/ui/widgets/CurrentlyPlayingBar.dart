@@ -45,14 +45,14 @@ class CurrentlyPlayingBar extends  StatelessWidget {
             visible: !audioControllerModel.isPlaying,
             child: IconButton(
               icon: const Icon(Icons.play_arrow), // Play button
-              onPressed: () async { await AudioController.instance.resume(); },
+              onPressed: () async { await AudioController.resume(); },
             ),
           ),
           Visibility(
             visible: audioControllerModel.isPlaying,
             child: IconButton(
               icon: const Icon(Icons.pause), // Pause button
-              onPressed: () async { await AudioController.instance.pause(); },
+              onPressed: () async { await AudioController.pause(); },
             ),
           ),
           Expanded(

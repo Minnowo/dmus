@@ -23,11 +23,11 @@ final class TablePlaylist {
   static const String idCol = "id";
   static const String titleCol = "title";
 
-  static Future<bool> createPlaylist(String title, List<Song> songs) async {
+  static Future<int?> createPlaylist(String title, List<Song> songs) async {
 
     if(title.isEmpty) {
       logging.warning("Cannot insert playlist with title $title because it is empty");
-      return false;
+      return null;
     }
 
     logging.finest("Creating playlist with title: $title and songs $songs");
@@ -38,7 +38,7 @@ final class TablePlaylist {
 
     TablePlaylistSong.addSongsToPlaylist(playlistId, songs);
 
-    return true;
+    return playlistId;
   }
 
 

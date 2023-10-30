@@ -1,5 +1,6 @@
 
 import 'package:dmus/core/audio/AudioTest.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/ui/dialogs/PlaylistCreationForm.dart';
 import 'package:flutter/material.dart';
@@ -50,8 +51,7 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
         return;
       }
 
-      TablePlaylist.createPlaylist(result.title, result.songs);
-
+      await ImportController.createPlaylist(result.title, result.songs);
     }
 
     return Scaffold(
