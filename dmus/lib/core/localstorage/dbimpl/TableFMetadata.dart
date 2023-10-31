@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -45,6 +47,7 @@ final class TableFMetadata {
   static const String discNumberCol = "disc_number";
   static const String yearCol = "year";
   static const String durationMsCol = "duration_ms";
+  static const String artCacheKeyCol = "art_cache_key";
   static const String trackArtistJoinValue = "\$;\$;";
 
   static Future<bool> updateMetadataFor_unchecked(Database db, int songId, File file) async {
@@ -52,6 +55,12 @@ final class TableFMetadata {
     logging.info("Updating metadata for $file with id $songId");
 
     Metadata m = await MetadataRetriever.fromFile(file);
+
+    Digest? cacheKey;
+
+    if(m.albumArt != null) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    }
 
     try{
 
@@ -65,7 +74,8 @@ final class TableFMetadata {
         bitrateCol: m.bitrate,
         discNumberCol: m.discNumber,
         yearCol: m.year,
-        durationMsCol: m.trackDuration
+        durationMsCol: m.trackDuration,
+        artCacheKeyCol: cacheKey?.bytes
       },
           where: "$idCol = ?",
           whereArgs: [songId]
@@ -85,6 +95,12 @@ final class TableFMetadata {
 
     Metadata m = await MetadataRetriever.fromFile(file);
 
+    Digest? cacheKey;
+
+    if(m.albumArt != null) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    }
+
     var db = await DatabaseController.instance.database;
 
     try{
@@ -100,7 +116,8 @@ final class TableFMetadata {
         bitrateCol: m.bitrate,
         discNumberCol: m.discNumber,
         yearCol: m.year,
-        durationMsCol: m.trackDuration
+        durationMsCol: m.trackDuration,
+        artCacheKeyCol: cacheKey?.bytes
       });
       return true;
     }

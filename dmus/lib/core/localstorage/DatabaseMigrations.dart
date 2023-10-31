@@ -74,6 +74,7 @@ class DatabaseMigrations {
         disc_number INTEGER,
         year INTEGER,
         duration_ms INTEGER,
+        art_cache_key BLOB,
         FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
     ) 
     ''');

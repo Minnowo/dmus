@@ -1,18 +1,29 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 
 import '../Util.dart';
+
+
+enum EntityType {
+  song,
+  playlist,
+  album
+}
 
 abstract class DataEntity {
 
   int id;
   String title;
   Duration duration = const Duration(milliseconds: 0);
+  Uint8List? pictureCacheKey;
 
   DataEntity({required this.id, required this.title});
 
   DataEntity.withDuration({required this.id, required this.title, required this.duration});
+
+  EntityType get entityType;
 
   @override
   String toString() {
@@ -30,6 +41,9 @@ class Song extends DataEntity {
 
   Song.withDuration({required super.id, required super.title, required super.duration, required this.file, required this.metadata}) :
         super.withDuration();
+
+  @override
+  EntityType get entityType => EntityType.song;
 
 }
 
@@ -55,6 +69,9 @@ class Playlist extends DataEntity {
   }
 
   @override
+  EntityType get entityType => EntityType.playlist;
+
+  @override
   String toString() {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: ${songs.length}>";
   }
@@ -71,4 +88,7 @@ class Album extends DataEntity {
 
   Album.withSongs({required super.id, required super.title, required this.songs}) :
         super.withDuration(duration: songs.map((e) => e.duration).reduce((value, element) => value + element));
+
+  @override
+  EntityType get entityType => EntityType.album;
 }

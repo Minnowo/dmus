@@ -55,13 +55,6 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class PageNavItem{
-  final String title;
-  final Icon icon;
-  final Widget page;
-
-  const PageNavItem({required this.title, required this.icon,required this.page});
-}
 
 class _RootPageState extends State<RootPage> {
 

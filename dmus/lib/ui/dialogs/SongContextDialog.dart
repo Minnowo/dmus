@@ -22,19 +22,8 @@ class SongContextDialog extends StatelessWidget {
       return;
     }
 
-    logging.finest("Fetching songs metadata.");
-
-    // TODO: put a snackbar popup or some indicator here, this may take some time
-    var m = await getMetadata(songContext.file.path!);
-
-    // https://dart.dev/tools/linter-rules/use_build_context_synchronously
-    if (!context.mounted)  {
-      logging.warning("BuildContext was not mounted, the widget was destroyed");
-      return;
-    }
-
     Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (ctxt) => MetadataPage(metadata: m,)));
+        builder: (ctxt) => MetadataPage(entity: songContext,)));
   }
 
   @override

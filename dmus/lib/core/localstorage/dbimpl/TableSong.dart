@@ -2,8 +2,10 @@
 
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as Path;
@@ -112,7 +114,10 @@ final class TableSong {
     }
 
     int id = e[TableSong.idCol] as int;
+
     Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
+
+    s.pictureCacheKey = e[TableFMetadata.artCacheKeyCol] as Uint8List?;
 
     return s;
   }

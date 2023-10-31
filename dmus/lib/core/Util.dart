@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
 
@@ -82,4 +84,16 @@ String currentlyPlayingTextFromMetadata(Song s) {
   a.add(s.title);
 
   return a.join(" --- ");
+}
+
+
+String bytesToHex(List<int> bytes) {
+  const hexDigits = '0123456789abcdef';
+  var charCodes = Uint8List(bytes.length * 2);
+  for (var i = 0, j = 0; i < bytes.length; i++) {
+    var byte = bytes[i];
+    charCodes[j++] = hexDigits.codeUnitAt((byte >> 4) & 0xF);
+    charCodes[j++] = hexDigits.codeUnitAt(byte & 0xF);
+  }
+  return String.fromCharCodes(charCodes);
 }
