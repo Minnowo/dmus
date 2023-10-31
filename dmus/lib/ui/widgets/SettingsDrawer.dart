@@ -88,41 +88,51 @@ class SettingsDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-          if (user == null)
-          ListTile(
-            leading: const Icon(Icons.create),
-            title: const Text('Create Account'),
-            onTap: () async {
-              await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
-              Navigator.pop(context);
-            },
-          ),
-          if (user != null)
+          if (user == null) // Check if the user is not logged in
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Log Out'),
+              leading: const Icon(Icons.create),
+              title: const Text('Create Account'),
               onTap: () async {
-                await FirebaseAuth.instance.signOut();
+                await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
                 Navigator.pop(context);
-
-                // Show a Snackbar message indicating successful logout
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('User logged out successfully'),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
               },
+            ),
+          if (user != null)
+            Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.cloud_upload),
+                  title: const Text('Upload to Cloud Storage'),
+                  onTap: () {
+                   // ADD LOGIC HERE
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cloud_download),
+                  title: const Text('Download from Cloud'),
+                  onTap: () {
+                    // ADD LOGIC HERE
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Log Out'),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pop(context);
+                    // Show a Snackbar message indicating successful logout
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('User logged out successfully'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
         ],
       ),
     );
   }
 }
-
-
-
-
-
-
-
