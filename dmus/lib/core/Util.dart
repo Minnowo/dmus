@@ -48,8 +48,6 @@ String formatDuration(Duration d) {
 
 String subtitleFromMetadata(Metadata m) {
 
-  logging.finest("Getting subtitle from metadata: $m");
-
   List<String> a = [];
 
   if(m.albumName != null) {
@@ -70,7 +68,6 @@ String subtitleFromMetadata(Metadata m) {
 }
 
 String currentlyPlayingTextFromMetadata(Song s) {
-  logging.finest("Getting Artist(s) Name and Song Title from MetaData : $s");
 
   var m = s.metadata;
   List<String> a = [];

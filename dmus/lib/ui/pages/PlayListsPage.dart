@@ -1,4 +1,5 @@
 
+import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/audio/AudioTest.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
+import '../dialogs/PlaylistContextDialog.dart';
 import '../model/PlaylistPageModel.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
@@ -87,14 +89,19 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
                               title: Text(playlist.title),
                               trailing: Text(formatDuration(playlist.duration)),
                             ),
-                            onTap: () {
+                            onTap: () async {
                               logging.finest(playlist);
+
+                              AudioController.queuePlaylist(playlist);
+
+                              await AudioController.playQueue();
+
                             },
                             onLongPress: () {
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (BuildContext context) => SongContextDialog(songContext: song,),
-                              // );
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => PlaylistContextDialog(plylistContext: playlist,),
+                              );
                             }
                         );
                       })

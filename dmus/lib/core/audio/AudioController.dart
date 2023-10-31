@@ -52,10 +52,10 @@ class AudioController {
   }
 
   static void _onLog(String event){
-    debugPrint(event);
+    logging.info(event);
   }
   static void _onError(Object e, [StackTrace? stackTrace]){
-    debugPrint(e.toString());
+    logging.severe(e.toString());
   }
 
 
@@ -69,6 +69,7 @@ class AudioController {
         _onLog,
         onError: _onError
     );
+    _player.onPlayerComplete.listen((event) { playQueue().then((value) => logging.info("Playing next song..."));});
 
     _isPlayerReady = true;
   }
@@ -155,7 +156,11 @@ class AudioController {
 
   static Future<void> queueSong(Song s) async {
     _playQueue.add(s);
-    await playQueue();
+  }
+
+  static Future<void> queuePlaylist(Playlist p) async {
+    logging.info("playing playlist ${p.toStringWithSongs()}");
+    _playQueue.addAll(p.songs);
   }
 }
 

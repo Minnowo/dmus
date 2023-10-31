@@ -58,6 +58,10 @@ class Playlist extends DataEntity {
   String toString() {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: ${songs.length}>";
   }
+
+  String toStringWithSongs() {
+    return "<$runtimeType $id $title ${formatDuration(duration)} songs: $songs>";
+  }
 }
 
 class Album extends DataEntity {
