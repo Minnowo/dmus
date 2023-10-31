@@ -2,6 +2,8 @@ import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:dmus/ui/pages/cloud/SignIn.dart';
 import 'package:flutter/material.dart';
 
+
+import '../../core/cloudstorage/cloudStorageModel.dart';
 import '../dialogs/ImportDialog.dart';
 import '../pages/cloud/registerPage.dart';
 
@@ -20,6 +22,7 @@ class SettingsDrawer extends StatelessWidget {
     var subheaderFontSize = 24.0;
 
     final User? user = FirebaseAuth.instance.currentUser;
+    var cloudStorage= CloudStorageModel();
 
     return Drawer(
       child: ListView(
@@ -104,7 +107,7 @@ class SettingsDrawer extends StatelessWidget {
                   leading: const Icon(Icons.cloud_upload),
                   title: const Text('Upload to Cloud Storage'),
                   onTap: () {
-                   // ADD LOGIC HERE
+                    cloudStorage.addAllSongs(user.uid, context);
                   },
                 ),
                 ListTile(
