@@ -42,9 +42,9 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   logging: ^1.2.0
-
-
   marquee: ^2.0.0
+  path_provider: ^2.1.1
+  crypto: ^3.0.3
   firebase_ui_auth:
   cloud_firestore:
   firebase_storage:

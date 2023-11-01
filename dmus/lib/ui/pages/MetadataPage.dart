@@ -2,20 +2,25 @@
 
 
 
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dmus/core/Util.dart';
+import 'package:dmus/core/data/DataEntity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
+import 'package:dmus/core/localstorage/ImageCacheController.dart';
 
-class MetadataPage extends StatelessWidget {
+class MetadataPage extends StatelessWidget{
 
-  final Metadata metadata;
+  final DataEntity entity;
 
-  const MetadataPage({super.key, required this.metadata});
+  const MetadataPage({super.key, required this.entity});
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildSongMetadataPage(BuildContext context) {
+
+    Song song = (entity as Song);
+    Metadata metadata = song.metadata;
 
     String? trackName = metadata.trackName;
     List<String>? trackArtistNames = metadata.trackArtistNames;
@@ -31,7 +36,10 @@ class MetadataPage extends StatelessWidget {
     String? mimeType = metadata.mimeType;
     int? trackDuration =metadata.trackDuration;
     int? bitrate = metadata.bitrate;
+
     Uint8List? art = metadata.albumArt;
+
+
 
     return Scaffold(
         appBar: AppBar(
@@ -42,6 +50,32 @@ class MetadataPage extends StatelessWidget {
 
             if(art != null)
               Image.memory(art),
+
+            if(art == null && song.pictureCacheKey != null)
+              FutureBuilder<File?>(
+                future: ImageCacheController.getImagePathFromRaw(song.pictureCacheKey!),
+                builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+
+                  if (snapshot.connectionState != ConnectionState.done ) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+
+                  if(!snapshot.hasData) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  if (snapshot.data != null) {
+                    return Image.file(snapshot.data!, fit: BoxFit.cover, );
+                  }
+
+                  return const Text('No image path found.');
+                },
+              ),
+
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
@@ -110,5 +144,27 @@ class MetadataPage extends StatelessWidget {
           ],
         )
     );
+  }
+
+
+  Widget buildPlaylistMetadataPage(BuildContext context) {
+    return Container();
+  }
+
+  Widget buildAlbumMetadataPage(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    switch(entity.entityType) {
+      case EntityType.playlist:
+        return buildPlaylistMetadataPage(context);
+      case EntityType.album:
+        return buildAlbumMetadataPage(context);
+      case EntityType.song:
+        return buildSongMetadataPage(context);
+    }
   }
 }

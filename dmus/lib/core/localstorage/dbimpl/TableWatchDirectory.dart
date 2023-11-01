@@ -1,13 +1,14 @@
 
-
-
 import 'dart:io';
-
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../../Util.dart';
 
+
+
+/// Represents tbl_watch_directory in the database
+///
+/// Contains methods for reading and writing from this table, as well as column information
 final class TableWatchDirectory {
 
   final String directoryPath;
@@ -21,11 +22,17 @@ final class TableWatchDirectory {
   static const String checkIntervalCol = "check_interval";
   static const String isRecursiveCol = "is_recursive";
 
+
+  /// Inserts a watch directory into the database
+  ///
+  /// Returns null if the directory already exists or a DatabaseException happens
+  ///
+  /// Returns the directory id
   static Future<int?> insertDirectory(File path, int checkInterval, bool isRecursive) async {
 
     logging.finest("Inserting $path into the $name table");
 
-    var db = await DatabaseController.instance.database;
+    var db = await DatabaseController.database;
 
     try {
 
@@ -38,22 +45,24 @@ final class TableWatchDirectory {
           }
       );
     }
-    catch(e) {
-
-      if(e is! DatabaseException) {
-        rethrow;
-      }
+    on DatabaseException catch(e) {
+      // ignore duplicate key errors
     }
 
     return null;
   }
 
 
+  /// Deletes a directory from the database
+  ///
+  /// Returns the number of deleted rows
+  ///
+  /// Throws DatabaseException
   static Future<int?> removeDirectory(File path) async {
 
     logging.finest("Removing $path from $name");
 
-    var db = await DatabaseController.instance.database;
+    var db = await DatabaseController.database;
 
     return await db.delete(
         name,
@@ -62,11 +71,17 @@ final class TableWatchDirectory {
     );
   }
 
+
+  /// Select all watch directories from the database
+  ///
+  /// Returns a list of TableWatchDirectory
+  ///
+  /// Throws DatabaseException
   static Future<List<TableWatchDirectory>> selectAll() async {
 
     logging.finest("Selecting all songs from the $name table");
 
-    var db = await DatabaseController.instance.database;
+    var db = await DatabaseController.database;
 
     var result = await db.query( name );
 
@@ -77,5 +92,4 @@ final class TableWatchDirectory {
             isRecursive: bool.parse(e[isRecursiveCol] as String))
     ).toList();
   }
-
 }

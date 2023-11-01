@@ -1,11 +1,9 @@
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
-import 'package:dmus/ui/pages/cloud/SignIn.dart';
 import 'package:flutter/material.dart';
 
 
 import '../../core/cloudstorage/cloudStorageModel.dart';
 import '../dialogs/ImportDialog.dart';
-import '../pages/cloud/registerPage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -80,6 +78,7 @@ class SettingsDrawer extends StatelessWidget {
                 style:
                 TextStyle(color: textColor, fontSize: subheaderFontSize)),
           ),
+
 
           // Firebase Settings
           if (user == null)

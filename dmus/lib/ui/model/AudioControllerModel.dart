@@ -2,7 +2,10 @@
 
 
 
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/audio/AudioController.dart';
@@ -20,13 +23,25 @@ class AudioControllerModel extends ChangeNotifier {
   Song? currentlyPlaying = null;
 
 
+  late final List<StreamSubscription> _subscriptions;
+
   AudioControllerModel(){
 
-    AudioController.instance.onPositionChanged.listen(_onPositionChanged);
-    AudioController.instance.onDurationChanged.listen(_onDurationChanged);
-    AudioController.instance.onStateChanged.listen(_onStateChanged);
-    AudioController.instance.onComplete.listen(_onPlayerComplete);
-    AudioController.instance.onSongChanged.listen(_onSongChanged);
+    _subscriptions = [
+      AudioController.onPositionChanged.listen(_onPositionChanged),
+      AudioController.onDurationChanged.listen(_onDurationChanged),
+      AudioController.onStateChanged.listen(_onStateChanged),
+      AudioController.onComplete.listen(_onPlayerComplete),
+      AudioController.onSongChanged.listen(_onSongChanged),
+    ];
+  }
+
+  @override
+  void dispose() {
+    for(var i in _subscriptions) {
+      i.cancel();
+    }
+    super.dispose();
   }
 
   void _onSongChanged(Song? event){

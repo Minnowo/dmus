@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
-import 'package:dmus/core/data/MusicFetcher.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +11,14 @@ class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 
   Future<void> doImportFromFiles(List<PlatformFile> files) async {
+
     for(var f in files) {
+
       if(f.path == null) {
         continue;
       }
-      await TableSong.insertSong(File(f.path!));
+
+      await ImportController.importSong(File(f.path!));
     }
   }
 

@@ -6,7 +6,6 @@ import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
@@ -16,7 +15,7 @@ import 'core/Util.dart';
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
       print('${record.level.name}: ${record.time}: ${record.message}');
@@ -31,8 +30,8 @@ class DMUSApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    AudioController.instance.setup();
-    DatabaseController.instance.database.then((value) => logging.finest("database ready"));
+    AudioController.setup();
+    DatabaseController.database.then((value) => logging.finest("database ready"));
 
     return ChangeNotifierProvider(
         create: (context) => AudioControllerModel(),
@@ -56,13 +55,6 @@ class RootPage extends StatefulWidget {
   State<RootPage> createState() => _RootPageState();
 }
 
-class PageNavItem{
-  final String title;
-  final Icon icon;
-  final Widget page;
-
-  const PageNavItem({required this.title, required this.icon,required this.page});
-}
 
 class _RootPageState extends State<RootPage> {
 

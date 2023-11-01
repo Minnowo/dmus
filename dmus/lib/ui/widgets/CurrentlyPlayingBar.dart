@@ -2,6 +2,7 @@
 
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
+import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
@@ -34,47 +35,50 @@ class CurrentlyPlayingBar extends  StatelessWidget {
       progress /= songDuration.inMilliseconds;
     }
 
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.grey,
-      ),
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: <Widget>[
-          Visibility(
-            visible: !audioControllerModel.isPlaying,
-            child: IconButton(
-              icon: const Icon(Icons.play_arrow), // Play button
-              onPressed: () async { await AudioController.instance.resume(); },
-            ),
-          ),
-          Visibility(
-            visible: audioControllerModel.isPlaying,
-            child: IconButton(
-              icon: const Icon(Icons.pause), // Pause button
-              onPressed: () async { await AudioController.instance.pause(); },
-            ),
-          ),
-          Expanded(
-            child: Column(
+    return InkWell(
+          onTap: () {
+            logging.info("Currently playing tapped");
+            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CurrentlyPlayingPage()));
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
               children: <Widget>[
-                SizedBox(
-                  height: 20,
-                  child: Marquee (
-                    text: currentlyPlayingTextFromMetadata(song),
-                    blankSpace: 20.0,
-                    velocity: 30.0,
+                Visibility(
+                  visible: !audioControllerModel.isPlaying,
+                  child: IconButton(
+                    icon: const Icon(Icons.play_arrow), // Play button
+                    onPressed: () async { await AudioController.resume(); },
                   ),
                 ),
-                LinearProgressIndicator(
-                  value: progress,
+                Visibility(
+                  visible: audioControllerModel.isPlaying,
+                  child: IconButton(
+                    icon: const Icon(Icons.pause), // Pause button
+                    onPressed: () async { await AudioController.pause(); },
+                  ),
                 ),
-                 Text(formatTimeDisplay(currentSongPosition, songDuration)),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                        child: Marquee (
+                          text: currentlyPlayingTextFromMetadata(song),
+                          blankSpace: 20.0,
+                          velocity: 30.0,
+                        ),
+                      ),
+                      LinearProgressIndicator(
+                        value: progress,
+                      ),
+                      Text(formatTimeDisplay(currentSongPosition, songDuration)),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-    );
+    ) ;
   }
 }

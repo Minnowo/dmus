@@ -2,18 +2,41 @@
 
 
 
+import 'dart:async';
+
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/data/DataEntity.dart';
-import '../../core/data/MusicFetcher.dart';
 
 class PlaylistModel extends ChangeNotifier {
 
   List<Playlist> playlists = [];
 
+  late final StreamSubscription<Playlist> _playlistCreatedSubscription;
+
   PlaylistModel() {
+
+    _playlistCreatedSubscription = ImportController.onPlaylistCreated.listen(_onPlaylistCreated);
+
     update();
+  }
+
+  @override
+  void dispose(){
+
+    _playlistCreatedSubscription.cancel();
+    super.dispose();
+  }
+
+  void _onPlaylistCreated(Playlist p) {
+    if(playlists.contains(p)) {
+      return;
+    }
+
+    playlists.add(p);
+    notifyListeners();
   }
 
   void update(){

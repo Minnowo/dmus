@@ -2,19 +2,42 @@
 
 
 
+import 'dart:async';
+
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/data/DataEntity.dart';
+import '../../core/localstorage/ImportController.dart';
 
 class SongsModel extends ChangeNotifier {
 
   List<Song> songs = [];
 
+  late final StreamSubscription<Song> _songImportedSubscription;
+
   SongsModel(){
 
+    _songImportedSubscription = ImportController.onSongImported.listen(_onSongImported);
+
     update();
+  }
+
+  @override
+  void dispose(){
+
+    _songImportedSubscription.cancel();
+    super.dispose();
+  }
+
+  void _onSongImported(Song s) {
+    if(songs.contains(s)) {
+      return;
+    }
+
+    songs.add(s);
+    notifyListeners();
   }
 
   void update(){
@@ -28,7 +51,7 @@ class SongsModel extends ChangeNotifier {
     }).whenComplete((){
       notifyListeners();
 
-      logging.info("Finished updating");
+      logging.info("Finished updating songs");
     });
   }
 

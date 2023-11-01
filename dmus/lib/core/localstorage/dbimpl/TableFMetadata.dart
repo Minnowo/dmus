@@ -1,11 +1,17 @@
-import 'dart:io';
 
+import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../../Util.dart';
 
+
+
+/// Represents tbl_fmetadata in the database
+///
+/// Contains methods for reading and writing from this table, as well as column information
 final class TableFMetadata {
 
   final int id;
@@ -45,13 +51,28 @@ final class TableFMetadata {
   static const String discNumberCol = "disc_number";
   static const String yearCol = "year";
   static const String durationMsCol = "duration_ms";
+  static const String artCacheKeyCol = "art_cache_key";
+
+  /// Joins the track artists with this value before inserting into the database
   static const String trackArtistJoinValue = "\$;\$;";
 
-  static Future<bool> updateMetadataFor_unchecked(Database db, int songId, File file) async {
+  
+  /// Updates the given metadata for the given songId
+  ///
+  /// Does not check if the file exists
+  ///
+  /// Caches the songs embedded picture if exists
+  static Future<bool> updateSongMetadataUnchecked(Database db, int songId, File file) async {
 
     logging.info("Updating metadata for $file with id $songId");
 
     Metadata m = await MetadataRetriever.fromFile(file);
+
+    Digest? cacheKey;
+
+    if(m.albumArt != null) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    }
 
     try{
 
@@ -65,7 +86,8 @@ final class TableFMetadata {
         bitrateCol: m.bitrate,
         discNumberCol: m.discNumber,
         yearCol: m.year,
-        durationMsCol: m.trackDuration
+        durationMsCol: m.trackDuration,
+        artCacheKeyCol: cacheKey?.bytes
       },
           where: "$idCol = ?",
           whereArgs: [songId]
@@ -79,13 +101,25 @@ final class TableFMetadata {
     return false;
   }
 
-  static Future<bool> insertMetadataFor_unchecked(Database db, int songId, File file) async {
+
+  /// Insert the metadata for the given songId
+  ///
+  /// Does not check if the file exists
+  ///
+  /// Caches the songs embedded picture if exists
+  static Future<bool> insertSongMetadataUnchecked(Database db, int songId, File file) async {
 
     logging.info("Inserting metadata for $file with id $songId");
 
     Metadata m = await MetadataRetriever.fromFile(file);
 
-    var db = await DatabaseController.instance.database;
+    Digest? cacheKey;
+
+    if(m.albumArt != null) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    }
+
+    var db = await DatabaseController.database;
 
     try{
 
@@ -100,7 +134,8 @@ final class TableFMetadata {
         bitrateCol: m.bitrate,
         discNumberCol: m.discNumber,
         yearCol: m.year,
-        durationMsCol: m.trackDuration
+        durationMsCol: m.trackDuration,
+        artCacheKeyCol: cacheKey?.bytes
       });
       return true;
     }
@@ -112,6 +147,9 @@ final class TableFMetadata {
   }
 
 
+  /// Returns a Metadata object from a map going from column names to their datatype
+  ///
+  /// This does not include the artCacheKeyCol column
   static Metadata fromMap(Map<String, Object?> e) {
 
     return Metadata(
