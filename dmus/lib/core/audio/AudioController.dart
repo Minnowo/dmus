@@ -13,6 +13,7 @@ class AudioController {
 
   static final AudioPlayer _player = AudioPlayer();
   static final List<Song> _playQueue = [];
+  static final List<Song> _playHistory = [];
 
   static final _currentlyPlayingNotifier = StreamController<Song?>.broadcast();
 
@@ -80,6 +81,8 @@ class AudioController {
 
   static Future<void> stopAndEmptyQueue() async {
 
+    setCurrentlyPlaying(null);
+
     await _player.stop();
 
     _playQueue.clear();
@@ -110,6 +113,52 @@ class AudioController {
     await _player.resume();
   }
 
+  static Future<void> resumePlayLast() async {
+
+    logging.info(_player.state);
+
+    if(_player.state == PlayerState.paused) {
+
+      if(_currentSong != null) {
+        return await resume();
+      }
+    }
+
+    switch(_player.state){
+
+      case PlayerState.playing:
+      case PlayerState.disposed:
+        return;
+
+      case PlayerState.paused:
+      case PlayerState.stopped:
+      case PlayerState.completed:
+
+        Song? last = _playHistory.lastOrNull;
+
+        if(last == null) {
+          return;
+        }
+        logging.info("about to play last ${last}");
+
+        logging.info("Playing song $last");
+        await playSong(last);
+
+        return await resume();
+    }
+  }
+
+  static void setCurrentlyPlaying(Song? src) {
+
+    _currentSong = src;
+
+    _currentlyPlayingNotifier.add(src);
+
+    if(src != null) {
+      _playHistory.add(src);
+    }
+  }
+
   static Future<void> playSong(Song src) async {
 
     if(src.file == null || src.file.path == null) {
@@ -118,9 +167,7 @@ class AudioController {
 
     logging.info("Playing song $src");
 
-    _currentSong = src;
-
-    _currentlyPlayingNotifier.add(src);
+    setCurrentlyPlaying(src);
 
     await _player.play(DeviceFileSource(src.file.path!));
   }
@@ -131,8 +178,7 @@ class AudioController {
       case PlayerState.playing:
         return;
       case PlayerState.disposed:
-        _currentSong = null;
-        return;
+        return setCurrentlyPlaying(null);
       case PlayerState.paused:
         return await _player.resume();
 
@@ -152,6 +198,13 @@ class AudioController {
 
       return await playSong(next);
     }
+
+    return setCurrentlyPlaying(null);
+  }
+
+  static Future<void> seek(Duration position) async {
+
+    await _player.seek(position);
   }
 
   static Future<void> queueSong(Song s) async {

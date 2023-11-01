@@ -1,41 +1,77 @@
 
 
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dmus/ui/widgets/TimeSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
 import '../../core/audio/AudioController.dart';
+import '../../core/data/DataEntity.dart';
 
-class CurrentlyPlayingPage extends StatelessWidget {
+class CurrentlyPlayingPage extends StatefulWidget {
   const CurrentlyPlayingPage({super.key});
 
 
+  @override
+  State<StatefulWidget> createState () => CurrentlyPlayingPageState();
+}
 
+class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
+
+  Song? songContext;
+
+  late final StreamSubscription<Song?> currentlyPlayingSubscriber;
+
+  void _onSongChanged(Song? s) {
+
+    if(s == null || s == songContext) {
+      return;
+    }
+
+    setState(() {
+      songContext = s;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
+
+    setState(() {
+      songContext = context.read<AudioControllerModel>().currentlyPlaying;
+    });
+  }
+
+  @override
+  void dispose() {
+    currentlyPlayingSubscriber.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-
-    AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
-
-    if(audioControllerModel.currentlyPlaying == null) {
-      return Container();
+    if(songContext == null) {
+      return const CircularProgressIndicator();
     }
 
-    logging.info(audioControllerModel.currentlyPlaying!.metadata);
+    logging.info("Currently playing page now showing $songContext");
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Currently Playing'),
+        title: const Text('Currently Playing'),
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {
             },
           ),
@@ -45,9 +81,9 @@ class CurrentlyPlayingPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Cover Art
-          if(audioControllerModel.currentlyPlaying?.pictureCacheKey != null)
+          if(songContext!.pictureCacheKey != null)
             FutureBuilder<File?>(
-              future: ImageCacheController.getImagePathFromRaw(audioControllerModel.currentlyPlaying!.pictureCacheKey!),
+              future: ImageCacheController.getImagePathFromRaw(songContext!.pictureCacheKey!),
               builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
 
                 if (snapshot.connectionState != ConnectionState.done ) {
@@ -70,12 +106,10 @@ class CurrentlyPlayingPage extends StatelessWidget {
               },
             ),
 
-          // Song Title
-          const Padding(
+          Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Song Title',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            child: Text( currentlyPlayingTextFromMetadata(songContext!),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
 
@@ -83,54 +117,65 @@ class CurrentlyPlayingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.favorite_border),
+                icon: const Icon(Icons.favorite_border),
                 onPressed: () {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.playlist_add),
+                icon: const Icon(Icons.playlist_add),
                 onPressed: () {
                 },
               ),
             ],
           ),
 
-          Visibility(
-            visible: !audioControllerModel.isPlaying,
-            child: IconButton(
-              icon: const Icon(Icons.play_arrow), // Play button
-              onPressed: () async { await AudioController.resume(); },
-            ),
-          ),
-          Visibility(
-            visible: audioControllerModel.isPlaying,
-            child: IconButton(
-              icon: const Icon(Icons.pause), // Pause button
-              onPressed: () async { await AudioController.pause(); },
-            ),
-          ),
+          Consumer<AudioControllerModel>(
+            builder: (context, audioControllerModel, child) {
 
-          Slider(
-            value: 0.5,
-            onChanged: (value) {
+              final songDuration = audioControllerModel.duration;
+              final songPosition = audioControllerModel.position;
+
+              double progress = 0;
+
+              if(songDuration.inMilliseconds != 0) {
+                progress = songPosition.inMilliseconds.toDouble() / songDuration.inMilliseconds;
+              }
+
+              return Column(
+                  children: [
+
+                    if(!audioControllerModel.isPlaying)
+                      IconButton(
+                        icon: const Icon(Icons.play_arrow),
+                        onPressed: () async { await AudioController.resume(); },
+                      ),
+
+                    if(audioControllerModel.isPlaying)
+                      IconButton(
+                        icon: const Icon(Icons.pause),
+                        onPressed: () async { await AudioController.pause(); },
+                      ),
+
+                    TimeSlider(songDuration: songDuration, songPosition: songPosition)
+                  ]
+              );
             },
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                icon: Icon(Icons.shuffle),
+                icon: const Icon(Icons.shuffle),
                 onPressed: () {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.repeat),
+                icon: const Icon(Icons.repeat),
                 onPressed: () {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.speed),
+                icon: const Icon(Icons.speed),
                 onPressed: () {
                 },
               ),
@@ -141,4 +186,3 @@ class CurrentlyPlayingPage extends StatelessWidget {
     );
   }
 }
-
