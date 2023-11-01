@@ -1,6 +1,5 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/data/MusicFetcher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/ImportDialog.dart';
@@ -51,7 +50,6 @@ class _SongsPage extends StatelessWidget {
             IconButton(
               onPressed: () {
                 songsModel.update();
-                debugPrint(DatabaseController.instance.database.toString());
               },
               icon: const Icon(Icons.update),
             ),
@@ -61,13 +59,6 @@ class _SongsPage extends StatelessWidget {
                 AudioController.stopAndEmptyQueue();
               },
               icon: const Icon(Icons.stop),
-            ),
-            IconButton(
-              onPressed: () {
-                MusicFetcher.files.clear();
-                songsModel.update();
-              },
-              icon: const Icon(Icons.delete),
             ),
           ],
         ),

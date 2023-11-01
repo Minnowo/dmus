@@ -80,7 +80,6 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Cover Art
           if(songContext!.pictureCacheKey != null)
             FutureBuilder<File?>(
               future: ImageCacheController.getImagePathFromRaw(songContext!.pictureCacheKey!),
@@ -134,12 +133,6 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
 
               final songDuration = audioControllerModel.duration;
               final songPosition = audioControllerModel.position;
-
-              double progress = 0;
-
-              if(songDuration.inMilliseconds != 0) {
-                progress = songPosition.inMilliseconds.toDouble() / songDuration.inMilliseconds;
-              }
 
               return Column(
                   children: [

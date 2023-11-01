@@ -1,16 +1,26 @@
 
-
-
 import 'package:sqflite/sqflite.dart';
-
 import '../Util.dart';
 
-class DatabaseMigrations {
 
+
+/// Handles all database migrations from older to newer versions
+///
+/// Does not support downgrades, only upgrades
+final class DatabaseMigrations {
+
+  DatabaseMigrations._();
+
+  /// Maps the database version to the migration
   static final Map<int, Function> _migrations = {
     1 : _migration_1
   };
 
+
+
+  /// Runs the migrations to upgrade from the oldVersion to the newVersion
+  ///
+  /// Throws Exception if no migration exists for a version
   static Future<void> runMigrations(Database db, int oldVersion, int newVersion) async {
 
     logging.info("About to migrate database from version $oldVersion to $newVersion");
@@ -37,6 +47,7 @@ class DatabaseMigrations {
   }
 
 
+  /// Migration 1, handles creating the base database for the earlier version
   static Future<void> _migration_1(Database db) async {
 
     const String TBL_SONG = "tbl_song";

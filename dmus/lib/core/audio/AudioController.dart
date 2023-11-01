@@ -1,14 +1,16 @@
 
-
-
 import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/cupertino.dart';
-
 import '../Util.dart';
 import '../data/DataEntity.dart';
 
+
+
+/// The main audio controller class
+///
+/// Responsible for playing music, the current queue, seeking,
+/// pause, resume and dispatching events related to the audio state
 class AudioController {
 
   static final AudioPlayer _player = AudioPlayer();
@@ -75,6 +77,7 @@ class AudioController {
     _isPlayerReady = true;
   }
 
+  /// Returns a bool indicating if the player state is playing
   static bool isPlaying(){
     return _player.state == PlayerState.playing;
   }

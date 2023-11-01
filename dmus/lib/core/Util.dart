@@ -1,14 +1,20 @@
 
 import 'dart:typed_data';
-
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
-
 import 'data/DataEntity.dart';
 
 
+/// The global logger instance
 final logging = Logger('DMUS');
 
+
+
+/// Formats the position time out of the duration time to display to the user
+///
+/// The format is HH:MM:SS / HH:MM:SS if duration exceeds 1 hour
+///
+/// The format is MM:SS / MM:SS if duration is less than 1 hour
 String formatTimeDisplay(Duration sp, Duration sd) {
 
   String hoursSP = "";
@@ -32,6 +38,12 @@ String formatTimeDisplay(Duration sp, Duration sd) {
   ;
 }
 
+
+/// Format a duration to display to the user
+///
+/// The format is HH:MM:SS / HH:MM:SS if duration exceeds 1 hour
+///
+/// The format is MM:SS / MM:SS if duration is less than 1 hour
 String formatDuration(Duration d) {
 
   String hours = "";
@@ -48,6 +60,11 @@ String formatDuration(Duration d) {
 }
 
 
+/// Returns subtitles text for the given song metadata
+///
+/// The format is '{ALBUM_NAME | ALBUM_ARTIST_NAME} - {AUTHOR_NAME | TRACK_ARTIST_NAMES}'
+///
+/// If none of the information exists it returns an empty string
 String subtitleFromMetadata(Metadata m) {
 
   List<String> a = [];
@@ -69,6 +86,11 @@ String subtitleFromMetadata(Metadata m) {
   return a.join(" - ");
 }
 
+
+/// Gets the text to show when a song is being played
+///
+/// This information is from the songs metadata and the title,
+/// in the format of '{AUTHOR_NAME | TRACK_ARTIST_NAMES} --- {TITLE}'
 String currentlyPlayingTextFromMetadata(Song s) {
 
   var m = s.metadata;
@@ -87,7 +109,9 @@ String currentlyPlayingTextFromMetadata(Song s) {
 }
 
 
+/// Converts the given raw bytes to a hex string
 String bytesToHex(List<int> bytes) {
+
   const hexDigits = '0123456789abcdef';
   var charCodes = Uint8List(bytes.length * 2);
   for (var i = 0, j = 0; i < bytes.length; i++) {

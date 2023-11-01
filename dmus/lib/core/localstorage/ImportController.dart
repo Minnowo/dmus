@@ -1,57 +1,67 @@
 
-
-
 import 'dart:async';
 import 'dart:io';
-
 import '../Util.dart';
 import '../data/DataEntity.dart';
 import 'dbimpl/TablePlaylist.dart';
 import 'dbimpl/TableSong.dart';
 
-class ImportController {
 
 
-  static final _songImportStartController = StreamController<File>.broadcast();
-
-  static final _songImportedController = StreamController<Song>.broadcast();
-
-  static final _playlistCreationStartController = StreamController<String>.broadcast();
-
-  static final _playlistCreatedController = StreamController<Playlist>.broadcast();
-
-  static final ImportController _instance = ImportController._();
+/// The Import Controller
+///
+/// Handles importing data into the database
+final class ImportController {
 
   ImportController._();
 
-  static ImportController get instance {
-    return _instance;
-  }
 
-  factory ImportController() {
-    return _instance;
-  }
+  /// A pub for when a song is being imported for a file
+  static final _songImportStartController = StreamController<File>.broadcast();
 
+  /// A pub for when an import has completed for a song
+  static final _songImportedController = StreamController<Song>.broadcast();
+
+  /// A pub for when a playlist with the given name is being created
+  static final _playlistCreationStartController = StreamController<String>.broadcast();
+
+  /// A pub for when a playlist has been created
+  static final _playlistCreatedController = StreamController<Playlist>.broadcast();
+
+
+
+  /// A pub for when a song is being imported for a file
   static Stream<File> get onSongImportStart {
     return _songImportStartController.stream;
   }
 
+
+  /// A pub for when an import has completed for a song
   static Stream<Song> get onSongImported {
     return _songImportedController.stream;
   }
 
+
+  /// A pub for when a playlist with the given name is being created
   static Stream<String> get onPlaylistCreationStart {
     return _playlistCreationStartController.stream;
   }
 
+
+  /// A pub for when a playlist has been created
   static Stream<Playlist> get onPlaylistCreated {
     return _playlistCreatedController.stream;
   }
 
 
+  /// Imports a song from a file
+  ///
+  /// Process and adds the song to the database
+  ///
+  /// This sends out events accordingly
   static Future<void> importSong(File path) async {
 
-    // don't need to check if it exsits because the insertSong function does
+    // don't need to check if it exists because the insertSong function does
 
     _songImportStartController.add(path);
 
@@ -75,13 +85,18 @@ class ImportController {
   }
 
 
+  /// Creates a playlist
+  ///
+  /// Process and adds the playlist to the database
+  ///
+  /// This sends out events accordingly
   static Future<void> createPlaylist(String title, List<Song> songs) async {
 
     _playlistCreationStartController.add(title);
 
     logging.info("Creating playlist $title");
 
-    int? playlistId = await TablePlaylist.createPlaylist(title, songs);
+    int? playlistId = await TablePlaylist.insertPlaylist(title, songs);
 
     if(playlistId == null) {
       logging.info("Could not create playlist");

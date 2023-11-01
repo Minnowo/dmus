@@ -9,7 +9,6 @@ import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/data/DataEntity.dart';
-import '../../core/data/MusicFetcher.dart';
 
 class PlaylistModel extends ChangeNotifier {
 
