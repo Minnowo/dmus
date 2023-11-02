@@ -1,5 +1,7 @@
 
 import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
+import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/SearchYesNoPicker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -57,6 +59,38 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
     return null;
   }
 
+  Widget buildInkWellForSearch(SearchResult dataRaw) {
+
+    String subtitle = "N/A";
+
+    switch(dataRaw.searchResultType) {
+
+      case SearchResultType.release:
+      case SearchResultType.recording:
+        subtitle = (dataRaw as ReleaseSearchResult).artistCredit?.join(", ") ?? "N/A";
+    }
+
+    return InkWell(
+      child: ListTile(
+              title: Text(dataRaw.title ?? "N/A"),
+              subtitle: Text(subtitle),
+              trailing: Text(dataRaw.score?.toString() ?? "N/A"),
+            ),
+      onTap: () {
+
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) => SearchYesNoPicker(search: dataRaw)))
+        .then((value) {
+
+          if(value == null || !value) {
+            return;
+          }
+
+          popNavigatorSafeWithArgs(context, dataRaw);
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,23 +132,8 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
 
                             var dataRaw = songMetadata[index];
 
-                            switch(dataRaw.searchResultType) {
-                              case SearchResultType.recording:
-                                final data = dataRaw as RecordingSearchResponse;
-                                return ListTile(
-                                  title: Text(data.title ?? "N/A"),
-                                  subtitle: Text(data.artistCredit?.join(", ") ?? "N/A"),
-                                  trailing: Text(data.score?.toString() ?? "N/A"),
-                                );
+                            return buildInkWellForSearch(dataRaw);
 
-                              case SearchResultType.release:
-                                final data = dataRaw as ReleaseSearchResult;
-                                return ListTile(
-                                  title: Text(data.title ?? "N/A"),
-                                  subtitle: Text(data.artistCredit?.join(", ") ?? "N/A"),
-                                  trailing: Text(data.score?.toString() ?? "N/A"),
-                                );
-                            }
                           });
                     })
                 ),

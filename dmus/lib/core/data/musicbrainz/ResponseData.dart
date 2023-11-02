@@ -84,8 +84,8 @@ class RecordingSearchResponse extends SearchResult{
 
   int? length;
   String? firstReleaseDate;
-  List<ArtistCredit?>? artistCredit;
-  List<ReleaseSearchResult?>? releases;
+  List<ArtistCredit>? artistCredit;
+  List<ReleaseSearchResult>? releases;
 
   @override
   SearchResultType get searchResultType {
@@ -203,6 +203,11 @@ class ReleaseGroup {
       primaryType: json['primary-type'],
     );
   }
+
+  @override
+  String toString() {
+    return title ?? "N/A";
+  }
 }
 
 
@@ -220,5 +225,10 @@ class Tag {
       count: json['count'],
       name: json['name'],
     );
+  }
+
+  @override
+  String toString() {
+    return name ?? "N/A";
   }
 }

@@ -1,10 +1,7 @@
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/Util.dart';
 import '../../../core/data/DataEntity.dart';
 
 class PlaylistContextDialog extends StatelessWidget {
