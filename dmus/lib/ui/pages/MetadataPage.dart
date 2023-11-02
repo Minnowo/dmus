@@ -44,6 +44,14 @@ class MetadataPage extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
           title: const Text('Metadata Information'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+
+              },
+            ),
+          ],
         ),
         body: ListView(
           children: [

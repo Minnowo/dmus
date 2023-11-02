@@ -1,29 +1,49 @@
 
 import '../../Util.dart';
 
-class ReleaseSearchResult {
+
+enum SearchResultType {
+  release,
+  recording
+}
+
+
+abstract class SearchResult {
+
   String? id;
+  String? title;
   int? score;
+
+  SearchResult({this.id, this.title, this.score});
+
+  SearchResultType get searchResultType;
+}
+
+class ReleaseSearchResult extends SearchResult{
   String? statusId;
   String? packagingId;
   int? count;
-  String? title;
   String? status;
   String? packaging;
-  List<ArtistCredit>? artistCredit;
   ReleaseGroup? releaseGroup;
   String? date;
   String? country;
   int? trackCount;
+  List<ArtistCredit>? artistCredit;
   List<Tag>? tags;
 
+  @override
+  SearchResultType get searchResultType {
+    return SearchResultType.release;
+  }
+
   ReleaseSearchResult({
-    this.id,
-    this.score,
+    super.id,
+    super.score,
     this.statusId,
     this.packagingId,
     this.count,
-    this.title,
+    super.title,
     this.status,
     this.packaging,
     this.artistCredit,
@@ -57,6 +77,49 @@ class ReleaseSearchResult {
     );
   }
 }
+
+
+
+class RecordingSearchResponse extends SearchResult{
+
+  int? length;
+  String? firstReleaseDate;
+  List<ArtistCredit?>? artistCredit;
+  List<ReleaseSearchResult?>? releases;
+
+  @override
+  SearchResultType get searchResultType {
+    return SearchResultType.recording;
+  }
+
+  RecordingSearchResponse({
+    super.id,
+    super.score,
+    super.title,
+    this.length,
+    this.artistCredit,
+    this.firstReleaseDate,
+    this.releases
+  });
+
+  factory RecordingSearchResponse.fromJson(Map<String, dynamic> json) {
+    return RecordingSearchResponse(
+      id: json['id'],
+      score: json['score'],
+      title: json['title'],
+      length: json['length'],
+      firstReleaseDate: json['first-release-date'],
+      releases: (json['releases'] as List?)
+          ?.map((e) => ReleaseSearchResult.fromJson(e))
+          .toList(),
+      artistCredit: (json['artist-credit'] as List?)
+          ?.map((artistCredit) => ArtistCredit.fromJson(artistCredit))
+          .toList(),
+    );
+  }
+}
+
+
 
 class ArtistCredit {
   String? name;

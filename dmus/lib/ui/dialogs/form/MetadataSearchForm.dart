@@ -1,13 +1,9 @@
 
 import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
-import 'package:dmus/ui/model/AlbumsPageModel.dart';
-import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/Util.dart';
-import '../../../core/data/musicbrainz/ReleaseResponseData.dart';
-import '../../widgets/SettingsDrawer.dart';
+import '../../../core/data/musicbrainz/ResponseData.dart';
 
 
 class MetadataSearchPage extends StatefulWidget {
@@ -25,8 +21,9 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
   final _formKey = GlobalKey<FormState>();
   final _searchTextController = TextEditingController();
 
-  Future<List<ReleaseSearchResult>> searchResults = Future(() => []);
-  List<ReleaseSearchResult> songMetadata = [];
+  Future<List<SearchResult>> searchResults = Future(() => []);
+
+  int _selectedValue = 0;
 
   void performSearch() {
 
@@ -39,7 +36,17 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
     logging.info("Searching for $searchTerm");
 
     setState(() {
-      searchResults = MusicBrainzSearchAPI.releaseSearchRaw(searchTerm, 20);
+
+      if(_selectedValue == SearchResultType.release.index) {
+
+        logging.info("Searching in releases");
+        searchResults = MusicBrainzSearchAPI.releaseSearchRaw(searchTerm, 20);
+      }
+      else if(_selectedValue == SearchResultType.recording.index) {
+
+        logging.info("Searching in recordings");
+        searchResults = MusicBrainzSearchAPI.recordingSearchRaw(searchTerm, 20);
+      }
     });
   }
 
@@ -89,15 +96,50 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
 
-                            var data = songMetadata[index];
+                            var dataRaw = songMetadata[index];
 
-                            return ListTile(
-                              title: Text(data.title ?? "N/A"),
-                              subtitle: Text(data.artistCredit?.join(", ") ?? "N/A"),
-                              trailing: Text(data.score?.toString() ?? "N/A"),
-                            );
+                            switch(dataRaw.searchResultType) {
+                              case SearchResultType.recording:
+                                final data = dataRaw as RecordingSearchResponse;
+                                return ListTile(
+                                  title: Text(data.title ?? "N/A"),
+                                  subtitle: Text(data.artistCredit?.join(", ") ?? "N/A"),
+                                  trailing: Text(data.score?.toString() ?? "N/A"),
+                                );
+
+                              case SearchResultType.release:
+                                final data = dataRaw as ReleaseSearchResult;
+                                return ListTile(
+                                  title: Text(data.title ?? "N/A"),
+                                  subtitle: Text(data.artistCredit?.join(", ") ?? "N/A"),
+                                  trailing: Text(data.score?.toString() ?? "N/A"),
+                                );
+                            }
                           });
                     })
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child:
+                  DropdownButton(
+                      value: _selectedValue,
+                      items: const [
+                        DropdownMenuItem(
+                            value: 0,
+                            child: Text("Releases")),
+                        DropdownMenuItem(
+                            value: 1,
+                            child: Text("Recordings"))
+                      ],
+                      onChanged:(value) {
+
+                        setState(() {
+                          _selectedValue = value as int;
+                        });
+
+                        logging.info("Changed to value $value");
+                        logging.info("Changed to value ${value.runtimeType}");
+                      }),
                 ),
                 Padding(
                     padding: const EdgeInsets.all(16),

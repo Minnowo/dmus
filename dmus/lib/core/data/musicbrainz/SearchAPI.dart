@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 import '../../Util.dart';
-import 'ReleaseResponseData.dart';
+import 'ResponseData.dart';
 
 
 
@@ -67,9 +67,9 @@ final class MusicBrainzSearchAPI {
   }
 
 
-  static Future<List<ReleaseSearchResult>> recordingSearchRaw(String searchTerm, int results) async {
+  static Future<List<RecordingSearchResponse>> recordingSearchRaw(String searchTerm, int results) async {
 
-    final Uri url = Uri.https(_apiDomain, _searchReleaseBase, {
+    final Uri url = Uri.https(_apiDomain, _searchRecordingBase, {
       "query" : searchTerm,
       "fmt" : _fmtJson,
       "limit" : max(_limitMin, min(results, _limitMax)).toString(),
@@ -82,15 +82,17 @@ final class MusicBrainzSearchAPI {
     var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
 
     // TODO: finish this
-    const releaseKey = "releases";
+    const releaseKey = "recordings";
+
+    logging.info(decodedResponse);
 
     if(decodedResponse.containsKey(releaseKey)) {
 
-      // List<dynamic> d = decodedResponse[releaseKey];
-      //
-      // var a = d.map((e) => ReleaseSearchResult.fromJson(e)).toList();
-      //
-      // return a;
+      List<dynamic> d = decodedResponse[releaseKey];
+
+      var a = d.map((e) => RecordingSearchResponse.fromJson(e)).toList();
+
+      return a;
     }
 
     return [];
