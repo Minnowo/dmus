@@ -50,6 +50,8 @@ dependencies:
   firebase_storage:
   firebase_core:
   go_router:
+  permission_handler:
+
 
 
 
