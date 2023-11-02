@@ -106,53 +106,44 @@ class SearchYesNoPicker extends StatelessWidget {
     ];
   }
 
+  List<DataRow> dataRowsForSearch(BuildContext context) {
+
+    switch(search.searchResultType) {
+
+      case SearchResultType.release:
+        return dataRowsForRelease(context, search as ReleaseSearchResult);
+
+      case SearchResultType.recording:
+        return dataRowsForRecording(context, search as RecordingSearchResponse);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Search Result"),
         centerTitle: true,
       ),
-      body: buildForSearch(context),
-    );
-  }
-  
-  Widget buildForSearch(BuildContext context) {
-
-    switch(search.searchResultType) {
-
-      case SearchResultType.release:
-        return buildForRelease(context);
-      case SearchResultType.recording:
-
-        return buildForRecording(context);
-    }
-  }
-
-  Widget buildForRecording(BuildContext context) {
-
-    RecordingSearchResponse rSearch = search as RecordingSearchResponse;
-
-    return Column(
+      body: Column(
       children: [
-        Flexible(child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child:
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              // columnSpacing: 20.0, // Adjust spacing as needed
-              // dataRowHeight: 40.0, // Adjust row height as needed
-              columns: const [
-                DataColumn(label: Text('Property')),
-                DataColumn(label: Text('Value')),
-              ],
-              rows: dataRowsForRecording(context, rSearch)
+        Flexible(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child:
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                  columns: const [
+                    DataColumn(label: Text('Property')),
+                    DataColumn(label: Text('Value')),
+                  ],
+                  rows: dataRowsForSearch(context)
+              ),
             ),
           ),
-        ),),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -165,43 +156,7 @@ class SearchYesNoPicker extends StatelessWidget {
           ],
         )
       ],
-    );
-  }
-
-  Widget buildForRelease(BuildContext context) {
-
-    ReleaseSearchResult rSearch = search as ReleaseSearchResult;
-
-    return Column(
-      children: [
-        Flexible(child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child:
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              // columnSpacing: 20.0, // Adjust spacing as needed
-              // dataRowHeight: 40.0, // Adjust row height as needed
-              columns: const [
-                DataColumn(label: Text('Property')),
-                DataColumn(label: Text('Value')),
-              ],
-              rows: dataRowsForRelease(context, rSearch)
-            ),
-          ),
-        ),),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(onPressed: (){
-              popNavigatorSafeWithArgs(context, true);
-            }, child: const Text("Use")),
-            ElevatedButton(onPressed: (){
-              popNavigatorSafeWithArgs(context, false);
-            }, child: const Text("Cancel"))
-          ],
-        )
-      ],
+    ),
     );
   }
 }
