@@ -1,8 +1,9 @@
+import 'package:dmus/core/cloudstorage/DownloadCloudStorageModel.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
 
 
-import '../../core/cloudstorage/CloudStorageModel.dart';
+import '../../core/cloudstorage/UploadCloudStorageModel.dart';
 import '../dialogs/ImportDialog.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,14 +114,15 @@ class SettingsDrawer extends StatelessWidget {
                   title: const Text('Upload to Cloud Storage'),
                   onTap: () {
                     //CloudStorageModel().addAllSongs(user.uid, context);
-                    CloudStorageModel().addAllPlaylists(user.uid, context);
+                    //UploadCloudStorageModel().addAllPlaylists(user.uid, context);
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.cloud_download),
                   title: const Text('Download from Cloud'),
                   onTap: () {
-                    // ADD LOGIC HERE
+
+                    DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
                   },
                 ),
                 ListTile(

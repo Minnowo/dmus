@@ -5,7 +5,7 @@ import '../Util.dart';
 import '../localstorage/dbimpl/TablePlaylist.dart';
 import '../localstorage/dbimpl/TableSong.dart';
 
-class CloudStorageModel {
+class UploadCloudStorageModel {
 
 
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -58,7 +58,8 @@ class CloudStorageModel {
     }
   }
 
-
+  // Adds All Playlists to the Firebase Storage from the Local Storage
+  // Stored by the User that is currently Logged in
   Future<void> addAllPlaylists(String userID, BuildContext context) async {
     try {
       final allPlaylists = await TablePlaylist.selectAll();
