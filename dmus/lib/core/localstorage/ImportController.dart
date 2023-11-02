@@ -85,6 +85,19 @@ final class ImportController {
   }
 
 
+  /// Imports 0 or more songs from a list of files
+  ///
+  /// Process and adds the songs to the database
+  ///
+  /// This sends out events accordingly
+  Future<void> importSongs(List<File> files) async {
+
+    for(var f in files) {
+      await ImportController.importSong(f);
+    }
+  }
+
+
   /// Creates a playlist
   ///
   /// Process and adds the playlist to the database
