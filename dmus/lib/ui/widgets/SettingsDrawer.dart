@@ -23,7 +23,7 @@ class SettingsDrawer extends StatelessWidget {
     var subheaderFontSize = 24.0;
 
     final User? user = FirebaseAuth.instance.currentUser;
-    var cloudStorage= CloudStorageModel();
+
 
     return Drawer(
       child: ListView(
@@ -83,7 +83,7 @@ class SettingsDrawer extends StatelessWidget {
           ),
 
 
-          // Firebase Settings
+          // Login and Register is only shown the current user if is not logged in
           if (user == null)
             ListTile(
               leading: const Icon(Icons.login),
@@ -93,7 +93,7 @@ class SettingsDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-          if (user == null) // Check if the user is not logged in
+          if (user == null)
             ListTile(
               leading: const Icon(Icons.create),
               title: const Text('Create Account'),
@@ -102,6 +102,9 @@ class SettingsDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+
+          // FIREBASE settings if the User is logged in
+          // Settings include: Upload Songs, Download Songs and Logut
           if (user != null)
             Column(
               children: [
@@ -109,7 +112,8 @@ class SettingsDrawer extends StatelessWidget {
                   leading: const Icon(Icons.cloud_upload),
                   title: const Text('Upload to Cloud Storage'),
                   onTap: () {
-                    cloudStorage.addAllSongs(user.uid, context);
+                    //CloudStorageModel().addAllSongs(user.uid, context);
+                    CloudStorageModel().addAllPlaylists(user.uid, context);
                   },
                 ),
                 ListTile(

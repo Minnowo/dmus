@@ -2,6 +2,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../Util.dart';
+import '../localstorage/dbimpl/TablePlaylist.dart';
 import '../localstorage/dbimpl/TableSong.dart';
 
 class CloudStorageModel {
@@ -56,4 +57,57 @@ class CloudStorageModel {
       logging.finest('Error uploading songs to Firebase Cloud Storage: $e');
     }
   }
+
+
+  Future<void> addAllPlaylists(String userID, BuildContext context) async {
+    try {
+      final allPlaylists = await TablePlaylist.selectAll();
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text('Uploading playlists...'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      for (final playlist in allPlaylists) {
+        // Create a folder for each playlist with the playlist's title
+        final playlistFolder = 'users/$userID/playlists/${playlist.title}/';
+        final songsInPlaylist = playlist.songs;
+
+        // Iterate through the songs in the playlist
+        for (final song in songsInPlaylist) {
+          final file = song.file;
+          final remotePath = '$playlistFolder${file.uri.pathSegments.last}';
+          final uploadTask = _storage.ref(remotePath).putFile(file);
+
+          // Monitor the upload task as before
+          uploadTask.snapshotEvents.listen((event) {
+            final progress = event.bytesTransferred / event.totalBytes;
+            logging.finest('Upload progress: $progress');
+          }, onError: (error) {
+            logging.finest('Error during song upload: $error');
+          });
+        }
+      }
+
+      // Display a Snackbar for upload completion
+      scaffoldMessenger.showSnackBar(
+        SnackBar(
+          content: Text('All playlists uploaded'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+
+      logging.finest('All playlists Firebase Cloud Storage.');
+    } catch (e) {
+      logging.finest('Error uploading playlists and songs to Firebase Cloud Storage: $e');
+    }
+  }
+
+
+
+
 }
