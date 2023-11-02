@@ -45,7 +45,7 @@ final class TablePlaylist {
 
     var playlistId = await db.insert(name, { titleCol: title });
 
-    TablePlaylistSong.addSongsToPlaylist(playlistId, songs);
+    TablePlaylistSong.setSongsInPlaylist(playlistId, songs);
 
     return playlistId;
   }
@@ -61,7 +61,8 @@ final class TablePlaylist {
     const String sql = "SELECT * FROM ${TablePlaylistSong.name}"
         " JOIN ${TableSong.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
-        " WHERE ${TablePlaylistSong.name}.${TablePlaylistSong.playlistIdCol} = ?";
+        " WHERE ${TablePlaylistSong.name}.${TablePlaylistSong.playlistIdCol} = ?"
+        " ORDER BY ${TablePlaylistSong.songIndexCol}"
     ;
 
     var result = await db.rawQuery(sql, [playlistId]);
