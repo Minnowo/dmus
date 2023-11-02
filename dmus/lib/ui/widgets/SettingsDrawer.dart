@@ -2,10 +2,13 @@ import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
 
 
-import '../../core/cloudstorage/cloudStorageModel.dart';
+import '../../core/cloudstorage/CloudStorageModel.dart';
 import '../dialogs/ImportDialog.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../pages/cloud/SignIn.dart';
+import '../pages/cloud/registerPage.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});

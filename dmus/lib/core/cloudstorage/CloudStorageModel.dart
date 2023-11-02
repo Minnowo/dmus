@@ -5,8 +5,12 @@ import '../Util.dart';
 import '../localstorage/dbimpl/TableSong.dart';
 
 class CloudStorageModel {
+
+
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  // Adds All songs to the Firebase Storage from the Local Storage
+  // Stored by the User that is currently Logged in
   Future<void> addAllSongs(String userID, BuildContext context) async {
     try {
       final allSongs = await TableSong.selectAllWithMetadata();
