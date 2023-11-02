@@ -66,8 +66,12 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
     switch(dataRaw.searchResultType) {
 
       case SearchResultType.release:
-      case SearchResultType.recording:
         subtitle = (dataRaw as ReleaseSearchResult).artistCredit?.join(", ") ?? "N/A";
+        break;
+
+      case SearchResultType.recording:
+        subtitle = (dataRaw as RecordingSearchResponse).artistCredit?.join(", ") ?? "N/A";
+        break;
     }
 
     return InkWell(
