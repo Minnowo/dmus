@@ -45,6 +45,7 @@ dependencies:
   marquee: ^2.0.0
   path_provider: ^2.1.1
   crypto: ^3.0.3
+  http: ^1.1.0
 
 
 

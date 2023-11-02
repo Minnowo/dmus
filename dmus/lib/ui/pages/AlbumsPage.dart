@@ -1,9 +1,13 @@
 
+import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
+import 'package:dmus/ui/dialogs/MetadataSearchForm.dart';
 import 'package:dmus/ui/model/AlbumsPageModel.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/Util.dart';
+import '../../core/data/musicbrainz/ReleaseResponseData.dart';
 import '../widgets/SettingsDrawer.dart';
 
 class AlbumsPage extends NavigationPage {
@@ -32,6 +36,7 @@ class _AlbumsPage extends StatefulWidget {
 
 class _AlbumsPageState extends State<_AlbumsPage>
 {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,12 +51,12 @@ class _AlbumsPageState extends State<_AlbumsPage>
             ),
           ],
         ),
-        body: Container(
-          color: Colors.green,
-          child: const Center(
-            child: Text('Page 2',
-                style: TextStyle(fontSize: 24, color: Colors.white)),
-          ),
+        body: ElevatedButton(
+          child: Text("open dialog"),
+          onPressed: () async {
+
+            await Navigator.push(context, MaterialPageRoute(builder: (ctx) => MetadataSearchPage()));
+          },
         ),
         drawer: SettingsDrawer()
     );
