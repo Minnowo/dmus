@@ -1,7 +1,7 @@
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
 
-import '../dialogs/ImportDialog.dart';
+import '../dialogs/picker/ImportDialog.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});

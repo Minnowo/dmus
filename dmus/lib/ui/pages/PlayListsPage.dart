@@ -1,12 +1,12 @@
 
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import 'package:dmus/ui/dialogs/PlaylistCreationForm.dart';
+import 'package:dmus/ui/dialogs/form/PlaylistCreationForm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
-import '../dialogs/PlaylistContextDialog.dart';
+import '../dialogs/context/PlaylistContextDialog.dart';
 import '../model/PlaylistPageModel.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';

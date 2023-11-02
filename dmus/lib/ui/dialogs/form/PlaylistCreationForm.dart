@@ -6,9 +6,9 @@ import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/Util.dart';
-import '../../core/data/DataEntity.dart';
-import '../../core/localstorage/dbimpl/TableSong.dart';
+import '../../../core/Util.dart';
+import '../../../core/data/DataEntity.dart';
+import '../../../core/localstorage/dbimpl/TableSong.dart';
 
 
 class PlaylistCreationFormResult {

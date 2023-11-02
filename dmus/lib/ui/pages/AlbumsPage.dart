@@ -1,13 +1,10 @@
 
-import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
-import 'package:dmus/ui/dialogs/MetadataSearchForm.dart';
+import 'package:dmus/ui/dialogs/form/MetadataSearchForm.dart';
 import 'package:dmus/ui/model/AlbumsPageModel.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/Util.dart';
-import '../../core/data/musicbrainz/ReleaseResponseData.dart';
 import '../widgets/SettingsDrawer.dart';
 
 class AlbumsPage extends NavigationPage {

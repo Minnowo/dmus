@@ -1,10 +1,8 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
-import 'package:dmus/ui/dialogs/ImportDialog.dart';
-import 'package:dmus/ui/dialogs/SongContextDialog.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
+import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
+import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

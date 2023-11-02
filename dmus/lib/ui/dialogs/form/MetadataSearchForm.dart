@@ -5,9 +5,9 @@ import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/Util.dart';
-import '../../core/data/musicbrainz/ReleaseResponseData.dart';
-import '../widgets/SettingsDrawer.dart';
+import '../../../core/Util.dart';
+import '../../../core/data/musicbrainz/ReleaseResponseData.dart';
+import '../../widgets/SettingsDrawer.dart';
 
 
 class MetadataSearchPage extends StatefulWidget {

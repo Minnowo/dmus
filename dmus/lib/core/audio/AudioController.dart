@@ -11,7 +11,9 @@ import '../data/DataEntity.dart';
 ///
 /// Responsible for playing music, the current queue, seeking,
 /// pause, resume and dispatching events related to the audio state
-class AudioController {
+final class AudioController {
+
+  AudioController._();
 
   static final AudioPlayer _player = AudioPlayer();
   static final List<Song> _playQueue = [];
@@ -22,17 +24,6 @@ class AudioController {
   static Song? _currentSong;
   static bool _isPlayerReady = false;
 
-  static final AudioController _instance = AudioController._();
-
-  AudioController._();
-
-  static AudioController get instance {
-    return _instance;
-  }
-
-  factory AudioController() {
-    return _instance;
-  }
 
   static Stream<Song?> get onSongChanged {
     return _currentlyPlayingNotifier.stream;
@@ -75,6 +66,10 @@ class AudioController {
     _player.onPlayerComplete.listen((event) { playQueue().then((value) => logging.info("Playing next song..."));});
 
     _isPlayerReady = true;
+  }
+
+  static double get playbackSpeed {
+    return _player.playbackRate;
   }
 
   /// Returns a bool indicating if the player state is playing
@@ -162,17 +157,20 @@ class AudioController {
     }
   }
 
-  static Future<void> playSong(Song src) async {
+  static Future<void> setPlaybackSpeed(double speed) async {
 
-    if(src.file == null || src.file.path == null) {
-      return;
-    }
+    await _player.setPlaybackRate(speed);
+  }
+
+  static Future<void> playSong(Song src) async {
 
     logging.info("Playing song $src");
 
     setCurrentlyPlaying(src);
 
-    await _player.play(DeviceFileSource(src.file.path!));
+    await setPlaybackSpeed(1);
+
+    await _player.play(DeviceFileSource(src.file.path));
   }
 
   static Future<void> playQueue() async {
