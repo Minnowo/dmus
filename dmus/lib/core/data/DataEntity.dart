@@ -93,7 +93,7 @@ class Playlist extends DataEntity {
   Playlist({required super.id, required super.title});
 
   Playlist.withSongs({required super.id, required super.title, required this.songs}) :
-    super.withDuration(duration: songs.map((e) => e.duration).reduce((value, element) => value + element));
+    super.withDuration(duration: songs.isEmpty ? const Duration(milliseconds: 0) : songs.map((e) => e.duration).reduce((value, element) => value + element));
 
   Playlist.withDuration({required super.id, required super.title, required super.duration}) :
       super.withDuration();

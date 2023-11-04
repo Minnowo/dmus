@@ -61,7 +61,16 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar( title: const Text(title), backgroundColor: Theme.of(context).colorScheme.inversePrimary, ),
+      appBar: AppBar(
+        title: const Text(title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+              onPressed: (){
+              },
+              icon: const Icon(Icons.add))
+        ],
+      ),
       body: Form(
           key: _formKey,
           child: Column(
@@ -81,37 +90,53 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                         return null;
                       }
                   )),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: songsToSelect.length,
-                      itemBuilder: (context, index) {
-                        var song = songsToSelect[index];
-                        return InkWell(
-                            child: CheckboxListTile(
-                              title: Text(song.title),
-                              // trailing: text(formatduration(song.duration)),
-                              subtitle: Text(subtitleFromMetadata(song.metadata)),
-                              onChanged: (checked) {
-                                logging.finest("check changed for $song to value $checked");
-                                if(checked != null && checked) {
-                                  selectedSongs.add(song);
-                                }
-                                else {
-                                  selectedSongs.remove(song);
-                                }
 
-                                setState(() { });
-                              },
-                              value: selectedSongs.contains(song),
-                            ),
-                            onTap: () async {
-                            },
-                            onLongPress: () {
-                            }
+              if(selectedSongs.isEmpty)
+                const Expanded(
+                    child:
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: [
+                        const Text("Use the + in the top right to add songs"),
+                      ],
+                    )
+                )
+
+              else
+                Expanded(
+                    child: ReorderableListView.builder(
+                      itemCount: selectedSongs.length,
+                      itemBuilder: (context, index) {
+                        var song = selectedSongs[index];
+
+                        return ListTile(
+                          key: Key(index.toString()),
+                          title: Text(song.title),
+                          // subtitle: Text(subtitleFromMetadata(song.metadata)),
+                          trailing: Text(formatDuration(song.duration)),
+
+                          leading: ReorderableDragStartListener(
+                            key: ValueKey<Song>(song),
+                            index: index,
+                            child: const Icon(Icons.drag_handle),
+                          ),
+
                         );
-                      }
-                  )
-              )
+                      },
+                      onReorder: (int oldIndex, int newIndex) {
+
+                        if (newIndex > selectedSongs.length) newIndex = selectedSongs.length;
+                        if (oldIndex < newIndex) newIndex--;
+
+                        setState(() {
+
+                          final Song item = selectedSongs.removeAt(oldIndex);
+                          selectedSongs.insert(newIndex, item);
+                        });
+                      },
+                    )
+                )
             ],
           )
       ) ,
