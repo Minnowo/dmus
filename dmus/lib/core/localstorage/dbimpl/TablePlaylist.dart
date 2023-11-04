@@ -25,7 +25,7 @@ final class TablePlaylist {
   
   /// Inserts a new playlist into the database
   ///
-  /// Inserts all the songs into the database
+  /// Assumes all the songs exist in the database
   ///
   /// Returns null if the title is empty
   ///
@@ -41,9 +41,52 @@ final class TablePlaylist {
 
     logging.finest("Creating playlist with title: $title and songs $songs");
 
-    var db = await DatabaseController.database;
+    final db = await DatabaseController.database;
 
-    var playlistId = await db.insert(name, { titleCol: title });
+    final playlistId = await db.insert(name, { titleCol: title });
+
+    TablePlaylistSong.setSongsInPlaylist(playlistId, songs);
+
+    return playlistId;
+  }
+
+
+  /// Updates a playlist
+  ///
+  /// Assumes all the songs are in the database
+  ///
+  /// Returns null if the title is empty
+  ///
+  /// Returns null if the playlist id does not exist
+  ///
+  /// Returns the playlistId of the inserted playlist
+  ///
+  /// Throws DatabaseException
+  static Future<int?> updatePlaylist(int playlistId, String title, List<Song> songs) async {
+
+    if(title.isEmpty) {
+      logging.warning("Cannot update playlist with empty title");
+      return null;
+    }
+
+    logging.finest("Updating playlist with id: $playlistId title: $title and songs $songs");
+
+    final db = await DatabaseController.database;
+
+    final exists = await db.query(name, where: '$idCol = ?', whereArgs: [playlistId]);
+
+    if(exists.firstOrNull == null) {
+      logging.warning("Cannot update playlist which does not exist");
+      return null;
+    }
+
+    await db.update(name,
+      where: '$idCol = ?',
+      whereArgs: [playlistId],
+      {
+        titleCol: title
+      },
+    );
 
     TablePlaylistSong.setSongsInPlaylist(playlistId, songs);
 
@@ -56,7 +99,7 @@ final class TablePlaylist {
   /// Throws DatabaseException
   static Future<Iterable<Song>> selectPlaylistSongs(int playlistId) async {
 
-    var db = await DatabaseController.database;
+    final db = await DatabaseController.database;
 
     const String sql = "SELECT * FROM ${TablePlaylistSong.name}"
         " JOIN ${TableSong.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
@@ -65,7 +108,7 @@ final class TablePlaylist {
         " ORDER BY ${TablePlaylistSong.songIndexCol}"
     ;
 
-    var result = await db.rawQuery(sql, [playlistId]);
+    final result = await db.rawQuery(sql, [playlistId]);
 
     return result.map((e) => TableSong.fromMappedObjects(e));
   }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
+import '../dialogs/Util.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
 import '../model/PlaylistPageModel.dart';
 import '../widgets/SettingsDrawer.dart';
@@ -39,19 +40,7 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
   @override
   Widget build(BuildContext context) {
 
-
     PlaylistModel playlistModel = context.watch<PlaylistModel>();
-
-    Future<void> createPlaylist(BuildContext context) async {
-
-      PlaylistCreationFormResult? result =  await Navigator.push(context, MaterialPageRoute(builder: (ctx) => const PlaylistCreationForm()));
-
-      if(result == null) {
-        return;
-      }
-
-      await ImportController.createPlaylist(result.title, result.songs);
-    }
 
     return Scaffold(
         appBar: AppBar(
@@ -97,7 +86,7 @@ class _PlaylistsPageState extends State<_PlaylistsPage>
                             onLongPress: () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => PlaylistContextDialog(plylistContext: playlist,),
+                                builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist,),
                               );
                             }
                         );

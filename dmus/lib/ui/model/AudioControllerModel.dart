@@ -20,7 +20,7 @@ class AudioControllerModel extends ChangeNotifier {
   Duration duration = const Duration(microseconds: 0);
   Duration position = const Duration(microseconds: 0);
 
-  Song? currentlyPlaying = null;
+  Song? currentlyPlaying;
 
 
   late final List<StreamSubscription> _subscriptions;

@@ -13,19 +13,21 @@ import '../../../core/localstorage/dbimpl/TableSong.dart';
 
 
 class PlaylistCreationFormResult {
+
+  final int? playlistId;
   final List<Song> songs;
   final String title;
 
-  const PlaylistCreationFormResult({required this.title, required this.songs});
+  const PlaylistCreationFormResult({this.playlistId, required this.title, required this.songs});
 }
 
 class PlaylistCreationForm extends StatefulWidget {
 
-  final String? title;
+  final Playlist? editing;
 
-  const PlaylistCreationForm({Key? key, this.title}) : super(key: key);
+  const PlaylistCreationForm({Key? key, this.editing}) : super(key: key);
 
-  const PlaylistCreationForm.editExisting({Key? key, required this.title}) : super(key: key);
+  const PlaylistCreationForm.editExisting({Key? key, required this.editing}) : super(key: key);
 
   @override
   State<PlaylistCreationForm> createState() => _PlaylistCreationFormState();
@@ -46,8 +48,11 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   void initState() {
     super.initState();
 
-    if(widget.title != null) {
-      _playlistTitleTextController.text = widget.title!;
+    if(widget.editing != null) {
+
+      _playlistTitleTextController.text = widget.editing!.title;
+
+      selectedSongs.addAll(widget.editing!.songs);
     }
   }
 
@@ -64,6 +69,24 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
           selectedSongs.addAll(value);
 
     }).whenComplete(() => setState(() { }));
+  }
+
+  void finishPlaylist(){
+
+    if(_formKey.currentState == null || !_formKey.currentState!.validate()) {
+      return;
+
+    }
+
+    final PlaylistCreationFormResult result;
+
+    if(widget.editing != null) {
+      result = PlaylistCreationFormResult(playlistId: widget.editing!.id, title: _playlistTitleTextController.text, songs: selectedSongs);
+    } else {
+      result = PlaylistCreationFormResult(title: _playlistTitleTextController.text, songs: selectedSongs);
+    }
+
+    popNavigatorSafeWithArgs<PlaylistCreationFormResult>(context, result);
   }
 
   @override
@@ -106,7 +129,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                       mainAxisAlignment: MainAxisAlignment.center,
 
                       children: [
-                        const Text("Use the + in the top right to add songs"),
+                        Text("Use the + in the top right to add songs"),
                       ],
                     )
                 )
@@ -129,7 +152,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                             index: index,
                             child: const Icon(Icons.drag_handle),
                           ),
-
                         );
                       },
                       onReorder: (int oldIndex, int newIndex) {
@@ -150,12 +172,9 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
       ) ,
       floatingActionButton: FloatingActionButton(
           tooltip: 'Increment',
+          onPressed: finishPlaylist,
           child: const Icon(Icons.save),
-          onPressed: () {
-            if(_formKey.currentState != null && _formKey.currentState!.validate()) {
-              popNavigatorSafeWithArgs<PlaylistCreationFormResult>(context, PlaylistCreationFormResult(title: _playlistTitleTextController.text, songs: selectedSongs));
-            }
-          }),
+      )
     );
   }
 }

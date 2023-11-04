@@ -2,6 +2,7 @@
 
 
 
+import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,10 +63,11 @@ class _SongPickerState extends State<SongPicker> {
             final tuple = songs[index];
 
             return InkWell(
-              key: Key(index.toString()),
               child: CheckboxListTile(
                 title: Text(tuple.item.title),
+                subtitle: Text(subtitleFromMetadata(tuple.item.metadata)),
                 value: tuple.isSelected,
+                enableFeedback: true,
                 onChanged: (checked){
 
                   if(checked != null && checked) {

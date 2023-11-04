@@ -91,15 +91,9 @@ class _RootPageState extends State<RootPage> {
     );
   }
 
-
-  // void _onSongImportStart(File f) {
-  //   ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Importing file: ${f.path}", fastSnackbarDuration));
-  // }
-
-  // void _onPlaylistCreationStart(String title) {
-  //   ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Creating playlist: $title", fastSnackbarDuration));
-  // }
-
+  void _onPlaylistUpdated(Playlist playlist) {
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Updated playlist: ${playlist.title}", mediumSnackBarDuration));
+  }
   void _onPlaylistCreated(Playlist playlist) {
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Created playlist: ${playlist.title}", mediumSnackBarDuration));
   }
@@ -112,9 +106,8 @@ class _RootPageState extends State<RootPage> {
     super.initState();
 
     _subscriptions = [
-      // ImportController.onPlaylistCreationStart.listen(_onPlaylistCreationStart),
       ImportController.onPlaylistCreated.listen(_onPlaylistCreated),
-      // ImportController.onSongImportStart.listen(_onSongImportStart),
+      ImportController.onPlaylistUpdated.listen(_onPlaylistUpdated),
       ImportController.onSongImported.listen(_onSongImported)
     ];
 
