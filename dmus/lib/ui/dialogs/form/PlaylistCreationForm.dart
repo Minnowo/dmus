@@ -1,5 +1,6 @@
 
 
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:dmus/ui/Util.dart';
@@ -38,6 +39,12 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   final _formKey = GlobalKey<FormState>();
   final _playlistTitleTextController = TextEditingController();
 
+  // used to generate unique keys for the dismissible items
+  // this only changes when you dismiss an item,
+  // so the keys created from redrawing are the same everytime
+  // this prevents breaking the reorder and inkwell
+  // this value is suuuper small, it would take forever to actually have it wrap around to the starting value causing an error
+  int _stupidUniqueKeyForDismissible = minInteger;
   List<Song> selectedSongs = [];
 
   static const String title = "Create Playlist";
@@ -75,7 +82,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
     if(_formKey.currentState == null || !_formKey.currentState!.validate()) {
       return;
-
     }
 
     final PlaylistCreationFormResult result;
@@ -91,6 +97,8 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    logging.info("dedrawing");
 
     return Scaffold(
       appBar: AppBar(
@@ -127,7 +135,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                     child:
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-
                       children: [
                         Text("Use the + in the top right to add songs"),
                       ],
@@ -141,16 +148,27 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                       itemBuilder: (context, index) {
                         var song = selectedSongs[index];
 
-                        return ListTile(
-                          key: Key(index.toString()),
-                          title: Text(song.title),
-                          // subtitle: Text(subtitleFromMetadata(song.metadata)),
-                          trailing: Text(formatDuration(song.duration)),
+                        return Dismissible(
+                          key: ValueKey(_stupidUniqueKeyForDismissible + index + 1),
+                          onDismissed: (_){
+                            setState(() {
+                              _stupidUniqueKeyForDismissible += selectedSongs.length;
+                              selectedSongs.removeAt(index);
+                            });
+                          },
+                          child: InkWell(
+                            child: ListTile(
+                              title: Text(song.title),
+                              // subtitle: Text(subtitleFromMetadata(song.metadata)),
+                              trailing: Text(formatDuration(song.duration)),
 
-                          leading: ReorderableDragStartListener(
-                            key: ValueKey<Song>(song),
-                            index: index,
-                            child: const Icon(Icons.drag_handle),
+                              leading: ReorderableDragStartListener(
+                                key: ValueKey(index),
+                                index: index,
+                                child: const Icon(Icons.drag_handle),
+                              ),
+                            ),
+                            onTap: (){},
                           ),
                         );
                       },
@@ -160,7 +178,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                         if (oldIndex < newIndex) newIndex--;
 
                         setState(() {
-
                           final Song item = selectedSongs.removeAt(oldIndex);
                           selectedSongs.insert(newIndex, item);
                         });

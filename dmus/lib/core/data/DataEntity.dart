@@ -148,6 +148,14 @@ class Album extends DataEntity {
 
 
 
+class Pair<A, B> {
+
+  final A itemA;
+  final B itemB;
+
+  Pair(this.itemA, this.itemB);
+}
+
 class SelectableDataItem<A> {
 
   final A item;

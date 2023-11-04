@@ -8,7 +8,8 @@ import 'data/DataEntity.dart';
 /// The global logger instance
 final logging = Logger('DMUS');
 
-
+const int maxInteger =  0x7FFFFFFFFFFFFFFF;
+const int minInteger = -0x8000000000000000;
 
 /// Formats the position time out of the duration time to display to the user
 ///
