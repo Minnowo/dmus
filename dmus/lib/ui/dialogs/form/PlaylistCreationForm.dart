@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/SongPicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   final _formKey = GlobalKey<FormState>();
   final _playlistTitleTextController = TextEditingController();
 
-  List<Song> songsToSelect = [];
   List<Song> selectedSongs = [];
 
   static const String title = "Create Playlist";
@@ -49,10 +49,19 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     if(widget.title != null) {
       _playlistTitleTextController.text = widget.title!;
     }
+  }
 
-    TableSong.selectAllWithMetadata().then( (value) {
 
-      songsToSelect.addAll(value);
+  void addSongsPicker(){
+
+    showDialog(context: context, builder: (ctx) => const SongPicker())
+        .then((value) {
+
+          logging.info("Got songs from picker: $value");
+
+          if(value == null) return;
+
+          selectedSongs.addAll(value);
 
     }).whenComplete(() => setState(() { }));
   }
@@ -66,8 +75,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-              onPressed: (){
-              },
+              onPressed: addSongsPicker,
               icon: const Icon(Icons.add))
         ],
       ),

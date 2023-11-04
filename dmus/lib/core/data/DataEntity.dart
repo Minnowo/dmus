@@ -145,3 +145,13 @@ class Album extends DataEntity {
   @override
   EntityType get entityType => EntityType.album;
 }
+
+
+
+class SelectableDataItem<A> {
+
+  final A item;
+  bool isSelected;
+
+  SelectableDataItem(this.item, this.isSelected);
+}
