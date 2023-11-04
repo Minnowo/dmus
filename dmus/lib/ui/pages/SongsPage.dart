@@ -26,9 +26,9 @@ class SongsPage extends NavigationPage {
 
 class _SongsPage extends StatelessWidget {
 
-  SongsPage parent;
+  final SongsPage parent;
 
-  _SongsPage(this.parent);
+  const _SongsPage(this.parent);
 
   @override
   Widget build(BuildContext context) {

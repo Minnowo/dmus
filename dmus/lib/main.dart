@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/ui/Settings.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
@@ -11,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
 
 import 'core/Util.dart';
+import 'core/data/DataEntity.dart';
 
 Future<void> main() async {
 
@@ -57,9 +64,11 @@ class RootPage extends StatefulWidget {
 
 
 class _RootPageState extends State<RootPage> {
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
   int _currentPage = 0;
+
+  late final List<StreamSubscription> _subscriptions;
 
   final List<NavigationPage> _pages = [
     const SongsPage(),
@@ -80,6 +89,44 @@ class _RootPageState extends State<RootPage> {
       duration: const Duration(milliseconds: 100),
       curve: Curves.ease,
     );
+  }
+
+
+  // void _onSongImportStart(File f) {
+  //   ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Importing file: ${f.path}", fastSnackbarDuration));
+  // }
+
+  // void _onPlaylistCreationStart(String title) {
+  //   ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Creating playlist: $title", fastSnackbarDuration));
+  // }
+
+  void _onPlaylistCreated(Playlist playlist) {
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Created playlist: ${playlist.title}", mediumSnackBarDuration));
+  }
+  void _onSongImported(Song s) {
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Song imported: ${s.title}", veryFastSnackBarDuration));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _subscriptions = [
+      // ImportController.onPlaylistCreationStart.listen(_onPlaylistCreationStart),
+      ImportController.onPlaylistCreated.listen(_onPlaylistCreated),
+      // ImportController.onSongImportStart.listen(_onSongImportStart),
+      ImportController.onSongImported.listen(_onSongImported)
+    ];
+
+  }
+
+  @override
+  void dispose() {
+
+    for(var i in _subscriptions) {
+      i.cancel();
+    }
+    super.dispose();
   }
 
   @override
