@@ -1,7 +1,16 @@
+import 'package:dmus/core/cloudstorage/DownloadCloudStorageModel.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
 
+
 import '../dialogs/picker/ImportDialog.dart';
+import '../../core/cloudstorage/UploadCloudStorageModel.dart';
+
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../pages/cloud/SignIn.dart';
+import '../pages/cloud/registerPage.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
@@ -14,6 +23,9 @@ class SettingsDrawer extends StatelessWidget {
 
     var headerFontSize = 32.0;
     var subheaderFontSize = 24.0;
+
+    final User? user = FirebaseAuth.instance.currentUser;
+
 
     return Drawer(
       child: ListView(
@@ -72,19 +84,65 @@ class SettingsDrawer extends StatelessWidget {
                 TextStyle(color: textColor, fontSize: subheaderFontSize)),
           ),
 
-          // Additional list tiles for new settings
-          ListTile(
-            leading: const Icon(Icons.login),
-            title: const Text('Login'),
-            onTap: () async {
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.create),
-            title: const Text('Create Account'),
-            onTap: () async {
-            },
-          )
+
+          // Login and Register is only shown the current user if is not logged in
+          if (user == null)
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: const Text('Login'),
+              onTap: () async {
+                await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => SignInWidget()));
+                Navigator.pop(context);
+              },
+            ),
+          if (user == null)
+            ListTile(
+              leading: const Icon(Icons.create),
+              title: const Text('Create Account'),
+              onTap: () async {
+                await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
+                Navigator.pop(context);
+              },
+            ),
+
+          // FIREBASE settings if the User is logged in
+          // Settings include: Upload Songs, Download Songs and Logut
+          if (user != null)
+            Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.cloud_upload),
+                  title: const Text('Upload to Cloud Storage'),
+                  onTap: () {
+                    //CloudStorageModel().addAllSongs(user.uid, context);
+                    //UploadCloudStorageModel().addAllPlaylists(user.uid, context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cloud_download),
+                  title: const Text('Download from Cloud'),
+                  onTap: () {
+
+                    DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Log Out'),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pop(context);
+                    // Show a Snackbar message indicating successful logout
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('User logged out successfully'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
         ],
       ),
     );
