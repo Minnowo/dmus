@@ -26,7 +26,7 @@ Future<List<PlatformFile>?> pickMusicFiles() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowMultiple: true,
-    allowedExtensions: ['flac', 'mp3', 'ogg', 'opus', 'wav'],
+    allowedExtensions: ['flac', 'mp3', 'ogg', 'opus', 'wav','m4a'],
   );
 
   return result?.files;

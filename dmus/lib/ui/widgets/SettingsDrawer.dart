@@ -114,8 +114,8 @@ class SettingsDrawer extends StatelessWidget {
                   leading: const Icon(Icons.cloud_upload),
                   title: const Text('Upload to Cloud Storage'),
                   onTap: () {
-                    //CloudStorageModel().addAllSongs(user.uid, context);
-                    //UploadCloudStorageModel().addAllPlaylists(user.uid, context);
+                    UploadCloudStorageModel().addAllSongs(user.uid, context);
+                    UploadCloudStorageModel().addAllPlaylists(user.uid, context);
                   },
                 ),
                 ListTile(

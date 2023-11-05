@@ -30,8 +30,10 @@ class UploadCloudStorageModel {
         final remotePath = 'users/$userID/songs/${file.uri.pathSegments.last}';
         final uploadTask = _storage.ref(remotePath).putFile(file);
 
+
         // Monitor the upload task as before
         uploadTask.snapshotEvents.listen((event) {
+
           final progress = event.bytesTransferred / event.totalBytes;
           logging.finest('Upload progress: $progress');
         }, onError: (error) {

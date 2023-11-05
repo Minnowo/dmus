@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../Util.dart';
+import '../localstorage/ImportController.dart';
 import '../localstorage/dbimpl/TablePlaylist.dart';
 import '../localstorage/dbimpl/TableSong.dart';
 
@@ -54,11 +55,20 @@ class DownloadCloudStorageModel {
       for (final item in result.items) {
         final songName = item.name;
         final localFilePath = '${downloadsDirectory.path}/$songName';
-        File localFile = File(localFilePath);
+
+
+        // Check if the song already exists in local storage or the database
+        final localFile = File(localFilePath);
+        if (localFile.existsSync()) {
+          logging.finest('Song $songName already exists, skipping download.');
+          continue; // Skip the download for this song
+        }
+
+
         await item.writeToFile(localFile);
+        await ImportController.importSong(localFile);
+
         logging.finest(localFile);
-
-
       }
 
       // Display a Snackbar for download completion
