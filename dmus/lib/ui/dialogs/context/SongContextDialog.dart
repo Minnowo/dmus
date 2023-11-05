@@ -2,8 +2,8 @@ import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/Util.dart';
-import '../../core/data/DataEntity.dart';
+import '../../../core/Util.dart';
+import '../../../core/data/DataEntity.dart';
 
 class SongContextDialog extends StatelessWidget {
 

@@ -5,25 +5,43 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import '../Util.dart';
+import '../../Util.dart';
 
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 
-  Future<void> doImportFromFiles(List<PlatformFile> files) async {
 
-    for(var f in files) {
-
-      if(f.path == null) {
-        continue;
-      }
-
-      await ImportController.importSong(File(f.path!));
-    }
-  }
-
+  // TODO: Get rid of this and handle it in ImportController
   Future<void> doImportFromDir(String dir) async {
 
+  }
+
+  void pickFilesAndImport(BuildContext context) {
+
+    pickMusicFiles()
+        .then((value) async {
+
+          if(value == null) return;
+
+          for(var f in value) {
+
+            if(f.path == null) continue;
+
+            await ImportController.importSong(File(f.path!));
+          }
+    });
+
+    // (not an error) Pop as soon as we open the above dialog
+    popNavigatorSafe(context);
+  }
+
+  void pickFolderAndImport(BuildContext context) {
+
+    pickDirectory()
+        .then((value) => value != null ? doImportFromDir(value) : null);
+
+    // (not an error) Pop as soon as we open the above dialog
+    popNavigatorSafe(context);
   }
 
   @override
@@ -39,18 +57,11 @@ class ImportDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
-                  child: const Text('Add Files'),
-                  onPressed: () => pickMusicFiles()
-                      .then((value) =>  doImportFromFiles(value ?? [])
-                      .whenComplete(() => popNavigatorSafe(context))),
+                  onPressed: () => pickFilesAndImport(context),
+                  child: const Text('Add Files')
                 ),
                 TextButton(
-                  onPressed: () {
-                    pickDirectory().then((value) {
-                      if (value != null) {
-                        doImportFromDir(value).whenComplete(() => popNavigatorSafe(context));
-                      }
-                    });                  },
+                  onPressed: () => pickFolderAndImport(context) ,
                   child: const Text('Add Folder'),
                 )
               ],

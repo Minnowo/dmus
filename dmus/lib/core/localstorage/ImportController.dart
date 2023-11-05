@@ -16,24 +16,15 @@ final class ImportController {
   ImportController._();
 
 
-  /// A pub for when a song is being imported for a file
-  static final _songImportStartController = StreamController<File>.broadcast();
 
   /// A pub for when an import has completed for a song
   static final _songImportedController = StreamController<Song>.broadcast();
 
-  /// A pub for when a playlist with the given name is being created
-  static final _playlistCreationStartController = StreamController<String>.broadcast();
-
   /// A pub for when a playlist has been created
   static final _playlistCreatedController = StreamController<Playlist>.broadcast();
 
-
-
-  /// A pub for when a song is being imported for a file
-  static Stream<File> get onSongImportStart {
-    return _songImportStartController.stream;
-  }
+  /// A pub for when a playlist has been created
+  static final _playlistUpdatedController = StreamController<Playlist>.broadcast();
 
 
   /// A pub for when an import has completed for a song
@@ -42,15 +33,15 @@ final class ImportController {
   }
 
 
-  /// A pub for when a playlist with the given name is being created
-  static Stream<String> get onPlaylistCreationStart {
-    return _playlistCreationStartController.stream;
-  }
-
-
   /// A pub for when a playlist has been created
   static Stream<Playlist> get onPlaylistCreated {
     return _playlistCreatedController.stream;
+  }
+
+
+  /// A pub for when a playlist has been updated
+  static Stream<Playlist> get onPlaylistUpdated {
+    return _playlistUpdatedController.stream;
   }
 
 
@@ -62,8 +53,6 @@ final class ImportController {
   static Future<void> importSong(File path) async {
 
     // don't need to check if it exists because the insertSong function does
-
-    _songImportStartController.add(path);
 
     logging.info("Importing $path...");
 
@@ -85,14 +74,25 @@ final class ImportController {
   }
 
 
+  /// Imports 0 or more songs from a list of files
+  ///
+  /// Process and adds the songs to the database
+  ///
+  /// This sends out events accordingly
+  Future<void> importSongs(List<File> files) async {
+
+    for(var f in files) {
+      await ImportController.importSong(f);
+    }
+  }
+
+
   /// Creates a playlist
   ///
   /// Process and adds the playlist to the database
   ///
   /// This sends out events accordingly
   static Future<void> createPlaylist(String title, List<Song> songs) async {
-
-    _playlistCreationStartController.add(title);
 
     logging.info("Creating playlist $title");
 
@@ -106,5 +106,27 @@ final class ImportController {
     Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
 
     _playlistCreatedController.add(p);
+  }
+
+
+  /// Edits a playlist by id
+  ///
+  /// Sets the playlists title and songs to the given values
+  ///
+  /// This sends out events accordingly
+  static Future<void> editPlaylist(int playlistId, String title, List<Song> songs) async {
+
+    logging.info("Creating playlist $title");
+
+    int? _playlistId = await TablePlaylist.updatePlaylist(playlistId, title, songs);
+
+    if(_playlistId == null) {
+      logging.info("Could not edit playlist");
+      return;
+    }
+
+    Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
+
+    _playlistUpdatedController.add(p);
   }
 }

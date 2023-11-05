@@ -17,6 +17,8 @@ final class TablePlaylistSong {
   static const String name = "tbl_playlist_song";
   static const String playlistIdCol= "playlist_id";
   static const String songIdCol = "song_id";
+  static const String songIndexCol = "song_index";
+
 
 
   /// Adds the given songs to the given playlist in the database
@@ -24,15 +26,21 @@ final class TablePlaylistSong {
   /// Returns true always
   ///
   /// Throws DatabaseException
-  static Future<bool> addSongsToPlaylist(int playlistId, List<Song> songs) async {
+  static Future<bool> setSongsInPlaylist(int playlistId, List<Song> songs) async {
 
     var db = await DatabaseController.database;
 
-    const String sql = "INSERT OR IGNORE INTO $name ($playlistIdCol, $songIdCol) VALUES (?, ?);";
+    await db.delete(
+      name,
+      where: '$playlistIdCol = ?',
+      whereArgs: [playlistId],
+    );
 
-    for(var song in songs) {
+    const String sql = "INSERT OR IGNORE INTO $name ($playlistIdCol, $songIdCol, $songIndexCol) VALUES (?, ?, ?);";
 
-      await db.rawInsert(sql, [playlistId, song.id]);
+    for(int i = 0; i < songs.length; i++) {
+
+      await db.rawInsert(sql, [playlistId, songs[i].id, i]);
     }
 
     return true;

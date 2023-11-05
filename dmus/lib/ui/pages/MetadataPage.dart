@@ -7,6 +7,8 @@ import 'dart:typed_data';
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
@@ -22,7 +24,7 @@ class MetadataPage extends StatelessWidget{
     Song song = (entity as Song);
     Metadata metadata = song.metadata;
 
-    String? trackName = metadata.trackName;
+    String? trackName = metadata.trackName ?? song.title;
     List<String>? trackArtistNames = metadata.trackArtistNames;
     String? albumName = metadata.albumName;
     String? albumArtistName = metadata.albumArtistName;
@@ -44,6 +46,16 @@ class MetadataPage extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
           title: const Text('Metadata Information'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.more),
+              onPressed: () async {
+
+                await showDialog(context: context, builder: (ctx) => MetadataContextDialog(songContext: song));
+
+              },
+            ),
+          ],
         ),
         body: ListView(
           children: [

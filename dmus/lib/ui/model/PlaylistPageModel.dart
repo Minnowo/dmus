@@ -14,11 +14,15 @@ class PlaylistModel extends ChangeNotifier {
 
   List<Playlist> playlists = [];
 
-  late final StreamSubscription<Playlist> _playlistCreatedSubscription;
+
+  late final List<StreamSubscription> _subscriptions;
 
   PlaylistModel() {
 
-    _playlistCreatedSubscription = ImportController.onPlaylistCreated.listen(_onPlaylistCreated);
+    _subscriptions = [
+      ImportController.onPlaylistCreated.listen(_onPlaylistCreated),
+      ImportController.onPlaylistUpdated.listen(_onPlaylistUpdated)
+    ];
 
     update();
   }
@@ -26,8 +30,24 @@ class PlaylistModel extends ChangeNotifier {
   @override
   void dispose(){
 
-    _playlistCreatedSubscription.cancel();
+    for(final i in _subscriptions) {
+      i.cancel();
+    }
+
     super.dispose();
+  }
+
+  void _onPlaylistUpdated(Playlist p) {
+
+    for(int i = 0; i < playlists.length; i++){
+
+      if(playlists[i].id == p.id) {
+        playlists[i] = p;
+        break;
+      }
+    }
+
+    notifyListeners();
   }
 
   void _onPlaylistCreated(Playlist p) {

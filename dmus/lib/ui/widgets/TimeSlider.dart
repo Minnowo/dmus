@@ -10,9 +10,9 @@ class TimeSlider extends StatefulWidget {
 
   final Duration songDuration ;
 
-  Duration songPosition;
+  final Duration songPosition;
 
-  TimeSlider({super.key, required this.songDuration, required this.songPosition});
+  const TimeSlider({super.key, required this.songDuration, required this.songPosition});
 
   @override
   State<StatefulWidget> createState() => TimeSliderState();
@@ -23,6 +23,17 @@ class TimeSliderState extends State<TimeSlider> {
 
   double progress = 0;
 
+  late Duration songPosition;
+
+  @override
+  void initState() {
+    super.initState();
+
+    setState(() {
+      songPosition = widget.songPosition;
+    });
+  }
+
   bool isDragging = false;
 
   @override
@@ -32,9 +43,7 @@ class TimeSliderState extends State<TimeSlider> {
       progress = (widget.songPosition.inMilliseconds.toDouble() / widget.songDuration.inMilliseconds).clamp(0, 1);
     }
 
-    if(isDragging) {
-      widget.songPosition = Duration(milliseconds: (widget.songDuration.inMilliseconds.toDouble() * progress).toInt());
-    }
+    final sp = Duration(milliseconds: (widget.songDuration.inMilliseconds.toDouble() * progress).toInt());
 
     return Column(
       children: [
@@ -52,14 +61,13 @@ class TimeSliderState extends State<TimeSlider> {
           onChangeEnd: (value) async {
             isDragging = false;
 
-            await AudioController.seek(widget.songPosition);
+            await AudioController.seek(sp);
             await AudioController.resumePlayLast();
           },
         ),
 
-        Text(formatTimeDisplay(widget.songPosition, widget.songDuration)),
+        Text(formatTimeDisplay(sp, widget.songDuration)),
       ],
     );
   }
-
 }

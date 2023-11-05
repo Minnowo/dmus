@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/widgets/TimeSlider.dart';
 import 'package:flutter/material.dart';
@@ -170,6 +171,8 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
               IconButton(
                 icon: const Icon(Icons.speed),
                 onPressed: () {
+                  showDialog(context: context, builder: (ctx) => const SpeedModifierPicker())
+                      .then((value) =>logging.info(value));
                 },
               ),
             ],
