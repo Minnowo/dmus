@@ -86,6 +86,15 @@ final class AudioController {
     _playQueue.clear();
   }
 
+  static Future<void> stop() async {
+
+    await _player.pause();
+    await seek(Duration(seconds: 0));
+
+
+  }
+
+
   static Future<void> togglePause() async{
 
     switch(_player.state){

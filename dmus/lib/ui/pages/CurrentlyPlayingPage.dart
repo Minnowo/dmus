@@ -125,7 +125,9 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                 icon: const Icon(Icons.playlist_add),
                 onPressed: () {
                 },
+
               ),
+
             ],
           ),
 
@@ -137,18 +139,32 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
 
               return Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if(!audioControllerModel.isPlaying)
+                          IconButton(
+                            icon: const Icon(Icons.play_arrow),
+                            onPressed: () async { await AudioController.resume(); },
+                          ),
 
-                    if(!audioControllerModel.isPlaying)
-                      IconButton(
-                        icon: const Icon(Icons.play_arrow),
-                        onPressed: () async { await AudioController.resume(); },
-                      ),
+                        if(audioControllerModel.isPlaying)
+                          IconButton(
+                            icon: const Icon(Icons.pause),
+                            onPressed: () async { await AudioController.pause(); },
+                          ),
+                        IconButton(
+                          icon: const Icon(Icons.stop), // Add the Stop button
+                            onPressed: () async { await AudioController.stop(); },
 
-                    if(audioControllerModel.isPlaying)
-                      IconButton(
-                        icon: const Icon(Icons.pause),
-                        onPressed: () async { await AudioController.pause(); },
-                      ),
+                        ),
+
+                      ],
+
+                    ),
+
+
+
 
                     TimeSlider(songDuration: songDuration, songPosition: songPosition)
                   ]
