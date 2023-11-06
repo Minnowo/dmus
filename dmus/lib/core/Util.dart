@@ -1,7 +1,9 @@
 
 import 'dart:typed_data';
+import 'package:path/path.dart' as Path;
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'data/DataEntity.dart';
 
 
@@ -10,6 +12,9 @@ final logging = Logger('DMUS');
 
 const int maxInteger =  0x7FFFFFFFFFFFFFFF;
 const int minInteger = -0x8000000000000000;
+
+const List<String> musicFileExtensions = ['flac', 'mp3', 'ogg', 'opus', 'wav','m4a'];
+
 
 /// Formats the position time out of the duration time to display to the user
 ///
@@ -121,4 +126,36 @@ String bytesToHex(List<int> bytes) {
     charCodes[j++] = hexDigits.codeUnitAt(byte & 0xF);
   }
   return String.fromCharCodes(charCodes);
+}
+
+
+/// Gets the file extension without the .
+String fileExtensionNoDot(String path){
+
+  final p = Path.extension(path);
+
+  if(p.isEmpty) {
+    return "";
+  }
+
+  return p.substring(1);
+}
+
+
+/// Asks or gets permission to manage external storage
+Future<bool> getExternalStoragePermission() async {
+
+  final a = await Permission.manageExternalStorage.isGranted;
+
+  if (!a) {
+    await Permission.manageExternalStorage.request();
+
+    if (!await Permission.manageExternalStorage.isGranted) {
+      logging.warning("No file permissions");
+      await openAppSettings();
+      return false;
+    }
+  }
+
+  return true;
 }

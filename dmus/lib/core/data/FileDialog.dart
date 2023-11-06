@@ -1,4 +1,5 @@
 
+import 'package:dmus/core/Util.dart';
 import 'package:file_picker/file_picker.dart';
 
 
@@ -26,7 +27,7 @@ Future<List<PlatformFile>?> pickMusicFiles() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowMultiple: true,
-    allowedExtensions: ['flac', 'mp3', 'ogg', 'opus', 'wav','m4a'],
+    allowedExtensions: musicFileExtensions,
   );
 
   return result?.files;
