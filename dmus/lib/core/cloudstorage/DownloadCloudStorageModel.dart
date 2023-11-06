@@ -15,6 +15,34 @@ class DownloadCloudStorageModel {
 
   Future<void> downloadAllSongs(String userID, BuildContext context) async {
 
+    final status = await Permission.storage.status;
+
+    if (!status.isGranted) {
+      final result = await Permission.storage.request();
+      logging.finest("Permission Denied");
+
+      if (result.isPermanentlyDenied) {
+        openAppSettings();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Storage permission is required. Please enable it in settings.'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        return;
+      } else if (!result.isGranted) {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Storage permission is required to download songs.'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+        return;
+      }
+    }
+
+
 
     try {
       final downloadsDirectory = await getExternalStorageDirectory();
@@ -59,7 +87,7 @@ class DownloadCloudStorageModel {
         logging.finest(localFile);
       }
 
-      // Display a Snackbar for download completion
+
       scaffoldMessenger.showSnackBar(
         SnackBar(
           content: Text('All songs downloaded'),
