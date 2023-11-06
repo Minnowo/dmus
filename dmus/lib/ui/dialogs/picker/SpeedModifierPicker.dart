@@ -34,7 +34,7 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
   Future<void> changePlaybackSpeedSubmit() async {
 
     double d = (double.tryParse(_numberInputController.text) ?? 1)
-        .clamp(minSpeed, maxSpeed / 100);
+        .clamp(minSpeed / 100, maxSpeed / 100);
 
     await AudioController.setPlaybackSpeed(d);
 
