@@ -1,6 +1,6 @@
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationWidget extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class RegistrationWidget extends StatefulWidget {
 }
 
 class _RegistrationWidgetState extends State<RegistrationWidget> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordValid = true;
@@ -60,16 +60,17 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     }
 
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      if (userCredential.user != null) {
-        _snackBarColor = Colors.green; // Set the color for successful registration
-        _showSnackBar('Registration successful', _snackBarColor);
-        popNavigatorSafe(context);
-      }
+      // UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // );
+      //
+      // if (userCredential.user != null) {
+      //   _snackBarColor = Colors.green; // Set the color for successful registration
+      //   _showSnackBar('Registration successful', _snackBarColor);
+      //   popNavigatorSafe(context);
+      // }
+      throw Exception("no firebase on this branch");
     } catch (e) {
       _showSnackBar('Registration failed. Error: $e', _snackBarColor);
     }
