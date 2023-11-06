@@ -21,6 +21,9 @@ class UploadCloudStorageModel {
       final allSongs = await TableSong.selectAllWithMetadata();
       final scaffoldMessenger = ScaffoldMessenger.of(context);
 
+      // Initialize an empty list to store song details
+      final List<Map<String, dynamic>> allSongsDetails = [];
+
       // Display a Snackbar for upload start
       scaffoldMessenger.showSnackBar(
         SnackBar(
@@ -29,26 +32,49 @@ class UploadCloudStorageModel {
         ),
       );
 
-      final uploadTasks = allSongs.map((song) {
+      final uploadTasks = allSongs.map((song) async {
         final file = song.file;
         final remotePath = 'users/$userID/songs/${file.uri.pathSegments.last}';
         final uploadTask = _storage.ref(remotePath).putFile(file);
+        final hash = sha256.convert(await file.readAsBytes()).toString();
 
+        // Create a JSON object for the song details
+        final songDetails = {
+        'name': song.metadata.trackName,
+        'artist': song.metadata.albumArtistName,
+        'hash': hash,
+        };
+
+
+        allSongsDetails.add(songDetails);
 
         // Monitor the upload task as before
         uploadTask.snapshotEvents.listen((event) {
-
-          final progress = event.bytesTransferred / event.totalBytes;
-          logging.finest('Upload progress: $progress');
+        final progress = event.bytesTransferred / event.totalBytes;
+        logging.finest('Upload progress: $progress');
         }, onError: (error) {
-          logging.finest('Error during upload: $error');
+        logging.finest('Error during upload: $error');
         });
 
         return uploadTask;
       }).toList();
 
-      // Wait for all upload tasks to complete
+
       await Future.wait(uploadTasks);
+
+      // Create a JSON file with all the song details and upload it
+      final allSongsDetailsJson = jsonEncode(allSongsDetails);
+      final songsJsonRemotePath = 'users/$userID/songs/songs.json';
+      final songsJsonUploadTask =
+      _storage.ref(songsJsonRemotePath).putString(allSongsDetailsJson);
+
+
+      songsJsonUploadTask.snapshotEvents.listen((event) {
+        final progress = event.bytesTransferred / event.totalBytes;
+        logging.finest('JSON file upload progress: $progress');
+      }, onError: (error) {
+        logging.finest('Error during JSON file upload: $error');
+      });
 
       // Display a Snackbar for upload completion
       scaffoldMessenger.showSnackBar(
@@ -58,7 +84,7 @@ class UploadCloudStorageModel {
         ),
       );
 
-      logging.finest('All songs uploaded to Firebase Cloud Storage.');
+      logging.finest('All songs and JSON file uploaded to Firebase Cloud Storage.');
     } catch (e) {
       logging.finest('Error uploading songs to Firebase Cloud Storage: $e');
     }
