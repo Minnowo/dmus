@@ -1,4 +1,5 @@
 import 'package:dmus/core/cloudstorage/DownloadCloudStorageModel.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,7 @@ class SettingsDrawer extends StatelessWidget {
               title: const Text('Login'),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => SignInWidget()));
-                Navigator.pop(context);
+                popNavigatorSafe(context);
               },
             ),
           if (user == null)
@@ -101,7 +102,7 @@ class SettingsDrawer extends StatelessWidget {
               title: const Text('Create Account'),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
-                Navigator.pop(context);
+                popNavigatorSafe(context);
               },
             ),
 
@@ -131,14 +132,17 @@ class SettingsDrawer extends StatelessWidget {
                   title: const Text('Log Out'),
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
-                    Navigator.pop(context);
-                    // Show a Snackbar message indicating successful logout
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('User logged out successfully'),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
+                    popNavigatorSafe(context);
+
+                    if(context.mounted) {
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('User logged out successfully'),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],
