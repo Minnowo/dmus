@@ -15,23 +15,11 @@ class DownloadCloudStorageModel {
 
   Future<void> downloadAllSongs(String userID, BuildContext context) async {
 
-    // Asks user for permission to access files, Will only download the songs if user allows access
+
     try {
       final downloadsDirectory = await getExternalStorageDirectory();
-      final status = await Permission.storage.status;
 
-      if (!status.isGranted) {
-        final result = await Permission.storage.request();
 
-        if (result.isPermanentlyDenied) {
-
-          openAppSettings();
-          return;
-        } else if (!result.isGranted) {
-
-          return;
-        }
-      }
 
       if (downloadsDirectory == null) {
         logging.finest('External storage directory is null. Make sure external storage access is granted.');
