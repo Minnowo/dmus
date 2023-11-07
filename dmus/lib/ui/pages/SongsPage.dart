@@ -29,6 +29,7 @@ class _SongsPageState extends  State<SongsPage> {
   late final List<StreamSubscription> _subscriptions;
 
   List<Song> songs = [];
+  int marqueeIndex = -1;
 
   void _onSongImported(Song s) {
 
@@ -45,10 +46,7 @@ class _SongsPageState extends  State<SongsPage> {
 
     await TableSong.deleteSongById(s.id);
 
-    if (s.file.path != null)
-    {
-      ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
-    }
+    ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
 
     setState(() {
       songs.remove(s);
@@ -101,16 +99,12 @@ class _SongsPageState extends  State<SongsPage> {
       direction: DismissDirection.endToStart,
       background: Container(
         color: Colors.red,
-        child: const Stack(
-          children: [
-            Align(
+        child: const Align(
               alignment: Alignment.centerRight,
               child: Icon(
                 Icons.delete,
                 color: Colors.white,
               ),
-            ),
-          ],
         ),
       ),
       confirmDismiss: (direction) async {
@@ -128,15 +122,25 @@ class _SongsPageState extends  State<SongsPage> {
               ? Image.file(snapshot.data!, fit: BoxFit.cover)
               : const Icon(Icons.music_note);
 
-          return InkWell(
-            child: ListTile(
+
+          Widget tile = ListTile(
               leading: albumArtImage,
-              title: Text(song.title),
+              title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
               trailing: Text(formatDuration(song.duration)),
-              subtitle: Text(subtitleFromMetadata(song.metadata)),
-            ),
+              subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+            );
+
+          // TODO: marquee on click
+
+          return InkWell(
+            child: tile,
             onTap: () async {
               await AudioController.playSong(song);
+            },
+            onTapCancel: () {
+              setState(() {
+                marqueeIndex = index;
+              });
             },
             onLongPress: () {
               showDialog(
