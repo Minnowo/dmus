@@ -79,11 +79,36 @@ final class ImportController {
   /// Process and adds the songs to the database
   ///
   /// This sends out events accordingly
-  Future<void> importSongs(List<File> files) async {
+  static Future<void> importSongs(List<File> files) async {
 
     for(var f in files) {
       await ImportController.importSong(f);
     }
+  }
+
+
+  /// Imports any audio files in the given directory
+  ///
+  /// Process and adds the songs to the database
+  ///
+  /// This sends out events accordingly
+  static Future<void> importSongFromDirectory(Directory dir, bool isRecursive) async {
+
+    bool a = await getExternalStoragePermission();
+
+    if(!a) {
+      logging.warning("Cannot import from folder $dir because there is no permission");
+      return;
+    }
+
+    var files = await dir.list(recursive: isRecursive)
+        .where((event) => musicFileExtensions.contains(fileExtensionNoDot(event.path).toLowerCase()))
+        .map((event) => File(event.path))
+        .toList();
+
+    logging.info("Found files $files");
+
+    await importSongs(files);
   }
 
 

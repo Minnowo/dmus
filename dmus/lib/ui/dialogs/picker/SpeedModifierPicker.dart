@@ -3,9 +3,8 @@
 
 import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/widgets/PlaybackSpeedSlider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/Util.dart';
 
@@ -19,15 +18,42 @@ class SpeedModifierPicker extends StatefulWidget {
 }
 class SpeedModifierPickerState extends State<SpeedModifierPicker> {
 
-  double speed = 1;
+  static const double minSpeed = 1;
+  static const double maxSpeed = 200;
+  static final RegExp decimalMatch = RegExp(r'^([0-9]+)?\.?([0-9]+)?');
+
+  late double progress;
+
+  final TextEditingController _numberInputController = TextEditingController();
+
+
+  String formatProgress(double progress) {
+    return (progress / 100).toStringAsFixed(2);
+  }
+
+  Future<void> changePlaybackSpeedSubmit() async {
+
+    double d = (double.tryParse(_numberInputController.text) ?? 1)
+        .clamp(minSpeed / 100, maxSpeed / 100);
+
+    await AudioController.setPlaybackSpeed(d);
+
+    popNavigatorSafe(context);
+  }
+
+  void cancel() {
+    popNavigatorSafe(context);
+  }
+
 
   @override
   void initState() {
     super.initState();
 
     setState(() {
-      speed = AudioController.playbackSpeed;
-      logging.info("Current playback speed is $speed");
+      progress = AudioController.playbackSpeed * 100;
+      _numberInputController.text = formatProgress(progress);
+      logging.info("Current playback speed is ${progress/100}");
     });
   }
 
@@ -37,28 +63,36 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
       content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            PlaybackSpeedSlider(
-                onChanged: (speed) {
-                  setState(() {
-                    this.speed = speed;
-                  });
-                },
-                speed: speed),
-            ListTile(
-              title: const Text('Ok'),
-              onTap: () async {
-
-                logging.info("Setting playback speed to $speed");
-                await AudioController.setPlaybackSpeed(speed);
-
-                popNavigatorSafe(context);
+            TextFormField(
+                controller: _numberInputController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(decimalMatch),
+                ],
+                decoration: const InputDecoration(
+                    labelText: "Playback Speed",
+                    hintText: "Playback Speed",
+                    icon: Icon(Icons.speed)
+                )
+            ),
+            Slider(
+              value: progress,
+              min: minSpeed,
+              max: maxSpeed,
+              onChanged: (value) {
+                setState(() {
+                  progress = value.clamp(minSpeed, maxSpeed);
+                  _numberInputController.text = formatProgress(progress);
+                });
               },
             ),
             ListTile(
+              title: const Text('Ok'),
+              onTap: changePlaybackSpeedSubmit,
+            ),
+            ListTile(
               title: const Text('Cancel'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: cancel,
             ),
           ]
       ),

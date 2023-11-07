@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 
 import '../dialogs/picker/ImportDialog.dart';
-import '../../core/cloudstorage/UploadCloudStorageModel.dart';
+// import '../../core/cloudstorage/UploadCloudStorageModel.dart';
 
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 import '../pages/cloud/SignIn.dart';
 import '../pages/cloud/registerPage.dart';
@@ -25,7 +25,8 @@ class SettingsDrawer extends StatelessWidget {
     var headerFontSize = 32.0;
     var subheaderFontSize = 24.0;
 
-    final User? user = FirebaseAuth.instance.currentUser;
+    // final User? user = FirebaseAuth.instance.currentUser;
+    final int? user = null;
 
 
     return Drawer(
@@ -115,8 +116,8 @@ class SettingsDrawer extends StatelessWidget {
                   leading: const Icon(Icons.cloud_upload),
                   title: const Text('Upload to Cloud Storage'),
                   onTap: () {
-                    UploadCloudStorageModel().addAllSongs(user.uid, context);
-                    UploadCloudStorageModel().addAllPlaylists(user.uid, context);
+                    // UploadCloudStorageModel().addAllSongs(user.uid, context);
+                    // UploadCloudStorageModel().addAllPlaylists(user.uid, context);
                   },
                 ),
                 ListTile(
@@ -132,7 +133,7 @@ class SettingsDrawer extends StatelessWidget {
                   leading: const Icon(Icons.logout),
                   title: const Text('Log Out'),
                   onTap: () async {
-                    await FirebaseAuth.instance.signOut();
+                    // await FirebaseAuth.instance.signOut();
                     popNavigatorSafe(context);
 
                     if(context.mounted) {

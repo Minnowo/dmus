@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 import '../Util.dart';
 import '../localstorage/ImportController.dart';
@@ -11,9 +11,10 @@ import '../localstorage/dbimpl/TablePlaylist.dart';
 import '../localstorage/dbimpl/TableSong.dart';
 
 class DownloadCloudStorageModel {
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  // final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> downloadAllSongs(String userID, BuildContext context) async {
+
     final status = await Permission.storage.status;
 
     if (!status.isGranted) {

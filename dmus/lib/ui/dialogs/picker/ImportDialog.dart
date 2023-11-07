@@ -5,16 +5,12 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/Util.dart';
 import '../../Util.dart';
 
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 
-
-  // TODO: Get rid of this and handle it in ImportController
-  Future<void> doImportFromDir(String dir) async {
-
-  }
 
   void pickFilesAndImport(BuildContext context) {
 
@@ -38,7 +34,16 @@ class ImportDialog extends StatelessWidget {
   void pickFolderAndImport(BuildContext context) {
 
     pickDirectory()
-        .then((value) => value != null ? doImportFromDir(value) : null);
+        .then((value) async {
+
+          if(value == null) return;
+
+          Directory d = Directory(value);
+
+          logging.info("About to import files from $d");
+
+          await ImportController.importSongFromDirectory(d, true);
+    });
 
     // (not an error) Pop as soon as we open the above dialog
     popNavigatorSafe(context);
