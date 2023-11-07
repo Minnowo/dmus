@@ -58,6 +58,7 @@ final class DatabaseMigrations {
     const String TBL_ALBUM_SONG = "tbl_album_song";
     const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
 
+    await db.execute("PRAGMA foreign_keys = ON");
 
     logging.config("Creating $TBL_SONG");
 

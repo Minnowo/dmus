@@ -152,4 +152,28 @@ final class TableSong {
     return s;
   }
 
+  /// Deletes a song with the given songId from the database.
+  ///
+  /// Returns true if the song is successfully deleted, false otherwise.
+  static Future<bool> deleteSongById(int songId) async {
+
+    var db = await DatabaseController.database;
+
+    try {
+
+      final rowsDeleted = await db.delete(
+        name,
+        where: "$idCol = ?",
+        whereArgs: [songId],
+      );
+
+      logging.finest("Deleted $rowsDeleted rows");
+
+      return rowsDeleted > 0;
+    }
+    on DatabaseException catch (e) {
+      logging.warning("Error deleting song: $e");
+      return false;
+    }
+  }
 }

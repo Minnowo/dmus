@@ -1,12 +1,16 @@
+import 'dart:math';
+
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/cloudstorage/ExternalStorageModel.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:io';
+import '../../core/localstorage/ImageCacheController.dart';
 import '../model/SongsPageModel.dart';
 import 'NavigationPage.dart';
 
@@ -74,34 +78,89 @@ class _SongsPage extends StatelessWidget {
 
             else
               Expanded(
-                  child: ListView.builder(
-                      itemCount: songsModel.songs.length,
-                      itemBuilder: (context, index) {
-                        var song = songsModel.songs[index];
+                child: ListView.builder(
+                  itemCount: songsModel.songs.length,
+                  itemBuilder: (context, index) {
+                    var song = songsModel.songs[index];
 
-                        return InkWell(
+                    Future<File?> imageFileFuture =
+                    ImageCacheController.getImagePathFromRaw(song!.pictureCacheKey!);
+
+                    return Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart, // Only allow left swiping
+                      background: Container(
+                        color: Colors.red,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          return true;
+                        }
+                        return false;
+                      },
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          
+                          logging.finest('REMOVE SONGS');
+
+                          songsModel.removeFromDb(song);
+
+                          // only deletes if its Downloaded from the cloud and stored on the apps storage
+                           if (song.file.path!=null)
+                           {
+                             ExternalStorageModel().deleteFileFromExternalStorage(song.file.path);
+                           }
+
+                        }
+                      },
+                      child: FutureBuilder<File?>(
+                        future: imageFileFuture,
+                        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+                          var albumArtImage = snapshot.data != null
+                              ? Image.file(snapshot.data!, fit: BoxFit.cover)
+                              : const Icon(Icons.music_note);
+
+                          return InkWell(
                             child: ListTile(
+                              leading: albumArtImage,
                               title: Text(song.title),
                               trailing: Text(formatDuration(song.duration)),
                               subtitle: Text(subtitleFromMetadata(song.metadata)),
                             ),
                             onTap: () async {
-                              debugPrint("Playing tapped");
                               await AudioController.playSong(song);
                             },
                             onLongPress: () {
                               showDialog(
                                 context: context,
-                                builder: (BuildContext context) => SongContextDialog(songContext: song,),
+                                builder: (BuildContext context) =>
+                                    SongContextDialog(songContext: song),
                               );
-                            }
-                        );
-                      })
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  },
+                )
               )
           ],
-        ) ,
-        endDrawerEnableOpenDragGesture: true,
-        drawer: const SettingsDrawer());
+        ),
+      endDrawerEnableOpenDragGesture: true,
+      drawer: const SettingsDrawer(),
+    );
   }
 }
 

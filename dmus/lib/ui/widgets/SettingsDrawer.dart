@@ -125,7 +125,8 @@ class SettingsDrawer extends StatelessWidget {
                   title: const Text('Download from Cloud'),
                   onTap: () {
 
-                    // DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
+                    DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
+
                   },
                 ),
                 ListTile(
