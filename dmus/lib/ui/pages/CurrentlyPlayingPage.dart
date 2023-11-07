@@ -1,11 +1,8 @@
 
-
-
 import 'dart:async';
 import 'dart:io';
 
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/widgets/TimeSlider.dart';
@@ -16,19 +13,24 @@ import '../../core/Util.dart';
 import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 
+
 class CurrentlyPlayingPage extends StatefulWidget {
   const CurrentlyPlayingPage({super.key});
-
 
   @override
   State<StatefulWidget> createState () => CurrentlyPlayingPageState();
 }
 
+
 class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
+
+  static const String title = "Currently Playing";
+
+  late final StreamSubscription<Song?> currentlyPlayingSubscriber;
 
   Song? songContext;
 
-  late final StreamSubscription<Song?> currentlyPlayingSubscriber;
+
 
   void _onSongChanged(Song? s) {
 
@@ -41,6 +43,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
     });
   }
 
+
   @override
   void initState() {
     super.initState();
@@ -52,11 +55,13 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
     });
   }
 
+
   @override
   void dispose() {
     currentlyPlayingSubscriber.cancel();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +73,10 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
     logging.info("Currently playing page now showing $songContext");
 
     return Scaffold(
+
       appBar: AppBar(
-        title: const Text('Currently Playing'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text(title),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -78,10 +85,15 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
           ),
         ],
       ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if(songContext!.pictureCacheKey != null)
+
+          if(songContext!.metadata.albumArt != null)
+            Image.memory(songContext!.metadata.albumArt!),
+
+          if(songContext!.metadata.albumArt == null && songContext!.pictureCacheKey != null)
             FutureBuilder<File?>(
               future: ImageCacheController.getImagePathFromRaw(songContext!.pictureCacheKey!),
               builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
@@ -108,7 +120,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
 
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text( currentlyPlayingTextFromMetadata(songContext!),
+            child: Text( songContext!.title ,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
@@ -125,9 +137,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                 icon: const Icon(Icons.playlist_add),
                 onPressed: () {
                 },
-
               ),
-
             ],
           ),
 
@@ -154,23 +164,18 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                             onPressed: () async { await AudioController.pause(); },
                           ),
                         IconButton(
-                          icon: const Icon(Icons.stop), // Add the Stop button
+                          icon: const Icon(Icons.stop),
                             onPressed: () async { await AudioController.stop(); },
-
                         ),
-
                       ],
-
                     ),
-
-
-
 
                     TimeSlider(songDuration: songDuration, songPosition: songPosition)
                   ]
               );
             },
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -187,8 +192,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
               IconButton(
                 icon: const Icon(Icons.speed),
                 onPressed: () {
-                  showDialog(context: context, builder: (ctx) => const SpeedModifierPicker())
-                      .then((value) =>logging.info(value));
+                  showDialog(context: context, builder: (ctx) => const SpeedModifierPicker()) ;
                 },
               ),
             ],

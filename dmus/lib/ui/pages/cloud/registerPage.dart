@@ -1,16 +1,19 @@
+
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationWidget extends StatefulWidget {
   @override
-  _RegistrationWidgetState createState() => _RegistrationWidgetState();
+  State<RegistrationWidget> createState() => _RegistrationWidgetState();
 }
 
 class _RegistrationWidgetState extends State<RegistrationWidget> {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool _isPasswordValid = true;
   bool _isEmailValid = true;
   Color _snackBarColor = Colors.red; // Snackbar color

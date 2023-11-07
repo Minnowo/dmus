@@ -57,7 +57,7 @@ class WatchDirectoriesModel extends ChangeNotifier {
   }
 }
 
-class WatchDirectoriesPage extends  NavigationPage {
+class WatchDirectoriesPage extends  StatelessNavigationPage {
   const WatchDirectoriesPage({super.key}) : super(title: "Watch Directories", icon: Icons.folder);
 
   @override

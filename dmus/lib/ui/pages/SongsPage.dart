@@ -1,4 +1,5 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
@@ -8,52 +9,161 @@ import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'dart:io';
+
+import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImageCacheController.dart';
-import '../model/SongsPageModel.dart';
+import '../../core/localstorage/ImportController.dart';
 import 'NavigationPage.dart';
 
 
-class SongsPage extends NavigationPage {
+class SongsPage extends StatefulNavigationPage {
 
   const SongsPage({super.key}) : super(icon: Icons.music_note, title: "Songs");
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SongsModel(),
-      child: _SongsPage(this),
-    );
-  }
+  State<StatefulWidget> createState() => _SongsPageState();
 }
 
-class _SongsPage extends StatelessWidget {
+class _SongsPageState extends  State<SongsPage> {
 
-  final SongsPage parent;
+  late final List<StreamSubscription> _subscriptions;
 
-  const _SongsPage(this.parent);
+  List<Song> songs = [];
+
+  void _onSongImported(Song s) {
+
+    if(songs.contains(s)) {
+      return;
+    }
+
+    setState(() {
+      songs.add(s);
+    });
+  }
+
+  Future<void> _onDismiss(Song s) async {
+
+    await TableSong.deleteSongById(s.id);
+
+    if (s.file.path != null)
+    {
+      ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
+    }
+
+    setState(() {
+      songs.remove(s);
+    });
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    _subscriptions = [
+      ImportController.onSongImported.listen(_onSongImported),
+    ];
+
+    TableSong.selectAllWithMetadata().then( (value) {
+
+      setState(() {
+        songs.clear();
+        songs.addAll(value);
+      });
+
+    });
+  }
+
+  @override
+  void dispose() {
+
+    for(final i in _subscriptions) {
+      i.cancel();
+    }
+
+    super.dispose();
+  }
+
+  Widget buildSongList(BuildContext context, int index) {
+
+    final Song song = songs[index];
+
+    Future<File?> imageFileFuture;
+
+    if(song.pictureCacheKey != null) {
+      imageFileFuture = ImageCacheController.getImagePathFromRaw(song.pictureCacheKey!);
+    } else {
+      imageFileFuture = Future<File?>.value(null);
+    }
+
+    return Dismissible(
+      key: UniqueKey(),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.red,
+        child: const Stack(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.endToStart) {
+          await _onDismiss(song);
+          return true;
+        }
+        return false;
+      },
+      child: FutureBuilder<File?>(
+        future: imageFileFuture,
+        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+
+          var albumArtImage = snapshot.data != null
+              ? Image.file(snapshot.data!, fit: BoxFit.cover)
+              : const Icon(Icons.music_note);
+
+          return InkWell(
+            child: ListTile(
+              leading: albumArtImage,
+              title: Text(song.title),
+              trailing: Text(formatDuration(song.duration)),
+              subtitle: Text(subtitleFromMetadata(song.metadata)),
+            ),
+            onTap: () async {
+              await AudioController.playSong(song);
+            },
+            onLongPress: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => SongContextDialog(songContext: song),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+  
+  
 
   @override
   Widget build(BuildContext context) {
 
-    var songsModel = context.watch<SongsModel>();
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(parent.title),
+          title: Text(widget.title),
           centerTitle: true,
           actions: [
             IconButton(
               onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()),
               icon: const Icon(Icons.add),
-            ),
-            IconButton(
-              onPressed: () {
-                songsModel.update();
-              },
-              icon: const Icon(Icons.update),
             ),
             IconButton(
               onPressed: () {
@@ -69,7 +179,7 @@ class _SongsPage extends StatelessWidget {
 
           children: <Widget>[
 
-            if(songsModel.songs.isEmpty)
+            if(songs.isEmpty)
               const Center(
                 child: Text("Nothing is here!\nHit the + in the top right to import music.",
                     textAlign: TextAlign.center
@@ -79,81 +189,8 @@ class _SongsPage extends StatelessWidget {
             else
               Expanded(
                 child: ListView.builder(
-                  itemCount: songsModel.songs.length,
-                  itemBuilder: (context, index) {
-                    var song = songsModel.songs[index];
-
-                    Future<File?> imageFileFuture =
-                    ImageCacheController.getImagePathFromRaw(song!.pictureCacheKey!);
-
-                    return Dismissible(
-                      key: UniqueKey(),
-                      direction: DismissDirection.endToStart, // Only allow left swiping
-                      background: Container(
-                        color: Colors.red,
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-
-                          ],
-                        ),
-                      ),
-                      confirmDismiss: (direction) async {
-                        if (direction == DismissDirection.endToStart) {
-                          return true;
-                        }
-                        return false;
-                      },
-                      onDismissed: (direction) {
-                        if (direction == DismissDirection.endToStart) {
-                          
-                          logging.finest('REMOVE SONGS');
-
-                          songsModel.removeFromDb(song);
-
-                          // only deletes if its Downloaded from the cloud and stored on the apps storage
-                           if (song.file.path!=null)
-                           {
-                             ExternalStorageModel().deleteFileFromExternalStorage(song.file.path);
-                           }
-
-                        }
-                      },
-                      child: FutureBuilder<File?>(
-                        future: imageFileFuture,
-                        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-                          var albumArtImage = snapshot.data != null
-                              ? Image.file(snapshot.data!, fit: BoxFit.cover)
-                              : const Icon(Icons.music_note);
-
-                          return InkWell(
-                            child: ListTile(
-                              leading: albumArtImage,
-                              title: Text(song.title),
-                              trailing: Text(formatDuration(song.duration)),
-                              subtitle: Text(subtitleFromMetadata(song.metadata)),
-                            ),
-                            onTap: () async {
-                              await AudioController.playSong(song);
-                            },
-                            onLongPress: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    SongContextDialog(songContext: song),
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    );
-                  },
+                  itemCount: songs.length,
+                  itemBuilder: buildSongList,
                 )
               )
           ],

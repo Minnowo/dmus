@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/SettingsDrawer.dart';
 
-class AlbumsPage extends NavigationPage {
+class AlbumsPage extends StatelessNavigationPage {
 
   const AlbumsPage({super.key}) : super(icon: Icons.album, title: "Albums");
 

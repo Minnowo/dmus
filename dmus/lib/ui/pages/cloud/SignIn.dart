@@ -1,17 +1,20 @@
 import 'package:dmus/ui/Util.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 class SignInWidget extends StatefulWidget {
+  const SignInWidget({super.key});
+
   @override
-  _SignInWidgetState createState() => _SignInWidgetState();
+  State<SignInWidget> createState() => _SignInWidgetState();
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool _isLoading = false;
   bool _isEmailEmpty = false;
   bool _isPasswordEmpty = false;
@@ -89,7 +92,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In'),
+        title: const Text('Sign In'),
       ),
       body: Center(
         child: Padding(
@@ -112,12 +115,12 @@ class _SignInWidgetState extends State<SignInWidget> {
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : ElevatedButton(
                 onPressed: _signIn,
-                child: Text('Sign In'),
+                child: const Text('Sign In'),
               ),
             ],
           ),
@@ -125,10 +128,4 @@ class _SignInWidgetState extends State<SignInWidget> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: SignInWidget(),
-  ));
 }
