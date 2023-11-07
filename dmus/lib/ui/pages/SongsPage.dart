@@ -83,12 +83,11 @@ class _SongsPageState extends  State<SongsPage> {
   }
 
   Widget buildSongList(BuildContext context, int index) {
-
     final Song song = songs[index];
 
     Future<File?> imageFileFuture;
 
-    if(song.pictureCacheKey != null) {
+    if (song.pictureCacheKey != null) {
       imageFileFuture = ImageCacheController.getImagePathFromRaw(song.pictureCacheKey!);
     } else {
       imageFileFuture = Future<File?>.value(null);
@@ -100,11 +99,11 @@ class _SongsPageState extends  State<SongsPage> {
       background: Container(
         color: Colors.red,
         child: const Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                Icons.delete,
-                color: Colors.white,
-              ),
+          alignment: Alignment.centerRight,
+          child: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
         ),
       ),
       confirmDismiss: (direction) async {
@@ -117,20 +116,23 @@ class _SongsPageState extends  State<SongsPage> {
       child: FutureBuilder<File?>(
         future: imageFileFuture,
         builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-
-          var albumArtImage = snapshot.data != null
+          final albumArtImage = snapshot.data != null
               ? Image.file(snapshot.data!, fit: BoxFit.cover)
               : const Icon(Icons.music_note);
 
 
-          Widget tile = ListTile(
-              leading: albumArtImage,
-              title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-              trailing: Text(formatDuration(song.duration)),
-              subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
-            );
+          final albumArtContainer = Container(
+            width: 60,
+            height: 60,
+            child: albumArtImage,
+          );
 
-          // TODO: marquee on click
+          final tile = ListTile(
+            leading: albumArtContainer, // Use the Container with fixed size
+            title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+            trailing: Text(formatDuration(song.duration)),
+            subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+          );
 
           return InkWell(
             child: tile,
@@ -153,8 +155,8 @@ class _SongsPageState extends  State<SongsPage> {
       ),
     );
   }
-  
-  
+
+
 
   @override
   Widget build(BuildContext context) {
