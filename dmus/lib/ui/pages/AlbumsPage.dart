@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../core/Util.dart';
 import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/localstorage/ImageCacheController.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
 
@@ -55,6 +57,7 @@ class _AlbumsPageState extends State<AlbumsPage>{
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,32 +92,66 @@ class _AlbumsPageState extends State<AlbumsPage>{
 
             else
               Expanded(
-                  child:ListView.builder(
-                      itemCount: albums.length,
-                      itemBuilder: (context, index) {
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Two tiles per row
+                    ),
+                    itemCount: albums.length,
+                    itemBuilder: (context, index) {
 
-                        final playlist = albums[index];
+                      final playlist = albums[index];
 
-                        return InkWell(
-                            child: ListTile(
-                              title: Text(playlist.title),
-                              trailing: Text(formatDuration(playlist.duration)),
+                      Future<File?> imageFileFuture;
+
+                      if(playlist.songs.firstOrNull?.pictureCacheKey != null) {
+                        imageFileFuture = ImageCacheController.getImagePathFromRaw(playlist.songs.firstOrNull!.pictureCacheKey!);
+                      } else {
+                        imageFileFuture = Future<File?>.value(null);
+                      }
+
+                      return InkWell(
+                        child: GridTile(
+                          footer: Container(
+                            color: Colors.black.withOpacity(0.7), // Background color for the entire GridTileBar
+                            child: GridTileBar(
+                              title: Text(
+                                playlist.title,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                formatDuration(playlist.duration),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.play_arrow),
+                                onPressed: () async {
+                                  logging.finest(playlist);
+                                  AudioController.queuePlaylist(playlist);
+                                  await AudioController.playQueue();
+                                },
+                              ),
                             ),
-                            onTap: () async {
-                              logging.finest(playlist);
-
-                              AudioController.queuePlaylist(playlist);
-
-                              await AudioController.playQueue();
-                            },
-                            onLongPress: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist,),
-                              );
-                            }
-                        );
-                      })
+                          ),
+                          child: FutureBuilder<File?>(
+                              future: imageFileFuture,
+                              builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+                                var albumArtImage = snapshot.data != null
+                                    ? Image.file(snapshot.data!, fit: BoxFit.cover)
+                                    : const Icon(Icons.music_note);
+                                return albumArtImage;
+                              }),
+                        ),
+                        onTap: () {
+                        },
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist,),
+                          );
+                        },
+                      );
+                    },
+                  )
               )
           ],
         ) ,
