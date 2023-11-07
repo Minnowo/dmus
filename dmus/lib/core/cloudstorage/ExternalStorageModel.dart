@@ -17,7 +17,7 @@ class ExternalStorageModel {
       final file = File(filePath);
 
       if (await file.exists() && file.parent.path == downloadsDirectory.path) {
-        //await file.delete();
+        await file.delete();
         print('File deleted successfully.');
       } else {
         print('File does not exist or is not in the downloads directory.');

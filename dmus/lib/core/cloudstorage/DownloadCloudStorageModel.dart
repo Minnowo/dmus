@@ -34,6 +34,7 @@ class DownloadCloudStorageModel {
         );
         return;
       } else if (!result.isGranted) {
+        openAppSettings();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Storage permission is required to download songs.'),
