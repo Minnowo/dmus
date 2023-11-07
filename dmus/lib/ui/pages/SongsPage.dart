@@ -6,7 +6,8 @@ import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:io';
+import '../../core/localstorage/ImageCacheController.dart';
 import '../model/SongsPageModel.dart';
 import 'NavigationPage.dart';
 
@@ -74,34 +75,50 @@ class _SongsPage extends StatelessWidget {
 
             else
               Expanded(
-                  child: ListView.builder(
-                      itemCount: songsModel.songs.length,
-                      itemBuilder: (context, index) {
-                        var song = songsModel.songs[index];
+                child: ListView.builder(
+                  itemCount: songsModel.songs.length,
+                  itemBuilder: (context, index) {
+                    var song = songsModel.songs[index];
+
+                    // Use ImageCacheController to get the image path from the pictureCacheKey
+                    Future<File?> imageFileFuture = ImageCacheController.getImagePathFromRaw(song!.pictureCacheKey!);
+
+                    return FutureBuilder<File?>(
+                      future: imageFileFuture,
+                      builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+                        var albumArtImage = snapshot.data != null
+                            ? Image.file(snapshot.data!, fit: BoxFit.cover)
+                            : const Icon(Icons.music_note);
 
                         return InkWell(
-                            child: ListTile(
-                              title: Text(song.title),
-                              trailing: Text(formatDuration(song.duration)),
-                              subtitle: Text(subtitleFromMetadata(song.metadata)),
-                            ),
-                            onTap: () async {
-                              debugPrint("Playing tapped");
-                              await AudioController.playSong(song);
-                            },
-                            onLongPress: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) => SongContextDialog(songContext: song,),
-                              );
-                            }
+                          child: ListTile(
+                            leading: albumArtImage, // Display album art on the left
+                            title: Text(song.title),
+                            trailing: Text(formatDuration(song.duration)),
+                            subtitle: Text(subtitleFromMetadata(song.metadata)),
+                          ),
+                          onTap: () async {
+
+
+                            await AudioController.playSong(song);
+                          },
+                          onLongPress: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) => SongContextDialog(songContext: song,),
+                            );
+                          },
                         );
-                      })
+                      },
+                    );
+                  },
+                ),
               )
           ],
-        ) ,
-        endDrawerEnableOpenDragGesture: true,
-        drawer: const SettingsDrawer());
+        ),
+      endDrawerEnableOpenDragGesture: true,
+      drawer: const SettingsDrawer(),
+    );
   }
 }
 

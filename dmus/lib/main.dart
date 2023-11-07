@@ -138,6 +138,7 @@ class _RootPageState extends State<RootPage> {
                       _currentPage = page;
                     });
                   },
+                  physics: NeverScrollableScrollPhysics(),
                   children: _pages
               )
           ),
