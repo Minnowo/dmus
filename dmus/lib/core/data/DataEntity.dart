@@ -130,17 +130,15 @@ class Playlist extends DataEntity {
 ///
 /// Used to represent an album. Contains 0 or more Song
 /// entities
-class Album extends DataEntity {
-
-  /// Songs in this album
-  List<Song> songs = [];
-
+class Album extends Playlist {
 
   Album({required super.id, required super.title});
 
-  Album.withSongs({required super.id, required super.title, required this.songs}) :
-        super.withDuration(duration: songs.map((e) => e.duration).reduce((value, element) => value + element));
+  Album.withSongs({required super.id, required super.title, required super.songs}) :
+        super.withSongs();
 
+  Album.withDuration({required super.id, required super.title, required super.duration}) :
+        super.withDuration();
 
   @override
   EntityType get entityType => EntityType.album;

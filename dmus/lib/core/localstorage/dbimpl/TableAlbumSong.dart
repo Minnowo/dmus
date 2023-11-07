@@ -1,22 +1,26 @@
 
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import '../../Util.dart';
 import '../../data/DataEntity.dart';
+import 'TableFMetadata.dart';
 
 
 
-/// Represents tbl_playlist_song in the database
+/// Represents tbl_album in the database
 ///
 /// Contains methods for reading and writing from this table, as well as column information
-final class TablePlaylistSong {
+final class TableAlbumSong {
 
-  final int playlistId;
+  final int albumId;
   final int songId;
   final int index;
 
-  TablePlaylistSong.privateConstructor({required this.playlistId, required this.songId, required this.index});
+  TableAlbumSong.privateConstructor({required this.albumId, required this.songId, required this.index});
 
-  static const String name = "tbl_playlist_song";
-  static const String playlistIdCol= "playlist_id";
+  static const String name = "tbl_album_song";
+  static const String albumIdCol= "album_id";
   static const String songIdCol = "song_id";
   static const String songIndexCol = "song_index";
 
@@ -27,17 +31,17 @@ final class TablePlaylistSong {
   /// Returns true always
   ///
   /// Throws DatabaseException
-  static Future<bool> setSongsInPlaylist(int playlistId, List<Song> songs) async {
+  static Future<bool> setSongsInAlbum(int playlistId, List<Song> songs) async {
 
     var db = await DatabaseController.database;
 
     await db.delete(
       name,
-      where: '$playlistIdCol = ?',
+      where: '$albumIdCol = ?',
       whereArgs: [playlistId],
     );
 
-    const String sql = "INSERT OR IGNORE INTO $name ($playlistIdCol, $songIdCol, $songIndexCol) VALUES (?, ?, ?);";
+    const String sql = "INSERT OR IGNORE INTO $name ($albumIdCol, $songIdCol, $songIndexCol) VALUES (?, ?, ?);";
 
     for(int i = 0; i < songs.length; i++) {
 
