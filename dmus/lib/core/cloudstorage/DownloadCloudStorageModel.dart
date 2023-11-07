@@ -14,7 +14,6 @@ class DownloadCloudStorageModel {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<void> downloadAllSongs(String userID, BuildContext context) async {
-
     final status = await Permission.storage.status;
 
     if (!status.isGranted) {
@@ -25,13 +24,13 @@ class DownloadCloudStorageModel {
         openAppSettings();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Storage permission is required. Please enable it in settings.'),
+            content: Text(
+                'Storage permission is required. Please enable it in settings.'),
             duration: const Duration(seconds: 3),
           ),
         );
         return;
       } else if (!result.isGranted) {
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Storage permission is required to download songs.'),
@@ -43,19 +42,16 @@ class DownloadCloudStorageModel {
     }
 
 
-
     try {
       final downloadsDirectory = await getExternalStorageDirectory();
 
-
-
       if (downloadsDirectory == null) {
-        logging.finest('External storage directory is null. Make sure external storage access is granted.');
+        logging.finest(
+            'External storage directory is null. Make sure external storage access is granted.');
         return;
       }
 
       final scaffoldMessenger = ScaffoldMessenger.of(context);
-
 
       scaffoldMessenger.showSnackBar(
         SnackBar(
@@ -67,11 +63,29 @@ class DownloadCloudStorageModel {
       final ref = _storage.ref('users/$userID/songs/');
       final ListResult result = await ref.list();
 
-      // Downloading and adding Songs to the phones Internal Storage
+      // Check if the songs.json file exists in local storage
+      final songsJsonFile = File('${downloadsDirectory.path}/songs.json');
+      if (songsJsonFile.existsSync()) {
+        songsJsonFile.deleteSync(); // Delete the existing songs.json file
+      }
+
+      // Download and write the new songs.json file
+      final songsJsonItem = result.items.firstWhere((item) =>
+      item.name == 'songs.json');
+      if (songsJsonItem != null) {
+        final localFilePath = '${downloadsDirectory.path}/songs.json';
+        await songsJsonItem.writeToFile(File(localFilePath));
+      }
+
+      // Downloading and adding other songs to the local database
       for (final item in result.items) {
         final songName = item.name;
-        final localFilePath = '${downloadsDirectory.path}/$songName';
 
+        if (songName == 'songs.json') {
+          continue; // Skip songs.json file (already processed above)
+        }
+
+        final localFilePath = '${downloadsDirectory.path}/$songName';
 
         // Check if the song already exists in local storage or the database
         final localFile = File(localFilePath);
@@ -80,13 +94,11 @@ class DownloadCloudStorageModel {
           continue; // Skip the download for this song
         }
 
-
         await item.writeToFile(localFile);
         await ImportController.importSong(localFile);
 
         logging.finest(localFile);
       }
-
 
       scaffoldMessenger.showSnackBar(
         SnackBar(
@@ -99,5 +111,6 @@ class DownloadCloudStorageModel {
     } catch (e) {
       logging.finest('Error downloading songs from Firebase Cloud Storage: $e');
     }
+
   }
 }

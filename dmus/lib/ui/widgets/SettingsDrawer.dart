@@ -125,6 +125,7 @@ class SettingsDrawer extends StatelessWidget {
                   onTap: () {
 
                     DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
+
                   },
                 ),
                 ListTile(

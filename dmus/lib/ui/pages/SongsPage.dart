@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/cloudstorage/ExternalStorageModel.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
@@ -80,39 +83,81 @@ class _SongsPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var song = songsModel.songs[index];
 
-                    // Use ImageCacheController to get the image path from the pictureCacheKey
-                    Future<File?> imageFileFuture = ImageCacheController.getImagePathFromRaw(song!.pictureCacheKey!);
+                    Future<File?> imageFileFuture =
+                    ImageCacheController.getImagePathFromRaw(song!.pictureCacheKey!);
 
-                    return FutureBuilder<File?>(
-                      future: imageFileFuture,
-                      builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-                        var albumArtImage = snapshot.data != null
-                            ? Image.file(snapshot.data!, fit: BoxFit.cover)
-                            : const Icon(Icons.music_note);
+                    return Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.endToStart, // Only allow left swiping
+                      background: Container(
+                        color: Colors.red,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
 
-                        return InkWell(
-                          child: ListTile(
-                            leading: albumArtImage, // Display album art on the left
-                            title: Text(song.title),
-                            trailing: Text(formatDuration(song.duration)),
-                            subtitle: Text(subtitleFromMetadata(song.metadata)),
-                          ),
-                          onTap: () async {
-
-
-                            await AudioController.playSong(song);
-                          },
-                          onLongPress: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) => SongContextDialog(songContext: song,),
-                            );
-                          },
-                        );
+                          ],
+                        ),
+                      ),
+                      confirmDismiss: (direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          return true;
+                        }
+                        return false;
                       },
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          
+                          logging.finest('REMOVE SONGS');
+
+                          // TableSong.deleteSongById(song.id);
+                          // logging.finest(song.file.path);
+                          // logging.finest(song.id);
+                          //
+                          //
+                          // // only deletes if its Downloaded from the cloud and stored on the apps storage
+                          //  if (song.file.path!=null)
+                          //  {
+                          //    ExternalStorageModel().deleteFileFromExternalStorage(song.file.path);
+                          //  }
+
+                        }
+                      },
+                      child: FutureBuilder<File?>(
+                        future: imageFileFuture,
+                        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
+                          var albumArtImage = snapshot.data != null
+                              ? Image.file(snapshot.data!, fit: BoxFit.cover)
+                              : const Icon(Icons.music_note);
+
+                          return InkWell(
+                            child: ListTile(
+                              leading: albumArtImage,
+                              title: Text(song.title),
+                              trailing: Text(formatDuration(song.duration)),
+                              subtitle: Text(subtitleFromMetadata(song.metadata)),
+                            ),
+                            onTap: () async {
+                              await AudioController.playSong(song);
+                            },
+                            onLongPress: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    SongContextDialog(songContext: song),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     );
                   },
-                ),
+                )
               )
           ],
         ),
