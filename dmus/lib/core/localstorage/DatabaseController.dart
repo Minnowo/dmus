@@ -58,6 +58,7 @@ final class DatabaseController {
     return await openDatabase(
       databasePath,
       version: VERSION,
+      onOpen: _onOpen,
       onCreate: _createDatabase,
       onUpgrade: _onUpgrade
     );
@@ -73,5 +74,11 @@ final class DatabaseController {
   /// Migrates the database from previous versions
   static Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     await DatabaseMigrations.runMigrations(db, oldVersion, newVersion);
+  }
+
+
+  /// On open enable foreign keys
+  static Future<void> _onOpen(Database db) async {
+    await db.execute("PRAGMA foreign_keys = ON");
   }
 }

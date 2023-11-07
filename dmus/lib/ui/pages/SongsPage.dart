@@ -115,16 +115,13 @@ class _SongsPage extends StatelessWidget {
                           
                           logging.finest('REMOVE SONGS');
 
-                          // TableSong.deleteSongById(song.id);
-                          // logging.finest(song.file.path);
-                          // logging.finest(song.id);
-                          //
-                          //
-                          // // only deletes if its Downloaded from the cloud and stored on the apps storage
-                          //  if (song.file.path!=null)
-                          //  {
-                          //    ExternalStorageModel().deleteFileFromExternalStorage(song.file.path);
-                          //  }
+                          songsModel.removeFromDb(song);
+
+                          // only deletes if its Downloaded from the cloud and stored on the apps storage
+                           if (song.file.path!=null)
+                           {
+                             ExternalStorageModel().deleteFileFromExternalStorage(song.file.path);
+                           }
 
                         }
                       },

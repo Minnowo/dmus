@@ -65,6 +65,15 @@ class SongsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeFromDb(Song s){
+
+    TableSong.deleteSongById(s.id).then((value) {
+
+      songs.remove(s);
+      notifyListeners();
+    });
+  }
+
   void removeFromTitle(String title){
 
     var c = songs.length;
