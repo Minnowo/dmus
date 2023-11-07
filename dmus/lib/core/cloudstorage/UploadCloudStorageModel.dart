@@ -1,4 +1,4 @@
-// import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../Util.dart';
@@ -12,7 +12,7 @@ import 'package:crypto/crypto.dart';
 class UploadCloudStorageModel {
 
 
-  // final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   // Adds All songs to the Firebase Storage from the Local Storage
   // Stored by the User that is currently Logged in

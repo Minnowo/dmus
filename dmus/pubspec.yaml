@@ -47,7 +47,11 @@ dependencies:
   crypto: ^3.0.3
   http: ^1.1.0
   permission_handler: ^11.0.1
-
+  firebase_ui_auth:
+  cloud_firestore:
+  firebase_storage:
+  firebase_core:
+  go_router:
 
 
 
