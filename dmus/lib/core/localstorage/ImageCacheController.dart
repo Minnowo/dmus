@@ -29,7 +29,7 @@ abstract class ImageCacheController {
 
     Directory appDir = await getApplicationDocumentsDirectory();
 
-    logging.info("Getting cached path from $hex");
+    logging.finest("Getting cached path from $hex");
 
     return File(Path.join(appDir.path, imageCacheDir, "${hex[0]}${hex[1]}", hex));
   }

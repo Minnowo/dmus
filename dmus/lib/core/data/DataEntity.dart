@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
@@ -124,6 +125,7 @@ class Playlist extends DataEntity {
 }
 
 
+
 /// The Album DataEntity
 ///
 /// Extends the DataEntity class
@@ -146,6 +148,7 @@ class Album extends Playlist {
 
 
 
+/// Pair generic
 class Pair<A, B> {
 
   final A itemA;
@@ -154,10 +157,25 @@ class Pair<A, B> {
   Pair(this.itemA, this.itemB);
 }
 
+
+
+/// Marks some data as selected or not selected
 class SelectableDataItem<A> {
 
   final A item;
   bool isSelected;
 
   SelectableDataItem(this.item, this.isSelected);
+}
+
+
+
+/// Contains data for showing a snackbar
+class SnackBarData {
+
+  final String text;
+  final Duration? duration;
+  final Color? color;
+
+  const SnackBarData({required this.text, this.duration, this.color});
 }
