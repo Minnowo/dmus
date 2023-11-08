@@ -1,20 +1,61 @@
+import 'dart:io';
+
 import 'package:dmus/core/cloudstorage/DownloadCloudStorageModel.dart';
+import 'package:dmus/core/data/FileDialog.dart';
+import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 
+import '../../core/Util.dart';
 import '../dialogs/picker/ImportDialog.dart';
 import '../../core/cloudstorage/UploadCloudStorageModel.dart';
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:path/path.dart' as Path;
 
 import '../pages/cloud/SignIn.dart';
 import '../pages/cloud/registerPage.dart';
 
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
+
+
+  Future<void> backupDatabase(BuildContext context) async {
+
+    pickDirectory().then((value) async {
+
+      if(value == null) return;
+
+      File databaseExport = File(Path.join(value, DatabaseController.databaseFilename));
+
+      logging.info(databaseExport);
+
+      if(await databaseExport.exists()) {
+        logging.warning("Cannot save file because it already exists");
+
+        if(context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("The path $databaseExport already exists"));
+        }
+        return;
+      }
+
+      if(await DatabaseController.backupDatabase(databaseExport)) {
+
+        if(context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("Exported database to $databaseExport"));
+        }
+
+      }
+
+    });
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +115,7 @@ class SettingsDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.backup),
             title: const Text("Backup Database"),
-            onTap: () {},
+            onTap: () => backupDatabase(context),
           ),
           const Divider(),
 

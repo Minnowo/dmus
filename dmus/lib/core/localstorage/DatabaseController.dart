@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:dmus/core/localstorage/DatabaseMigrations.dart';
 import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../Util.dart';
 
@@ -27,6 +28,8 @@ final class DatabaseController {
   /// If false, the database is opened as normal
   static const bool alwaysCreateDb = false;
 
+  static const String databaseFilename = "client.db";
+
 
   /// database instance getter, initalizes the database on first call
   static Future<Database> get database async {
@@ -44,7 +47,7 @@ final class DatabaseController {
 
     logging.config("Database is being initialized");
 
-    String databasePath = Path.join(await getDatabasesPath(), 'client.db');
+    String databasePath = Path.join(await getDatabasesPath(), databaseFilename);
 
     logging.config("Database path is $databasePath");
 
@@ -80,5 +83,30 @@ final class DatabaseController {
   /// On open enable foreign keys
   static Future<void> _onOpen(Database db) async {
     await db.execute("PRAGMA foreign_keys = ON");
+  }
+
+
+  /// Copies the database to the given path
+  static Future<bool> backupDatabase(File path) async {
+
+    if(_database != null) {
+      await _database!.close();
+    }
+
+    String databasePath = Path.join(await getDatabasesPath(), databaseFilename);
+
+    File databaseFile = File(databasePath);
+
+    try {
+      await databaseFile.copy(path.path);
+      return true;
+    }
+    catch(e) {
+      logging.warning(e);
+      return false;
+    }
+    finally {
+      await database;
+    }
   }
 }
