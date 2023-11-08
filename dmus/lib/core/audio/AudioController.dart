@@ -89,9 +89,7 @@ final class AudioController {
   static Future<void> stop() async {
 
     await _player.pause();
-    await seek(Duration(seconds: 0));
-
-
+    await seek(const Duration(seconds: 0));
   }
 
 
@@ -180,6 +178,63 @@ final class AudioController {
     await setPlaybackSpeed(1);
 
     await _player.play(DeviceFileSource(src.file.path));
+  }
+
+  static Future<void> playPrevious() async {
+
+    switch(_player.state){
+      case PlayerState.disposed:
+        return setCurrentlyPlaying(null);
+      case PlayerState.playing:
+      case PlayerState.paused:
+      case PlayerState.stopped:
+      case PlayerState.completed:
+        break;
+    }
+
+    while(_playHistory.isNotEmpty) {
+
+      Song next = _playHistory.removeAt(_playHistory.length - 1);
+
+      if(next.file == null || next.file.path == null) {
+        logging.warning("Could not play next song $next ");
+        continue;
+      }
+
+      await playSong(next);
+
+      _playHistory.removeAt(_playHistory.length - 1);
+      return;
+    }
+
+    return setCurrentlyPlaying(null);
+  }
+
+  static Future<void> playNext() async {
+
+    switch(_player.state){
+      case PlayerState.disposed:
+        return setCurrentlyPlaying(null);
+      case PlayerState.playing:
+      case PlayerState.paused:
+      case PlayerState.stopped:
+      case PlayerState.completed:
+        break;
+    }
+
+    while(_playQueue.isNotEmpty) {
+
+      Song next = _playQueue.removeAt(0);
+
+      if(next.file == null || next.file.path == null) {
+        logging.warning("Could not play next song $next ");
+        continue;
+      }
+
+      return await playSong(next);
+    }
+
+    return setCurrentlyPlaying(null);
   }
 
   static Future<void> playQueue() async {

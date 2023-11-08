@@ -165,6 +165,8 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         ),
                         onPressed: () async {
                          logging.finest("PREVIOUS SONG");
+                         await AudioController.playPrevious();
+
                         },
                       ),
                       IconButton(
@@ -231,6 +233,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         ),
                         onPressed: () async {
                           logging.finest(" NEXT SONG");
+                          await AudioController.playNext();
                         },
                       ),
                     ],
