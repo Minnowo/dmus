@@ -134,7 +134,7 @@ class SettingsDrawer extends StatelessWidget {
               title: const Text('Login'),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => SignInWidget()));
-                popNavigatorSafe(context);
+                //popNavigatorSafe(context);
               },
             ),
           if (user == null)
@@ -143,7 +143,8 @@ class SettingsDrawer extends StatelessWidget {
               title: const Text('Create Account'),
               onTap: () async {
                 await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => RegistrationWidget()));
-                popNavigatorSafe(context);
+
+                //popNavigatorSafe(context);
               },
             ),
 

@@ -197,17 +197,17 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                       ),
                       IconButton(
                         icon: Container(
-                          width: 50, // Adjust the size of the circle as needed
-                          height: 50, // Adjust the size of the circle as needed
+                          width: 50,
+                          height: 50,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.black, // Change the color of the circle
+                            color: Colors.black,
                           ),
                           child: Center(
                             child: Icon(
-                              Icons.stop, // Display the stop icon
-                              size: 30, // Adjust the size of the stop icon as needed
-                              color: Colors.white, // Change the color of the icon
+                              Icons.stop,
+                              size: 30,
+                              color: Colors.white,
                             ),
                           ),
                         ),

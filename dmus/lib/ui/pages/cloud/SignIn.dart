@@ -10,7 +10,6 @@ class SignInWidget extends StatefulWidget {
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -62,6 +61,8 @@ class _SignInWidgetState extends State<SignInWidget> {
 
       if (userCredential.user != null) {
         _showSnackBar("Signed in: ${userCredential.user?.email}", Colors.green);
+
+        popNavigatorSafe(context);
         popNavigatorSafe(context);
       }
     } on FirebaseAuthException catch (e) {
