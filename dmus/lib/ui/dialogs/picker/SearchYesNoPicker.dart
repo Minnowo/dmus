@@ -1,6 +1,7 @@
 
 
 
+import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/musicbrainz/ResponseData.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class SearchYesNoPicker extends StatelessWidget {
       ]),
       DataRow(cells: [
         const DataCell(Text('Length')),
-        DataCell(Text(recordingsSearch.length?.toString() ?? 'N/A')),
+        DataCell(Text(recordingsSearch.length == null ? "N/A" : formatDuration(Duration(milliseconds: recordingsSearch.length!)))),
       ]),
 
       if(recordingsSearch.artistCredit != null)
