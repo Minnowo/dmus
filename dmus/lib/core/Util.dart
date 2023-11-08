@@ -1,8 +1,10 @@
 
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:path/path.dart' as Path;
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'data/DataEntity.dart';
 
@@ -145,17 +147,64 @@ String fileExtensionNoDot(String path){
 /// Asks or gets permission to manage external storage
 Future<bool> getExternalStoragePermission() async {
 
+  final c = await Permission.audio.isGranted;
+
+  if(!c) {
+    await Permission.audio.request();
+
+    if (!await Permission.audio.isGranted) {
+      logging.warning("No audio permissions");
+    }
+  }
+
+  final b = await Permission.storage.isGranted;
+
+  if(!b) {
+    await Permission.storage.request();
+
+    if (!await Permission.storage.isGranted) {
+      logging.warning("No storage permissions");
+    }
+  }
+
   final a = await Permission.manageExternalStorage.isGranted;
 
   if (!a) {
     await Permission.manageExternalStorage.request();
 
     if (!await Permission.manageExternalStorage.isGranted) {
-      logging.warning("No file permissions");
-      await openAppSettings();
+      logging.warning("No external storage permissions");
       return false;
     }
   }
 
   return true;
+}
+
+
+
+/// Tries to delete a file from external storage
+Future<void> deleteFileFromExternalStorage(String filePath) async {
+
+  final downloadsDirectory = await getExternalStorageDirectory();
+
+  if (downloadsDirectory == null) {
+    logging.warning("External storage directory was null!");
+    return;
+  }
+
+  try {
+    final file = File(filePath);
+
+    if (await file.exists() && file.parent.path == downloadsDirectory.path) {
+      await file.delete();
+      logging.info("Deleted $filePath from external storage");
+    }
+    else {
+      logging.info("Could not delete $filePath from external storage");
+    }
+  }
+  on Exception catch (e) {
+    logging.warning("While trying to delete $filePath from external storage: $e");
+  }
 }

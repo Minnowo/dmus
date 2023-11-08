@@ -1,5 +1,6 @@
 
 
+import 'package:dmus/core/data/DataEntity.dart';
 import 'package:flutter/material.dart';
 
 void popNavigatorSafe(BuildContext context) {
@@ -24,6 +25,17 @@ SnackBar createSimpleSnackBar(String text) {
 SnackBar createSimpleSnackBarWithDuration(String text, Duration d) {
 
   final snackBar = SnackBar( content: Text(text), duration: d,);
+
+  return snackBar;
+}
+
+SnackBar createSnackBar(SnackBarData data) {
+
+  final snackBar = SnackBar(
+    content: Text(data.text),
+    duration: data.duration ?? const Duration(seconds: 4),
+    backgroundColor: data.color,
+  );
 
   return snackBar;
 }

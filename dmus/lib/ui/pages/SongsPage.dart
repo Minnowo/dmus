@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/audio/AudioController.dart';
-import 'package:dmus/core/cloudstorage/ExternalStorageModel.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
@@ -45,8 +44,6 @@ class _SongsPageState extends  State<SongsPage> {
   Future<void> _onDismiss(Song s) async {
 
     await TableSong.deleteSongById(s.id);
-
-    ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
 
     setState(() {
       songs.remove(s);

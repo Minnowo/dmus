@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 
 import '../Util.dart';
@@ -62,6 +63,7 @@ final class ImportController {
 
     if(songId == null) {
       logging.warning("Cannot import $path because it does not exist");
+      MessagePublisher.publishSomethingWentWrong("Cannot import song because the file does not exist!");
       return;
     }
 
@@ -69,6 +71,7 @@ final class ImportController {
 
     if(s == null) {
       logging.warning("Could not get song with id $songId, even though it was just imported???!?!");
+      MessagePublisher.publishSomethingWentWrong("Cannot import song event though it was just imported!?!??!");
       return;
     }
 
@@ -99,18 +102,37 @@ final class ImportController {
     bool a = await getExternalStoragePermission();
 
     if(!a) {
-      logging.warning("Cannot import from folder $dir because there is no permission");
-      return;
+      logging.warning("Cannot import from folder $dir because there is no permission, trying anyway");
     }
 
-    var files = await dir.list(recursive: isRecursive)
-        .where((event) => musicFileExtensions.contains(fileExtensionNoDot(event.path).toLowerCase()))
-        .map((event) => File(event.path))
-        .toList();
+    try {
 
-    logging.info("Found files $files");
+      var files = await dir.list(recursive: isRecursive)
+          .where((event) => musicFileExtensions.contains(fileExtensionNoDot(event.path).toLowerCase()))
+          .map((event) => File(event.path))
+          .toList();
 
-    await importSongs(files);
+      logging.finest("Found files $files");
+
+      if(files.isEmpty) {
+        MessagePublisher.publishSomethingWentWrong("No files found in this folder!");
+        return;
+      }
+
+      await importSongs(files);
+    }
+    on PathAccessException catch(e) {
+
+      logging.warning("There is actually no permissions to read this path! $e");
+
+      MessagePublisher.publishSomethingWentWrong("No permission to list files in this directory!");
+    }
+    on Exception catch(e) {
+
+      logging.warning("Error while reading files from directory! $e");
+
+      MessagePublisher.publishRawException(e);
+    }
   }
 
 
@@ -127,6 +149,7 @@ final class ImportController {
 
     if(playlistId == null) {
       logging.info("Could not create playlist");
+      MessagePublisher.publishSomethingWentWrong("Cannot create playlist with an empty name!");
       return;
     }
 
@@ -149,6 +172,7 @@ final class ImportController {
 
     if(_playlistId == null) {
       logging.info("Could not edit playlist");
+      MessagePublisher.publishSomethingWentWrong("Cannot edit playlist with an empty name or which does not exist!");
       return;
     }
 

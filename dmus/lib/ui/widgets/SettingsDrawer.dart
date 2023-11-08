@@ -1,22 +1,17 @@
 import 'dart:io';
 
-import 'package:dmus/core/cloudstorage/DownloadCloudStorageModel.dart';
+import 'package:dmus/core/cloudstorage/CloudStorageDownload.dart';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-
-
-import '../../core/Util.dart';
-import '../dialogs/picker/ImportDialog.dart';
-import '../../core/cloudstorage/UploadCloudStorageModel.dart';
-
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 
+import '../../core/Util.dart';
+import '../../core/cloudstorage/CloudStorageUpload.dart';
+import '../dialogs/picker/ImportDialog.dart';
 import '../pages/cloud/SignIn.dart';
 import '../pages/cloud/registerPage.dart';
 
@@ -156,18 +151,16 @@ class SettingsDrawer extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.cloud_upload),
                   title: const Text('Upload to Cloud Storage'),
-                  onTap: () {
-                    UploadCloudStorageModel().addAllSongs(user.uid, context);
-                    UploadCloudStorageModel().addAllPlaylists(user.uid, context);
+                  onTap: () async {
+                    await CloudStorageUploadHelper.addAllSongs(user.uid);
+                    await CloudStorageUploadHelper.addAllPlaylists(user.uid);
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.cloud_download),
                   title: const Text('Download from Cloud'),
-                  onTap: () {
-
-                    DownloadCloudStorageModel().downloadAllSongs(user.uid,context);
-
+                  onTap: () async {
+                    await CloudStorageDownloadHelper.downloadAllSongs(user.uid);
                   },
                 ),
                 ListTile(
@@ -180,9 +173,9 @@ class SettingsDrawer extends StatelessWidget {
                     if(context.mounted) {
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('User logged out successfully'),
-                          duration: const Duration(seconds: 2),
+                          duration: Duration(seconds: 2),
                         ),
                       );
                     }
