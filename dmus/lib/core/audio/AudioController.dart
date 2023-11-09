@@ -25,34 +25,60 @@ final class AudioController {
   static bool _isPlayerReady = false;
 
 
+  /// Publish events when the song changes, either to null or another song
   static Stream<Song?> get onSongChanged {
     return _currentlyPlayingNotifier.stream;
   }
 
+
+  /// Publish events when the song position changes (ie 1 second passes)
   static Stream<Duration> get onPositionChanged {
     return _player.onPositionChanged;
   }
 
+
+  /// Publish events when the duration of the song changes
   static Stream<Duration> get onDurationChanged {
     return _player.onDurationChanged;
   }
 
+
+  /// Publish events when player state changes,
+  ///
+  /// Possible states are paused, playing, stopped, completed, disposed
   static Stream<PlayerState> get onStateChanged {
     return _player.onPlayerStateChanged;
   }
 
+
+  /// Publish events when the current song finishes playing
+  ///
+  /// This does not fire when it is canceled or changes song
   static Stream<void> get onComplete {
     return _player.onPlayerComplete;
   }
 
+
+  /// Get the players current playback speed
+  static double get playbackSpeed {
+    return _player.playbackRate;
+  }
+
+
+
+  /// Player internal logging hook
   static void _onLog(String event){
     logging.info(event);
   }
+
+
+  /// Player internal logging hook
   static void _onError(Object e, [StackTrace? stackTrace]){
     logging.severe(e.toString());
   }
 
 
+  /// Setup the player, can only be called once, and should be called at the start of the application
   static void setup(){
 
     if(_isPlayerReady) {
@@ -68,31 +94,83 @@ final class AudioController {
     _isPlayerReady = true;
   }
 
-  static double get playbackSpeed {
-    return _player.playbackRate;
-  }
 
   /// Returns a bool indicating if the player state is playing
   static bool isPlaying(){
     return _player.state == PlayerState.playing;
   }
 
+  
+  /// Seek the player to the current position
+  static Future<void> seekToPosition(Duration position) async {
+    await _player.seek(position);
+  }
+
+
+  /// Set the current playback speed, this value should be greater than 0
+  static Future<void> setPlaybackSpeed(double speed) async {
+    if(speed <= 0) {
+      logging.warning("Cannot set playback rate to 0 or less");
+      return;
+    }
+
+    await _player.setPlaybackRate(speed);
+  }
+
+
+  /// Queue the given song so that it plays next
+  static Future<void> queueSongNext(Song s) async {
+    _playQueue.insert(0, s);
+  }
+
+
+  /// Put the given song at the end of the play queue
+  static Future<void> queueSong(Song s) async {
+    _playQueue.add(s);
+  }
+
+
+  /// Put the given playlist at the end of the play queue
+  static Future<void> queuePlaylist(Playlist p) async {
+    logging.info("playing playlist ${p.toStringWithSongs()}");
+    _playQueue.addAll(p.songs);
+  }
+
+
+  /// Stop the player and empty the play queue
   static Future<void> stopAndEmptyQueue() async {
 
     setCurrentlyPlaying(null);
 
-    await _player.stop();
+    await stop();
 
     _playQueue.clear();
   }
 
-  static Future<void> stop() async {
 
+  /// Pause the player
+  static Future<void> pause() async {
+    logging.info("Pausing playback");
     await _player.pause();
-    await seek(const Duration(seconds: 0));
   }
 
 
+  /// Resume the player
+  static Future<void> resume() async {
+    logging.info("Resuming playback");
+    await _player.resume();
+  }
+
+
+  /// Stops the player
+  static Future<void> stop() async {
+
+    await _player.pause();
+    await seekToPosition(const Duration(seconds: 0));
+  }
+
+
+  /// Toggles between playing and pause state if possible
   static Future<void> togglePause() async{
 
     switch(_player.state){
@@ -108,16 +186,8 @@ final class AudioController {
     }
   }
 
-  static Future<void> pause() async {
-    logging.info("Pausing playback");
-    await _player.pause();
-  }
 
-  static Future<void> resume() async {
-    logging.info("Resuming playback");
-    await _player.resume();
-  }
-
+  /// Resumes from paused or tries to play the last played song
   static Future<void> resumePlayLast() async {
 
     logging.info(_player.state);
@@ -144,32 +214,33 @@ final class AudioController {
         if(last == null) {
           return;
         }
-        logging.info("about to play last ${last}");
 
-        logging.info("Playing song $last");
         await playSong(last);
 
         return await resume();
     }
   }
 
+
+  /// Set the currently playing song to this value
+  ///
+  /// Also updates the playHistory and publishes events for song changing
   static void setCurrentlyPlaying(Song? src) {
+
+    if(_currentSong != null) {
+      _playHistory.add(_currentSong!);
+    }
 
     _currentSong = src;
 
     _currentlyPlayingNotifier.add(src);
-
-    if(src != null) {
-      _playHistory.add(src);
-    }
   }
 
-  static Future<void> setPlaybackSpeed(double speed) async {
 
-    await _player.setPlaybackRate(speed);
-  }
-
-  static Future<void> playSong(Song src) async {
+  /// Play the given song and update the currently playing song
+  ///
+  /// Does not play anything if the song is null
+  static Future<void> playSong(Song? src) async {
 
     logging.info("Playing song $src");
 
@@ -177,9 +248,18 @@ final class AudioController {
 
     await setPlaybackSpeed(1);
 
-    await _player.play(DeviceFileSource(src.file.path));
+    if(src != null) {
+
+      await _player.play(DeviceFileSource(src.file.path));
+    }
   }
 
+
+  /// Plays the previous song
+  ///
+  /// Adjust the history and queue accordingly
+  ///
+  /// This can be used to seek to the previous and next song as needed
   static Future<void> playPrevious() async {
 
     switch(_player.state){
@@ -194,22 +274,33 @@ final class AudioController {
 
     while(_playHistory.isNotEmpty) {
 
-      Song next = _playHistory.removeAt(_playHistory.length - 1);
+      bool requeue = _currentSong != null;
 
-      if(next.file == null || next.file.path == null) {
-        logging.warning("Could not play next song $next ");
-        continue;
-      }
+      Song next = _playHistory.removeAt(_playHistory.length - 1);
 
       await playSong(next);
 
-      _playHistory.removeAt(_playHistory.length - 1);
+      if(requeue && _playHistory.isNotEmpty) {
+
+        Song last = _playHistory.removeAt(_playHistory.length - 1);
+
+        queueSongNext(last);
+
+        logging.info("==================");
+        logging.info(_playHistory);
+        logging.info(_currentSong);
+        logging.info(_playQueue);
+      }
       return;
     }
-
-    return setCurrentlyPlaying(null);
   }
 
+
+  /// Plays the next song
+  ///
+  /// Adjust the history and queue accordingly
+  ///
+  /// This can be used to seek to the previous and next song as needed
   static Future<void> playNext() async {
 
     switch(_player.state){
@@ -226,17 +317,12 @@ final class AudioController {
 
       Song next = _playQueue.removeAt(0);
 
-      if(next.file == null || next.file.path == null) {
-        logging.warning("Could not play next song $next ");
-        continue;
-      }
-
       return await playSong(next);
     }
-
-    return setCurrentlyPlaying(null);
   }
 
+
+  /// Resumes the song or plays the next song if there is no song playing
   static Future<void> playQueue() async {
 
     switch(_player.state){
@@ -252,33 +338,7 @@ final class AudioController {
         break;
     }
 
-    while(_playQueue.isNotEmpty) {
-
-      Song next = _playQueue.removeAt(0);
-
-      if(next.file == null || next.file.path == null) {
-        logging.warning("Could not play next song $next ");
-        continue;
-      }
-
-      return await playSong(next);
-    }
-
-    return setCurrentlyPlaying(null);
-  }
-
-  static Future<void> seek(Duration position) async {
-
-    await _player.seek(position);
-  }
-
-  static Future<void> queueSong(Song s) async {
-    _playQueue.add(s);
-  }
-
-  static Future<void> queuePlaylist(Playlist p) async {
-    logging.info("playing playlist ${p.toStringWithSongs()}");
-    _playQueue.addAll(p.songs);
+    await playNext();
   }
 }
 
