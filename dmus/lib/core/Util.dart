@@ -15,7 +15,14 @@ final logging = Logger('DMUS');
 const int maxInteger =  0x7FFFFFFFFFFFFFFF;
 const int minInteger = -0x8000000000000000;
 
+/// Lowercase music extensions without the dot
 const List<String> musicFileExtensions = ['flac', 'mp3', 'ogg', 'opus', 'wav','m4a'];
+
+/// Lowercase image extensions without the dot
+const List<String> imageFileExtensions = ['webp', 'png', 'jpeg', 'jpg', 'jfif','jpe', 'tiff', 'bmp'];
+
+/// Lowercase filenames without the extensions for common album cover art which is placed in the same directory of the files
+const List<String> albumArtFilenames   = ['cover', 'album', 'folder'];
 
 
 /// Formats the position time out of the duration time to display to the user
@@ -135,6 +142,19 @@ String bytesToHex(List<int> bytes) {
 String fileExtensionNoDot(String path){
 
   final p = Path.extension(path);
+
+  if(p.isEmpty) {
+    return "";
+  }
+
+  return p.substring(1);
+}
+
+
+/// Gets the filename without the extension
+String filenameWithoutExtension(String path){
+
+  final p = Path.basenameWithoutExtension(path);
 
   if(p.isEmpty) {
     return "";

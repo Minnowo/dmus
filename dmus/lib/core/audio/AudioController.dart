@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:audioplayers/audioplayers.dart';
 import '../Util.dart';
@@ -62,6 +63,16 @@ final class AudioController {
   /// Get the players current playback speed
   static double get playbackSpeed {
     return _player.playbackRate;
+  }
+
+  /// Get a read only view of the play queue
+  static UnmodifiableListView<Song> get getPlayQueue {
+    return UnmodifiableListView(_playQueue);
+  }
+
+  /// Get a read only view of the play history
+  static UnmodifiableListView<Song> get getPlayHistory {
+    return UnmodifiableListView(_playHistory);
   }
 
 

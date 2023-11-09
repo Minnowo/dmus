@@ -154,7 +154,7 @@ class Pair<A, B> {
   final A itemA;
   final B itemB;
 
-  Pair(this.itemA, this.itemB);
+  Pair({required this.itemA, required this.itemB});
 }
 
 

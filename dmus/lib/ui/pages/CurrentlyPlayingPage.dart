@@ -151,11 +151,11 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         icon: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.skip_previous,
                               size: 30,
@@ -173,7 +173,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         icon: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
                           ),
@@ -199,11 +199,11 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         icon: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.stop,
                               size: 30,
@@ -219,11 +219,11 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         icon: Container(
                           width: 50,
                           height: 50,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.black,
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Icon(
                               Icons.skip_next,
                               size: 30,
