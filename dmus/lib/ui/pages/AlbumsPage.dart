@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
+import 'package:dmus/ui/widgets/AlbumTile.dart';
+import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
@@ -108,60 +110,7 @@ class _AlbumsPageState extends State<AlbumsPage>{
                       crossAxisCount: 2,
                     ),
                     itemCount: albums.length,
-                    itemBuilder: (context, index) {
-
-                      final playlist = albums[index];
-
-                      Future<File?> imageFileFuture;
-
-                      if(playlist.songs.firstOrNull?.pictureCacheKey != null) {
-                        imageFileFuture = ImageCacheController.getImagePathFromRaw(playlist.songs.firstOrNull!.pictureCacheKey!);
-                      } else {
-                        imageFileFuture = Future<File?>.value(null);
-                      }
-
-                      return InkWell(
-                        child: GridTile(
-                          footer: Container(
-                            color: Colors.black.withOpacity(0.7), // Background color for the entire GridTileBar
-                            child: GridTileBar(
-                              title: Text(
-                                playlist.title,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              subtitle: Text(
-                                formatDuration(playlist.duration),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.play_arrow),
-                                onPressed: () async {
-                                  logging.finest(playlist);
-                                  AudioController.queuePlaylist(playlist);
-                                  await AudioController.playQueue();
-                                },
-                              ),
-                            ),
-                          ),
-                          child: FutureBuilder<File?>(
-                              future: imageFileFuture,
-                              builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-                                var albumArtImage = snapshot.data != null
-                                    ? Image.file(snapshot.data!, fit: BoxFit.cover)
-                                    : const Icon(Icons.music_note);
-                                return albumArtImage;
-                              }),
-                        ),
-                        onTap: () {
-                        },
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist,),
-                          );
-                        },
-                      );
-                    },
+                    itemBuilder: (context, index) => AlbumTile(playlist: albums[index])
                   )
               )
           ],

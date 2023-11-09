@@ -6,9 +6,11 @@ import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
+import '../Theming.dart';
 
 class CurrentlyPlayingBar extends  StatelessWidget {
   const CurrentlyPlayingBar({super.key});
@@ -22,8 +24,6 @@ class CurrentlyPlayingBar extends  StatelessWidget {
     AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
     Song? song = audioControllerModel.currentlyPlaying;
-
-    logging.info(audioControllerModel.state);
 
     if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
       return Container();

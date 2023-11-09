@@ -75,6 +75,27 @@ class Song extends DataEntity {
         super.withDuration();
 
 
+  String artistAlbumText() {
+
+    List<String> a = [];
+
+    if(metadata.albumName != null) {
+      a.add(metadata.albumName!);
+    }
+    else if(metadata.albumArtistName != null) {
+      a.add(metadata.albumArtistName!);
+    }
+
+    if(metadata.authorName != null) {
+      a.add(metadata.authorName!);
+    }
+    else if(metadata.trackArtistNames != null) {
+      a.add(metadata.trackArtistNames!.join(", "));
+    }
+
+    return a.join(" - ");
+  }
+
   @override
   EntityType get entityType => EntityType.song;
 }

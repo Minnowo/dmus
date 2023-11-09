@@ -7,13 +7,16 @@ import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
+import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/TimeSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
 import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../Theming.dart';
 
 class CurrentlyPlayingPage extends StatefulWidget {
   const CurrentlyPlayingPage({super.key});
@@ -79,37 +82,56 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (songContext!.metadata.albumArt != null)
-            Image.memory(songContext!.metadata.albumArt!),
-          if (songContext!.metadata.albumArt == null && songContext!.pictureCacheKey != null)
-            FutureBuilder<File?>(
-              future: ImageCacheController.getImagePathFromRaw(songContext!.pictureCacheKey!),
-              builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
-                }
-                if (snapshot.data != null) {
-                  return Image.file(
-                    snapshot.data!,
-                    fit: BoxFit.cover,
-                  );
-                }
-                return const Text('No image path found.');
-              },
-            ),
+
+          Expanded(
+            flex: 720,
+              child: ArtDisplay(songContext: songContext!)),
+
           Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              songContext!.title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 64,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextScroll(
+                    songContext!.title,
+                    mode: TextScrollMode.endless,
+                    velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                    delayBefore: const Duration(milliseconds: 500),
+                    pauseBetween: const Duration(milliseconds: 2000),
+                    pauseOnBounce: const Duration(milliseconds: 1000),
+                    style: TEXT_BIG,
+                    textAlign: TextAlign.left,
+                    fadedBorder: true,
+                    fadedBorderWidth: 0.02,
+                    fadeBorderVisibility: FadeBorderVisibility.auto,
+                    intervalSpaces: 30,
+                  ),
+                  TextScroll(songContext!.artistAlbumText(),
+                    mode: TextScrollMode.endless,
+                    velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                    delayBefore: const Duration(milliseconds: 500),
+                    pauseBetween: const Duration(milliseconds: 2000),
+                    pauseOnBounce: const Duration(milliseconds: 1000),
+                    style: TextStyle(
+                      color: Colors.grey[300],
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    textAlign: TextAlign.left,
+                    fadedBorder: true,
+                    fadedBorderWidth: 0.02,
+                    fadeBorderVisibility: FadeBorderVisibility.auto,
+                    intervalSpaces: 30,
+                  ),
+                ],
+              ),
             ),
           ),
+
+          const Spacer(flex: 20,),
 
           StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
@@ -119,9 +141,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
               children: [
                 IconButton(
                   icon: Icon(
-                    // Conditional icon based on the liked state
                     songContext!.liked ? Icons.favorite : Icons.favorite_border,
-                    // Conditional color based on the liked state
                     color: songContext!.liked ? Colors.red : null,
                   ),
                   onPressed: () async {

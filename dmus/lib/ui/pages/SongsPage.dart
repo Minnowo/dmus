@@ -6,6 +6,7 @@ import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
+import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -82,14 +83,6 @@ class _SongsPageState extends  State<SongsPage> {
   Widget buildSongList(BuildContext context, int index) {
     final Song song = songs[index];
 
-    Future<File?> imageFileFuture;
-
-    if (song.pictureCacheKey != null) {
-      imageFileFuture = ImageCacheController.getImagePathFromRaw(song.pictureCacheKey!);
-    } else {
-      imageFileFuture = Future<File?>.value(null);
-    }
-
     return Dismissible(
       key: UniqueKey(),
       direction: DismissDirection.endToStart,
@@ -110,43 +103,20 @@ class _SongsPageState extends  State<SongsPage> {
         }
         return false;
       },
-      child: FutureBuilder<File?>(
-        future: imageFileFuture,
-        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-          final albumArtImage = snapshot.data != null
-              ? Image.file(snapshot.data!, fit: BoxFit.cover)
-              : const Icon(Icons.music_note);
-
-
-          final albumArtContainer = Container(
-            width: 60,
-            height: 60,
-            child: albumArtImage,
-          );
-
-          final tile = ListTile(
-            leading: albumArtContainer, // Use the Container with fixed size
-            title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-            trailing: Text(formatDuration(song.duration)),
-            subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
-          );
-
-          return InkWell(
-            child: tile,
-            onTap: () async {
-              await AudioController.playSong(song);
-            },
-            onTapCancel: () {
-              setState(() {
-                marqueeIndex = index;
-              });
-            },
-            onLongPress: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => SongContextDialog(songContext: song),
-              );
-            },
+      child: InkWell(
+        child: ListTile(
+          leading: ArtDisplay(songContext: song,),
+          title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+          trailing: Text(formatDuration(song.duration)),
+          subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+        ),
+        onTap: () async {
+          await AudioController.playSong(song);
+        },
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => SongContextDialog(songContext: song),
           );
         },
       ),
