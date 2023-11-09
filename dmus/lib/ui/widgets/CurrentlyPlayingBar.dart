@@ -1,6 +1,7 @@
 
 
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
-import '../Theming.dart';
+import '../lookfeel/Theming.dart';
 
 class CurrentlyPlayingBar extends  StatelessWidget {
   const CurrentlyPlayingBar({super.key});
@@ -47,10 +48,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
         },
         child:
         InkWell(
-            onTap: () {
-              logging.info("Currently playing tapped");
-              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CurrentlyPlayingPage()));
-            },
+            onTap: () => _openCurrentlyPlayingPage(context),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -92,5 +90,12 @@ class CurrentlyPlayingBar extends  StatelessWidget {
             )
         ),
       ) ;
+  }
+
+
+  void _openCurrentlyPlayingPage(BuildContext context) {
+
+    animateOpenFromBottom(context, const CurrentlyPlayingPage());
+
   }
 }
