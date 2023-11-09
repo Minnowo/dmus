@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableHistory.dart';
 import '../Util.dart';
 import '../data/DataEntity.dart';
@@ -24,6 +25,7 @@ final class AudioController {
   static final _currentlyPlayingNotifier = StreamController<Song?>.broadcast();
 
   static Song? _currentSong;
+  static bool _isStopped = false;
   static bool _isPlayerReady = false;
 
 
@@ -102,6 +104,7 @@ final class AudioController {
         onError: _onError
     );
     _player.onPlayerComplete.listen((event) { playQueue().then((value) => logging.info("Playing next song..."));});
+    _player.onPlayerStateChanged.listen((event) { if(event == PlayerState.stopped) _isStopped = true; });
 
     _isPlayerReady = true;
   }
@@ -174,11 +177,24 @@ final class AudioController {
   }
 
 
+  /// Resume the player
+  static Future<void> resumeOrPlay(Song s) async {
+
+    if(_isStopped) {
+      await playSong(s);
+    } else {
+      await _player.resume();
+    }
+  }
+
+
   /// Stops the player
   static Future<void> stop() async {
 
-    await _player.pause();
+    await _player.stop();
     await seekToPosition(const Duration(seconds: 0));
+    setCurrentlyPlaying(null);
+    _isStopped = true;
   }
 
 
@@ -262,8 +278,15 @@ final class AudioController {
 
     if(src != null) {
 
-      await TableHistory.addToHistory(src.id);
-      await _player.play(DeviceFileSource(src.file.path));
+      if(await src.file.exists()) {
+
+        await TableHistory.addToHistory(src.id);
+        await _player.play(DeviceFileSource(src.file.path));
+        _isStopped = true;
+
+      } else {
+        MessagePublisher.publishSomethingWentWrong("Cannot play ${src.file} because it does not exist!");
+      }
     }
   }
 

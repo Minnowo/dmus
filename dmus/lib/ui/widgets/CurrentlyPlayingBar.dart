@@ -13,6 +13,7 @@ import '../../core/data/DataEntity.dart';
 class CurrentlyPlayingBar extends  StatelessWidget {
   const CurrentlyPlayingBar({super.key});
 
+  static int _keyValue = 0;
 
 
   @override
@@ -22,7 +23,9 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
     Song? song = audioControllerModel.currentlyPlaying;
 
-    if(!audioControllerModel.isPlaying && !audioControllerModel.isPaused || song == null) {
+    logging.info(audioControllerModel.state);
+
+    if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
       return Container();
     }
 
@@ -35,50 +38,59 @@ class CurrentlyPlayingBar extends  StatelessWidget {
       progress /= songDuration.inMilliseconds;
     }
 
-    return InkWell(
-          onTap: () {
-            logging.info("Currently playing tapped");
-            Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CurrentlyPlayingPage()));
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Visibility(
-                  visible: !audioControllerModel.isPlaying,
-                  child: IconButton(
-                    icon: const Icon(Icons.play_arrow), // Play button
-                    onPressed: () async { await AudioController.resume(); },
+    return
+      Dismissible(
+        key: ValueKey(_keyValue),
+        onDismissed: (_) async {
+          await AudioController.stop();
+          _keyValue++;
+        },
+        child:
+        InkWell(
+            onTap: () {
+              logging.info("Currently playing tapped");
+              Navigator.push(context, MaterialPageRoute(builder: (ctx) => const CurrentlyPlayingPage()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Visibility(
+                    visible: !audioControllerModel.isPlaying,
+                    child: IconButton(
+                      icon: const Icon(Icons.play_arrow), // Play button
+                      onPressed: () async { await AudioController.resume(); },
+                    ),
                   ),
-                ),
-                Visibility(
-                  visible: audioControllerModel.isPlaying,
-                  child: IconButton(
-                    icon: const Icon(Icons.pause), // Pause button
-                    onPressed: () async { await AudioController.pause(); },
+                  Visibility(
+                    visible: audioControllerModel.isPlaying,
+                    child: IconButton(
+                      icon: const Icon(Icons.pause), // Pause button
+                      onPressed: () async { await AudioController.pause(); },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 20,
-                        child: Marquee (
-                          text: currentlyPlayingTextFromMetadata(song),
-                          blankSpace: 20.0,
-                          velocity: 30.0,
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 20,
+                          child: Marquee (
+                            text: currentlyPlayingTextFromMetadata(song),
+                            blankSpace: 20.0,
+                            velocity: 30.0,
+                          ),
                         ),
-                      ),
-                      LinearProgressIndicator(
-                        value: progress,
-                      ),
-                      Text(formatTimeDisplay(currentSongPosition, songDuration)),
-                    ],
+                        LinearProgressIndicator(
+                          value: progress,
+                        ),
+                        Text(formatTimeDisplay(currentSongPosition, songDuration)),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-    ) ;
+                ],
+              ),
+            )
+        ),
+      ) ;
   }
 }

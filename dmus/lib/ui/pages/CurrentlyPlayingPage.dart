@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -199,7 +200,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                           if (audioControllerModel.isPlaying) {
                             await AudioController.pause();
                           } else {
-                            await AudioController.resume();
+                            await AudioController.resumeOrPlay(songContext!);
                           }
                         },
                       ),
