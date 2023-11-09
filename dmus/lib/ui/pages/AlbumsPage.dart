@@ -10,6 +10,7 @@ import '../../core/Util.dart';
 import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImageCacheController.dart';
+import '../../core/localstorage/ImportController.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
 
@@ -29,14 +30,7 @@ class _AlbumsPageState extends State<AlbumsPage>{
 
   List<Album> albums = [];
 
-  @override
-  void initState() {
-
-    super.initState();
-
-    _subscriptions = [
-      // ImportController.onSongImported.listen(_onSongImported),
-    ];
+  void _rebuildAlbums(void a) {
 
     TableAlbum.selectAll().then((value) {
 
@@ -44,8 +38,19 @@ class _AlbumsPageState extends State<AlbumsPage>{
         albums.clear();
         albums.addAll(value);
       });
-
     });
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+
+    _subscriptions = [
+      ImportController.onAlbumCacheRebuild.listen(_rebuildAlbums),
+    ];
+
+    _rebuildAlbums(null);
   }
 
   @override

@@ -30,6 +30,10 @@ final class ImportController {
   /// A pub for when a playlist has been created
   static final _playlistUpdatedController = StreamController<Playlist>.broadcast();
 
+  /// A pub for when the albums have been rebuilt
+  static final _albumsRebuiltController = StreamController<void>.broadcast();
+
+
 
   /// A pub for when an import has completed for a song
   static Stream<Song> get onSongImported {
@@ -49,6 +53,12 @@ final class ImportController {
   }
 
 
+  /// A pub for when the albums have been rebuilt
+  static Stream<void> get onAlbumCacheRebuild {
+    return _albumsRebuiltController.stream;
+  }
+
+
 
   /// Finish importing and build the album cache
   static Future<void> endImports() async {
@@ -56,6 +66,8 @@ final class ImportController {
     if(_importCount < 1) return;
 
     await TableAlbum.generateAlbums();
+
+    _albumsRebuiltController.add(null);
 
     _importCount = 0;
   }
