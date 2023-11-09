@@ -6,6 +6,7 @@ import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
@@ -105,13 +106,16 @@ class _SongsPageState extends  State<SongsPage> {
       },
       child: InkWell(
         child: ListTile(
-          leading: ArtDisplay(songContext: song,),
+          leading: SizedBox (
+            width: THUMB_SIZE,
+            child: ArtDisplay(songContext: song,),
+          ),
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           trailing: Text(formatDuration(song.duration)),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         onTap: () async {
-          await AudioController.playSong(song);
+          await AudioController.playSong(song, true);
         },
         onLongPress: () {
           showDialog(

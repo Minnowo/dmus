@@ -43,8 +43,8 @@ class CurrentlyPlayingBar extends  StatelessWidget {
       Dismissible(
         key: ValueKey(_keyValue),
         onDismissed: (_) async {
-          await AudioController.stop();
           _keyValue++;
+          await AudioController.stop();
         },
         child:
         InkWell(

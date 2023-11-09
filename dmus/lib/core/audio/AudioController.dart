@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/audio/PlayQueue.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableHistory.dart';
 import '../Util.dart';
@@ -19,8 +20,7 @@ final class AudioController {
   AudioController._();
 
   static final AudioPlayer _player = AudioPlayer();
-  static final List<Song> _playQueue = [];
-  static final List<Song> _playHistory = [];
+  static final PlayQueue _playQueue = PlayQueue();
 
   static final _currentlyPlayingNotifier = StreamController<Song?>.broadcast();
 
@@ -68,14 +68,14 @@ final class AudioController {
     return _player.playbackRate;
   }
 
-  /// Get a read only view of the play queue
-  static UnmodifiableListView<Song> get getPlayQueue {
-    return UnmodifiableListView(_playQueue);
+
+  /// Get the current queue
+  static UnmodifiableListView<Song> get queue{
+    return _playQueue.readQueue;
   }
 
-  /// Get a read only view of the play history
-  static UnmodifiableListView<Song> get getPlayHistory {
-    return UnmodifiableListView(_playHistory);
+  static int get queuePosition{
+    return _playQueue.currentPosition;
   }
 
 
@@ -135,20 +135,20 @@ final class AudioController {
 
   /// Queue the given song so that it plays next
   static Future<void> queueSongNext(Song s) async {
-    _playQueue.insert(0, s);
+    _playQueue.queueNext(s);
   }
 
 
   /// Put the given song at the end of the play queue
   static Future<void> queueSong(Song s) async {
-    _playQueue.add(s);
+    _playQueue.addToQueue(s);
   }
 
 
   /// Put the given playlist at the end of the play queue
   static Future<void> queuePlaylist(Playlist p) async {
     logging.info("playing playlist ${p.toStringWithSongs()}");
-    _playQueue.addAll(p.songs);
+    _playQueue.addAllToQueue(p.songs);
   }
 
 
@@ -181,7 +181,7 @@ final class AudioController {
   static Future<void> resumeOrPlay(Song s) async {
 
     if(_isStopped) {
-      await playSong(s);
+      await playSong(s, true);
     } else {
       await _player.resume();
     }
@@ -237,13 +237,13 @@ final class AudioController {
       case PlayerState.stopped:
       case PlayerState.completed:
 
-        Song? last = _playHistory.lastOrNull;
+        Song? last = _playQueue.current();
 
         if(last == null) {
           return;
         }
 
-        await playSong(last);
+        await playSong(last, false);
 
         return await resume();
     }
@@ -255,28 +255,44 @@ final class AudioController {
   /// Also updates the playHistory and publishes events for song changing
   static void setCurrentlyPlaying(Song? src) {
 
-    if(_currentSong != null) {
-      _playHistory.add(_currentSong!);
-    }
-
     _currentSong = src;
 
     _currentlyPlayingNotifier.add(src);
   }
 
 
+  /// Play the given song at the given index of the queue
+  static Future<void> playSongAt(int index) async {
+
+    logging.info("Playing song at $index");
+
+    if(!_playQueue.canJump(index)) {
+      logging.warning("Cannot jump to $index");
+      return;
+    }
+
+    _playQueue.jumpToIndex(index);
+
+    Song? s = _playQueue.current();
+
+    await playSong(s, false);
+  }
+
+
   /// Play the given song and update the currently playing song
   ///
   /// Does not play anything if the song is null
-  static Future<void> playSong(Song? src) async {
+  static Future<void> playSong(Song? src, bool jumpQueue) async {
 
     logging.info("Playing song $src");
-
-    setCurrentlyPlaying(src);
 
     await setPlaybackSpeed(1);
 
     if(src != null) {
+
+      if(jumpQueue) {
+        _playQueue.jumpTo(src);
+      }
 
       if(await src.file.exists()) {
 
@@ -288,6 +304,8 @@ final class AudioController {
         MessagePublisher.publishSomethingWentWrong("Cannot play ${src.file} because it does not exist!");
       }
     }
+
+    setCurrentlyPlaying(src);
   }
 
 
@@ -308,27 +326,11 @@ final class AudioController {
         break;
     }
 
-    while(_playHistory.isNotEmpty) {
+    Song? prev = _playQueue.advancePrevious();
 
-      bool requeue = _currentSong != null;
+    if(prev == null) return;
 
-      Song next = _playHistory.removeAt(_playHistory.length - 1);
-
-      await playSong(next);
-
-      if(requeue && _playHistory.isNotEmpty) {
-
-        Song last = _playHistory.removeAt(_playHistory.length - 1);
-
-        queueSongNext(last);
-
-        logging.info("==================");
-        logging.info(_playHistory);
-        logging.info(_currentSong);
-        logging.info(_playQueue);
-      }
-      return;
-    }
+    await playSong(prev, false);
   }
 
 
@@ -349,12 +351,11 @@ final class AudioController {
         break;
     }
 
-    while(_playQueue.isNotEmpty) {
+    Song? next = _playQueue.advanceNext();
 
-      Song next = _playQueue.removeAt(0);
+    if(next == null) return;
 
-      return await playSong(next);
-    }
+    await playSong(next, false);
   }
 
 

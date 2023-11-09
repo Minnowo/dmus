@@ -15,6 +15,8 @@ const Color GREEN = Color.fromARGB(255, 61, 161, 65);
 
 const double HORIZONTAL_PADDING = 16.0;
 
+const double THUMB_SIZE = 56.0;
+
 ThemeData theme() => ThemeData(
   useMaterial3: true,
   colorScheme: const ColorScheme(
