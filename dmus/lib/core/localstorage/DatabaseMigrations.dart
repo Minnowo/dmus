@@ -83,6 +83,7 @@ final class DatabaseMigrations {
         genre VARCHAR,
         mimetype VARCHAR,
         bitrate INTEGER,
+        track_number INTEGER,
         disc_number INTEGER,
         year INTEGER,
         duration_ms INTEGER,

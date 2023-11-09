@@ -24,6 +24,44 @@ final class TableAlbum {
   static const String titleCol = "title";
 
 
+
+
+  static Future<void> generateAlbums() async {
+
+    final db = await DatabaseController.database;
+
+    await db.delete(name);
+
+    // insert albums into the albums table from the metadata table
+    await db.rawQuery(
+        "INSERT INTO $name ($titleCol) "
+            "SELECT DISTINCT(${TableFMetadata.albumCol}) FROM ${TableFMetadata
+            .name} "
+            "WHERE ${TableFMetadata.albumCol} IS NOT NULL "
+            "GROUP BY ${TableFMetadata.albumCol} "
+            "HAVING COUNT(${TableFMetadata.albumCol}) > 1;"
+    );
+
+    // inserts the songs into the album_songs table based on their album
+    await db.rawQuery(
+        "INSERT INTO ${TableAlbumSong.name} (${TableAlbumSong
+            .albumIdCol}, ${TableAlbumSong.songIdCol}, ${TableAlbumSong
+            .songIndexCol}) "
+            "SELECT "
+            "a.${TableAlbum.idCol}, "
+            "f.${TableFMetadata.idCol}, "
+            "f.${TableFMetadata.trackNumberCol} "
+            "FROM ${TableAlbum.name} a "
+            "JOIN ${TableFMetadata.name} f ON a.${TableAlbum
+            .titleCol} = f.${TableFMetadata.albumCol} "
+            "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
+            "ORDER BY f.${TableFMetadata.trackNumberCol};"
+    );
+  }
+
+
+
+
   /// Inserts a new playlist into the database
   ///
   /// Assumes all the songs exist in the database

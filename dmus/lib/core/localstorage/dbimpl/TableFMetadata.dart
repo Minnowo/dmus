@@ -5,6 +5,7 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart' as Path;
 import '../../Util.dart';
 
 
@@ -48,6 +49,7 @@ final class TableFMetadata {
   static const String genreCol = "genre";
   static const String mimetypeCol = "mimetype";
   static const String bitrateCol = "bitrate";
+  static const String trackNumberCol = "track_number";
   static const String discNumberCol = "disc_number";
   static const String yearCol = "year";
   static const String durationMsCol = "duration_ms";
@@ -84,6 +86,7 @@ final class TableFMetadata {
         genreCol: m.genre,
         mimetypeCol: m.mimeType,
         bitrateCol: m.bitrate,
+        trackNumberCol: m.trackNumber,
         discNumberCol: m.discNumber,
         yearCol: m.year,
         durationMsCol: m.trackDuration,
@@ -132,6 +135,7 @@ final class TableFMetadata {
         genreCol: m.genre,
         mimetypeCol: m.mimeType,
         bitrateCol: m.bitrate,
+        trackNumberCol: m.trackNumber,
         discNumberCol: m.discNumber,
         yearCol: m.year,
         durationMsCol: m.trackDuration,
@@ -160,6 +164,7 @@ final class TableFMetadata {
         genre: e[genreCol] as String?,
         mimeType: e[mimetypeCol] as String?,
         bitrate: e[bitrateCol] as int?,
+        trackNumber: e[trackNumberCol] as int?,
         discNumber: e[discNumberCol] as int?,
         year: e[yearCol] as int?,
         trackDuration: e[durationMsCol] as int?

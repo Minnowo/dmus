@@ -79,6 +79,12 @@ class _AlbumsPageState extends State<AlbumsPage>{
                 });
               },
             ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () {
+                TableAlbum.generateAlbums().whenComplete(() => setState((){}));
+              },
+            ),
           ],
         ),
         body:  Column(
@@ -93,8 +99,8 @@ class _AlbumsPageState extends State<AlbumsPage>{
             else
               Expanded(
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Two tiles per row
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                     ),
                     itemCount: albums.length,
                     itemBuilder: (context, index) {
