@@ -26,7 +26,7 @@ final class DatabaseController {
   /// If true, the database is deleted before firsts connecting
   ///
   /// If false, the database is opened as normal
-  static const bool alwaysCreateDb = false;
+  static const bool alwaysCreateDb = true;
 
   static const String databaseFilename = "client.db";
 

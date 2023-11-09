@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableHistory.dart';
 import '../Util.dart';
 import '../data/DataEntity.dart';
 
@@ -261,6 +262,7 @@ final class AudioController {
 
     if(src != null) {
 
+      await TableHistory.addToHistory(src.id);
       await _player.play(DeviceFileSource(src.file.path));
     }
   }

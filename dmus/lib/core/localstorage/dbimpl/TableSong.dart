@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as Path;
 import 'package:sqflite/sqflite.dart';
@@ -119,8 +120,13 @@ final class TableSong {
     ;
 
     var result = await db.rawQuery(sql);
-    
-    return result.map((e) => fromMappedObjects(e)).toList();
+
+    final results = result.map((e) => fromMappedObjects(e)) .toList();
+
+    for(final Song i in results) {
+      i.liked  = await TableLikes.isSongLiked(i.id);
+    }
+    return results;
   }
 
 

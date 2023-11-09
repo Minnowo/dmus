@@ -57,12 +57,32 @@ final class DatabaseMigrations {
     const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
     const String TBL_ALBUM_SONG = "tbl_album_song";
     const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
+    const String TBL_LIKES = "tbl_likes";
+    const String TBL_HISTORY = "tbl_history";
 
     await db.execute("PRAGMA foreign_keys = ON");
 
+    const String SONG_ID = "song_id";
+
+    logging.config("Creating $TBL_LIKES");
+
+    await db.execute('''
+    CREATE TABLE $TBL_LIKES (
+        $SONG_ID INTEGER PRIMARY KEY
+    ) 
+    ''');
+
+    logging.config("Creating $TBL_HISTORY");
+
+    await db.execute('''
+    CREATE TABLE $TBL_HISTORY (
+        $SONG_ID INTEGER,
+        played_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+    ) 
+    ''');
+
     logging.config("Creating $TBL_SONG");
 
-    const String SONG_ID = "song_id";
 
     await db.execute('''
     CREATE TABLE $TBL_SONG (

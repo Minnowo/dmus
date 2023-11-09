@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/widgets/TimeSlider.dart';
@@ -21,7 +23,6 @@ class CurrentlyPlayingPage extends StatefulWidget {
 
 class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
   static const String title = "Currently Playing";
-  bool isLiked = false;
 
   late final StreamSubscription<Song?> currentlyPlayingSubscriber;
 
@@ -31,15 +32,19 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
     if (s == null || s == songContext) {
       return;
     }
+
     setState(() {
       songContext = s;
+
     });
   }
 
   @override
   void initState() {
     super.initState();
+
     currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
+
     setState(() {
       songContext = context.read<AudioControllerModel>().currentlyPlaying;
     });
@@ -104,39 +109,42 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(
-                  // Conditional icon based on the liked state
-                  isLiked ? Icons.favorite : Icons.favorite_border,
-                  // Conditional color based on the liked state
-                  color: isLiked ? Colors.red : null,
-                ),
-                onPressed: () {
-                  setState(() {
 
-                    isLiked = !isLiked;
+          StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
 
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    // Conditional icon based on the liked state
+                    songContext!.liked ? Icons.favorite : Icons.favorite_border,
+                    // Conditional color based on the liked state
+                    color: songContext!.liked ? Colors.red : null,
+                  ),
+                  onPressed: () async {
 
-                    if (isLiked) {
-                     logging.finest("SONG FAVOURITED");
+                    songContext!.liked = !songContext!.liked;
+
+                    if (songContext!.liked) {
+                      TableLikes.markSongLiked(songContext!.id);
                     } else {
-                      logging.finest("SONG UNFAVOURITED");
-
+                      TableLikes.markSongNotLiked(songContext!.id);
                     }
-                  });
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.playlist_add),
-                onPressed: () {
-                  logging.finest("ADD TO PLAYLIST");
-                },
-              ),
-            ],
-          ),
+
+                    setState(() { });
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.playlist_add),
+                  onPressed: () {
+                    logging.finest("ADD TO PLAYLIST");
+                  },
+                ),
+              ],
+            );
+          }),
 
           Consumer<AudioControllerModel>(
             builder: (context, audioControllerModel, child) {

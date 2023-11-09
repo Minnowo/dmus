@@ -66,6 +66,8 @@ class Song extends DataEntity {
   /// The metadata embedded inside the file
   Metadata metadata;
 
+  /// If the song is liked
+  bool liked = false;
 
   Song({required super.id, required super.title, required this.file, required this.metadata});
 
