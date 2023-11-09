@@ -1,12 +1,14 @@
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as Path;
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'data/DataEntity.dart';
+import 'data/FileOutput.dart';
 
 
 /// The global logger instance
@@ -23,6 +25,60 @@ const List<String> imageFileExtensions = ['webp', 'png', 'jpeg', 'jpg', 'jfif','
 
 /// Lowercase filenames without the extensions for common album cover art which is placed in the same directory of the files
 const List<String> albumArtFilenames   = ['cover', 'album', 'folder'];
+
+
+
+Future<void> initLogging(Level l) async {
+
+  final dir = await getExternalStorageDirectory();
+
+  final logPath = Directory('${dir?.path}/logs/');
+
+  if(!await logPath.exists()) {
+
+    try {
+      await logPath.create(recursive: true);
+    }
+    on Exception catch(e) {
+      debugPrint("Error creating log directory: $e");
+    }
+  }
+
+  try {
+
+    final date = DateTime.now();
+
+    final logFile = File(Path.join(logPath.path, '${date.year}-${date.month}-${date.day}.log'));
+
+    debugPrint("Logs will be written to $logFile");
+
+    final FileOutput fo = FileOutput(file: logFile);
+
+    fo.init();
+
+    Logger.root.level = l;
+
+    debugPrint("Logs will be shown at level $l");
+
+    Logger.root.onRecord.listen((record) {
+      final formated = '${record.level.name}: ${record.time}: ${record.message}';
+      debugPrint(formated);
+      fo.output([formated]);
+    });
+
+    logging.shout("Logging almost done");
+
+    if(await logFile.exists()) {
+      logging.shout("Logging setup! Logs should be written to $logFile");
+    } else {
+      logging.shout("Logging setup! Logs are supposed to be written to $logFile, but it does not exist!");
+    }
+  }
+  on Exception catch(e) {
+    debugPrint("Could not setup logging!");
+  }
+}
+
 
 
 /// Formats the position time out of the duration time to display to the user

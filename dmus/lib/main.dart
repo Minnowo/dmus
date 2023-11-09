@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/data/FileOutput.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
@@ -15,21 +17,21 @@ import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'core/Util.dart';
 import 'core/data/DataEntity.dart';
 
+
+
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
+  await initLogging(Level.ALL);
 
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((record) {
-      print('${record.level.name}: ${record.time}: ${record.message}');
-  });
+  await Firebase.initializeApp();
 
   AudioController.setup();
 
