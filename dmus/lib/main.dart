@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/Settings.dart';
@@ -91,6 +92,17 @@ class _RootPageState extends State<RootPage> {
   void _onSongImported(Song s) {
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Song imported: ${s.title}", veryFastSnackBarDuration));
   }
+  void _onSomethingWentWrong(String s) {
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Something went wrong! $s", longSnackBarDuration));
+  }
+  void _onShowSnackBar(SnackBarData s) {
+    ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));
+  }
+  void _onRawException(Exception e) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(createSnackBar(
+        SnackBarData(text: "${e.runtimeType}: $e}", color: Colors.red)));
+  }
 
   void navigatePage(int page) {
 
@@ -108,7 +120,10 @@ class _RootPageState extends State<RootPage> {
     _subscriptions = [
       ImportController.onPlaylistCreated.listen(_onPlaylistCreated),
       ImportController.onPlaylistUpdated.listen(_onPlaylistUpdated),
-      ImportController.onSongImported.listen(_onSongImported)
+      ImportController.onSongImported.listen(_onSongImported),
+      MessagePublisher.onSomethingWentWrong.listen(_onSomethingWentWrong),
+      MessagePublisher.onRawError.listen(_onRawException),
+      MessagePublisher.onShowSnackbar.listen(_onShowSnackBar)
     ];
   }
 
