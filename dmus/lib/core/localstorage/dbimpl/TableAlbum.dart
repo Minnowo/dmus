@@ -25,7 +25,7 @@ final class TableAlbum {
 
 
 
-
+  /// Generate albums based off the metadata table and existing songs in the db
   static Future<void> generateAlbums() async {
 
     final db = await DatabaseController.database;
@@ -60,8 +60,6 @@ final class TableAlbum {
   }
 
 
-
-
   /// Inserts a new playlist into the database
   ///
   /// Assumes all the songs exist in the database
@@ -88,7 +86,6 @@ final class TableAlbum {
 
     return playlistId;
   }
-
 
 
   /// Gets a Iterable<Song> for all the songs of the given playlistId

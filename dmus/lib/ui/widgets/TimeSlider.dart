@@ -61,7 +61,7 @@ class TimeSliderState extends State<TimeSlider> {
           onChangeEnd: (value) async {
             isDragging = false;
 
-            await AudioController.seek(sp);
+            await AudioController.seekToPosition(sp);
             await AudioController.resumePlayLast();
           },
         ),

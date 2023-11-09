@@ -18,6 +18,7 @@ final class ImportController {
 
   ImportController._();
 
+  static int _importCount = 0;
 
 
   /// A pub for when an import has completed for a song
@@ -48,6 +49,18 @@ final class ImportController {
   }
 
 
+
+  /// Finish importing and build the album cache
+  static Future<void> endImports() async {
+
+    if(_importCount < 1) return;
+
+    await TableAlbum.generateAlbums();
+
+    _importCount = 0;
+  }
+
+
   /// Imports a song from a file
   ///
   /// Process and adds the song to the database
@@ -75,6 +88,8 @@ final class ImportController {
       return;
     }
 
+    _importCount += 1;
+
     _songImportedController.add(s);
   }
 
@@ -89,6 +104,8 @@ final class ImportController {
     for(var f in files) {
       await ImportController.importSong(f);
     }
+
+    await endImports();
   }
 
 
@@ -168,9 +185,9 @@ final class ImportController {
 
     logging.info("Creating playlist $title");
 
-    int? _playlistId = await TablePlaylist.updatePlaylist(playlistId, title, songs);
+    int? playlistId0 = await TablePlaylist.updatePlaylist(playlistId, title, songs);
 
-    if(_playlistId == null) {
+    if(playlistId0 == null) {
       logging.info("Could not edit playlist");
       MessagePublisher.publishSomethingWentWrong("Cannot edit playlist with an empty name or which does not exist!");
       return;

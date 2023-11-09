@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -25,6 +24,8 @@ class ImportDialog extends StatelessWidget {
 
             await ImportController.importSong(File(f.path!));
           }
+
+          await ImportController.endImports();
     });
 
     // (not an error) Pop as soon as we open the above dialog
