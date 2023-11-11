@@ -14,6 +14,7 @@ import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImageCacheController.dart';
 import '../../core/localstorage/ImportController.dart';
+import '../lookfeel/Animations.dart';
 import 'NavigationPage.dart';
 
 
@@ -115,7 +116,6 @@ class _SongsPageState extends  State<SongsPage> {
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         onTap: () async {
-          // await AudioController.playSong(song, true);
           await JustAudioController.instance.playSong(song);
           await JustAudioController.instance.play();
         },
@@ -179,5 +179,9 @@ class _SongsPageState extends  State<SongsPage> {
       drawer: const SettingsDrawer(),
     );
   }
+
+
+
+
 }
 
