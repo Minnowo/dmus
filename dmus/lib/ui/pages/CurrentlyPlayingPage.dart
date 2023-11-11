@@ -10,7 +10,6 @@ import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
@@ -48,12 +47,6 @@ class CurrentlyPlayingPage extends  StatelessWidget {
             icon: const Icon(Icons.expand_more_rounded),
             onPressed: () => popNavigatorSafe(context),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ],
         ),
         body: SafeArea(
           child: GestureDetector(
@@ -81,7 +74,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextScroll(
-                          songContext!.title,
+                          songContext.title,
                           mode: TextScrollMode.endless,
                           velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                           delayBefore: const Duration(milliseconds: 500),
@@ -94,7 +87,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                           fadeBorderVisibility: FadeBorderVisibility.auto,
                           intervalSpaces: 30,
                         ),
-                        TextScroll(songContext!.artistAlbumText(),
+                        TextScroll(songContext.artistAlbumText(),
                           mode: TextScrollMode.endless,
                           velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                           delayBefore: const Duration(milliseconds: 500),
@@ -126,17 +119,17 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                         children: [
                           IconButton(
                             icon: Icon(
-                              songContext!.liked ? Icons.favorite : Icons.favorite_border,
-                              color: songContext!.liked ? Colors.red : null,
+                              songContext.liked ? Icons.favorite : Icons.favorite_border,
+                              color: songContext.liked ? Colors.red : null,
                             ),
                             onPressed: () async {
 
-                              songContext!.liked = !songContext!.liked;
+                              songContext.liked = !songContext.liked;
 
                               if (songContext!.liked) {
-                                TableLikes.markSongLiked(songContext!.id);
+                                TableLikes.markSongLiked(songContext.id);
                               } else {
-                                TableLikes.markSongNotLiked(songContext!.id);
+                                TableLikes.markSongNotLiked(songContext.id);
                               }
 
                               setState(() { });

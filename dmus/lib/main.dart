@@ -9,7 +9,6 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
@@ -63,10 +62,6 @@ class DMUSApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MultiProvider(providers: [
-
-      ChangeNotifierProvider<AudioControllerModel>(
-          create: (_) => AudioControllerModel()
-      ),
 
       StreamProvider<PlayerSong>(
           create: (_) => JustAudioController.instance.onPlayerSongChanged,
