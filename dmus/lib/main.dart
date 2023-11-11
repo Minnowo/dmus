@@ -68,6 +68,13 @@ class DMUSApp extends StatelessWidget {
           create: (_) => AudioControllerModel()
       ),
 
+      StreamProvider<PlayerSong>(
+          create: (_) => JustAudioController.instance.onPlayerSongChanged,
+          initialData: PlayerSong( song: null,
+              playerState: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading),
+              position: Duration.zero, duration: Duration.zero, index: 0)
+      ),
+
       StreamProvider<PlayerStateExtended>(
           create: (_) => JustAudioController.instance.onPlayerStateChanged,
           initialData: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading)
@@ -90,7 +97,7 @@ class DMUSApp extends StatelessWidget {
 
       StreamProvider<PlayerPlaying>(
           create: (_) => JustAudioController.instance.onPlayingChanged,
-          initialData: const PlayerPlaying(playing: false)
+          initialData: const PlayerPlaying(playing: false, song: null)
       )
 
     ],

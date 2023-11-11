@@ -3,12 +3,14 @@
 
 import 'dart:collection';
 
+import '../Util.dart';
 import '../data/DataEntity.dart';
 
 
 /// What state the queue is in
 enum QueueState {
   empty,
+  single,
   start,
   middle,
   end,
@@ -50,7 +52,7 @@ class PlayQueue {
   /// Moves to the previous item position in the queue and returns the song
   Song? advancePrevious() {
 
-    if(_queueState == QueueState.start) {
+    if(_queueState == QueueState.start || _queueState == QueueState.single) {
       return null;
     }
 
@@ -63,7 +65,7 @@ class PlayQueue {
   /// Moves to the next item position in the queue and returns the song
   Song? advanceNext() {
 
-    if(_queueState == QueueState.end) {
+    if(_queueState == QueueState.end || _queueState == QueueState.single) {
       return null;
     }
 
@@ -89,13 +91,19 @@ class PlayQueue {
   /// If the given index is out of range, it sets the position to the start or end of the queue
   void setPosition(int index) {
 
-    if(index < 0)   {
+    if(_queue.length == 1) {
+      _currentPosition = 0;
+      _queueState = QueueState.single;
+      return;
+    }
+
+    if(index <= 0)   {
       _currentPosition = 0;
       _queueState = QueueState.start;
       return;
     }
 
-    if(index >= _queue.length) {
+    if(index >= _queue.length - 1) {
       _currentPosition = _queue.length - 1;
       _queueState = QueueState.end;
       return;
@@ -158,26 +166,29 @@ class PlayQueue {
 
   /// Add the song to the next position in the queue and move the position forward
   void queueAdvanceNext(Song s) {
-    _currentPosition++;
-    _queue.insert(_currentPosition, s);
+    _queue.insert(_currentPosition + 1, s);
+    setPosition(_currentPosition + 1);
   }
 
 
   /// Add the song to the next position in the queue
   void queueNext(Song s) {
     _queue.insert(_currentPosition + 1, s);
+    setPosition(_currentPosition);
   }
 
 
   /// Append the song to the queue
   void addToQueue(Song s) {
     _queue.add(s);
+    setPosition(_currentPosition);
   }
 
 
   /// Append the list of songs to the queue
   void addAllToQueue(Iterable<Song> s) {
     _queue.addAll(s);
+    setPosition(_currentPosition);
   }
 
 
@@ -185,5 +196,6 @@ class PlayQueue {
   void clear() {
     _queue.clear();
     _currentPosition = -1;
+    _queueState = QueueState.empty;
   }
 }

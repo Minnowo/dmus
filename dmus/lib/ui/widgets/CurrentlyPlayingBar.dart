@@ -16,17 +16,8 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
   static int _keyValue = 0;
 
-
   @override
   Widget build(BuildContext context) {
-
-    // AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
-
-    // Song? song = audioControllerModel.currentlyPlaying;
-
-    // if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
-    //   return Container();
-    // }
 
     return
       Dismissible(
@@ -42,7 +33,6 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-
 
                   Consumer<PlayerStateExtended>(
                       builder: (context, playerState, child){
@@ -65,13 +55,12 @@ class CurrentlyPlayingBar extends  StatelessWidget {
                     child: Column(
                       children: <Widget>[
 
-                        Consumer<PlayerIndex>(
-                            builder:(context, playerIndex, child) {
-
+                        Consumer<PlayerSong>(
+                            builder:(context, playerSong, child) {
                               return SizedBox(
                                 height: 20,
                                 child: TextScroll(
-                                  playerIndex.index?.toString() ?? "No index 1029310398103948102381023981029381203842342342342342343",
+                                  playerSong.song != null ? currentlyPlayingTextFromMetadata(playerSong.song!) : "NULL",
                                   mode: TextScrollMode.endless,
                                   velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                                   delayBefore: const Duration(milliseconds: 500),

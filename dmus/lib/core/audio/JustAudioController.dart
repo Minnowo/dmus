@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../Util.dart';
@@ -25,14 +26,15 @@ final class JustAudioController extends BaseAudioHandler {
   bool _isDisposed = false;
   bool _isPaused = true;
 
-  final PlayQueue _playQueue = PlayQueue();
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();
   final _playingStream = StreamController<PlayerPlaying>.broadcast();
   final _indexStream = StreamController<PlayerIndex>.broadcast();
   final _playerStateStream = StreamController<PlayerStateExtended>.broadcast();
+  final _playerSong = StreamController<PlayerSong>.broadcast();
 
   final _player = AudioPlayer();
+  final PlayQueue _playQueue = PlayQueue();
 
   Future<void> dispose() async {
     if(_isDisposed) {
@@ -43,15 +45,7 @@ final class JustAudioController extends BaseAudioHandler {
 
     await _player.dispose();
   }
-  static final _item = MediaItem(
-    id: 'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
-    album: "Science Friday",
-    title: "A Salute To Head-Scratching Science",
-    artist: "Science Friday and WNYC Studios",
-    duration: const Duration(milliseconds: 5739820),
-    artUri: Uri.parse(
-        'https://media.wnyc.org/i/1400/1400/l/80/1/ScienceFriday_WNYCStudios_1400.jpg'),
-  );
+
   Future<void> init() async {
 
     if(_isInit || _isDisposed) {
@@ -75,7 +69,7 @@ final class JustAudioController extends BaseAudioHandler {
 
     _positionStream.addStream(_player.positionStream.map((event) => PlayerPosition(position: event, duration: _player.duration)));
     _durationStream.addStream(_player.durationStream.map((event) => PlayerDuration(position: _player.position, duration: event)));
-    _playingStream.addStream(_player.playingStream.map((event) => PlayerPlaying(playing: event)));
+    _playingStream.addStream(_player.playingStream.map((event) => PlayerPlaying(playing: event, song: _playQueue.current())));
     _indexStream.addStream(_player.currentIndexStream.map((event) => PlayerIndex(index: event)));
     _playerStateStream.addStream(_player.playerStateStream.map(_transformPlayerState));
 
@@ -107,7 +101,8 @@ final class JustAudioController extends BaseAudioHandler {
 
     return PlaybackState(
         controls: [
-          MediaControl.rewind,
+          MediaControl.skipToNext,
+          MediaControl.skipToPrevious,
           if(_player.playing) MediaControl.pause else MediaControl.play,
           MediaControl.stop
         ],
@@ -133,7 +128,12 @@ final class JustAudioController extends BaseAudioHandler {
     );
   }
 
-  /// Publish events when the song position changes (ie 1 second passes)
+  /// Publish events when the player song changes
+  Stream<PlayerSong> get onPlayerSongChanged {
+    return _playerSong.stream;
+  }
+
+  /// Publish events when the player state changes
   Stream<PlayerStateExtended> get onPlayerStateChanged {
     return _playerStateStream.stream;
   }
@@ -172,6 +172,9 @@ final class JustAudioController extends BaseAudioHandler {
   @override
   Future<void> play() async {
     if(!_isInit || _isDisposed) return;
+    if(_player.playerState.processingState == ProcessingState.completed) {
+      await seek(Duration.zero);
+    }
     await _player.play();
   }
 
@@ -188,14 +191,36 @@ final class JustAudioController extends BaseAudioHandler {
     await playSong(_playQueue.current());
   }
 
+  @override
+  Future<void> skipToNext() async {
+    if(!_isInit || _isDisposed) return;
+
+    Song? s = _playQueue.advanceNext();
+
+    if(s != null) {
+      await _setAudioSource( s);
+    }
+  }
+
+  @override
+  Future<void> skipToPrevious() async {
+    if(!_isInit || _isDisposed) return;
+
+    Song? s = _playQueue.advancePrevious();
+
+    if(s != null) {
+      await _setAudioSource( s);
+    }
+  }
+
   Future<void> playSong(Song? song) async {
     if(!_isInit || _isDisposed) return;
 
     if(song == null) return await stop();
 
-    mediaItem.add(song.toMediaItem());
+    _playQueue.jumpTo(song);
 
-    await _player.setAudioSource(AudioSource.file(song.file.path));
+    await _setAudioSource(song);
   }
 
   double get playbackSpeed => _player.speed;
@@ -205,4 +230,24 @@ final class JustAudioController extends BaseAudioHandler {
     await _player.setSpeed(speed);
   }
 
+  Future<void> _setAudioSource(Song song) async {
+
+    if(!await song.file.exists()) {
+      return MessagePublisher.publishSomethingWentWrong("Cannot play ${song.file} because it does not exist!");
+    }
+
+    firePlayerSong(song);
+    mediaItem.add(song.toMediaItem());
+    await _player.setAudioSource(AudioSource.file(song.file.path));
+  }
+
+  void firePlayerSong(Song song){
+    _playerSong.add(PlayerSong(
+        song: song,
+        playerState: PlayerStateExtended(paused: _isPaused, playing: _player.playing, processingState: _player.processingState),
+        duration: _player.duration,
+        position: _player.position,
+        index: _playQueue.currentPosition)
+    );
+  }
 }

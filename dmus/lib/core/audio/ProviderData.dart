@@ -3,6 +3,8 @@
 
 import 'package:just_audio/just_audio.dart';
 
+import '../data/DataEntity.dart';
+
 final class PlayerPosition {
 
   final Duration position;
@@ -22,8 +24,9 @@ final class PlayerDuration {
 final class PlayerPlaying {
 
   final bool playing;
+  final Song? song;
 
-  const PlayerPlaying({required this.playing});
+  const PlayerPlaying({required this.playing, required this.song});
 }
 
 final class PlayerIndex {
@@ -36,8 +39,19 @@ final class PlayerIndex {
 
 final class PlayerStateExtended extends PlayerState {
 
-  bool paused;
+  final bool paused;
 
   PlayerStateExtended({required this.paused, required playing, required processingState})
       : super(playing, processingState);
+}
+
+final class PlayerSong {
+
+  final int index;
+  final Song? song;
+  final PlayerStateExtended playerState;
+  final Duration? duration;
+  final Duration position;
+
+  PlayerSong({required this.song, required this.playerState, required this.duration, required this.position, required this.index});
 }
