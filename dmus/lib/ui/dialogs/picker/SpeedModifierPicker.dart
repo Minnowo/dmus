@@ -2,6 +2,7 @@
 
 
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +37,7 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
     double d = (double.tryParse(_numberInputController.text) ?? 1)
         .clamp(minSpeed / 100, maxSpeed / 100);
 
-    await AudioController.setPlaybackSpeed(d);
+    await JustAudioController.instance.setPlaybackSpeed(d);
 
     popNavigatorSafe(context);
   }
@@ -51,7 +52,7 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
     super.initState();
 
     setState(() {
-      progress = AudioController.playbackSpeed * 100;
+      progress = JustAudioController.instance.playbackSpeed * 100;
       _numberInputController.text = formatProgress(progress);
       logging.info("Current playback speed is ${progress/100}");
     });

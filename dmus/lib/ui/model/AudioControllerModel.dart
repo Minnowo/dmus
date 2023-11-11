@@ -4,7 +4,7 @@
 
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -15,7 +15,7 @@ class AudioControllerModel extends ChangeNotifier {
 
   bool isPlaying = false;
   bool isPaused = false;
-  PlayerState state = PlayerState.stopped;
+  // PlayerState state = PlayerState.stopped;
 
   Duration duration = const Duration(microseconds: 0);
   Duration position = const Duration(microseconds: 0);
@@ -28,11 +28,11 @@ class AudioControllerModel extends ChangeNotifier {
   AudioControllerModel(){
 
     _subscriptions = [
-      AudioController.onPositionChanged.listen(_onPositionChanged),
-      AudioController.onDurationChanged.listen(_onDurationChanged),
-      AudioController.onStateChanged.listen(_onStateChanged),
-      AudioController.onComplete.listen(_onPlayerComplete),
-      AudioController.onSongChanged.listen(_onSongChanged),
+      // AudioController.onPositionChanged.listen(_onPositionChanged),
+      // AudioController.onDurationChanged.listen(_onDurationChanged),
+      // AudioController.onStateChanged.listen(_onStateChanged),
+      // AudioController.onComplete.listen(_onPlayerComplete),
+      // AudioController.onSongChanged.listen(_onSongChanged),
     ];
   }
 
@@ -66,14 +66,14 @@ class AudioControllerModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _onStateChanged(PlayerState state) {
-    this.state = state;
-
-    isPlaying = (state == PlayerState.playing);
-    isPaused = (state == PlayerState.paused);
-
-    notifyListeners();
-  }
+  // void _onStateChanged(PlayerState state) {
+  //   this.state = state;
+  //
+  //   isPlaying = (state == PlayerState.playing);
+  //   isPaused = (state == PlayerState.paused);
+  //
+  //   notifyListeners();
+  // }
 }
 
 

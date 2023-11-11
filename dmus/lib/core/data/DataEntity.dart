@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:audio_service/audio_service.dart';
+import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
 
@@ -32,7 +34,11 @@ abstract class DataEntity {
   Duration duration = const Duration(milliseconds: 0);
 
   /// The cache key (if exists) for the picture of this entity
-  Uint8List? pictureCacheKey;
+  Uint8List? get pictureCacheKey => _pictureCacheKey;
+
+  Uint8List? _pictureCacheKey;
+
+  File? artPath;
 
 
   DataEntity({required this.id, required this.title});
@@ -43,6 +49,17 @@ abstract class DataEntity {
   /// Returns the EntityType enum for the given entity type
   EntityType get entityType;
 
+
+  /// Sets the picture cache key of this item
+  ///
+  /// This also will fetch the file path of the cached item if possible
+  void setPictureCacheKey(Uint8List? pictureCacheKey) {
+    _pictureCacheKey = pictureCacheKey;
+
+    if(pictureCacheKey != null) {
+      ImageCacheController.getImagePathFromRaw(pictureCacheKey).then((value) => artPath = value);
+    }
+  }
 
   @override
   String toString() {
@@ -75,6 +92,23 @@ class Song extends DataEntity {
         super.withDuration();
 
 
+
+  @override
+  EntityType get entityType => EntityType.song;
+
+
+  MediaItem toMediaItem(){
+    return MediaItem(
+        id: file.path,
+        title: title,
+      duration: duration,
+      artist: metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? metadata.albumArtistName,
+      album: metadata.albumName,
+      artUri: artPath != null ? Uri.file(artPath!.path) : null,
+    );
+  }
+
+
   String artistAlbumText() {
 
     List<String> a = [];
@@ -95,9 +129,6 @@ class Song extends DataEntity {
 
     return a.join(" - ");
   }
-
-  @override
-  EntityType get entityType => EntityType.song;
 }
 
 

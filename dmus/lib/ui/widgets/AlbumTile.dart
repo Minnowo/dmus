@@ -34,8 +34,8 @@ class AlbumTile extends StatelessWidget {
                 icon: const Icon(Icons.play_arrow),
                 onPressed: () async {
                   logging.finest(playlist);
-                  AudioController.queuePlaylist(playlist);
-                  await AudioController.playQueue();
+                  // AudioController.queuePlaylist(playlist);
+                  // await AudioController.playQueue();
                 },
               ),
             ),

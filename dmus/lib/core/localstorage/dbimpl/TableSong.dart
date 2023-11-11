@@ -153,7 +153,7 @@ final class TableSong {
 
     Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
 
-    s.pictureCacheKey = e[TableFMetadata.artCacheKeyCol] as Uint8List?;
+    s.setPictureCacheKey(e[TableFMetadata.artCacheKeyCol] as Uint8List?);
 
     return s;
   }

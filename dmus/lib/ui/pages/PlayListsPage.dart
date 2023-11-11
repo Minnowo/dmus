@@ -127,9 +127,9 @@ class _PlaylistsPageState extends State<PlaylistsPage>
                             onTap: () async {
                               logging.finest(playlist);
 
-                              AudioController.queuePlaylist(playlist);
+                              // AudioController.queuePlaylist(playlist);
 
-                              await AudioController.playQueue();
+                              // await AudioController.playQueue();
                             },
                             onLongPress: () {
                               showDialog(

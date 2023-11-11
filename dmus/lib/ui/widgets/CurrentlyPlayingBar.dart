@@ -1,6 +1,8 @@
 
 
 import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
@@ -22,29 +24,21 @@ class CurrentlyPlayingBar extends  StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
+    // AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
 
-    Song? song = audioControllerModel.currentlyPlaying;
+    // Song? song = audioControllerModel.currentlyPlaying;
 
-    if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
-      return Container();
-    }
+    // if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
+    //   return Container();
+    // }
 
-    var currentSongPosition = audioControllerModel.position;
-    var songDuration = audioControllerModel.duration;
-
-    double progress = currentSongPosition.inMilliseconds.toDouble();
-
-    if(songDuration.inMilliseconds != 0) {
-      progress /= songDuration.inMilliseconds;
-    }
 
     return
       Dismissible(
         key: ValueKey(_keyValue),
         onDismissed: (_) async {
           _keyValue++;
-          await AudioController.stop();
+          await JustAudioController.instance.stop();
         },
         child:
         InkWell(
@@ -54,34 +48,64 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Visibility(
-                    visible: !audioControllerModel.isPlaying,
+                    visible: true,
                     child: IconButton(
                       icon: const Icon(Icons.play_arrow), // Play button
-                      onPressed: () async { await AudioController.resume(); },
+                      onPressed: () async {
+                        // await AudioController.resume();
+                        },
                     ),
                   ),
-                  Visibility(
-                    visible: audioControllerModel.isPlaying,
-                    child: IconButton(
-                      icon: const Icon(Icons.pause), // Pause button
-                      onPressed: () async { await AudioController.pause(); },
-                    ),
-                  ),
+                  // Visibility(
+                  //   visible: audioControllerModel.isPlaying,
+                  //   child: IconButton(
+                  //     icon: const Icon(Icons.pause), // Pause button
+                  //     onPressed: () async {
+                  //       // await AudioController.pause();
+                  //       },
+                  //   ),
+                  // ),
                   Expanded(
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                          child: Marquee (
-                            text: currentlyPlayingTextFromMetadata(song),
-                            blankSpace: 20.0,
-                            velocity: 30.0,
-                          ),
+
+                        Consumer<PlayerIndex>(
+                            builder:(context, playerIndex, child) {
+
+                              return SizedBox(
+                                height: 20,
+                                child: TextScroll(
+                                  playerIndex.index?.toString() ?? "No index 1029310398103948102381023981029381203842342342342342343",
+                                  mode: TextScrollMode.endless,
+                                  velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                                  delayBefore: const Duration(milliseconds: 500),
+                                  pauseBetween: const Duration(milliseconds: 2000),
+                                  pauseOnBounce: const Duration(milliseconds: 1000),
+                                  style: TEXT_SMALL_HEADLINE,
+                                  textAlign: TextAlign.left,
+                                  fadedBorder: true,
+                                  fadedBorderWidth: 0.02,
+                                  fadeBorderVisibility: FadeBorderVisibility.auto,
+                                  intervalSpaces: 30,
+                                ),
+                              );
+                            }),
+
+                        Consumer2<PlayerPosition, PlayerDuration>(
+                            builder: (context, playerPosition, playerDuration, child) {
+
+                              double progress = playerPosition.position.inMilliseconds.toDouble();
+
+                              if(playerDuration.duration != null && playerDuration.duration!.inMilliseconds != 0) {
+                                progress /= playerDuration.duration!.inMilliseconds;
+                              }
+                              return Column(children: [
+                                LinearProgressIndicator( value: progress, ),
+                                Text(formatTimeDisplay(playerPosition.position, playerDuration.duration ?? Duration.zero)),
+                              ],
+                              );
+                            }
                         ),
-                        LinearProgressIndicator(
-                          value: progress,
-                        ),
-                        Text(formatTimeDisplay(currentSongPosition, songDuration)),
                       ],
                     ),
                   ),

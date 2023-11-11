@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -52,7 +52,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
   void initState() {
     super.initState();
 
-    currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
+    // currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
 
     setState(() {
       songContext = context.read<AudioControllerModel>().currentlyPlaying;
@@ -61,7 +61,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
 
   @override
   void dispose() {
-    currentlyPlayingSubscriber.cancel();
+    // currentlyPlayingSubscriber.cancel();
     super.dispose();
   }
 

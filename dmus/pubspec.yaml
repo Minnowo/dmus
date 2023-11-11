@@ -31,8 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  audio_session: ^0.1.5
   audio_service: ^0.18.12
   just_audio: ^0.9.35
+  fimber: ^0.7.0
+  fimber_io: ^0.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -42,7 +45,6 @@ dependencies:
   flutter_media_metadata: ^1.0.0
   sqflite: ^2.3.0
   path: ^1.8.3
-  logging: ^1.2.0
   text_scroll: ^0.2.0
   marquee: ^2.0.0
   path_provider: ^2.1.1

@@ -46,7 +46,7 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
                   ),
                   onPressed: () async {
                     logging.finest("PREVIOUS SONG");
-                    await AudioController.playPrevious();
+                    // await AudioController.playPrevious();
 
                   },
                 ),
@@ -70,12 +70,12 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
                   ),
                   onPressed: () async {
                     if (audioControllerModel.isPlaying) {
-                      await AudioController.pause();
+                      // await AudioController.pause();
                     } else {
                       if(songContext != null) {
-                        await AudioController.resumeOrPlay(songContext!);
+                        // await AudioController.resumeOrPlay(songContext!);
                       } else {
-                        await AudioController.resumePlayLast();
+                        // await AudioController.resumePlayLast();
                       }
                     }
                   },
@@ -97,7 +97,7 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    await AudioController.stop();
+                    // await AudioController.stop();
                   },
                 ),
                 IconButton(
@@ -118,7 +118,7 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
                   ),
                   onPressed: () async {
                     logging.finest(" NEXT SONG");
-                    await AudioController.playNext();
+                    // await AudioController.playNext();
                   },
                 ),
               ],

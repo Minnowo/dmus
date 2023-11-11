@@ -28,11 +28,11 @@ class PlaylistContextDialog extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Play Now'),
-            onTap: () => AudioController.stopAndEmptyQueue().then((value) => AudioController.queuePlaylist(playlistContext)).then((value) => AudioController.playQueue()).whenComplete(() => popNavigatorSafe(context)),
+            // onTap: () => AudioController.stopAndEmptyQueue().then((value) => AudioController.queuePlaylist(playlistContext)).then((value) => AudioController.playQueue()).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
             title: const Text('Queue All'),
-            onTap: () => AudioController.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
+            // onTap: () => AudioController.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
             title: const Text('Edit Playlist'),
