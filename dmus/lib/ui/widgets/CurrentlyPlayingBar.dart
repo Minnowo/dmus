@@ -1,16 +1,14 @@
 
 
-import 'package:dmus/core/audio/AudioController.dart';
+import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
-import '../../core/data/DataEntity.dart';
 import '../lookfeel/Theming.dart';
 
 class CurrentlyPlayingBar extends  StatelessWidget {
@@ -18,33 +16,20 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
   static int _keyValue = 0;
 
-
   @override
   Widget build(BuildContext context) {
 
-    AudioControllerModel audioControllerModel = context.watch<AudioControllerModel>();
+    bool dontShow = context.select((PlayerStateExtended value) => !value.paused && !value.playing);
 
-    Song? song = audioControllerModel.currentlyPlaying;
 
-    if(song == null || !audioControllerModel.isPlaying && !audioControllerModel.isPaused) {
-      return Container();
-    }
-
-    var currentSongPosition = audioControllerModel.position;
-    var songDuration = audioControllerModel.duration;
-
-    double progress = currentSongPosition.inMilliseconds.toDouble();
-
-    if(songDuration.inMilliseconds != 0) {
-      progress /= songDuration.inMilliseconds;
-    }
-
-    return
+    return Visibility(
+      visible: !dontShow ,
+        child:
       Dismissible(
         key: ValueKey(_keyValue),
         onDismissed: (_) async {
           _keyValue++;
-          await AudioController.stop();
+          await JustAudioController.instance.stop();
         },
         child:
         InkWell(
@@ -53,35 +38,64 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Visibility(
-                    visible: !audioControllerModel.isPlaying,
-                    child: IconButton(
-                      icon: const Icon(Icons.play_arrow), // Play button
-                      onPressed: () async { await AudioController.resume(); },
-                    ),
+
+                  Consumer<PlayerStateExtended>(
+                      builder: (context, playerState, child){
+
+                        return IconButton(
+                          icon: playerState.playing ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
+                          onPressed: () async {
+
+                            if(playerState.playing) {
+                              await JustAudioController.instance.pause();
+                            } else {
+                              await JustAudioController.instance.play();
+                            }
+                          },
+                        );
+                      }
                   ),
-                  Visibility(
-                    visible: audioControllerModel.isPlaying,
-                    child: IconButton(
-                      icon: const Icon(Icons.pause), // Pause button
-                      onPressed: () async { await AudioController.pause(); },
-                    ),
-                  ),
+
                   Expanded(
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: 20,
-                          child: Marquee (
-                            text: currentlyPlayingTextFromMetadata(song),
-                            blankSpace: 20.0,
-                            velocity: 30.0,
-                          ),
+
+                        Consumer<PlayerSong>(
+                            builder: (context, playerSong, child) {
+                              return SizedBox(
+                                height: 20,
+                                child: TextScroll(
+                                  playerSong.song != null ? currentlyPlayingTextFromMetadata(playerSong.song!) : "NULL",
+                                  mode: TextScrollMode.endless,
+                                  velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                                  delayBefore: const Duration(milliseconds: 500),
+                                  pauseBetween: const Duration(milliseconds: 2000),
+                                  pauseOnBounce: const Duration(milliseconds: 1000),
+                                  style: TEXT_SMALL_HEADLINE,
+                                  textAlign: TextAlign.left,
+                                  fadedBorder: true,
+                                  fadedBorderWidth: 0.02,
+                                  fadeBorderVisibility: FadeBorderVisibility.auto,
+                                  intervalSpaces: 30,
+                                ),
+                              );
+                            }),
+
+                        Consumer<PlayerPosition>(
+                            builder: (context, playerPosition, child) {
+
+                              double progress = playerPosition.position.inMilliseconds.toDouble();
+
+                              if(playerPosition.duration != null && playerPosition.duration!.inMilliseconds != 0) {
+                                progress /= playerPosition.duration!.inMilliseconds;
+                              }
+                              return Column(children: [
+                                LinearProgressIndicator( value: progress, ),
+                                Text(formatTimeDisplay(playerPosition.position, playerPosition.duration ?? Duration.zero)),
+                              ],
+                              );
+                            }
                         ),
-                        LinearProgressIndicator(
-                          value: progress,
-                        ),
-                        Text(formatTimeDisplay(currentSongPosition, songDuration)),
                       ],
                     ),
                   ),
@@ -89,7 +103,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               ),
             )
         ),
-      ) ;
+      )     ) ;
   }
 
 

@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
+import '../lookfeel/Animations.dart';
+import '../pages/SelectedPlaylistPage.dart';
 import 'ArtDisplay.dart';
 
 class AlbumTile extends StatelessWidget {
@@ -34,16 +35,15 @@ class AlbumTile extends StatelessWidget {
                 icon: const Icon(Icons.play_arrow),
                 onPressed: () async {
                   logging.finest(playlist);
-                  AudioController.queuePlaylist(playlist);
-                  await AudioController.playQueue();
+                  // AudioController.queuePlaylist(playlist);
+                  // await AudioController.playQueue();
                 },
               ),
             ),
           ),
           child: ArtDisplay(songContext: playlist.songs.firstOrNull,)
       ),
-      onTap: () {
-      },
+      onTap: ()=> _openPlaylistPage(context, playlist),
       onLongPress: () {
         showDialog(
           context: context,
@@ -55,6 +55,10 @@ class AlbumTile extends StatelessWidget {
 
 
 
+  void _openPlaylistPage(BuildContext context, Playlist playlist) {
 
+    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
+
+  }
 
 }

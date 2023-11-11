@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
-import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
@@ -11,9 +10,11 @@ import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImageCacheController.dart';
 import '../../core/localstorage/ImportController.dart';
+import '../lookfeel/Animations.dart';
 import 'NavigationPage.dart';
 
 
@@ -115,7 +116,8 @@ class _SongsPageState extends  State<SongsPage> {
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         onTap: () async {
-          await AudioController.playSong(song, true);
+          await JustAudioController.instance.playSong(song);
+          await JustAudioController.instance.play();
         },
         onLongPress: () {
           showDialog(
@@ -143,9 +145,10 @@ class _SongsPageState extends  State<SongsPage> {
               icon: const Icon(Icons.add),
             ),
             IconButton(
-              onPressed: () {
-                TableSong.selectAllWithMetadata().then((value) => null);
-                AudioController.stopAndEmptyQueue();
+              onPressed: () async {
+                await TableSong.selectAllWithMetadata();
+                await JustAudioController.instance.stop();
+                // AudioController.stopAndEmptyQueue();
               },
               icon: const Icon(Icons.stop),
             ),
@@ -176,5 +179,9 @@ class _SongsPageState extends  State<SongsPage> {
       drawer: const SettingsDrawer(),
     );
   }
+
+
+
+
 }
 

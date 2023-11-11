@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -9,7 +10,6 @@ import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
@@ -19,59 +19,25 @@ import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../lookfeel/Theming.dart';
 
-class CurrentlyPlayingPage extends StatefulWidget {
+class CurrentlyPlayingPage extends  StatelessWidget {
+
+  static const String title = "Currently Playing";
+
   const CurrentlyPlayingPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => CurrentlyPlayingPageState();
-}
-
-class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
-  static const String title = "Currently Playing";
-
-  late final StreamSubscription<Song?> currentlyPlayingSubscriber;
-
-  Song? songContext;
-
-  void _onSongChanged(Song? s) {
-    if (s == null || s == songContext) {
-      return;
-    }
-
-    setState(() {
-      songContext = s;
-
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
-
-    setState(() {
-      songContext = context.read<AudioControllerModel>().currentlyPlaying;
-    });
-  }
-
-  @override
-  void dispose() {
-    currentlyPlayingSubscriber.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (songContext == null) {
-      return const CircularProgressIndicator();
+
+    PlayerSong playerSong = context.watch<PlayerSong>();
+
+    if(playerSong.song == null) {
+      return CircularProgressIndicator();
     }
 
-    logging.info("Currently playing page now showing $songContext");
+    Song songContext = playerSong.song!;
 
     return Scaffold(
         appBar: AppBar(
@@ -81,12 +47,6 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
             icon: const Icon(Icons.expand_more_rounded),
             onPressed: () => popNavigatorSafe(context),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {},
-            ),
-          ],
         ),
         body: SafeArea(
           child: GestureDetector(
@@ -101,11 +61,10 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
                 Expanded(
                     flex: 720,
-                    child: ArtDisplay(songContext: songContext!)),
-
+                    child: ArtDisplay(songContext: songContext!)
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(
@@ -115,7 +74,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextScroll(
-                          songContext!.title,
+                          songContext.title,
                           mode: TextScrollMode.endless,
                           velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                           delayBefore: const Duration(milliseconds: 500),
@@ -128,7 +87,7 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                           fadeBorderVisibility: FadeBorderVisibility.auto,
                           intervalSpaces: 30,
                         ),
-                        TextScroll(songContext!.artistAlbumText(),
+                        TextScroll(songContext.artistAlbumText(),
                           mode: TextScrollMode.endless,
                           velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                           delayBefore: const Duration(milliseconds: 500),
@@ -160,17 +119,17 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
                         children: [
                           IconButton(
                             icon: Icon(
-                              songContext!.liked ? Icons.favorite : Icons.favorite_border,
-                              color: songContext!.liked ? Colors.red : null,
+                              songContext.liked ? Icons.favorite : Icons.favorite_border,
+                              color: songContext.liked ? Colors.red : null,
                             ),
                             onPressed: () async {
 
-                              songContext!.liked = !songContext!.liked;
+                              songContext.liked = !songContext.liked;
 
                               if (songContext!.liked) {
-                                TableLikes.markSongLiked(songContext!.id);
+                                TableLikes.markSongLiked(songContext.id);
                               } else {
-                                TableLikes.markSongNotLiked(songContext!.id);
+                                TableLikes.markSongNotLiked(songContext.id);
                               }
 
                               setState(() { });

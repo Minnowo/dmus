@@ -1,15 +1,16 @@
 
 import 'dart:async';
 
-import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
+import 'package:dmus/ui/pages/SelectedPlaylistPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../dialogs/Util.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
+import '../lookfeel/Animations.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 
@@ -124,13 +125,7 @@ class _PlaylistsPageState extends State<PlaylistsPage>
                               title: Text(playlist.title),
                               trailing: Text(formatDuration(playlist.duration)),
                             ),
-                            onTap: () async {
-                              logging.finest(playlist);
-
-                              AudioController.queuePlaylist(playlist);
-
-                              await AudioController.playQueue();
-                            },
+                            onTap: () => _openPlaylistPage(context, playlist),
                             onLongPress: () {
                               showDialog(
                                 context: context,
@@ -144,5 +139,11 @@ class _PlaylistsPageState extends State<PlaylistsPage>
         ) ,
         drawer: const SettingsDrawer()
     );
+  }
+  
+  void _openPlaylistPage(BuildContext context, Playlist playlist) {
+
+    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
+
   }
 }

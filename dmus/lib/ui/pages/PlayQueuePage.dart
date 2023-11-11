@@ -8,7 +8,6 @@ import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../widgets/ArtDisplay.dart';
 
@@ -39,7 +38,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
     super.initState();
 
     _subscriptions = [
-      AudioController.onSongChanged.listen(_onSongChanged),
+      // AudioController.onSongChanged.listen(_onSongChanged),
     ];
   }
 
@@ -110,7 +109,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
             subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
           ),
           onTap: () async {
-            await AudioController.playSongAt(index);
+            // await AudioController.playSongAt(index);
           },
         ),
       )
@@ -119,9 +118,10 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
 
   Widget buildBody(BuildContext context) {
 
-    UnmodifiableListView<Song> queue = AudioController.queue;
+    // UnmodifiableListView<Song> queue = AudioController.queue;
 
-    if(queue.isEmpty) {
+    // if(queue.isEmpty) {
+      if(true) {
       return const Center(
         child: Text(PlayQueuePage.QUEUE_EMPTY_TEXT,
             textAlign: TextAlign.center
@@ -133,8 +133,8 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
       child: ListView(
         children: [
 
-          for(int i = 0; i < queue.length; i++)
-            buildSongTile(context, queue[i], i, i == AudioController.queuePosition),
+          // for(int i = 0; i < queue.length; i++)
+          //   buildSongTile(context, queue[i], i, i == AudioController.queuePosition),
 
         ],
       ),
