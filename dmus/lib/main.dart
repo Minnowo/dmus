@@ -68,9 +68,9 @@ class DMUSApp extends StatelessWidget {
           create: (_) => AudioControllerModel()
       ),
 
-      StreamProvider<PlayerState>(
+      StreamProvider<PlayerStateExtended>(
           create: (_) => JustAudioController.instance.onPlayerStateChanged,
-          initialData: PlayerState(false, ProcessingState.loading)
+          initialData: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading)
       ),
 
       StreamProvider<PlayerIndex>(
@@ -80,12 +80,12 @@ class DMUSApp extends StatelessWidget {
 
       StreamProvider<PlayerPosition>(
           create: (_) => JustAudioController.instance.onPositionChanged,
-          initialData: const PlayerPosition(position: Duration.zero)
+          initialData: const PlayerPosition(position: Duration.zero, duration: null)
       ),
 
       StreamProvider<PlayerDuration>(
           create: (_) => JustAudioController.instance.onDurationChanged,
-          initialData: const PlayerDuration(duration: null)
+          initialData: const PlayerDuration(position: Duration.zero, duration: null)
       ),
 
       StreamProvider<PlayerPlaying>(
@@ -182,25 +182,16 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
                 children: _pages,
               )
           ),
-          Consumer<PlayerState>(
+          Consumer<PlayerStateExtended>(
               builder: (context, playerState, child) {
 
                 logging.info(playerState);
 
-                if(!playerState.playing) {
-                  return Container();
+                if(playerState.paused || playerState.playing) {
+                  return const CurrentlyPlayingBar();
                 }
 
-                switch(playerState.processingState) {
-
-                  case ProcessingState.idle:
-                  case ProcessingState.completed:
-                    return Container();
-                  case ProcessingState.loading:
-                  case ProcessingState.buffering:
-                  case ProcessingState.ready:
-                    return const CurrentlyPlayingBar();
-                }
+                return Container();
               })
         ],
       ),

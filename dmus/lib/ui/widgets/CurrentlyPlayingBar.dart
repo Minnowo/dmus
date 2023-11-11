@@ -3,15 +3,12 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/model/AudioControllerModel.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
-import '../../core/data/DataEntity.dart';
 import '../lookfeel/Theming.dart';
 
 class CurrentlyPlayingBar extends  StatelessWidget {
@@ -31,7 +28,6 @@ class CurrentlyPlayingBar extends  StatelessWidget {
     //   return Container();
     // }
 
-
     return
       Dismissible(
         key: ValueKey(_keyValue),
@@ -46,24 +42,25 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
-                  Visibility(
-                    visible: true,
-                    child: IconButton(
-                      icon: const Icon(Icons.play_arrow), // Play button
-                      onPressed: () async {
-                        // await AudioController.resume();
-                        },
-                    ),
+
+
+                  Consumer<PlayerStateExtended>(
+                      builder: (context, playerState, child){
+
+                        return IconButton(
+                          icon: playerState.playing ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
+                          onPressed: () async {
+
+                            if(playerState.playing) {
+                              await JustAudioController.instance.pause();
+                            } else {
+                              await JustAudioController.instance.play();
+                            }
+                          },
+                        );
+                      }
                   ),
-                  // Visibility(
-                  //   visible: audioControllerModel.isPlaying,
-                  //   child: IconButton(
-                  //     icon: const Icon(Icons.pause), // Pause button
-                  //     onPressed: () async {
-                  //       // await AudioController.pause();
-                  //       },
-                  //   ),
-                  // ),
+
                   Expanded(
                     child: Column(
                       children: <Widget>[
@@ -90,17 +87,17 @@ class CurrentlyPlayingBar extends  StatelessWidget {
                               );
                             }),
 
-                        Consumer2<PlayerPosition, PlayerDuration>(
-                            builder: (context, playerPosition, playerDuration, child) {
+                        Consumer<PlayerPosition>(
+                            builder: (context, playerPosition, child) {
 
                               double progress = playerPosition.position.inMilliseconds.toDouble();
 
-                              if(playerDuration.duration != null && playerDuration.duration!.inMilliseconds != 0) {
-                                progress /= playerDuration.duration!.inMilliseconds;
+                              if(playerPosition.duration != null && playerPosition.duration!.inMilliseconds != 0) {
+                                progress /= playerPosition.duration!.inMilliseconds;
                               }
                               return Column(children: [
                                 LinearProgressIndicator( value: progress, ),
-                                Text(formatTimeDisplay(playerPosition.position, playerDuration.duration ?? Duration.zero)),
+                                Text(formatTimeDisplay(playerPosition.position, playerPosition.duration ?? Duration.zero)),
                               ],
                               );
                             }

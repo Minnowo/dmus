@@ -23,11 +23,14 @@ final class JustAudioController extends BaseAudioHandler {
 
   bool _isInit = false;
   bool _isDisposed = false;
+  bool _isPaused = true;
+
   final PlayQueue _playQueue = PlayQueue();
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();
   final _playingStream = StreamController<PlayerPlaying>.broadcast();
   final _indexStream = StreamController<PlayerIndex>.broadcast();
+  final _playerStateStream = StreamController<PlayerStateExtended>.broadcast();
 
   final _player = AudioPlayer();
 
@@ -70,24 +73,38 @@ final class JustAudioController extends BaseAudioHandler {
 
     await session.configure(const AudioSessionConfiguration.music());
 
-    _positionStream.addStream(_player.positionStream.map(_transformPlayerPosition));
-    _durationStream.addStream(_player.durationStream.map((event) => PlayerDuration(duration: event)));
+    _positionStream.addStream(_player.positionStream.map((event) => PlayerPosition(position: event, duration: _player.duration)));
+    _durationStream.addStream(_player.durationStream.map((event) => PlayerDuration(position: _player.position, duration: event)));
     _playingStream.addStream(_player.playingStream.map((event) => PlayerPlaying(playing: event)));
     _indexStream.addStream(_player.currentIndexStream.map((event) => PlayerIndex(index: event)));
+    _playerStateStream.addStream(_player.playerStateStream.map(_transformPlayerState));
 
     _player.playbackEventStream.map(_transformPlaybackEvent).pipe(playbackState);
   }
 
-  PlayerPosition _transformPlayerPosition(Duration event){
+  PlayerStateExtended _transformPlayerState(PlayerState event) {
 
-    // playbackState.add(playbackState.value.copyWith(
-    //   updatePosition: event
-    // ));
+    switch(event.processingState) {
+      case ProcessingState.ready:
+        _isPaused = !_player.playing;
+        break;
 
-    return PlayerPosition(position: event);
+      case ProcessingState.loading:
+      case ProcessingState.buffering:
+        _isPaused = true;
+        break;
+
+      case ProcessingState.idle:
+      case ProcessingState.completed:
+        _isPaused = false;
+        break;
+    }
+
+    return PlayerStateExtended(paused: _isPaused, playing: event.playing, processingState: event.processingState);
   }
 
   PlaybackState _transformPlaybackEvent(PlaybackEvent event){
+
     return PlaybackState(
         controls: [
           MediaControl.rewind,
@@ -117,8 +134,8 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
   /// Publish events when the song position changes (ie 1 second passes)
-  Stream<PlayerState> get onPlayerStateChanged {
-    return _player.playerStateStream;
+  Stream<PlayerStateExtended> get onPlayerStateChanged {
+    return _playerStateStream.stream;
   }
 
   /// Publish events when the song position changes (ie 1 second passes)
