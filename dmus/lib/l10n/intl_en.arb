@@ -1,0 +1,20 @@
+{
+	"title": "DMUS - English Title",
+	"appTitle": "DMUS - English AppTitle",
+	"pageTitle": "DMUS - Home Page",
+	"updatedPlaylist": "Updated playlist",
+	"createdPlaylist": "Created playlist",
+	"songImported": "Song Imported:",
+	"error": "Something went wrong!",
+
+	"editMetadata": "Edit Metadata",
+	"lookupMetadata": "Lookup Metadata",
+
+	"viewDetails": "View Details",
+	"playNow": "Play Now",
+	"queueAll": "Queue All",
+	"editPlaylist": "Edit Playlist",
+	"close": "Close",
+
+	"noSongs": "Nothing is here!\nHit the + in the top right to import music."
+}

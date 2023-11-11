@@ -7,6 +7,7 @@ import 'package:dmus/core/data/FileOutput.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
@@ -18,6 +19,8 @@ import 'package:fimber/fimber.dart';
 import 'package:fimber_io/fimber_io.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:logging/logging.dart';
@@ -27,7 +30,7 @@ import 'package:provider/provider.dart';
 import 'core/Util.dart';
 import 'core/data/DataEntity.dart';
 
-
+import 'package:dmus/l10n/DemoLocalizations.dart';
 
 Future<void> main() async {
 
@@ -102,6 +105,16 @@ class DMUSApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
+          localizationsDelegates: const [
+            S.delegate,
+            DemoLocalizationsDelegate(),
+            ...GlobalMaterialLocalizations.delegates,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('fr', ''),
+          ],
           home: const RootPage(title: title),
         )
     );
@@ -199,16 +212,16 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
 
   void _onPlaylistUpdated(Playlist playlist) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Updated playlist: ${playlist.title}", mediumSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onPlaylistCreated(Playlist playlist) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Created playlist: ${playlist.title}", mediumSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onSongImported(Song s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Song imported: ${s.title}", veryFastSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).songImported}: ${s.title}", veryFastSnackBarDuration));
   }
   void _onSomethingWentWrong(String s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("Something went wrong! $s", longSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).error} $s", longSnackBarDuration));
   }
   void _onShowSnackBar(SnackBarData s) {
     ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));

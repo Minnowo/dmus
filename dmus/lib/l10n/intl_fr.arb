@@ -1,0 +1,20 @@
+{
+	"title": "DMUS - French Title",
+	"appTitle": "DMUS - French App Title",
+	"pageTitle": "DMUS - Page d'accueil",
+	"updatedPlaylist": "Playlist modifiée",
+	"createdPlaylist": "Playlist créée",
+	"songImported": "Chanson importée:",
+	"error": "Quelque chose s'est mal passé !",
+
+	"editMetadata": "Modifier les métadonnées",
+	"lookupMetadata": "Rechercher des métadonnées",
+
+	"viewDetails": "Voir les détails",
+	"playNow": "Jouer maintenant",
+	"queueAll": "Mettre tout en file d'attente",
+	"editPlaylist": "Modifier la playlist",
+	"close": "Fermer",
+
+	"noSongs": "Rien n'est ici !\nAppuyez sur le + en haut à droite pour importer de la musique."
+}
