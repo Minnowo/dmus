@@ -1,7 +1,6 @@
 
 import 'dart:async';
 
-import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,6 @@
 
 
 
-import 'package:dmus/core/audio/AudioController.dart';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';

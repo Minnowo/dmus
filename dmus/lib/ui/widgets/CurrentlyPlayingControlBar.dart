@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../model/AudioControllerModel.dart';
 import 'TimeSlider.dart';

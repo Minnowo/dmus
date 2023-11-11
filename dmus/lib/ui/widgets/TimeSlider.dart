@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
+import '../../core/audio/JustAudioController.dart';
 
 class TimeSlider extends StatefulWidget {
 
@@ -56,13 +56,13 @@ class TimeSliderState extends State<TimeSlider> {
           },
           onChangeStart: (value) async {
             isDragging = true;
-            // await AudioController.pause();
+            await JustAudioController.instance.pause();
           },
           onChangeEnd: (value) async {
             isDragging = false;
 
-            // await JustAudioController.instance.seekToPosition(sp);
-            // await AudioController.resumePlayLast();
+            await JustAudioController.instance.seek(sp);
+            await JustAudioController.instance.play();
           },
         ),
 

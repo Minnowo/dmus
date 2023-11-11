@@ -19,7 +19,6 @@ import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../lookfeel/Theming.dart';
 

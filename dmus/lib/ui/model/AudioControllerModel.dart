@@ -8,7 +8,6 @@ import 'dart:async';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 
 class AudioControllerModel extends ChangeNotifier {

@@ -8,7 +8,6 @@ import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/AudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../widgets/ArtDisplay.dart';
 
