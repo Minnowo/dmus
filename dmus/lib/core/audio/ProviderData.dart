@@ -54,4 +54,15 @@ final class PlayerSong {
   final Duration position;
 
   PlayerSong({required this.song, required this.playerState, required this.duration, required this.position, required this.index});
+
+  @override
+  int get hashCode => Object.hash(index, song, playerState, duration, position);
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || (
+      other is PlayerSong &&
+          other.index == index &&
+          other.song == song &&
+          other.playerState == playerState
+  );
 }

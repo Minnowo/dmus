@@ -25,6 +25,7 @@ final class JustAudioController extends BaseAudioHandler {
   bool _isInit = false;
   bool _isDisposed = false;
   bool _isPaused = true;
+  bool _isFirstPub = true;
 
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 // import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -22,55 +23,22 @@ import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../lookfeel/Theming.dart';
 
-class CurrentlyPlayingPage extends StatefulWidget {
+class CurrentlyPlayingPage extends  StatelessWidget {
+
+  static const String title = "Currently Playing";
+
   const CurrentlyPlayingPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => CurrentlyPlayingPageState();
-}
-
-class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
-  static const String title = "Currently Playing";
-
-  late final StreamSubscription<Song?> currentlyPlayingSubscriber;
-
-  Song? songContext;
-
-  void _onSongChanged(Song? s) {
-    if (s == null || s == songContext) {
-      return;
-    }
-
-    setState(() {
-      songContext = s;
-
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // currentlyPlayingSubscriber = AudioController.onSongChanged.listen(_onSongChanged);
-
-    setState(() {
-      songContext = context.read<AudioControllerModel>().currentlyPlaying;
-    });
-  }
-
-  @override
-  void dispose() {
-    // currentlyPlayingSubscriber.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (songContext == null) {
-      return const CircularProgressIndicator();
+
+    PlayerSong playerSong = context.watch<PlayerSong>();
+
+    if(playerSong.song == null) {
+      return CircularProgressIndicator();
     }
 
-    logging.info("Currently playing page now showing $songContext");
+    Song songContext = playerSong.song!;
 
     return Scaffold(
         appBar: AppBar(
@@ -100,11 +68,10 @@ class CurrentlyPlayingPageState extends State<CurrentlyPlayingPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
                 Expanded(
                     flex: 720,
-                    child: ArtDisplay(songContext: songContext!)),
-
+                    child: ArtDisplay(songContext: songContext!)
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(

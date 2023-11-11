@@ -19,7 +19,12 @@ class CurrentlyPlayingBar extends  StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return
+    bool dontShow = context.select((PlayerStateExtended value) => !value.paused && !value.playing);
+
+
+    return Visibility(
+      visible: !dontShow ,
+        child:
       Dismissible(
         key: ValueKey(_keyValue),
         onDismissed: (_) async {
@@ -56,7 +61,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
                       children: <Widget>[
 
                         Consumer<PlayerSong>(
-                            builder:(context, playerSong, child) {
+                            builder: (context, playerSong, child) {
                               return SizedBox(
                                 height: 20,
                                 child: TextScroll(
@@ -98,7 +103,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
               ),
             )
         ),
-      ) ;
+      )     ) ;
   }
 
 

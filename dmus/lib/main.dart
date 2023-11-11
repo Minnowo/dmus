@@ -72,7 +72,7 @@ class DMUSApp extends StatelessWidget {
           create: (_) => JustAudioController.instance.onPlayerSongChanged,
           initialData: PlayerSong( song: null,
               playerState: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading),
-              position: Duration.zero, duration: Duration.zero, index: 0)
+              position: Duration.zero, duration: Duration.zero, index: 0),
       ),
 
       StreamProvider<PlayerStateExtended>(
@@ -189,17 +189,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
                 children: _pages,
               )
           ),
-          Consumer<PlayerStateExtended>(
-              builder: (context, playerState, child) {
-
-                logging.info(playerState);
-
-                if(playerState.paused || playerState.playing) {
-                  return const CurrentlyPlayingBar();
-                }
-
-                return Container();
-              })
+          const CurrentlyPlayingBar()
         ],
       ),
       bottomNavigationBar: NavigationBar(
