@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addFiles": MessageLookupByLibrary.simpleMessage("Add Files"),
         "addFolder": MessageLookupByLibrary.simpleMessage("Add Folder"),
+        "addToQueue": MessageLookupByLibrary.simpleMessage("Add to Queue"),
+        "artist": MessageLookupByLibrary.simpleMessage("Artist"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "createdPlaylist":
@@ -61,8 +63,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "queueAll": MessageLookupByLibrary.simpleMessage("Queue All"),
         "recordings": MessageLookupByLibrary.simpleMessage("Recordings"),
         "register": MessageLookupByLibrary.simpleMessage("Register"),
+        "releaseTitle": MessageLookupByLibrary.simpleMessage("ReleaseTitle"),
         "releases": MessageLookupByLibrary.simpleMessage("Releases"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "searchEmpty":
+            MessageLookupByLibrary.simpleMessage("Search cannot be empty!"),
         "searchError": MessageLookupByLibrary.simpleMessage(
             "Error fetching search results"),
         "searchResult": MessageLookupByLibrary.simpleMessage("Search Result"),
@@ -70,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Use the + in the top right to add songs"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),
+        "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "titleMaxLengthError":
             MessageLookupByLibrary.simpleMessage("title should be less than"),
         "updatedPlaylist":

@@ -18,7 +18,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return artists.map((e) =>
 
       DataRow(cells: [
-        const DataCell(Text('Artist')),
+        DataCell(Text(DemoLocalizations.of(context).artist)),
         DataCell(Text(e.toString())),
       ])).toList();
   }
@@ -29,7 +29,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return tags.map((e) =>
 
       DataRow(cells: [
-        const DataCell(Text('Tag')),
+        DataCell(Text(DemoLocalizations.of(context).tag)),
         DataCell(Text(e.toString())),
       ])).toList();
   }
@@ -37,7 +37,7 @@ class SearchYesNoPicker extends StatelessWidget {
   List<DataRow> dataRowsForRelease(BuildContext context, ReleaseSearchResult releaseSearch) {
     return [
       DataRow(cells: [
-        const DataCell(Text('Release Title')),
+        DataCell(Text(DemoLocalizations.of(context).releaseTitle)),
         DataCell(Text(releaseSearch.title ?? 'N/A')),
       ]),
 

@@ -172,6 +172,14 @@ class DemoLocalizations {
   }
 
   //MetadataSearchForm.dart
+  String get searchEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'searchEmpty',
+      desc: 'Returned when search attempted and no search text typed',
+      locale: localeName,
+    );
+  }
   String get searchError {
     return Intl.message(
       'placeholder',
@@ -209,6 +217,15 @@ class DemoLocalizations {
       'placeholder',
       name: 'search',
       desc: 'Search button label',
+      locale: localeName,
+    );
+  }
+
+  //SongContextDialogue.dart
+  String get addToQueue {
+    return Intl.message(
+      'placeholder',
+      name: 'addToQueue',
       locale: localeName,
     );
   }
@@ -274,6 +291,27 @@ class DemoLocalizations {
   }
 
   //SearchYesNoPicker.dart
+  String get artist {
+    return Intl.message(
+      'placeholder',
+      name: 'artist',
+      locale: localeName,
+    );
+  }
+  String get tag {
+    return Intl.message(
+      'placeholder',
+      name: 'tag',
+      locale: localeName,
+    );
+  }
+  String get releaseTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'releaseTitle',
+      locale: localeName,
+    );
+  }
   String get searchResult {
     return Intl.message(
       'placeholder',

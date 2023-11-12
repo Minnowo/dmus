@@ -55,7 +55,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
 
   String? validateSearch(String? search) {
     if (search == null || search.isEmpty) {
-      return "Search Cannot Be Empty!";
+      return DemoLocalizations.of(context).searchEmpty;
     }
     return null;
   }

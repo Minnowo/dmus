@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `Add to Queue`
+  String get addToQueue {
+    return Intl.message(
+      'Add to Queue',
+      name: 'addToQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `View Details`
   String get viewDetails {
     return Intl.message(
@@ -155,6 +165,16 @@ class S {
     return Intl.message(
       'Close',
       name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search cannot be empty!`
+  String get searchEmpty {
+    return Intl.message(
+      'Search cannot be empty!',
+      name: 'searchEmpty',
       desc: '',
       args: [],
     );
@@ -275,6 +295,36 @@ class S {
     return Intl.message(
       'Add Folder',
       name: 'addFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Artist`
+  String get artist {
+    return Intl.message(
+      'Artist',
+      name: 'artist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tag`
+  String get tag {
+    return Intl.message(
+      'Tag',
+      name: 'tag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ReleaseTitle`
+  String get releaseTitle {
+    return Intl.message(
+      'ReleaseTitle',
+      name: 'releaseTitle',
       desc: '',
       args: [],
     );

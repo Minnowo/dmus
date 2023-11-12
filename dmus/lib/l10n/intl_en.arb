@@ -7,12 +7,14 @@
 	"editMetadata": "Edit Metadata",
 	"lookupMetadata": "Lookup Metadata",
 
+	"addToQueue": "Add to Queue",
 	"viewDetails": "View Details",
 	"playNow": "Play Now",
 	"queueAll": "Queue All",
 	"editPlaylist": "Edit Playlist",
 	"close": "Close",
 
+	"searchEmpty": "Search cannot be empty!",
 	"searchError": "Error fetching search results",
 	"noSearchResults": "There are no results for this search! :(",
 	"releases": "Releases",
@@ -28,6 +30,9 @@
 	"addFiles": "Add Files",
 	"addFolder": "Add Folder",
 
+	"artist": "Artist",
+	"tag": "Tag",
+	"releaseTitle": "ReleaseTitle",
 	"searchResult": "Search Result",
 	"property": "Property",
 	"value": "Value",
