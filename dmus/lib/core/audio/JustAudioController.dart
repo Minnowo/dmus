@@ -272,8 +272,6 @@ final class JustAudioController extends BaseAudioHandler {
     await _player.setAudioSource(AudioSource.file(song.file.path));
   }
 
-
-
   Future<void> playSongAt(int index) async {
 
     logging.info("Playing song at $index");
@@ -288,5 +286,19 @@ final class JustAudioController extends BaseAudioHandler {
     Song? s = _playQueue.current();
 
     await playSong(s);
+  }
+
+  Future<void> stopAndEmptyQueue() async {
+
+    _player.stop();
+
+    await stop();
+
+    _playQueue.clear();
+  }
+
+  Future<void> queuePlaylist(Playlist p) async {
+    logging.finest("playing playlist ${p.toStringWithSongs()}");
+    _playQueue.addAllToQueue(p.songs);
   }
 }
