@@ -1,4 +1,5 @@
 import 'package:dmus/core/Util.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/dialogs/form/MetadataSearchForm.dart';
 import 'package:flutter/material.dart';
 
@@ -22,13 +23,13 @@ class MetadataContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: const Text('Edit Metadata'),
+            title: Text(DemoLocalizations.of(context).editMetadata),
             onTap: () {
 
             },
           ),
           ListTile(
-            title: const Text('Lookup Metadata'),
+            title: Text(DemoLocalizations.of(context).lookupMetadata),
             onTap: () {
 
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => const MetadataSearchPage()))

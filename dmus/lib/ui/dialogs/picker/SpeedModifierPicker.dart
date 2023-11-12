@@ -2,6 +2,7 @@
 
 
 import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,10 +70,10 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(decimalMatch),
                 ],
-                decoration: const InputDecoration(
-                    labelText: "Playback Speed",
-                    hintText: "Playback Speed",
-                    icon: Icon(Icons.speed)
+                decoration: InputDecoration(
+                    labelText: DemoLocalizations.of(context).playbackSpeed,
+                    hintText: DemoLocalizations.of(context).playbackSpeed,
+                    icon: const Icon(Icons.speed)
                 )
             ),
             Slider(
@@ -87,11 +88,11 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
               },
             ),
             ListTile(
-              title: const Text('Ok'),
+              title: Text(DemoLocalizations.of(context).ok),
               onTap: changePlaybackSpeedSubmit,
             ),
             ListTile(
-              title: const Text('Cancel'),
+              title: Text(DemoLocalizations.of(context).cancel),
               onTap: cancel,
             ),
           ]

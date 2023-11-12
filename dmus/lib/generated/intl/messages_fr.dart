@@ -22,8 +22,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "appTitle":
-            MessageLookupByLibrary.simpleMessage("DMUS - French App Title"),
+        "addFiles":
+            MessageLookupByLibrary.simpleMessage("Ajouter des fichiers"),
+        "addFolder": MessageLookupByLibrary.simpleMessage("Ajouter un dossier"),
         "close": MessageLookupByLibrary.simpleMessage("Fermer"),
         "createdPlaylist":
             MessageLookupByLibrary.simpleMessage("Playlist créée"),
@@ -31,20 +32,33 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Modifier les métadonnées"),
         "editPlaylist":
             MessageLookupByLibrary.simpleMessage("Modifier la playlist"),
+        "emptyTitleError": MessageLookupByLibrary.simpleMessage(
+            "Le titre ne peut pas être vide !"),
         "error": MessageLookupByLibrary.simpleMessage(
             "Quelque chose s\'est mal passé !"),
+        "increment": MessageLookupByLibrary.simpleMessage("Incrémenter"),
         "lookupMetadata":
             MessageLookupByLibrary.simpleMessage("Rechercher des métadonnées"),
+        "noSearchResults": MessageLookupByLibrary.simpleMessage(
+            "Il n\'y a pas de résultats pour cette recherche ! :("),
         "noSongs": MessageLookupByLibrary.simpleMessage(
             "Rien n\'est ici !\nAppuyez sur le + en haut à droite pour importer de la musique."),
-        "pageTitle":
-            MessageLookupByLibrary.simpleMessage("DMUS - Page d\'accueil"),
         "playNow": MessageLookupByLibrary.simpleMessage("Jouer maintenant"),
+        "playlistTitle":
+            MessageLookupByLibrary.simpleMessage("Titre de la playlist"),
         "queueAll": MessageLookupByLibrary.simpleMessage(
             "Mettre tout en file d\'attente"),
+        "recordings": MessageLookupByLibrary.simpleMessage("Enregistrements"),
+        "releases": MessageLookupByLibrary.simpleMessage("Sorties"),
+        "search": MessageLookupByLibrary.simpleMessage("Recherche"),
+        "searchError": MessageLookupByLibrary.simpleMessage(
+            "Erreur lors de la récupération des résultats de recherche"),
+        "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
+            "Utilisez le + en haut à droite pour ajouter des chansons"),
         "songImported":
             MessageLookupByLibrary.simpleMessage("Chanson importée:"),
-        "title": MessageLookupByLibrary.simpleMessage("DMUS - French Title"),
+        "titleMaxLengthError": MessageLookupByLibrary.simpleMessage(
+            "Le titre doit comporter moins de"),
         "updatedPlaylist":
             MessageLookupByLibrary.simpleMessage("Playlist modifiée"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("Voir les détails")

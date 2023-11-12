@@ -50,36 +50,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `DMUS - English Title`
-  String get title {
-    return Intl.message(
-      'DMUS - English Title',
-      name: 'title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `DMUS - English AppTitle`
-  String get appTitle {
-    return Intl.message(
-      'DMUS - English AppTitle',
-      name: 'appTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `DMUS - Home Page`
-  String get pageTitle {
-    return Intl.message(
-      'DMUS - Home Page',
-      name: 'pageTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Updated playlist`
   String get updatedPlaylist {
     return Intl.message(
@@ -185,6 +155,296 @@ class S {
     return Intl.message(
       'Close',
       name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error fetching search results`
+  String get searchError {
+    return Intl.message(
+      'Error fetching search results',
+      name: 'searchError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no results for this search! :(`
+  String get noSearchResults {
+    return Intl.message(
+      'There are no results for this search! :(',
+      name: 'noSearchResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Releases`
+  String get releases {
+    return Intl.message(
+      'Releases',
+      name: 'releases',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recordings`
+  String get recordings {
+    return Intl.message(
+      'Recordings',
+      name: 'recordings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message(
+      'Search',
+      name: 'search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlist Title`
+  String get playlistTitle {
+    return Intl.message(
+      'Playlist Title',
+      name: 'playlistTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `title cannot be empty!`
+  String get emptyTitleError {
+    return Intl.message(
+      'title cannot be empty!',
+      name: 'emptyTitleError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `title should be less than`
+  String get titleMaxLengthError {
+    return Intl.message(
+      'title should be less than',
+      name: 'titleMaxLengthError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use the + in the top right to add songs`
+  String get selectedSongsIsEmpty {
+    return Intl.message(
+      'Use the + in the top right to add songs',
+      name: 'selectedSongsIsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Increment`
+  String get increment {
+    return Intl.message(
+      'Increment',
+      name: 'increment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Files`
+  String get addFiles {
+    return Intl.message(
+      'Add Files',
+      name: 'addFiles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Folder`
+  String get addFolder {
+    return Intl.message(
+      'Add Folder',
+      name: 'addFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Result`
+  String get searchResult {
+    return Intl.message(
+      'Search Result',
+      name: 'searchResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Property`
+  String get property {
+    return Intl.message(
+      'Property',
+      name: 'property',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Value`
+  String get value {
+    return Intl.message(
+      'Value',
+      name: 'value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Use`
+  String get use {
+    return Intl.message(
+      'Use',
+      name: 'use',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Songs`
+  String get pickSongs {
+    return Intl.message(
+      'Pick Songs',
+      name: 'pickSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playback Speed`
+  String get playbackSpeed {
+    return Intl.message(
+      'Playback Speed',
+      name: 'playbackSpeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ok`
+  String get ok {
+    return Intl.message(
+      'Ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address.`
+  String get enterValidEmail {
+    return Intl.message(
+      'Please enter a valid email address.',
+      name: 'enterValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters long.`
+  String get minPasswordLen {
+    return Intl.message(
+      'Password must be at least 6 characters long.',
+      name: 'minPasswordLen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register`
+  String get register {
+    return Intl.message(
+      'Register',
+      name: 'register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign In`
+  String get signIn {
+    return Intl.message(
+      'Sign In',
+      name: 'signIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message(
+      'Email',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email cannot be empty`
+  String get emailEmpty {
+    return Intl.message(
+      'Email cannot be empty',
+      name: 'emailEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password cannot be empty`
+  String get passwordEmpty {
+    return Intl.message(
+      'Password cannot be empty',
+      name: 'passwordEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nothing is here!\nHit the + in the top right to create an album.`
+  String get noAlbums {
+    return Intl.message(
+      'Nothing is here!\nHit the + in the top right to create an album.',
+      name: 'noAlbums',
       desc: '',
       args: [],
     );

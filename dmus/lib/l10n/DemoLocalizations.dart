@@ -8,7 +8,7 @@
 // A simple example of localizing a Flutter app written with the
 // Dart intl package (see https://pub.dev/packages/intl).
 //
-// French France and English (locale language codes 'en' and 'fr_FR') are
+// French and English (locale language codes 'en' and 'fr') are
 // supported.
 
 // The pubspec.yaml file must include flutter_localizations and the
@@ -78,7 +78,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get songImported {
     return Intl.message(
       'placeholder',
@@ -87,7 +86,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get createdPlaylist {
     return Intl.message(
       'placeholder',
@@ -96,7 +94,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get updatedPlaylist {
     return Intl.message(
       'placeholder',
@@ -105,7 +102,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get error {
     return Intl.message(
       'placeholder',
@@ -124,7 +120,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get lookupMetadata {
     return Intl.message(
       'placeholder',
@@ -143,7 +138,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get playNow {
     return Intl.message(
       'placeholder',
@@ -152,7 +146,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get queueAll {
     return Intl.message(
       'placeholder',
@@ -161,7 +154,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get editPlaylist {
     return Intl.message(
       'placeholder',
@@ -170,7 +162,6 @@ class DemoLocalizations {
       locale: localeName,
     );
   }
-
   String get close {
     return Intl.message(
       'placeholder',
@@ -180,6 +171,257 @@ class DemoLocalizations {
     );
   }
 
+  //MetadataSearchForm.dart
+  String get searchError {
+    return Intl.message(
+      'placeholder',
+      name: 'searchError',
+      desc: 'Error performing metadata search',
+      locale: localeName,
+    );
+  }
+  String get noSearchResults {
+    return Intl.message(
+      'placeholder',
+      name: 'noSearchResults',
+      desc: 'No search results were found',
+      locale: localeName,
+    );
+  }
+  String get releases {
+    return Intl.message(
+      'placeholder',
+      name: 'releases',
+      desc: 'Releases results',
+      locale: localeName,
+    );
+  }
+  String get recordings {
+    return Intl.message(
+      'placeholder',
+      name: 'recordings',
+      desc: 'Recordings results',
+      locale: localeName,
+    );
+  }
+  String get search {
+    return Intl.message(
+      'placeholder',
+      name: 'search',
+      desc: 'Search button label',
+      locale: localeName,
+    );
+  }
+
+  //PlaylistCreationForm.dart
+  String get playlistTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistTitle',
+      desc: 'Playlist title text entry label',
+      locale: localeName,
+    );
+  }
+  String get emptyTitleError {
+    return Intl.message(
+      'placeholder',
+      name: 'emptyTitleError',
+      desc: 'Error returned when user does not enter a title when making a playlist',
+      locale: localeName,
+    );
+  }
+  String get titleMaxLengthError {
+    return Intl.message(
+      'placeholder',
+      name: 'titleMaxLengthError',
+      desc: 'Error returned when user enters a playlist title longer than maximum character limit',
+      locale: localeName,
+    );
+  }
+  String get selectedSongsIsEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'selectedSongsIsEmpty',
+      desc: 'Message displayed when user has not selected any songs to add to a playlist',
+      locale: localeName,
+    );
+  }
+  String get increment {
+    return Intl.message(
+      'placeholder',
+      name: 'increment',
+      desc: 'Tooltip that displays the text increment',
+      locale: localeName,
+    );
+  }
+
+  //ImportDialogue.dart
+  String get addFiles {
+    return Intl.message(
+      'placeholder',
+      name: 'addFiles',
+      desc: 'Button labelled Add Files',
+      locale: localeName,
+    );
+  }
+  String get addFolder {
+    return Intl.message(
+      'placeholder',
+      name: 'addFolder',
+      desc: 'Button labelled Add Folders',
+      locale: localeName,
+    );
+  }
+
+  //SearchYesNoPicker.dart
+  String get searchResult {
+    return Intl.message(
+      'placeholder',
+      name: 'searchResult',
+      desc: 'Search Result label',
+      locale: localeName,
+    );
+  }
+  String get property {
+    return Intl.message(
+      'placeholder',
+      name: 'property',
+      desc: 'Property label',
+      locale: localeName,
+    );
+  }
+  String get value {
+    return Intl.message(
+      'placeholder',
+      name: 'value',
+      desc: 'Value label',
+      locale: localeName,
+    );
+  }
+  String get use {
+    return Intl.message(
+      'placeholder',
+      name: 'use',
+      desc: 'Button labelled Use',
+      locale: localeName,
+    );
+  }
+  String get cancel {
+    return Intl.message(
+      'placeholder',
+      name: 'cancel',
+      desc: 'Button labelled Cancel',
+      locale: localeName,
+    );
+  }
+
+  //SongPicker.dart
+  String get pickSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'pickSongs',
+      desc: 'Pick Songs button',
+      locale: localeName,
+    );
+  }
+  
+  //SpeedModifierPicker.dart
+  String get playbackSpeed {
+    return Intl.message(
+      'placeholder',
+      name: 'playbackSpeed',
+      desc: 'Playback Speed text form label',
+      locale: localeName,
+    );
+  }
+  String get ok {
+    return Intl.message(
+      'placeholder',
+      name: 'ok',
+      desc: 'Ok button',
+      locale: localeName,
+    );
+  }
+  
+  //registerPage.dart
+  String get enterValidEmail {
+    return Intl.message(
+      'placeholder',
+      name: 'enterValidEmail',
+      desc: 'Enter valid email label on registration or login page',
+      locale: localeName,
+    );
+  }
+  String get minPasswordLen {
+    return Intl.message(
+      'placeholder',
+      name: 'minPasswordLen',
+      desc: 'Password must be at least given length',
+      locale: localeName,
+    );
+  }
+  String get register {
+    return Intl.message(
+      'placeholder',
+      name: 'register',
+      desc: 'Register for new account button',
+      locale: localeName,
+    );
+  }
+
+  //SignIn.dart
+  String get signIn {
+    return Intl.message(
+      'placeholder',
+      name: 'signIn',
+      desc: 'Sign In button',
+      locale: localeName,
+    );
+  }
+  String get email {
+    return Intl.message(
+      'placeholder',
+      name: 'email',
+      desc: 'Register for new account button',
+      locale: localeName,
+    );
+  }
+  String get emailEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'emailEmpty',
+      desc: 'Error text for email field on register and login page',
+      locale: localeName,
+    );
+  }
+  String get password {
+    return Intl.message(
+      'placeholder',
+      name: 'emailEmpty',
+      desc: 'Register for new account button',
+      locale: localeName,
+    );
+  }
+  String get passwordEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'passwordEmpty',
+      desc: 'Error text for password field on register and login page',
+      locale: localeName,
+    );
+  }
+
+  //AlbumsPage.dart
+  String get noAlbums {
+    return Intl.message(
+      'placeholder',
+      name: 'noAlbums',
+      desc: 'No albums available on the Albums page',
+      locale: localeName,
+    );
+  }
+
+  //SongsPage.dart
   String get noSongs {
     return Intl.message(
       'placeholder',
@@ -189,6 +431,7 @@ class DemoLocalizations {
     );
   }
 
+  
 }
 // #enddocregion DemoLocalizations
 

@@ -1,3 +1,4 @@
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign In'),
+        title: Text(DemoLocalizations.of(context).signIn),
       ),
       body: Center(
         child: Padding(
@@ -104,15 +105,15 @@ class _SignInWidgetState extends State<SignInWidget> {
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  errorText: _isEmailEmpty ? 'Email cannot be empty' : null,
+                  labelText: DemoLocalizations.of(context).email,
+                  errorText: _isEmailEmpty ? DemoLocalizations.of(context).emailEmpty : null,
                 ),
               ),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  errorText: _isPasswordEmpty ? 'Password cannot be empty' : null,
+                  labelText: DemoLocalizations.of(context).password,
+                  errorText: _isPasswordEmpty ? DemoLocalizations.of(context).passwordEmpty : null,
                 ),
                 obscureText: true,
               ),
@@ -121,7 +122,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                 onPressed: _signIn,
-                child: const Text('Sign In'),
+                child: Text(DemoLocalizations.of(context).signIn),
               ),
             ],
           ),

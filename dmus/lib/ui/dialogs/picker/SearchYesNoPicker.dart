@@ -3,6 +3,7 @@
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/musicbrainz/ResponseData.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
@@ -124,7 +125,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Search Result"),
+        title: Text(DemoLocalizations.of(context).searchResult),
         centerTitle: true,
       ),
       body: Column(
@@ -136,9 +137,9 @@ class SearchYesNoPicker extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                  columns: const [
-                    DataColumn(label: Text('Property')),
-                    DataColumn(label: Text('Value')),
+                  columns: [
+                    DataColumn(label: Text(DemoLocalizations.of(context).property)),
+                    DataColumn(label: Text(DemoLocalizations.of(context).value)),
                   ],
                   rows: dataRowsForSearch(context)
               ),
@@ -150,10 +151,10 @@ class SearchYesNoPicker extends StatelessWidget {
           children: [
             ElevatedButton(onPressed: (){
               popNavigatorSafeWithArgs(context, true);
-            }, child: const Text("Use")),
+            }, child: Text(DemoLocalizations.of(context).use)),
             ElevatedButton(onPressed: (){
               popNavigatorSafeWithArgs(context, false);
-            }, child: const Text("Cancel"))
+            }, child: Text(DemoLocalizations.of(context).cancel))
           ],
         )
       ],

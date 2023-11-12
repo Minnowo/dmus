@@ -22,25 +22,60 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "appTitle":
-            MessageLookupByLibrary.simpleMessage("DMUS - English AppTitle"),
+        "addFiles": MessageLookupByLibrary.simpleMessage("Add Files"),
+        "addFolder": MessageLookupByLibrary.simpleMessage("Add Folder"),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "createdPlaylist":
             MessageLookupByLibrary.simpleMessage("Created playlist"),
         "editMetadata": MessageLookupByLibrary.simpleMessage("Edit Metadata"),
         "editPlaylist": MessageLookupByLibrary.simpleMessage("Edit Playlist"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "emailEmpty":
+            MessageLookupByLibrary.simpleMessage("Email cannot be empty"),
+        "emptyTitleError":
+            MessageLookupByLibrary.simpleMessage("title cannot be empty!"),
+        "enterValidEmail": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid email address."),
         "error": MessageLookupByLibrary.simpleMessage("Something went wrong!"),
+        "increment": MessageLookupByLibrary.simpleMessage("Increment"),
         "lookupMetadata":
             MessageLookupByLibrary.simpleMessage("Lookup Metadata"),
+        "minPasswordLen": MessageLookupByLibrary.simpleMessage(
+            "Password must be at least 6 characters long."),
+        "noAlbums": MessageLookupByLibrary.simpleMessage(
+            "Nothing is here!\nHit the + in the top right to create an album."),
+        "noSearchResults": MessageLookupByLibrary.simpleMessage(
+            "There are no results for this search! :("),
         "noSongs": MessageLookupByLibrary.simpleMessage(
             "Nothing is here!\nHit the + in the top right to import music."),
-        "pageTitle": MessageLookupByLibrary.simpleMessage("DMUS - Home Page"),
+        "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+        "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwordEmpty":
+            MessageLookupByLibrary.simpleMessage("Password cannot be empty"),
+        "pickSongs": MessageLookupByLibrary.simpleMessage("Pick Songs"),
         "playNow": MessageLookupByLibrary.simpleMessage("Play Now"),
+        "playbackSpeed": MessageLookupByLibrary.simpleMessage("Playback Speed"),
+        "playlistTitle": MessageLookupByLibrary.simpleMessage("Playlist Title"),
+        "property": MessageLookupByLibrary.simpleMessage("Property"),
         "queueAll": MessageLookupByLibrary.simpleMessage("Queue All"),
+        "recordings": MessageLookupByLibrary.simpleMessage("Recordings"),
+        "register": MessageLookupByLibrary.simpleMessage("Register"),
+        "releases": MessageLookupByLibrary.simpleMessage("Releases"),
+        "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "searchError": MessageLookupByLibrary.simpleMessage(
+            "Error fetching search results"),
+        "searchResult": MessageLookupByLibrary.simpleMessage("Search Result"),
+        "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
+            "Use the + in the top right to add songs"),
+        "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported:"),
-        "title": MessageLookupByLibrary.simpleMessage("DMUS - English Title"),
+        "titleMaxLengthError":
+            MessageLookupByLibrary.simpleMessage("title should be less than"),
         "updatedPlaylist":
             MessageLookupByLibrary.simpleMessage("Updated playlist"),
+        "use": MessageLookupByLibrary.simpleMessage("Use"),
+        "value": MessageLookupByLibrary.simpleMessage("Value"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details")
       };
 }
