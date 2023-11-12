@@ -81,6 +81,12 @@ final class JustAudioController extends BaseAudioHandler {
     _playerStateStream.addStream(_player.playerStateStream.map(_transformPlayerState));
 
     _player.playbackEventStream.map(_transformPlaybackEvent).pipe(playbackState);
+    _playerStateStream.stream.listen((event) async {
+      if (event.processingState == ProcessingState.completed) {
+        await skipToNext();
+        logging.finest("Playback Completed");
+      }
+    });
   }
 
   PlayerStateExtended _transformPlayerState(PlayerState event) {
