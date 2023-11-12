@@ -111,7 +111,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
             subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
           ),
           onTap: () async {
-            // await AudioController.playSongAt(index);
+             await JustAudioController.instance.playSongAt(index);
           },
         ),
       )
@@ -137,6 +137,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
         children: [
           for (int i = 0; i < queue.length; i++)
             buildSongTile(context, queue[i], i, i == false),
+
         ],
       ),
     );

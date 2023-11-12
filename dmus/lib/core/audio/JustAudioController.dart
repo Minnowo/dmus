@@ -265,4 +265,20 @@ final class JustAudioController extends BaseAudioHandler {
         index: _playQueue.currentPosition)
     );
   }
+
+  Future<void> playSongAt(int index) async {
+
+    logging.info("Playing song at $index");
+
+    if(!_playQueue.canJump(index)) {
+      logging.warning("Cannot jump to $index");
+      return;
+    }
+
+    _playQueue.jumpToIndex(index);
+
+    Song? s = _playQueue.current();
+
+    await playSong(s);
+  }
 }
