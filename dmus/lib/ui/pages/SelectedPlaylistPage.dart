@@ -63,7 +63,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                       child: IconButton(
                         icon: const Icon(Icons.play_circle_filled, size: 40), // Adjust the size here
                         onPressed: () {
-                          _playPlaylist(context);
+                          _playPlaylistBeginning(context);
                         },
                       ),
                     ),
@@ -78,7 +78,9 @@ class SelectedPlaylistPage extends StatelessWidget {
                   return ListTile(
                     title: Text(playlistContext.songs[index].title),
                     subtitle: Text(subtitleFromMetadata(playlistContext.songs[index].metadata)),
-                    // Add more details if needed
+                    onTap: () {
+                      _playPlaylistFromIndex(context, index);
+                    },
                   );
                 },
               ),
@@ -101,12 +103,28 @@ class SelectedPlaylistPage extends StatelessWidget {
     );
   }
 
-  Future<void> _playPlaylist(BuildContext context) async {
-    await JustAudioController.instance.stopAndEmptyQueue();
-    await JustAudioController.instance.queuePlaylist(playlistContext);
-    await JustAudioController.instance.playSongAt(0);
-    await JustAudioController.instance.play();
+  Future<void> _playPlaylistBeginning (BuildContext context) async {
+    try {
+      await JustAudioController.instance.stopAndEmptyQueue();
+      await JustAudioController.instance.queuePlaylist(playlistContext);
+      await JustAudioController.instance.playSongAt(0);
+      await JustAudioController.instance.play();
+    } on Exception catch (e) {
+      logging.finest('Error playing playlist');
+    }
 
+  }
+
+  Future<void> _playPlaylistFromIndex(BuildContext context, int startIndex) async {
+    try {
+      await JustAudioController.instance.stopAndEmptyQueue();
+      await JustAudioController.instance.queuePlaylist(playlistContext);
+      await JustAudioController.instance.playSongAt(startIndex);
+      await JustAudioController.instance.play();
+    } catch (e) {
+      // Handle the exception, e.g., show an error message
+      logging.finest('Error playing playlist from index $startIndex: $e');
+    }
   }
 
   void _openQueue(BuildContext context) {
