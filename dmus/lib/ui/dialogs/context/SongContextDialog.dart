@@ -5,14 +5,17 @@ import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
+import '../../../core/cloudstorage/ExternalStorageModel.dart';
 import '../../../core/data/DataEntity.dart';
+import '../../../core/localstorage/dbimpl/TableSong.dart';
 
 class SongContextDialog extends StatelessWidget {
 
   final Song songContext;
+  final VoidCallback onDelete;
+  const SongContextDialog ({required this.songContext, Key? key, required this.onDelete}) : super(key: key);
 
-  const SongContextDialog ({required this.songContext, super.key});
-  
+
   Future<void> showMetadataPage(BuildContext context) async {
 
     if(songContext.file.path == null) {
@@ -41,6 +44,24 @@ class SongContextDialog extends StatelessWidget {
   }
 
 
+  Future<void> deleteSong(Song s,BuildContext context) async {
+    await TableSong.deleteSongById(s.id);
+    if (s.file.path != null) {
+      ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
+    }
+
+    onDelete();
+    Navigator.pop(context);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Song deleted'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +77,12 @@ class SongContextDialog extends StatelessWidget {
           ListTile(
             title: Text(DemoLocalizations.of(context).viewDetails),
             onTap: () => showMetadataPage(context),
+          ),
+          ListTile(
+            title: Text("Delete Song"),
+            onTap: () => deleteSong(songContext,context),
+
+
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),

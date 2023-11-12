@@ -251,6 +251,16 @@ final class JustAudioController extends BaseAudioHandler {
     await _player.setSpeed(speed);
   }
 
+  void firePlayerSong(Song song){
+    _playerSong.add(PlayerSong(
+        song: song,
+        playerState: PlayerStateExtended(paused: _isPaused, playing: _player.playing, processingState: _player.processingState),
+        duration: _player.duration,
+        position: _player.position,
+        index: _playQueue.currentPosition)
+    );
+  }
+
   Future<void> _setAudioSource(Song song) async {
 
     if(!await song.file.exists()) {
@@ -262,15 +272,7 @@ final class JustAudioController extends BaseAudioHandler {
     await _player.setAudioSource(AudioSource.file(song.file.path));
   }
 
-  void firePlayerSong(Song song){
-    _playerSong.add(PlayerSong(
-        song: song,
-        playerState: PlayerStateExtended(paused: _isPaused, playing: _player.playing, processingState: _player.processingState),
-        duration: _player.duration,
-        position: _player.position,
-        index: _playQueue.currentPosition)
-    );
-  }
+
 
   Future<void> playSongAt(int index) async {
 

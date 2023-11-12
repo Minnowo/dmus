@@ -46,19 +46,19 @@ class _SongsPageState extends  State<SongsPage> {
     });
   }
 
-  Future<void> _onDismiss(Song s) async {
-
-    await TableSong.deleteSongById(s.id);
-    if (s.file.path!=null)
-    {
-      ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
-    }
-
-
-    setState(() {
-      songs.remove(s);
-    });
-  }
+  // Future<void> _onDismiss(Song s) async {
+  //
+  //   await TableSong.deleteSongById(s.id);
+  //   if (s.file.path!=null)
+  //   {
+  //     ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
+  //   }
+  //
+  //
+  //   setState(() {
+  //     songs.remove(s);
+  //   });
+  // }
 
   @override
   void initState() {
@@ -92,49 +92,30 @@ class _SongsPageState extends  State<SongsPage> {
   Widget buildSongList(BuildContext context, int index) {
     final Song song = songs[index];
 
-    return Dismissible(
-      key: UniqueKey(),
-      direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        child: const Align(
-          alignment: Alignment.centerRight,
-          child: Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-        ),
-      ),
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.endToStart) {
-          await _onDismiss(song);
-          return true;
-        }
-        return false;
+    return InkWell(
+      onTap: () async {
+        await JustAudioController.instance.playSong(song);
+        await JustAudioController.instance.play();
       },
-      child: InkWell(
-        child: ListTile(
-          leading: SizedBox (
-            width: THUMB_SIZE,
-            child: ArtDisplay(songContext: song,),
-          ),
-          title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          trailing: Text(formatDuration(song.duration)),
-          subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => SongContextDialog(songContext: song,
+              onDelete: () { setState(() {songs.remove(song);});})
+        );
+      },
+      child: ListTile(
+        leading: SizedBox (
+          width: THUMB_SIZE,
+          child: ArtDisplay(songContext: song,),
         ),
-        onTap: () async {
-          await JustAudioController.instance.playSong(song);
-          await JustAudioController.instance.play();
-        },
-        onLongPress: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => SongContextDialog(songContext: song),
-          );
-        },
+        title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+        trailing: Text(formatDuration(song.duration)),
+        subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
       ),
     );
   }
+
 
 
 
