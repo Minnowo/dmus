@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -59,24 +60,19 @@ class ImportDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () => pickFilesAndImport(context),
-                  child: const Text('Add Files')
-                ),
-                TextButton(
-                  onPressed: () => pickFolderAndImport(context) ,
-                  child: const Text('Add Folder'),
-                )
-              ],
+            TextButton(
+              onPressed: () => pickFilesAndImport(context),
+              child: Text(DemoLocalizations.of(context).addFiles)
+            ),
+            TextButton(
+              onPressed: () => pickFolderAndImport(context) ,
+              child: Text(DemoLocalizations.of(context).addFolder),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Close'),
+              child: Text(DemoLocalizations.of(context).close),
             ),
           ],
         ),

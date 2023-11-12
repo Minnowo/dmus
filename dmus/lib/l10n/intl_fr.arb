@@ -1,0 +1,35 @@
+{
+	"title": "DMUS - French Title",
+	"appTitle": "DMUS - French App Title",
+	"pageTitle": "DMUS - Page d'accueil",
+	"updatedPlaylist": "Playlist modifiée",
+	"createdPlaylist": "Playlist créée",
+	"songImported": "Chanson importée",
+	"error": "Quelque chose s'est mal passé !",
+
+	"editMetadata": "Modifier les métadonnées",
+	"lookupMetadata": "Rechercher des métadonnées",
+
+	"viewDetails": "Voir les détails",
+	"playNow": "Jouer maintenant",
+	"queueAll": "Mettre tout en file d'attente",
+	"editPlaylist": "Modifier la playlist",
+	"close": "Fermer",
+
+	"searchError": "Erreur lors de la récupération des résultats de recherche",
+	"noSearchResults": "Il n'y a pas de résultats pour cette recherche ! :(",
+	"releases": "Sorties",
+	"recordings": "Enregistrements",
+	"search": "Recherche",
+
+	"playlistTitle": "Titre de la playlist",
+	"emptyTitleError": "Le titre ne peut pas être vide !",
+	"titleMaxLengthError": "Le titre doit comporter moins de",
+	"selectedSongsIsEmpty": "Utilisez le + en haut à droite pour ajouter des chansons",
+	"increment": "Incrémenter",
+
+	"addFiles": "Ajouter des fichiers",
+	"addFolder": "Ajouter un dossier",
+
+	"noSongs": "Rien n'est ici !\nAppuyez sur le + en haut à droite pour importer de la musique."
+}

@@ -50,13 +50,15 @@ dependencies:
   crypto: ^3.0.3
   http: ^1.1.0
   permission_handler: ^11.0.1
-  firebase_ui_auth:
-  cloud_firestore:
-  firebase_storage:
-  firebase_core:
-  go_router:
-
-
+  firebase_ui_auth: null
+  cloud_firestore: null
+  firebase_storage: null
+  firebase_core: null
+  go_router: null
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.1
+  intl_translation: ^0.18.2
 
 dev_dependencies:
   flutter_test:
@@ -69,9 +71,15 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/icon.png"
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -79,18 +87,15 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/icon/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -110,3 +115,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_intl:
+  enabled: true

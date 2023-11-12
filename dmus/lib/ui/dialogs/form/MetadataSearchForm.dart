@@ -1,5 +1,6 @@
 
 import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SearchYesNoPicker.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +118,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                     child: FutureBuilder(future: searchResults, builder: (context, snapshot) {
 
                       if(snapshot.hasError) {
-                        return const Text("Error fetching search results");
+                        return Text(DemoLocalizations.of(context).searchError);
                       }
 
                       if(snapshot.connectionState != ConnectionState.done || !snapshot.hasData ) {
@@ -125,7 +126,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                       }
 
                       if((snapshot.data?.length ?? 0) <= 0) {
-                        return const Text("There are no results for this search! :(");
+                        return Text(DemoLocalizations.of(context).noSearchResults);
                       }
 
                       final songMetadata = snapshot.data!;
@@ -146,13 +147,13 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                   child:
                   DropdownButton(
                       value: _selectedValue,
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                             value: 0,
-                            child: Text("Releases")),
+                            child: Text(DemoLocalizations.of(context).releases)),
                         DropdownMenuItem(
                             value: 1,
-                            child: Text("Recordings"))
+                            child: Text(DemoLocalizations.of(context).recordings))
                       ],
                       onChanged:(value) {
 
@@ -175,7 +176,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
             )
         ) ,
       floatingActionButton: FloatingActionButton(
-          tooltip: 'Search',
+          tooltip: DemoLocalizations.of(context).search,
           child: const Icon(Icons.save),
           onPressed: performSearch
       ),

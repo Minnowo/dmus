@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/cloudstorage/ExternalStorageModel.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/lookfeel/Theming.dart';
@@ -166,8 +167,8 @@ class _SongsPageState extends  State<SongsPage> {
           children: <Widget>[
 
             if(songs.isEmpty)
-              const Center(
-                child: Text("Nothing is here!\nHit the + in the top right to import music.",
+              Center(
+                child: Text(DemoLocalizations.of(context).noSongs,
                     textAlign: TextAlign.center
                 ),
               )

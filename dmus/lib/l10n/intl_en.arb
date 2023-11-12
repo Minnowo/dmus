@@ -1,0 +1,55 @@
+{
+	"updatedPlaylist": "Updated playlist",
+	"createdPlaylist": "Created playlist",
+	"songImported": "Song Imported",
+	"error": "Something went wrong!",
+
+	"editMetadata": "Edit Metadata",
+	"lookupMetadata": "Lookup Metadata",
+
+	"viewDetails": "View Details",
+	"playNow": "Play Now",
+	"queueAll": "Queue All",
+	"editPlaylist": "Edit Playlist",
+	"close": "Close",
+
+	"searchError": "Error fetching search results",
+	"noSearchResults": "There are no results for this search! :(",
+	"releases": "Releases",
+	"recordings": "Recordings",
+	"search": "Search",
+
+	"playlistTitle": "Playlist Title",
+	"emptyTitleError": "title cannot be empty!",
+	"titleMaxLengthError": "title should be less than",
+	"selectedSongsIsEmpty":"Use the + in the top right to add songs",
+	"increment": "Increment",
+
+	"addFiles": "Add Files",
+	"addFolder": "Add Folder",
+
+	"searchResult": "Search Result",
+	"property": "Property",
+	"value": "Value",
+	"use": "Use",
+	"cancel": "Cancel",
+
+	"pickSongs": "Pick Songs",
+
+	"playbackSpeed": "Playback Speed",
+	"ok": "Ok",
+
+	"enterValidEmail": "Please enter a valid email address.",
+	"minPasswordLen": "Password must be at least 6 characters long.",
+	"register": "Register",
+
+	"signIn": "Sign In",
+	"email": "Email",
+	"emailEmpty": "Email cannot be empty",
+	"password": "Password",
+	"passwordEmpty": "Password cannot be empty",
+
+	"noAlbums": "Nothing is here!\nHit the + in the top right to create an album.",
+
+	"noSongs": "Nothing is here!\nHit the + in the top right to import music."
+}

@@ -1,3 +1,4 @@
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
@@ -22,23 +23,23 @@ class PlaylistContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: const Text('View Details'),
+            title: Text(DemoLocalizations.of(context).viewDetails),
             onTap: () => showPlaylistDetails(context),
           ),
           ListTile(
-            title: const Text('Play Now'),
+            title: Text(DemoLocalizations.of(context).playNow),
             // onTap: () => AudioController.stopAndEmptyQueue().then((value) => AudioController.queuePlaylist(playlistContext)).then((value) => AudioController.playQueue()).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
-            title: const Text('Queue All'),
+            title: Text(DemoLocalizations.of(context).queueAll),
             // onTap: () => AudioController.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
-            title: const Text('Edit Playlist'),
+            title: Text(DemoLocalizations.of(context).editPlaylist),
             onTap: () => editPlaylist(context, playlistContext).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
-            title: const Text('Close'),
+            title: Text(DemoLocalizations.of(context).close),
             onTap: () {
               popNavigatorSafe(context);
             },

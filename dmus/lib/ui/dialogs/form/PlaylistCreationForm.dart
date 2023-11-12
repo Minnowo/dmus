@@ -3,6 +3,7 @@
 import 'dart:ffi';
 import 'dart:math';
 
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SongPicker.dart';
 import 'package:flutter/cupertino.dart';
@@ -117,26 +118,26 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               Padding(
                   padding: const EdgeInsets.all(pad),
                   child: TextFormField(
-                      decoration: const InputDecoration(labelText: 'Playlist Title'),
+                      decoration: InputDecoration(labelText: DemoLocalizations.of(context).playlistTitle),
                       controller: _playlistTitleTextController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "title cannot be empty!";
+                          return DemoLocalizations.of(context).emptyTitleError;
                         }
                         if (value.length > maxTitleLength) {
-                          return "title should be less than $maxTitleLength";
+                          return "${DemoLocalizations.of(context).titleMaxLengthError} $maxTitleLength";
                         }
                         return null;
                       }
                   )),
 
               if(selectedSongs.isEmpty)
-                const Expanded(
+                Expanded(
                     child:
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Use the + in the top right to add songs"),
+                        Text(DemoLocalizations.of(context).selectedSongsIsEmpty),
                       ],
                     )
                 )
@@ -188,7 +189,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
           )
       ) ,
       floatingActionButton: FloatingActionButton(
-          tooltip: 'Increment',
+          tooltip: DemoLocalizations.of(context).increment,
           onPressed: finishPlaylist,
           child: const Icon(Icons.save),
       )
