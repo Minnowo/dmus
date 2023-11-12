@@ -3,6 +3,7 @@
 
 
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
@@ -36,6 +37,11 @@ final class JustAudioController extends BaseAudioHandler {
 
   final _player = AudioPlayer();
   final PlayQueue _playQueue = PlayQueue();
+
+  /// Get the current queue
+  UnmodifiableListView<Song> get queueView{
+    return _playQueue.readQueue;
+  }
 
   Future<void> dispose() async {
     if(_isDisposed) {
@@ -203,6 +209,12 @@ final class JustAudioController extends BaseAudioHandler {
     }
   }
 
+  Future<void> addNextToQueue(Song s) async {
+    _playQueue.addToQueue(s);
+
+  }
+
+
   @override
   Future<void> skipToPrevious() async {
     if(!_isInit || _isDisposed) return;
@@ -220,6 +232,8 @@ final class JustAudioController extends BaseAudioHandler {
     if(song == null) return await stop();
 
     _playQueue.jumpTo(song);
+    logging.finest("-----------------------------QUQ___________________________");
+    logging.finest(_playQueue.readQueue);
 
     await _setAudioSource(song);
   }
