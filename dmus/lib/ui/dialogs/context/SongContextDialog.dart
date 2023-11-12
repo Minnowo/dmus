@@ -1,4 +1,5 @@
 import 'package:dmus/core/audio/AudioMetadata.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
@@ -33,11 +34,11 @@ class SongContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: const Text('View Details'),
+            title: Text(DemoLocalizations.of(context).viewDetails),
             onTap: () => showMetadataPage(context),
           ),
           ListTile(
-            title: Text('Close'),
+            title: Text(DemoLocalizations.of(context).close),
             onTap: () {
               Navigator.pop(context);
             },
