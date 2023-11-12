@@ -157,7 +157,7 @@ class DemoLocalizations {
   String get editPlaylist {
     return Intl.message(
       'placeholder',
-      name: 'editPlatlist',
+      name: 'editPlaylist',
       desc: 'Edit current playlist',
       locale: localeName,
     );
@@ -397,7 +397,7 @@ class DemoLocalizations {
   String get password {
     return Intl.message(
       'placeholder',
-      name: 'emailEmpty',
+      name: 'password',
       desc: 'Register for new account button',
       locale: localeName,
     );

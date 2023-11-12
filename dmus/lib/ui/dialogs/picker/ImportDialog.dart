@@ -60,18 +60,13 @@ class ImportDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () => pickFilesAndImport(context),
-                  child: Text(DemoLocalizations.of(context).addFiles)
-                ),
-                TextButton(
-                  onPressed: () => pickFolderAndImport(context) ,
-                  child: Text(DemoLocalizations.of(context).addFolder),
-                )
-              ],
+            TextButton(
+              onPressed: () => pickFilesAndImport(context),
+              child: Text(DemoLocalizations.of(context).addFiles)
+            ),
+            TextButton(
+              onPressed: () => pickFolderAndImport(context) ,
+              child: Text(DemoLocalizations.of(context).addFolder),
             ),
             TextButton(
               onPressed: () {

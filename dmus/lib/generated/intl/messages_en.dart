@@ -69,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Use the + in the top right to add songs"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
-        "songImported": MessageLookupByLibrary.simpleMessage("Song Imported:"),
+        "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),
         "titleMaxLengthError":
             MessageLookupByLibrary.simpleMessage("title should be less than"),
         "updatedPlaylist":

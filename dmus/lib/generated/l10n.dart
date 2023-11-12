@@ -70,10 +70,10 @@ class S {
     );
   }
 
-  /// `Song Imported:`
+  /// `Song Imported`
   String get songImported {
     return Intl.message(
-      'Song Imported:',
+      'Song Imported',
       name: 'songImported',
       desc: '',
       args: [],

@@ -56,7 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Utilisez le + en haut à droite pour ajouter des chansons"),
         "songImported":
-            MessageLookupByLibrary.simpleMessage("Chanson importée:"),
+            MessageLookupByLibrary.simpleMessage("Chanson importée"),
         "titleMaxLengthError": MessageLookupByLibrary.simpleMessage(
             "Le titre doit comporter moins de"),
         "updatedPlaylist":
