@@ -1,3 +1,4 @@
+import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,18 @@ class PlaylistContextDialog extends StatelessWidget {
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).playNow),
-            // onTap: () => AudioController.stopAndEmptyQueue().then((value) => AudioController.queuePlaylist(playlistContext)).then((value) => AudioController.playQueue()).whenComplete(() => popNavigatorSafe(context)),
+            onTap: () {
+              Navigator.pop(context); // Pop the Navigator immediately
+              JustAudioController.instance.stopAndEmptyQueue()
+                  .then((value) => JustAudioController.instance.queuePlaylist(playlistContext))
+                  .then((value) => JustAudioController.instance.playSongAt(0))
+                  .then((value) => JustAudioController.instance.play());
+            },
           ),
+
           ListTile(
             title: Text(DemoLocalizations.of(context).queueAll),
-            // onTap: () => AudioController.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
+             onTap: () => JustAudioController.instance.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).editPlaylist),
