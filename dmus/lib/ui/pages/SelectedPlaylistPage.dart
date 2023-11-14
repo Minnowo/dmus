@@ -8,7 +8,7 @@ import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:text_scroll/text_scroll.dart';
 import '../../core/Util.dart';
 import '../lookfeel/Theming.dart';
-import '../widgets/CurrentlyPlayingBar.dart';
+
 
 class SelectedPlaylistPage extends StatelessWidget {
   static const String title = "Playlist";
@@ -133,8 +133,5 @@ class SelectedPlaylistPage extends StatelessWidget {
   void _openQueue(BuildContext context) {
     animateOpenFromBottom(context, const PlayQueuePage());
   }
-
-  void _openCurrentlyPlayingBar(BuildContext context) {
-    animateOpenFromBottom(context, const CurrentlyPlayingBar());
-  }
+  
 }
