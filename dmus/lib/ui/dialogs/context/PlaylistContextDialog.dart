@@ -3,6 +3,7 @@ import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
+import '../../pages/SelectedPlaylistPage.dart';
 import '../Util.dart';
 import '../form/PlaylistCreationForm.dart';
 
@@ -13,7 +14,13 @@ class PlaylistContextDialog extends StatelessWidget {
   const PlaylistContextDialog({required this.playlistContext, super.key});
 
   void showPlaylistDetails(BuildContext context) {
-
+    // Navigate to the SelectedPlaylistPage
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectedPlaylistPage(playlistContext: playlistContext),
+      ),
+    );
   }
 
   @override

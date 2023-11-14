@@ -140,10 +140,13 @@ class _PlaylistsPageState extends State<PlaylistsPage>
         drawer: const SettingsDrawer()
     );
   }
-  
+
   void _openPlaylistPage(BuildContext context, Playlist playlist) {
-
-    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
-
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectedPlaylistPage(playlistContext: playlist),
+      ),
+    );
   }
 }

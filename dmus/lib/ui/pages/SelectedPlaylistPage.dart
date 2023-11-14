@@ -7,6 +7,8 @@ import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:text_scroll/text_scroll.dart';
 import '../../core/Util.dart';
+import '../Util.dart';
+import '../dialogs/Util.dart';
 import '../lookfeel/Theming.dart';
 
 
@@ -30,49 +32,72 @@ class SelectedPlaylistPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 100,
-                  child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
-                ),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 150,
-                      height: 64,
-                      child: TextScroll(
-                        playlistContext.title,
-                        mode: TextScrollMode.endless,
-                        velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
-                        delayBefore: const Duration(milliseconds: 500),
-                        pauseBetween: const Duration(milliseconds: 2000),
-                        pauseOnBounce: const Duration(milliseconds: 1000),
-                        style: TEXT_BIG,
-                        textAlign: TextAlign.left,
-                        fadedBorder: true,
-                        fadedBorderWidth: 0.02,
-                        fadeBorderVisibility: FadeBorderVisibility.auto,
-                        intervalSpaces: 30,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 50), // Adjust the padding here
-                      child: IconButton(
-                        icon: const Icon(Icons.play_circle_filled, size: 40), // Adjust the size here
-                        onPressed: () {
-                          _playPlaylistBeginning(context);
-                        },
-                      ),
+                      width: 100,
+                      height: 100,
+                      child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
                     ),
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        height: 64,
+                        child: TextScroll(
+                          playlistContext.title,
+                          mode: TextScrollMode.endless,
+                          velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                          delayBefore: const Duration(milliseconds: 500),
+                          pauseBetween: const Duration(milliseconds: 2000),
+                          pauseOnBounce: const Duration(milliseconds: 1000),
+                          style: TEXT_BIG,
+                          textAlign: TextAlign.left,
+                          fadedBorder: true,
+                          fadedBorderWidth: 0.02,
+                          fadeBorderVisibility: FadeBorderVisibility.auto,
+                          intervalSpaces: 30,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.play_circle_filled, size: 40),
+                            onPressed: () {
+                              _playPlaylistBeginning(context);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          IconButton(
+                            icon: const Icon(Icons.add_circle_sharp, size: 40),
+                            onPressed: () {
+                              logging.finest("Adding Songs to this playlist");
+                              editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
 
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
+
+
+
             Expanded(
               child: ListView.builder(
                 itemCount: playlistContext.songs.length,
@@ -83,7 +108,6 @@ class SelectedPlaylistPage extends StatelessWidget {
                     onTap: () {
                       _playPlaylistFromIndex(context, index);
                     },
-
                   );
                 },
               ),
@@ -105,6 +129,8 @@ class SelectedPlaylistPage extends StatelessWidget {
       ),
     );
   }
+
+
 
   Future<void> _playPlaylistBeginning (BuildContext context) async {
     try {
@@ -133,5 +159,5 @@ class SelectedPlaylistPage extends StatelessWidget {
   void _openQueue(BuildContext context) {
     animateOpenFromBottom(context, const PlayQueuePage());
   }
-  
+
 }
