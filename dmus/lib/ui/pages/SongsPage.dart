@@ -96,12 +96,12 @@ class _SongsPageState extends  State<SongsPage> {
 
     return Dismissible(
       key: Key(song.id.toString()),
-      direction: DismissDirection.endToStart,  // Only allow swiping from right to left
+      direction: DismissDirection.endToStart,
       confirmDismiss: (direction) async {
-        // Add the song to the queue
+
         JustAudioController.instance.addNextToQueue(song);
 
-        // Show a SnackBar to confirm that the song has been added to the queue
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${song.title} added to the queue'),
@@ -109,7 +109,7 @@ class _SongsPageState extends  State<SongsPage> {
           ),
         );
 
-        return false; // Returning false prevents dismissal
+        return false; 
       },
       background: Container(
         color: Colors.green,
