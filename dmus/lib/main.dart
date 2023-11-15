@@ -71,6 +71,7 @@ class DMUSApp extends StatelessWidget {
           initialData: PlayerSong( song: null,
               playerState: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading),
               position: Duration.zero, duration: Duration.zero, index: 0),
+        lazy: false, // creates stream immediately (fixes first song = null problem)
       ),
 
       StreamProvider<PlayerStateExtended>(
