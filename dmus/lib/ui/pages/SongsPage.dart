@@ -35,6 +35,8 @@ class _SongsPageState extends  State<SongsPage> {
   List<Song> songs = [];
   int marqueeIndex = -1;
 
+
+
   void _onSongImported(Song s) {
 
     if(songs.contains(s)) {
@@ -92,29 +94,75 @@ class _SongsPageState extends  State<SongsPage> {
   Widget buildSongList(BuildContext context, int index) {
     final Song song = songs[index];
 
-    return InkWell(
-      onTap: () async {
-        await JustAudioController.instance.playSong(song);
-        await JustAudioController.instance.play();
-      },
-      onLongPress: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => SongContextDialog(songContext: song,
-              onDelete: () { setState(() {songs.remove(song);});})
+    return Dismissible(
+      key: Key(song.id.toString()),
+      direction: DismissDirection.endToStart,  // Only allow swiping from right to left
+      confirmDismiss: (direction) async {
+        // Add the song to the queue
+        JustAudioController.instance.addNextToQueue(song);
+
+        // Show a SnackBar to confirm that the song has been added to the queue
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${song.title} added to the queue'),
+            duration: const Duration(seconds: 2),
+          ),
         );
+
+        return false; // Returning false prevents dismissal
       },
-      child: ListTile(
-        leading: SizedBox (
-          width: THUMB_SIZE,
-          child: ArtDisplay(songContext: song,),
+      background: Container(
+        color: Colors.green,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 20.0),
+        child: const Icon(
+          Icons.playlist_add,
+          color: Colors.white,
         ),
-        title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-        trailing: Text(formatDuration(song.duration)),
-        subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+      ),
+      secondaryBackground: Container(
+        color: Colors.green,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20.0),
+        child: const Icon(
+          Icons.playlist_add,
+          color: Colors.white,
+        ),
+      ),
+      child: InkWell(
+        onTap: () async {
+          await JustAudioController.instance.playSong(song);
+          await JustAudioController.instance.play();
+        },
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => SongContextDialog(
+              songContext: song,
+              onDelete: () {
+                setState(() {
+                  songs.remove(song);
+                });
+              },
+            ),
+          );
+        },
+        child: ListTile(
+          leading: SizedBox(
+            width: THUMB_SIZE,
+            child: ArtDisplay(songContext: song),
+          ),
+          title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+          trailing: Text(formatDuration(song.duration)),
+          subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+        ),
       ),
     );
+
   }
+
+
+
 
 
 
