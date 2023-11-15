@@ -99,7 +99,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   @override
   Widget build(BuildContext context) {
 
-    logging.info("dedrawing");
+    logging.finest("dedrawing");
 
     return Scaffold(
       appBar: AppBar(

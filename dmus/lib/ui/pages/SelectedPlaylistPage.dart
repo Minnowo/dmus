@@ -43,7 +43,9 @@ class SelectedPlaylistPage extends StatelessWidget {
                     SizedBox(
                       width: 100,
                       height: 100,
-                      child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
+                      child: playlistContext.songs.isNotEmpty
+                          ? ArtDisplay(songContext: playlistContext.songs.firstOrNull)
+                          : Container(),
                     ),
                   ],
                 ),
@@ -52,6 +54,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (playlistContext.songs.isNotEmpty)
                       SizedBox(
                         width: 150,
                         height: 64,
@@ -73,21 +76,22 @@ class SelectedPlaylistPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.play_circle_filled, size: 40),
-                            onPressed: () {
-                              _playPlaylistBeginning(context);
-                            },
-                          ),
+                          if (playlistContext.songs.isNotEmpty)
+                            IconButton(
+                              icon: const Icon(Icons.play_circle_filled, size: 40),
+                              onPressed: () {
+                                _playPlaylistBeginning(context);
+                              },
+                            ),
                           const SizedBox(width: 8),
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_sharp, size: 40),
-                            onPressed: () {
-                              logging.finest("Adding Songs to this playlist");
-                              editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
-
-                            },
-                          ),
+                          if (playlistContext.songs.isNotEmpty)
+                            IconButton(
+                              icon: const Icon(Icons.add_circle_sharp, size: 40),
+                              onPressed: () {
+                                logging.finest("Adding Songs to this playlist");
+                                editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
+                              },
+                            ),
                         ],
                       ),
                     ],
@@ -96,18 +100,49 @@ class SelectedPlaylistPage extends StatelessWidget {
               ],
             ),
 
-
-
             Expanded(
-              child: ListView.builder(
+              child: playlistContext.songs.isEmpty
+                  ? _buildEmptyPlaylist(context)
+                  : ListView.builder(
                 itemCount: playlistContext.songs.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(playlistContext.songs[index].title),
-                    subtitle: Text(subtitleFromMetadata(playlistContext.songs[index].metadata)),
-                    onTap: () {
-                      _playPlaylistFromIndex(context, index);
+                  final Song song = playlistContext.songs[index];
+
+                  return Dismissible(
+                    key: Key(song.id.toString()),
+                    confirmDismiss: (direction) async {
+                      return false;
                     },
+                    background: Container(
+                      color: Colors.green,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: const Icon(
+                        Icons.playlist_add,
+                        color: Colors.white,
+                      ),
+                    ),
+                    secondaryBackground: Container(
+                      color: Colors.green,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: const Icon(
+                        Icons.playlist_add,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: SizedBox(
+                        width: THUMB_SIZE,
+                        child: ArtDisplay(songContext: song),
+                      ),
+                      title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      trailing: Text(formatDuration(song.duration)),
+                      subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      onTap: () {
+                        _playPlaylistFromIndex(context, index);
+                      },
+                    ),
                   );
                 },
               ),
@@ -129,6 +164,36 @@ class SelectedPlaylistPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildEmptyPlaylist(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (playlistContext.songs.isNotEmpty)
+            SizedBox(
+              width: 100,
+              height: 100,
+              child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
+            ),
+          const SizedBox(height: 16),
+          Text(
+            'Playlist is empty',
+            style: TextStyle(fontSize: 20),
+          ),
+          const SizedBox(height: 16),
+          IconButton(
+            onPressed: () {
+              editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
+            },
+            icon: const Icon(Icons.add_circle_sharp, size: 40),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 
 
 
