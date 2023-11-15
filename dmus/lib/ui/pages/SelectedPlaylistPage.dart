@@ -88,7 +88,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                               icon: const Icon(Icons.add_circle_sharp, size: 40),
                               onPressed: () {
                                 logging.finest("Adding Songs to this playlist");
-                                editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
+                                editPlaylist(context, playlistContext);
                               },
                             ),
                         ],
