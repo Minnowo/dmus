@@ -105,11 +105,11 @@ class _SongsPageState extends  State<SongsPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${song.title} added to the queue'),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(milliseconds: 90),
           ),
         );
 
-        return false; 
+        return false;
       },
       background: Container(
         color: Colors.green,
