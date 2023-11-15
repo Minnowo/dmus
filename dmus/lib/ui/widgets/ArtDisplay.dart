@@ -7,6 +7,7 @@ import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 
 class ArtDisplay extends StatelessWidget {
@@ -15,34 +16,26 @@ class ArtDisplay extends StatelessWidget {
 
   const ArtDisplay({super.key, required this.songContext});
 
-  Future<File?> getFutureCachePath() {
-
-    Future<File?> imageFileFuture;
-
-    if (songContext != null && songContext!.pictureCacheKey != null) {
-      imageFileFuture = ImageCacheController.getImagePathFromRaw(songContext!.pictureCacheKey!);
-    } else {
-      imageFileFuture = Future<File?>.value(null);
-    }
-
-    return imageFileFuture;
-  }
-
   @override
   Widget build(BuildContext context) {
+
+    Widget picture;
+
+    if(songContext == null || songContext!.artPath == null) {
+      picture = const Icon(Icons.music_note);
+    } else {
+      picture = Image.file(songContext!.artPath!, fit: BoxFit.cover,
+          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+
+            logging.warning("Could not load image for $songContext");
+
+            return const Icon(Icons.music_note);
+          });
+    }
+
     return AspectRatio(
       aspectRatio: 1.0,
-      child: FutureBuilder(
-        future: getFutureCachePath(),
-        builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
-
-          if(snapshot.data != null) {
-            return Image.file(snapshot.data!, fit: BoxFit.cover);
-          }
-
-          return const Icon(Icons.music_note);
-        },
-      )
+      child: picture
     );
   }
 }
