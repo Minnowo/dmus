@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/lookfeel/Theming.dart';
@@ -85,7 +86,7 @@ class _SongsPageState extends  State<SongsPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${song.title} added to the queue'),
-            duration: const Duration(milliseconds: 90),
+            duration: fastSnackBarDuration,
           ),
         );
 
