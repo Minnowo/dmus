@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
-import 'package:dmus/core/cloudstorage/ExternalStorageModel.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
@@ -14,9 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
-import '../../core/localstorage/ImageCacheController.dart';
 import '../../core/localstorage/ImportController.dart';
-import '../lookfeel/Animations.dart';
 import 'NavigationPage.dart';
 
 
@@ -35,8 +31,6 @@ class _SongsPageState extends  State<SongsPage> {
   List<Song> songs = [];
   int marqueeIndex = -1;
 
-
-
   void _onSongImported(Song s) {
 
     if(songs.contains(s)) {
@@ -47,20 +41,6 @@ class _SongsPageState extends  State<SongsPage> {
       songs.add(s);
     });
   }
-
-  // Future<void> _onDismiss(Song s) async {
-  //
-  //   await TableSong.deleteSongById(s.id);
-  //   if (s.file.path!=null)
-  //   {
-  //     ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
-  //   }
-  //
-  //
-  //   setState(() {
-  //     songs.remove(s);
-  //   });
-  // }
 
   @override
   void initState() {

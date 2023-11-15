@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:collection';
-import 'dart:math';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/ui/lookfeel/Theming.dart';
@@ -124,7 +123,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
     logging.finest(queue);
 
     if (queue.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           PlayQueuePage.QUEUE_EMPTY_TEXT,
           textAlign: TextAlign.center,

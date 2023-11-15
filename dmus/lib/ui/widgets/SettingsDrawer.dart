@@ -128,7 +128,7 @@ class SettingsDrawer extends StatelessWidget {
               leading: const Icon(Icons.login),
               title: const Text('Login'),
               onTap: () async {
-                await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => SignInWidget()));
+                await Navigator.push(context, MaterialPageRoute( builder: (BuildContext context) => const SignInWidget()));
                 //popNavigatorSafe(context);
               },
             ),

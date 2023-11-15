@@ -1,13 +1,12 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
-import 'package:flutter/material.dart';
 import 'package:dmus/core/data/DataEntity.dart';
-import 'package:dmus/ui/widgets/ArtDisplay.dart';
-import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
+import 'package:dmus/ui/widgets/ArtDisplay.dart';
+import 'package:flutter/material.dart';
 import 'package:text_scroll/text_scroll.dart';
+
 import '../../core/Util.dart';
-import '../Util.dart';
 import '../dialogs/Util.dart';
 import '../lookfeel/Theming.dart';
 
@@ -177,7 +176,7 @@ class SelectedPlaylistPage extends StatelessWidget {
               child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
             ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'Playlist is empty',
             style: TextStyle(fontSize: 20),
           ),

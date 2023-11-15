@@ -57,19 +57,16 @@ class SongContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: Text("Add to Queue"),
+            title: const Text("Add to Queue"),
             onTap: () => addQueue(songContext,context),
-
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).viewDetails),
             onTap: () => showMetadataPage(context),
           ),
           ListTile(
-            title: Text("Delete Song"),
+            title: const Text("Delete Song"),
             onTap: () => deleteSong(songContext,context),
-
-
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),

@@ -10,7 +10,6 @@ import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../dialogs/Util.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
-import '../lookfeel/Animations.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 

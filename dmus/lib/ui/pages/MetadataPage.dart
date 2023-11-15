@@ -93,7 +93,7 @@ class MetadataPage extends StatelessWidget {
                 rows: [
                   DataRow(cells: [
                     const DataCell(Text('Track Name')),
-                    DataCell(Text(trackName ?? 'N/A')),
+                    DataCell(Text(trackName)),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Track Artist Names')),

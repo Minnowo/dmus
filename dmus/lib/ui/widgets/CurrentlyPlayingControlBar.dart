@@ -5,7 +5,6 @@ import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import 'TimeSlider.dart';
 

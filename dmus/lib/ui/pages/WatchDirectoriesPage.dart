@@ -70,9 +70,9 @@ class WatchDirectoriesPage extends  StatelessNavigationPage {
 }
 
 class _WatchDirectoriesPage extends StatefulWidget {
-  WatchDirectoriesPage parent;
+  final WatchDirectoriesPage parent;
 
-  _WatchDirectoriesPage(this.parent);
+  const _WatchDirectoriesPage(this.parent);
 
   @override
   State<_WatchDirectoriesPage> createState() => _WatchDirectoriesState();
@@ -87,7 +87,7 @@ class _WatchDirectoriesState extends State<_WatchDirectoriesPage> {
     var dir = await pickDirectory();
 
     if(dir != null) {
-      directoryModel.addDirectory(dir!);
+      directoryModel.addDirectory(dir);
     }
   }
 

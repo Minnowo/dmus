@@ -1,11 +1,6 @@
-import 'dart:async';
-import 'dart:io';
-
 // import 'package:audioplayers/audioplayers.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
@@ -13,7 +8,6 @@ import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
-import 'package:dmus/ui/widgets/TimeSlider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -34,7 +28,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
     PlayerSong playerSong = context.watch<PlayerSong>();
 
     if(playerSong.song == null) {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
 
     Song songContext = playerSong.song!;
@@ -63,7 +57,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
               children: [
                 Expanded(
                     flex: 720,
-                    child: ArtDisplay(songContext: songContext!)
+                    child: ArtDisplay(songContext: songContext)
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -126,7 +120,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
                               songContext.liked = !songContext.liked;
 
-                              if (songContext!.liked) {
+                              if (songContext.liked) {
                                 TableLikes.markSongLiked(songContext.id);
                               } else {
                                 TableLikes.markSongNotLiked(songContext.id);
