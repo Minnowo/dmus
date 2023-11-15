@@ -31,11 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   audio_session: ^0.1.5
   audio_service: ^0.18.12
   just_audio: ^0.9.35
-  fimber: ^0.7.0
-  fimber_io: ^0.7.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -55,8 +56,6 @@ dependencies:
   firebase_storage: null
   firebase_core: null
   go_router: null
-  flutter_localizations:
-    sdk: flutter
   intl: ^0.18.1
   intl_translation: ^0.18.2
 

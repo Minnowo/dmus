@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import 'package:dmus/core/data/FileOutput.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/generated/l10n.dart';
+import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
@@ -15,41 +14,24 @@ import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
-import 'package:fimber/fimber.dart';
-import 'package:fimber_io/fimber_io.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:logging/logging.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'core/Util.dart';
 import 'core/data/DataEntity.dart';
 
-import 'package:dmus/l10n/DemoLocalizations.dart';
-
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  // final dir = await getExternalStorageDirectory();
-
-  // Fimber.plantTree(TimedRollingFileTree(
-  //   filenamePrefix: '${dir?.path}/logs/',
-  // ));
-  Fimber.plantTree(DebugTree());
-
-
-
   await initLogging(Level.ALL);
 
   await Firebase.initializeApp();
-
-  // AudioController.setup();
 
   DatabaseController.database.then((value) => logging.finest("database ready"));
 
@@ -70,7 +52,8 @@ class DMUSApp extends StatelessWidget {
           create: (_) => JustAudioController.instance.onPlayerSongChanged,
           initialData: PlayerSong( song: null,
               playerState: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading),
-              position: Duration.zero, duration: Duration.zero, index: 0),
+              position: Duration.zero, duration: Duration.zero, index: 0
+          ),
         lazy: false, // creates stream immediately (fixes first song = null problem)
       ),
 
