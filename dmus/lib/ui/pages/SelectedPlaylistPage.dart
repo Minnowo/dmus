@@ -9,6 +9,7 @@ import 'package:text_scroll/text_scroll.dart';
 import '../../core/Util.dart';
 import '../dialogs/Util.dart';
 import '../lookfeel/Theming.dart';
+import '../widgets/CurrentlyPlayingBar.dart';
 
 
 class SelectedPlaylistPage extends StatelessWidget {
@@ -158,9 +159,12 @@ class SelectedPlaylistPage extends StatelessWidget {
                 ),
               ),
             ),
+            CurrentlyPlayingBar(),
           ],
         ),
+
       ),
+
     );
   }
 
