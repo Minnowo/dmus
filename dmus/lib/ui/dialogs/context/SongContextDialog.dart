@@ -1,6 +1,8 @@
 import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
@@ -18,47 +20,32 @@ class SongContextDialog extends StatelessWidget {
 
   Future<void> showMetadataPage(BuildContext context) async {
 
-    if(songContext.file.path == null) {
-
-      logging.warning("songContext has no valid file path!");
-
-      Navigator.pop(context);
-
-      return;
-    }
-
     Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (ctxt) => MetadataPage(entity: songContext,)));
   }
 
-  Future<void> addQueue(Song s,BuildContext context) async
+
+  Future<void> addQueue(Song s, BuildContext context) async
   {
     JustAudioController.instance.addNextToQueue(s);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Song added to queue'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-    Navigator.pop(context); // Close the menu
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: "${s.title} has been added to the queue"));
+
+    popNavigatorSafe(context);
   }
 
 
   Future<void> deleteSong(Song s,BuildContext context) async {
+
     await TableSong.deleteSongById(s.id);
-    if (s.file.path != null) {
-      ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
-    }
+
+    ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
 
     onDelete();
-    Navigator.pop(context);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Song deleted'),
-        duration: Duration(seconds: 1),
-      ),
-    );
+    popNavigatorSafe(context);
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: "Song ${s.title} has been removed from the app"));
   }
 
 
