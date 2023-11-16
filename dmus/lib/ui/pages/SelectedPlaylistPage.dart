@@ -4,13 +4,15 @@ import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+
 import '../../core/Util.dart';
+import '../../core/audio/ProviderData.dart';
 import '../dialogs/Util.dart';
 import '../lookfeel/Theming.dart';
 import '../widgets/CurrentlyPlayingBar.dart';
-
 
 class SelectedPlaylistPage extends StatelessWidget {
   static const String title = "Playlist";
@@ -55,32 +57,53 @@ class SelectedPlaylistPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (playlistContext.songs.isNotEmpty)
-                      SizedBox(
-                        width: 150,
-                        height: 64,
-                        child: TextScroll(
-                          playlistContext.title,
-                          mode: TextScrollMode.endless,
-                          velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
-                          delayBefore: const Duration(milliseconds: 500),
-                          pauseBetween: const Duration(milliseconds: 2000),
-                          pauseOnBounce: const Duration(milliseconds: 1000),
-                          style: TEXT_BIG,
-                          textAlign: TextAlign.left,
-                          fadedBorder: true,
-                          fadedBorderWidth: 0.02,
-                          fadeBorderVisibility: FadeBorderVisibility.auto,
-                          intervalSpaces: 30,
+                        SizedBox(
+                          width: 150,
+                          height: 64,
+                          child: TextScroll(
+                            playlistContext.title,
+                            mode: TextScrollMode.endless,
+                            velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+                            delayBefore: const Duration(milliseconds: 500),
+                            pauseBetween: const Duration(milliseconds: 2000),
+                            pauseOnBounce: const Duration(milliseconds: 1000),
+                            style: TEXT_BIG,
+                            textAlign: TextAlign.left,
+                            fadedBorder: true,
+                            fadedBorderWidth: 0.02,
+                            fadeBorderVisibility: FadeBorderVisibility.auto,
+                            intervalSpaces: 30,
+                          ),
                         ),
-                      ),
                       const SizedBox(height: 8),
                       Row(
                         children: [
                           if (playlistContext.songs.isNotEmpty)
-                            IconButton(
-                              icon: const Icon(Icons.play_circle_filled, size: 40),
-                              onPressed: () {
-                                _playPlaylistBeginning(context);
+                            StreamBuilder<PlayerStateExtended>(
+                              stream: JustAudioController.instance.onPlayerStateChanged,
+                              initialData: PlayerStateExtended(
+                                paused: true,
+                                playing: false,
+                                processingState: ProcessingState.idle,
+                              ),
+                              builder: (context, snapshot) {
+                                final isPlaying = snapshot.data!.playing;
+
+                                return IconButton(
+                                  icon: isPlaying
+                                      ? const Icon(Icons.pause_circle_filled, size: 40)
+                                      : const Icon(Icons.play_circle_filled, size: 40),
+                                  onPressed: () async {
+                                    if (isPlaying) {
+                                      await JustAudioController.instance.pause();
+                                    } else {
+                                      await JustAudioController.instance.stopAndEmptyQueue();
+                                      await JustAudioController.instance.queuePlaylist(playlistContext);
+                                      await JustAudioController.instance.playSongAt(0);
+                                      await JustAudioController.instance.play();
+                                    }
+                                  },
+                                );
                               },
                             ),
                           const SizedBox(width: 8),
@@ -99,7 +122,6 @@ class SelectedPlaylistPage extends StatelessWidget {
                 ),
               ],
             ),
-
             Expanded(
               child: playlistContext.songs.isEmpty
                   ? _buildEmptyPlaylist(context)
@@ -162,9 +184,7 @@ class SelectedPlaylistPage extends StatelessWidget {
             CurrentlyPlayingBar(),
           ],
         ),
-
       ),
-
     );
   }
 
@@ -196,22 +216,6 @@ class SelectedPlaylistPage extends StatelessWidget {
     );
   }
 
-
-
-
-
-  Future<void> _playPlaylistBeginning (BuildContext context) async {
-    try {
-      await JustAudioController.instance.stopAndEmptyQueue();
-      await JustAudioController.instance.queuePlaylist(playlistContext);
-      await JustAudioController.instance.playSongAt(0);
-      await JustAudioController.instance.play();
-    } on Exception catch (e) {
-      logging.finest('Error playing playlist');
-    }
-
-  }
-
   Future<void> _playPlaylistFromIndex(BuildContext context, int startIndex) async {
     try {
       await JustAudioController.instance.stopAndEmptyQueue();
@@ -219,7 +223,6 @@ class SelectedPlaylistPage extends StatelessWidget {
       await JustAudioController.instance.playSongAt(startIndex);
       await JustAudioController.instance.play();
     } catch (e) {
-      // Handle the exception, e.g., show an error message
       logging.finest('Error playing playlist from index $startIndex: $e');
     }
   }
@@ -227,5 +230,4 @@ class SelectedPlaylistPage extends StatelessWidget {
   void _openQueue(BuildContext context) {
     animateOpenFromBottom(context, const PlayQueuePage());
   }
-
 }
