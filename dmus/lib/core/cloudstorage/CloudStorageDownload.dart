@@ -38,6 +38,8 @@ final class CloudStorageDownloadHelper {
 
       final songsJsonFile = File('${downloadsDirectory.path}/songs.json');
 
+      await ImportController.endImports();
+
       if (await songsJsonFile.exists()) {
         logging.info("Deleting existing songs json...");
 
