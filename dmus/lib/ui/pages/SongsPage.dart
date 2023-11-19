@@ -79,9 +79,7 @@ class _SongsPageState extends  State<SongsPage> {
       key: Key(song.id.toString()),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) async {
-
         JustAudioController.instance.addNextToQueue(song);
-
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -134,18 +132,27 @@ class _SongsPageState extends  State<SongsPage> {
             child: ArtDisplay(songContext: song),
           ),
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          trailing: Text(formatDuration(song.duration)),
+          trailing: InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => SongContextDialog(
+                  songContext: song,
+                  onDelete: () {
+                    setState(() {
+                      songs.remove(song);
+                    });
+                  },
+                ),
+              );
+            },
+            child: Icon(Icons.more_vert),
+          ),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ),
     );
-
   }
-
-
-
-
-
 
 
   @override
