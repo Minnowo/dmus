@@ -92,8 +92,8 @@ class PlaylistContextDialog extends StatelessWidget {
           promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
           yesText: "Delete Playlist?",
           yesTextColor: Colors.red,
-          noText: "No",
-          noTextColor: Colors.green,
+          noText: "Cancel",
+          noTextColor: null,
         ));
 
     if(result == null || !result) {

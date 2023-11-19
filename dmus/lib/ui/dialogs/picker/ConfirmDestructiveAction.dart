@@ -9,8 +9,8 @@ class ConfirmDestructiveAction extends StatelessWidget {
   final String promptText;
   final String yesText;
   final String noText;
-  final Color yesTextColor;
-  final Color noTextColor;
+  final Color? yesTextColor;
+  final Color? noTextColor;
 
   const ConfirmDestructiveAction({super.key, required this.promptText, required this.yesText, required this.noText,required this.yesTextColor, required this.noTextColor});
 
@@ -35,7 +35,10 @@ class ConfirmDestructiveAction extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () => _onYesPressed(context),
-                child: Text(yesText),
+                child: Text(
+                  yesText,
+                  style: TextStyle(color: yesTextColor),
+                ),
               ),
               ElevatedButton(
                 onPressed: () => _onNoPressed(context),
