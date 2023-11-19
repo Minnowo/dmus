@@ -56,8 +56,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   void initState() {
     super.initState();
 
-    if(widget.editing != null) {
-
+    if (widget.editing != null) {
       _playlistTitleTextController.text = widget.editing!.title;
 
       selectedSongs.addAll(widget.editing!.songs);
@@ -65,32 +64,31 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   }
 
 
-  void addSongsPicker(){
-
+  void addSongsPicker() {
     showDialog(context: context, builder: (ctx) => const SongPicker())
         .then((value) {
+      logging.info("Got songs from picker: $value");
 
-          logging.info("Got songs from picker: $value");
+      if (value == null) return;
 
-          if(value == null) return;
-
-          selectedSongs.addAll(value);
-
-    }).whenComplete(() => setState(() { }));
+      selectedSongs.addAll(value);
+    }).whenComplete(() => setState(() {}));
   }
 
-  void finishPlaylist(){
-
-    if(_formKey.currentState == null || !_formKey.currentState!.validate()) {
+  void finishPlaylist() {
+    if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
       return;
     }
 
     final PlaylistCreationFormResult result;
 
-    if(widget.editing != null) {
-      result = PlaylistCreationFormResult(playlistId: widget.editing!.id, title: _playlistTitleTextController.text, songs: selectedSongs);
+    if (widget.editing != null) {
+      result = PlaylistCreationFormResult(playlistId: widget.editing!.id,
+          title: _playlistTitleTextController.text,
+          songs: selectedSongs);
     } else {
-      result = PlaylistCreationFormResult(title: _playlistTitleTextController.text, songs: selectedSongs);
+      result = PlaylistCreationFormResult(
+          title: _playlistTitleTextController.text, songs: selectedSongs);
     }
 
     popNavigatorSafeWithArgs<PlaylistCreationFormResult>(context, result);
@@ -98,13 +96,15 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
   @override
   Widget build(BuildContext context) {
-
     logging.finest("dedrawing");
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(title),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         actions: [
           IconButton(
               onPressed: addSongsPicker,
@@ -118,14 +118,20 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               Padding(
                   padding: const EdgeInsets.all(pad),
                   child: TextFormField(
-                      decoration: InputDecoration(labelText: DemoLocalizations.of(context).playlistTitle),
+                      decoration: InputDecoration(labelText: DemoLocalizations
+                          .of(context)
+                          .playlistTitle),
                       controller: _playlistTitleTextController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return DemoLocalizations.of(context).emptyTitleError;
+                          return DemoLocalizations
+                              .of(context)
+                              .emptyTitleError;
                         }
                         if (value.length > maxTitleLength) {
-                          return "${DemoLocalizations.of(context).titleMaxLengthError} $maxTitleLength";
+                          return "${DemoLocalizations
+                              .of(context)
+                              .titleMaxLengthError} $maxTitleLength";
                         }
                         return null;
                       }
@@ -137,7 +143,9 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(DemoLocalizations.of(context).selectedSongsIsEmpty),
+                        Text(DemoLocalizations
+                            .of(context)
+                            .selectedSongsIsEmpty),
                       ],
                     )
                 )
@@ -150,10 +158,12 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                         var song = selectedSongs[index];
 
                         return Dismissible(
-                          key: ValueKey(_stupidUniqueKeyForDismissible + index + 1),
-                          onDismissed: (_){
+                          key: ValueKey(
+                              _stupidUniqueKeyForDismissible + index + 1),
+                          onDismissed: (_) {
                             setState(() {
-                              _stupidUniqueKeyForDismissible += selectedSongs.length;
+                              _stupidUniqueKeyForDismissible +=
+                                  selectedSongs.length;
                               selectedSongs.removeAt(index);
                             });
                           },
@@ -169,13 +179,13 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                                 child: const Icon(Icons.drag_handle),
                               ),
                             ),
-                            onTap: (){},
+                            onTap: () {},
                           ),
                         );
                       },
                       onReorder: (int oldIndex, int newIndex) {
-
-                        if (newIndex > selectedSongs.length) newIndex = selectedSongs.length;
+                        if (newIndex > selectedSongs.length)
+                          newIndex = selectedSongs.length;
                         if (oldIndex < newIndex) newIndex--;
 
                         setState(() {
@@ -187,12 +197,27 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                 )
             ],
           )
-      ) ,
-      floatingActionButton: FloatingActionButton(
-          tooltip: DemoLocalizations.of(context).increment,
-          onPressed: finishPlaylist,
-          child: const Icon(Icons.save),
-      )
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            tooltip: DemoLocalizations
+                .of(context)
+                .increment,
+            onPressed: addSongsPicker,
+            child: const Icon(Icons.add),
+          ),
+          SizedBox(height: 16), // Adjust the spacing as needed
+          FloatingActionButton(
+            tooltip: DemoLocalizations
+                .of(context)
+                .increment,
+            onPressed: finishPlaylist,
+            child: const Icon(Icons.save),
+          ),
+        ],
+      ),
     );
   }
 }
