@@ -166,19 +166,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 16),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: InkWell(
-                  onTap: () => _openQueue(context),
-                  child: const Icon(
-                    Icons.expand_less_rounded,
-                  ),
-                ),
-              ),
-            ),
-            CurrentlyPlayingBar(),
+            const CurrentlyPlayingBar(),
           ],
         ),
       ),
