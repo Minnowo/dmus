@@ -102,59 +102,94 @@ class _PlaylistsPageState extends State<PlaylistsPage>
           ),
         ],
       ),
-      body: playlists.isEmpty
-          ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "No playlists",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              "Click to create",
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            InkWell(
-              onTap: () => createPlaylist(context),
-              child: Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.purpleAccent,
-                ),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          if (playlists.isEmpty)
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "No playlists",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "Click to create",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 20),
+                  InkWell(
+                    onTap: () => createPlaylist(context),
+                    child: Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.purple,
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            Expanded(
+              child: ListView.builder(
+                itemCount: playlists.length,
+                itemBuilder: (context, index) {
+                  final playlist = playlists[index];
+                  return InkWell(
+                    onTap: () {
+                      _openPlaylistPage(context, playlist);
+                    },
+                    child: ListTile(
+                      title: Text(playlist.title),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                  PlaylistContextDialog(
+                                      playlistContext: playlist,
+                                      onDelete: () {
+                                          setState(() {
+                                          playlists.remove(playlist);
+                                          });
+                                        }),
+                                );
+                              },
+                            child: Icon(Icons.more_vert),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onLongPress: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            PlaylistContextDialog(
+                                playlistContext: playlist,
+                                onDelete: () {
+                                  setState(() {
+                                    playlists.remove(playlist);
+                                  });
+                                }),
+
+                      );
+                    },
+                  );
+                },
               ),
             ),
-          ],
-        ),
-      )
-          : Expanded(
-        child: ListView.builder(
-          itemCount: playlists.length,
-          itemBuilder: (context, index) {
-            final playlist = playlists[index];
-            return InkWell(
-              child: ListTile(
-                title: Text(playlist.title),
-                trailing: Text(formatDuration(playlist.duration)),
-              ),
-              onTap: () => _openPlaylistPage(context, playlist),
-              onLongPress: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) =>
-                      PlaylistContextDialog(playlistContext: playlist),
-                );
-              },
-            );
-          },
-        ),
+        ],
       ),
       drawer: const SettingsDrawer(),
     );

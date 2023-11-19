@@ -140,4 +140,35 @@ final class TablePlaylist {
 
     return playlists;
   }
+
+  /// Deletes a playlist from the database
+  ///
+  /// Returns true if the deletion is successful, false otherwise
+  ///
+  /// Throws DatabaseException
+  static Future<bool> deletePlaylist(int playlistId) async {
+    try {
+      final db = await DatabaseController.database;
+
+      // Check if the playlist exists
+      final exists = await db.query(name, where: '$idCol = ?', whereArgs: [playlistId]);
+      if (exists.isEmpty) {
+        logging.finest("Cannot delete playlist with id $playlistId because it does not exist");
+        return false;
+      }
+
+      // Delete the playlist and associated songs
+      await db.transaction((txn) async {
+        await txn.delete(TablePlaylistSong.name,
+            where: '${TablePlaylistSong.playlistIdCol} = ?', whereArgs: [playlistId]);
+        await txn.delete(name, where: '$idCol = ?', whereArgs: [playlistId]);
+      });
+
+      logging.finest("Playlist with id $playlistId deleted successfully");
+      return true;
+    } catch (e) {
+      logging.warning("Error deleting playlist: $e");
+      return false;
+    }
+  }
 }
