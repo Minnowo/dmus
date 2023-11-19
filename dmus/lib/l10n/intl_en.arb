@@ -55,6 +55,7 @@
 	"passwordEmpty": "Password cannot be empty",
 
 	"noAlbums": "Nothing is here!\nHit the + in the top right to create an album.",
+	"allSongsDownloaded": "All songs downloaded",
 
 	"noSongs": "Nothing is here!\nHit the + in the top right to import music."
 }

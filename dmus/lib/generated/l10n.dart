@@ -500,6 +500,16 @@ class S {
     );
   }
 
+  /// `All songs downloaded`
+  String get allSongsDownloaded {
+    return Intl.message(
+      'All songs downloaded',
+      name: 'allSongsDownloaded',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Nothing is here!\nHit the + in the top right to import music.`
   String get noSongs {
     return Intl.message(

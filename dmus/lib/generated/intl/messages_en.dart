@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addFiles": MessageLookupByLibrary.simpleMessage("Add Files"),
         "addFolder": MessageLookupByLibrary.simpleMessage("Add Folder"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Add to Queue"),
+        "allSongsDownloaded":
+            MessageLookupByLibrary.simpleMessage("All songs downloaded"),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),

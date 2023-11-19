@@ -1,23 +1,23 @@
 {
 	"title": "DMUS - French Title",
 	"appTitle": "DMUS - French App Title",
-	"pageTitle": "DMUS - Page d'accueil",
+	"pageTitle": "DMUS - Page d''accueil",
 	"updatedPlaylist": "Playlist modifiée",
 	"createdPlaylist": "Playlist créée",
 	"songImported": "Chanson importée",
-	"error": "Quelque chose s'est mal passé !",
+	"error": "Quelque chose s''est mal passé !",
 
 	"editMetadata": "Modifier les métadonnées",
 	"lookupMetadata": "Rechercher des métadonnées",
 
 	"viewDetails": "Voir les détails",
 	"playNow": "Jouer maintenant",
-	"queueAll": "Mettre tout en file d'attente",
+	"queueAll": "Mettre tout en file d''attente",
 	"editPlaylist": "Modifier la playlist",
 	"close": "Fermer",
 
 	"searchError": "Erreur lors de la récupération des résultats de recherche",
-	"noSearchResults": "Il n'y a pas de résultats pour cette recherche ! :(",
+	"noSearchResults": "Il n''y a pas de résultats pour cette recherche ! :(",
 	"releases": "Sorties",
 	"recordings": "Enregistrements",
 	"search": "Recherche",
@@ -31,5 +31,32 @@
 	"addFiles": "Ajouter des fichiers",
 	"addFolder": "Ajouter un dossier",
 
-	"noSongs": "Rien n'est ici !\nAppuyez sur le + en haut à droite pour importer de la musique."
+	"artist": "Artiste",
+"tag": "Étiquette",
+"releaseTitle": "Titre de la sortie",
+"searchResult": "Résultat de la recherche",
+"property": "Propriété",
+"value": "Valeur",
+"use": "Utiliser",
+"cancel": "Annuler",
+
+"pickSongs": "Choisir des chansons",
+
+"playbackSpeed": "Vitesse de lecture",
+"ok": "D''accord",
+
+"enterValidEmail": "Veuillez entrer une adresse e-mail valide.",
+"minPasswordLen": "Le mot de passe doit comporter au moins 6 caractères.",
+"register": "S''inscrire",
+
+"signIn": "Se connecter",
+"email": "E-mail",
+"emailEmpty": "L''e-mail ne peut pas être vide",
+"password": "Mot de passe",
+"passwordEmpty": "Le mot de passe ne peut pas être vide",
+
+"noAlbums": "Rien n''est ici !\nAppuyez sur le + en haut à droite pour créer un album.",
+"allSongsDownloaded": "Toutes les chansons ont été téléchargées",
+
+"noSongs": "Rien n''est ici !\nAppuyez sur le + en haut à droite pour importer de la musique."
 }

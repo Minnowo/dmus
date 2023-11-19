@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
@@ -7,6 +8,7 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
@@ -32,6 +34,9 @@ Future<void> main() async {
   await initLogging(Level.ALL);
 
   await Firebase.initializeApp();
+  
+  final Locale myLocale = Locale(Platform.localeName);
+  await LocalizationMapper.load(myLocale);
 
   DatabaseController.database.then((value) => logging.finest("database ready"));
 
@@ -207,7 +212,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onSongImported(Song s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).songImported}: ${s.title}", veryFastSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration));
   }
   void _onSomethingWentWrong(String s) {
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).error} $s", longSnackBarDuration));

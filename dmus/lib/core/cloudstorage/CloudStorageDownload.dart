@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -79,7 +80,7 @@ final class CloudStorageDownloadHelper {
         await ImportController.importSong(localFile);
       }
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "All songs downloaded", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.allSongsDownloaded, duration: const Duration(seconds: 2)));
 
       logging.info("Finished downloading songs!");
     }
