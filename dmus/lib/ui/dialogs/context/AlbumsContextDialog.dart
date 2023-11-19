@@ -1,22 +1,17 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
-import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
-import '../../../core/data/MessagePublisher.dart';
 import '../../pages/SelectedPlaylistPage.dart';
-import '../Util.dart';
-import '../picker/ConfirmDestructiveAction.dart';
 
-class PlaylistContextDialog extends StatelessWidget {
+class AlbumsContextDialog extends StatelessWidget {
 
-  final Playlist playlistContext;
-  final VoidCallback onDelete;
+  final Album playlistContext;
 
-  const PlaylistContextDialog({super.key, required this.playlistContext, required this.onDelete});
+  const AlbumsContextDialog({super.key, required this.playlistContext});
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +25,10 @@ class PlaylistContextDialog extends StatelessWidget {
           ),
           ListTile(
               title: Text(DemoLocalizations.of(context).playNow),
-              onTap: () => _playPlaylist(context, playlistContext)
-          ),
+              onTap: () => _playPlaylist(context, playlistContext) ),
           ListTile(
             title: Text(DemoLocalizations.of(context).queueAll),
             onTap: () => _queuePlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: Text(DemoLocalizations.of(context).editPlaylist),
-            onTap: () => _editPlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: const Text("Delete Playlists"),
-            onTap: () => _deletePlaylist(context, playlistContext),
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),
@@ -68,40 +54,9 @@ class PlaylistContextDialog extends StatelessWidget {
     JustAudioController.instance.queuePlaylist(p);
   }
 
-  void _editPlaylist(BuildContext context, Playlist p) {
-
-    popNavigatorSafe(context);
-    editPlaylist(context, p);
-  }
-
   void _showPlaylistDetails(BuildContext context) {
 
     popNavigatorSafe(context);
     animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlistContext));
-  }
-
-  Future<void> _deletePlaylist(BuildContext context,Playlist p) async {
-
-    popNavigatorSafe(context);
-
-    bool? result = await showDialog(
-        context: context,
-        builder: (ctx) => const ConfirmDestructiveAction(
-          promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
-          yesText: "Delete Playlist?",
-          yesTextColor: Colors.red,
-          noText: "Cancel",
-          noTextColor: null,
-        ));
-
-    if(result == null || !result) {
-      return;
-    }
-
-    await TablePlaylist.deletePlaylist(p.id);
-
-    onDelete();
-
-    MessagePublisher.publishSnackbar(SnackBarData(text: "Playlist ${p.title} has been removed from the app"));
   }
 }
