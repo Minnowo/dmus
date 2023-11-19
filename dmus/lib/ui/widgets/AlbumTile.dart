@@ -46,7 +46,7 @@ class AlbumTile extends StatelessWidget {
       onLongPress: () {
         showDialog(
           context: context,
-          builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist,),
+          builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist, onDelete: () {  },),
         );
       },
     );

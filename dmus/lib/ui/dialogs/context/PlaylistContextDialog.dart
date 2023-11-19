@@ -1,9 +1,11 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
+import '../../../core/data/MessagePublisher.dart';
 import '../../pages/SelectedPlaylistPage.dart';
 import '../Util.dart';
 import '../form/PlaylistCreationForm.dart';
@@ -11,8 +13,9 @@ import '../form/PlaylistCreationForm.dart';
 class PlaylistContextDialog extends StatelessWidget {
 
   final Playlist playlistContext;
+  final VoidCallback onDelete;
 
-  const PlaylistContextDialog({required this.playlistContext, super.key});
+  const PlaylistContextDialog({required this.playlistContext, super.key, required this.onDelete});
 
   void showPlaylistDetails(BuildContext context) {
     // Navigate to the SelectedPlaylistPage
@@ -22,6 +25,17 @@ class PlaylistContextDialog extends StatelessWidget {
         builder: (context) => SelectedPlaylistPage(playlistContext: playlistContext),
       ),
     );
+  }
+
+  Future<void> deletePlaylist(BuildContext context,Playlist p) async {
+
+    await TablePlaylist.deletePlaylist(p.id);
+
+
+
+    onDelete();
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: "Playlist ${p.title} has been removed from the app"));
   }
 
   @override
@@ -52,6 +66,11 @@ class PlaylistContextDialog extends StatelessWidget {
           ListTile(
             title: Text(DemoLocalizations.of(context).editPlaylist),
             onTap: () => editPlaylist(context, playlistContext).whenComplete(() => popNavigatorSafe(context)),
+          ),
+          ListTile(
+            title: Text("Delete Playlists"),
+            onTap: (){ deletePlaylist(context, playlistContext).whenComplete(() => popNavigatorSafe(context));
+            }
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),
