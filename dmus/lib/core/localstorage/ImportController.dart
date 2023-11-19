@@ -209,4 +209,23 @@ final class ImportController {
 
     _playlistUpdatedController.add(p);
   }
+
+
+  /// Updates the playlist in the database and returns the playlist
+  static Future<Playlist> updatePlaylistInDb(Playlist pl) async {
+
+    logging.info("Creating playlist ${pl.title}");
+
+    int? playlistId0 = await TablePlaylist.updatePlaylist(pl.id, pl.title, pl.songs);
+
+    if(playlistId0 == null) {
+      logging.info("Could not edit playlist");
+      MessagePublisher.publishSomethingWentWrong("Cannot edit playlist with an empty name or which does not exist!");
+      return pl;
+    }
+
+    _playlistUpdatedController.add(pl);
+
+    return pl;
+  }
 }

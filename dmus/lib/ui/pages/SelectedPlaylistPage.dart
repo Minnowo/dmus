@@ -110,10 +110,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           if (playlistContext.songs.isNotEmpty)
                             IconButton(
                               icon: const Icon(Icons.add_circle_sharp, size: 40),
-                              onPressed: () {
-                                logging.finest("Adding Songs to this playlist");
-                                editPlaylist(context, playlistContext);
-                              },
+                              onPressed: () => _letUserUpdatePlaylist(context)
                             ),
                         ],
                       ),
@@ -225,6 +222,18 @@ class SelectedPlaylistPage extends StatelessWidget {
     } catch (e) {
       logging.finest('Error playing playlist from index $startIndex: $e');
     }
+  }
+
+  void _letUserUpdatePlaylist(BuildContext context) {
+
+      updateExistingPlaylist(context, playlistContext)
+          .then((value) {
+
+            if(value != null) {
+              Navigator.pushReplacement(context,  MaterialPageRoute(builder: (ctx) => SelectedPlaylistPage(playlistContext: value)));
+            }
+      });
+
   }
 
   void _openQueue(BuildContext context) {
