@@ -1,4 +1,5 @@
 // import 'package:audioplayers/audioplayers.dart';
+import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/ui/Constants.dart';
@@ -144,9 +145,14 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.shuffle),
-                      onPressed: () {},
+
+                    Consumer<PlayerShuffleOrder>(
+                      builder: (context, shuffleOrder, child) {
+                        return IconButton(
+                          icon: shuffleOrder.after == ShuffleOrder.inOrder ? const Icon(Icons.shuffle) : const Icon(Icons.shuffle_on_outlined),
+                          onPressed: JustAudioController.instance.toggleShuffle,
+                        );
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.repeat),
@@ -154,9 +160,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     ),
                     IconButton(
                       icon: const Icon(Icons.speed),
-                      onPressed: () {
-                        showDialog(context: context, builder: (ctx) => const SpeedModifierPicker());
-                      },
+                      onPressed: () => showDialog(context: context, builder: (ctx) => const SpeedModifierPicker()),
                     ),
                   ],
                 ),

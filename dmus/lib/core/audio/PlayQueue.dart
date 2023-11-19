@@ -2,6 +2,7 @@
 
 
 import 'dart:collection';
+import 'dart:math';
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
@@ -70,6 +71,27 @@ class PlayQueue {
     }
 
     setPosition(_currentPosition + 1);
+
+    return _queue[_currentPosition];
+  }
+
+
+  /// Moves to a random item position in the queue and returns the song
+  Song? advanceRandom() {
+
+    if(_queue.isEmpty) {
+      return null;
+    }
+
+    if(_queue.length == 1) {
+      return _queue.firstOrNull;
+    }
+
+    int pos = _currentPosition;
+
+    do {
+      setPosition(Random().nextInt(_queue.length));
+    } while(_currentPosition == pos);
 
     return _queue[_currentPosition];
   }

@@ -5,6 +5,15 @@ import 'package:just_audio/just_audio.dart';
 
 import '../data/DataEntity.dart';
 
+
+enum ShuffleOrder {
+
+  inOrder,
+  randomOrder,
+  reverseOrder,
+}
+
+
 final class PlayerPosition {
 
   final Duration position;
@@ -65,4 +74,12 @@ final class PlayerSong {
           other.song == song &&
           other.playerState == playerState
   );
+}
+
+
+final class PlayerShuffleOrder {
+  final ShuffleOrder before;
+  final ShuffleOrder after;
+
+  const PlayerShuffleOrder({required this.before, required this.after});
 }

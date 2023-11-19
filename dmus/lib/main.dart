@@ -18,7 +18,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as ja;
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +51,7 @@ class DMUSApp extends StatelessWidget {
       StreamProvider<PlayerSong>(
           create: (_) => JustAudioController.instance.onPlayerSongChanged,
           initialData: PlayerSong( song: null,
-              playerState: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading),
+              playerState: PlayerStateExtended(paused: false, playing: false, processingState: ja.ProcessingState.loading),
               position: Duration.zero, duration: Duration.zero, index: 0
           ),
         lazy: false, // creates stream immediately (fixes first song = null problem)
@@ -59,7 +59,7 @@ class DMUSApp extends StatelessWidget {
 
       StreamProvider<PlayerStateExtended>(
           create: (_) => JustAudioController.instance.onPlayerStateChanged,
-          initialData: PlayerStateExtended(paused: false, playing: false, processingState: ProcessingState.loading)
+          initialData: PlayerStateExtended(paused: false, playing: false, processingState: ja.ProcessingState.loading)
       ),
 
       StreamProvider<PlayerIndex>(
@@ -80,6 +80,11 @@ class DMUSApp extends StatelessWidget {
       StreamProvider<PlayerPlaying>(
           create: (_) => JustAudioController.instance.onPlayingChanged,
           initialData: const PlayerPlaying(playing: false, song: null)
+      ),
+
+      StreamProvider<PlayerShuffleOrder>(
+          create: (_) => JustAudioController.instance.onShuffleOrderChanged,
+          initialData: const PlayerShuffleOrder(before: ShuffleOrder.inOrder, after: ShuffleOrder.inOrder)
       )
 
     ],

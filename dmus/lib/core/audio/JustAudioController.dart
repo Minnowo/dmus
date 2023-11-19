@@ -9,11 +9,13 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:just_audio/just_audio.dart' as ja;
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
 import 'PlayQueue.dart';
+
+
 
 final class JustAudioController extends BaseAudioHandler {
 
@@ -27,6 +29,7 @@ final class JustAudioController extends BaseAudioHandler {
   bool _isDisposed = false;
   bool _isPaused = true;
   bool _isFirstPub = true;
+  ShuffleOrder _shuffleOrder = ShuffleOrder.inOrder;
 
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();
@@ -34,8 +37,9 @@ final class JustAudioController extends BaseAudioHandler {
   final _indexStream = StreamController<PlayerIndex>.broadcast();
   final _playerStateStream = StreamController<PlayerStateExtended>.broadcast();
   final _playerSong = StreamController<PlayerSong>.broadcast();
+  final _shuffleOrderStream = StreamController<PlayerShuffleOrder>.broadcast();
 
-  final _player = AudioPlayer();
+  final _player = ja.AudioPlayer();
   final PlayQueue _playQueue = PlayQueue();
 
   /// Get the current queue
@@ -80,29 +84,42 @@ final class JustAudioController extends BaseAudioHandler {
     _indexStream.addStream(_player.currentIndexStream.map((event) => PlayerIndex(index: event)));
     _playerStateStream.addStream(_player.playerStateStream.map(_transformPlayerState));
 
+    _playerStateStream.stream.listen(_onPlayerStateChanged);
+
     _player.playbackEventStream.map(_transformPlaybackEvent).pipe(playbackState);
-    _playerStateStream.stream.listen((event) async {
-      if (event.processingState == ProcessingState.completed) {
-        await skipToNext();
-        logging.finest("Playback Completed");
-      }
-    });
   }
 
-  PlayerStateExtended _transformPlayerState(PlayerState event) {
+  Future<void> _onPlayerStateChanged(PlayerStateExtended event) async {
+    if (event.processingState != ja.ProcessingState.completed) {
+      return;
+    }
+
+    switch(_shuffleOrder){
+
+      case ShuffleOrder.inOrder:
+        return await skipToNext();
+      case ShuffleOrder.randomOrder:
+        return await skipToRandom();
+      case ShuffleOrder.reverseOrder:
+        return await skipToPrevious();
+    }
+
+  }
+
+  PlayerStateExtended _transformPlayerState(ja.PlayerState event) {
 
     switch(event.processingState) {
-      case ProcessingState.ready:
+      case ja.ProcessingState.ready:
         _isPaused = !_player.playing;
         break;
 
-      case ProcessingState.loading:
-      case ProcessingState.buffering:
+      case ja.ProcessingState.loading:
+      case ja.ProcessingState.buffering:
         _isPaused = true;
         break;
 
-      case ProcessingState.idle:
-      case ProcessingState.completed:
+      case ja.ProcessingState.idle:
+      case ja.ProcessingState.completed:
         _isPaused = false;
         break;
     }
@@ -110,7 +127,7 @@ final class JustAudioController extends BaseAudioHandler {
     return PlayerStateExtended(paused: _isPaused, playing: event.playing, processingState: event.processingState);
   }
 
-  PlaybackState _transformPlaybackEvent(PlaybackEvent event){
+  PlaybackState _transformPlaybackEvent(ja.PlaybackEvent event){
 
     return PlaybackState(
         controls: [
@@ -128,11 +145,11 @@ final class JustAudioController extends BaseAudioHandler {
         },
         androidCompactActionIndices: const [1,0,2],
         processingState: const {
-          ProcessingState.idle : AudioProcessingState.idle,
-          ProcessingState.loading: AudioProcessingState.loading,
-          ProcessingState.buffering: AudioProcessingState.buffering,
-          ProcessingState.ready: AudioProcessingState.ready,
-          ProcessingState.completed: AudioProcessingState.completed,
+          ja.ProcessingState.idle : AudioProcessingState.idle,
+          ja.ProcessingState.loading: AudioProcessingState.loading,
+          ja.ProcessingState.buffering: AudioProcessingState.buffering,
+          ja.ProcessingState.ready: AudioProcessingState.ready,
+          ja.ProcessingState.completed: AudioProcessingState.completed,
 
         }[_player.processingState]!,
         playing: _player.playing,
@@ -141,6 +158,11 @@ final class JustAudioController extends BaseAudioHandler {
         speed: _player.speed,
         queueIndex: event.currentIndex
     );
+  }
+
+  /// Publish events when the shuffle order changes
+  Stream<PlayerShuffleOrder> get onShuffleOrderChanged {
+    return _shuffleOrderStream.stream;
   }
 
   /// Publish events when the player song changes
@@ -187,7 +209,7 @@ final class JustAudioController extends BaseAudioHandler {
   @override
   Future<void> play() async {
     if(!_isInit || _isDisposed) return;
-    if(_player.playerState.processingState == ProcessingState.completed) {
+    if(_player.playerState.processingState == ja.ProcessingState.completed) {
       await seek(Duration.zero);
     }
     await _player.play();
@@ -217,17 +239,21 @@ final class JustAudioController extends BaseAudioHandler {
     }
   }
 
-  Future<void> addNextToQueue(Song s) async {
-    _playQueue.addToQueue(s);
-
-  }
-
-
   @override
   Future<void> skipToPrevious() async {
     if(!_isInit || _isDisposed) return;
 
     Song? s = _playQueue.advancePrevious();
+
+    if(s != null) {
+      await _setAudioSource( s);
+    }
+  }
+
+  Future<void> skipToRandom() async {
+    if(!_isInit || _isDisposed) return;
+
+    Song? s = _playQueue.advanceRandom();
 
     if(s != null) {
       await _setAudioSource( s);
@@ -246,6 +272,12 @@ final class JustAudioController extends BaseAudioHandler {
     await _setAudioSource(song);
   }
 
+
+  Future<void> addNextToQueue(Song s) async {
+    _playQueue.addToQueue(s);
+
+  }
+
   double get playbackSpeed => _player.speed;
 
   Future<void> setPlaybackSpeed(double speed) async {
@@ -253,14 +285,30 @@ final class JustAudioController extends BaseAudioHandler {
     await _player.setSpeed(speed);
   }
 
-  void firePlayerSong(Song song){
-    _playerSong.add(PlayerSong(
-        song: song,
-        playerState: PlayerStateExtended(paused: _isPaused, playing: _player.playing, processingState: _player.processingState),
-        duration: _player.duration,
-        position: _player.position,
-        index: _playQueue.currentPosition)
-    );
+  @override
+  Future<void> setShuffleMode(AudioServiceShuffleMode shuffleMode) async {
+    switch(shuffleMode){
+
+      case AudioServiceShuffleMode.none:
+        setMyShuffleMode(ShuffleOrder.inOrder);
+      case AudioServiceShuffleMode.all:
+        setMyShuffleMode(ShuffleOrder.randomOrder);
+      case AudioServiceShuffleMode.group:
+        setMyShuffleMode(ShuffleOrder.inOrder);
+    }
+  }
+
+  void setMyShuffleMode(ShuffleOrder o)  {
+    if(!_isInit || _isDisposed) return;
+    _fireSetShuffleOrder(o);
+  }
+
+  void toggleShuffle(){
+    if(_shuffleOrder == ShuffleOrder.inOrder) {
+      setMyShuffleMode(ShuffleOrder.randomOrder);
+    } else {
+      setMyShuffleMode(ShuffleOrder.inOrder);
+    }
   }
 
   Future<void> _setAudioSource(Song song) async {
@@ -269,9 +317,9 @@ final class JustAudioController extends BaseAudioHandler {
       return MessagePublisher.publishSomethingWentWrong("Cannot play ${song.file} because it does not exist!");
     }
 
-    firePlayerSong(song);
+    _firePlayerSong(song);
     mediaItem.add(song.toMediaItem());
-    await _player.setAudioSource(AudioSource.file(song.file.path));
+    await _player.setAudioSource(ja.AudioSource.file(song.file.path));
   }
 
   Future<void> playSongAt(int index) async {
@@ -302,5 +350,26 @@ final class JustAudioController extends BaseAudioHandler {
   Future<void> queuePlaylist(Playlist p) async {
     logging.finest("playing playlist ${p.toStringWithSongs()}");
     _playQueue.addAllToQueue(p.songs);
+  }
+  
+  
+  void _fireSetShuffleOrder(ShuffleOrder newOrder){
+
+    PlayerShuffleOrder pso = PlayerShuffleOrder(before: _shuffleOrder, after: newOrder);
+
+    _shuffleOrder = newOrder;
+
+    _shuffleOrderStream.add(pso);
+    
+  }
+
+  void _firePlayerSong(Song song){
+    _playerSong.add(PlayerSong(
+        song: song,
+        playerState: PlayerStateExtended(paused: _isPaused, playing: _player.playing, processingState: _player.processingState),
+        duration: _player.duration,
+        position: _player.position,
+        index: _playQueue.currentPosition)
+    );
   }
 }
