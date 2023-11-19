@@ -2,6 +2,7 @@ import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
@@ -18,22 +19,77 @@ class PlaylistContextDialog extends StatelessWidget {
 
   const PlaylistContextDialog({required this.playlistContext, super.key, required this.onDelete});
 
-  void showPlaylistDetails(BuildContext context) {
-    // Navigate to the SelectedPlaylistPage
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SelectedPlaylistPage(playlistContext: playlistContext),
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          ListTile(
+            title: Text(DemoLocalizations.of(context).viewDetails),
+            onTap: () => _showPlaylistDetails(context),
+          ),
+          ListTile(
+            title: Text(DemoLocalizations.of(context).playNow),
+            onTap: () => _playPlaylist(context, playlistContext) ),
+          ListTile(
+            title: Text(DemoLocalizations.of(context).queueAll),
+             onTap: () => _queuePlaylist(context, playlistContext),
+          ),
+          ListTile(
+            title: Text(DemoLocalizations.of(context).editPlaylist),
+            onTap: () => _editPlaylist(context, playlistContext),
+          ),
+          ListTile(
+            title: const Text("Delete Playlists"),
+            onTap: () => _deletePlaylist(context, playlistContext),
+          ),
+          ListTile(
+            title: Text(DemoLocalizations.of(context).close),
+            onTap: () {
+              popNavigatorSafe(context);
+            },
+          ),
+        ],
       ),
     );
   }
 
-  Future<void> deletePlaylist(BuildContext context,Playlist p) async {
+  Future<void> _playPlaylist(BuildContext context, Playlist p) async {
+
+    popNavigatorSafe(context);
+    await JustAudioController.instance.stopAndEmptyQueue();
+    await JustAudioController.instance.queuePlaylist(playlistContext);
+    await JustAudioController.instance.playSongAt(0);
+    await JustAudioController.instance.play();;
+  }
+
+  void _queuePlaylist(BuildContext context, Playlist p) {
+
+    popNavigatorSafe(context);
+    JustAudioController.instance.queuePlaylist(p);
+  }
+
+  void _editPlaylist(BuildContext context, Playlist p) {
+
+    popNavigatorSafe(context);
+    editPlaylist(context, p);
+  }
+
+  void _showPlaylistDetails(BuildContext context) {
+
+    popNavigatorSafe(context);
+    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlistContext));
+  }
+
+  Future<void> _deletePlaylist(BuildContext context,Playlist p) async {
+
+    popNavigatorSafe(context);
 
     bool? result = await showDialog(
         context: context,
         builder: (ctx) => const ConfirmDestructiveAction(
-            promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
+          promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
           yesText: "Delete Playlist?",
           yesTextColor: Colors.red,
           noText: "No",
@@ -49,51 +105,5 @@ class PlaylistContextDialog extends StatelessWidget {
     onDelete();
 
     MessagePublisher.publishSnackbar(SnackBarData(text: "Playlist ${p.title} has been removed from the app"));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            title: Text(DemoLocalizations.of(context).viewDetails),
-            onTap: () => showPlaylistDetails(context),
-          ),
-          ListTile(
-            title: Text(DemoLocalizations.of(context).playNow),
-            onTap: () {
-              Navigator.pop(context); // Pop the Navigator immediately
-              JustAudioController.instance.stopAndEmptyQueue()
-                  .then((value) => JustAudioController.instance.queuePlaylist(playlistContext))
-                  .then((value) => JustAudioController.instance.playSongAt(0))
-                  .then((value) => JustAudioController.instance.play());
-            },
-          ),
-
-          ListTile(
-            title: Text(DemoLocalizations.of(context).queueAll),
-             onTap: () => JustAudioController.instance.queuePlaylist(playlistContext).whenComplete(() => popNavigatorSafe(context)),
-          ),
-          ListTile(
-            title: Text(DemoLocalizations.of(context).editPlaylist),
-            onTap: () => editPlaylist(context, playlistContext).whenComplete(() => popNavigatorSafe(context)),
-          ),
-          ListTile(
-            title: Text("Delete Playlists"),
-            onTap: (){ deletePlaylist(context, playlistContext).whenComplete(() => popNavigatorSafe(context));
-            }
-          ),
-          ListTile(
-            title: Text(DemoLocalizations.of(context).close),
-            onTap: () {
-              popNavigatorSafe(context);
-            },
-          ),
-          // Add more options as needed
-        ],
-      ),
-    );
   }
 }
