@@ -110,25 +110,25 @@ class _PlaylistsPageState extends State<PlaylistsPage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "No playlists",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     "Click to create",
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   InkWell(
                     onTap: () => createPlaylist(context),
                     child: Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.purple,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.add,
                         color: Colors.white,
                       ),
@@ -166,7 +166,7 @@ class _PlaylistsPageState extends State<PlaylistsPage>
                                         }),
                                 );
                               },
-                            child: Icon(Icons.more_vert),
+                            child: const Icon(Icons.more_vert),
                           ),
                         ],
                       ),

@@ -9,6 +9,7 @@ import '../../../core/data/MessagePublisher.dart';
 import '../../pages/SelectedPlaylistPage.dart';
 import '../Util.dart';
 import '../form/PlaylistCreationForm.dart';
+import '../picker/ConfirmDestructiveAction.dart';
 
 class PlaylistContextDialog extends StatelessWidget {
 
@@ -29,9 +30,21 @@ class PlaylistContextDialog extends StatelessWidget {
 
   Future<void> deletePlaylist(BuildContext context,Playlist p) async {
 
+    bool? result = await showDialog(
+        context: context,
+        builder: (ctx) => const ConfirmDestructiveAction(
+            promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
+          yesText: "Delete Playlist?",
+          yesTextColor: Colors.red,
+          noText: "No",
+          noTextColor: Colors.green,
+        ));
+
+    if(result == null || !result) {
+      return;
+    }
+
     await TablePlaylist.deletePlaylist(p.id);
-
-
 
     onDelete();
 
