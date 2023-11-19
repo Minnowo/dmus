@@ -85,6 +85,11 @@ class DMUSApp extends StatelessWidget {
       StreamProvider<PlayerShuffleOrder>(
           create: (_) => JustAudioController.instance.onShuffleOrderChanged,
           initialData: const PlayerShuffleOrder(before: ShuffleOrder.inOrder, after: ShuffleOrder.inOrder)
+      ),
+
+      StreamProvider<PlayerRepeat>(
+          create: (_) => JustAudioController.instance.onRepeatChanged,
+          initialData: const PlayerRepeat(repeat: false)
       )
 
     ],
