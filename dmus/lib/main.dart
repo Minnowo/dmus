@@ -14,6 +14,7 @@ import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
+import 'package:dmus/ui/pages/SearchPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -138,6 +139,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     const SongsPage(),
     const PlaylistsPage(),
     const AlbumsPage(),
+    const SearchPage(),
   ];
 
   int _currentPage = 0;

@@ -5,6 +5,7 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/SelectedPlaylistPage.dart';
+import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
@@ -25,13 +26,10 @@ class PlaylistsPage extends StatefulNavigationPage {
 
 class _PlaylistsPageState extends State<PlaylistsPage>
 {
-  static const String onEmptyText = "Nothing is here!\nHit the + in the top right to create a playlist.";
 
   late final List<StreamSubscription> _subscriptions;
 
   List<Playlist> playlists = [];
-
-
 
   void _onPlaylistCreated(Playlist p) {
 
@@ -40,6 +38,12 @@ class _PlaylistsPageState extends State<PlaylistsPage>
     });
   }
 
+  void _onPlaylistDeleted(Playlist p) {
+
+    setState(() {
+      playlists.removeWhere((element) => element.id == p.id);
+    });
+  }
 
   void _onPlaylistUpdated(Playlist p) {
 
@@ -65,6 +69,7 @@ class _PlaylistsPageState extends State<PlaylistsPage>
     _subscriptions = [
       ImportController.onPlaylistCreated.listen(_onPlaylistCreated),
       ImportController.onPlaylistUpdated.listen(_onPlaylistUpdated),
+      ImportController.onPlaylistDeleted.listen(_onPlaylistDeleted),
     ];
 
     TablePlaylist.selectAll().then((value) {
@@ -140,50 +145,16 @@ class _PlaylistsPageState extends State<PlaylistsPage>
             )
           else
             Expanded(
-              child: ListView.builder(
-                itemCount: playlists.length,
-                itemBuilder: (context, index) {
-                  final playlist = playlists[index];
-                  return InkWell(
-                    onTap: () => _openPlaylistPage(context, playlist),
-                    child: ListTile(
-                      title: Text(playlist.title),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            onTap: () => _showContextMenu(context, playlist),
-                            child: const Icon(Icons.more_vert),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onLongPress: () => _showContextMenu(context, playlist),
-                  );
-                },
+              child: ListView(
+                children: [
+                  for(final i in playlists) 
+                    PlaylistListWidget(playlist: i)
+                ],
               ),
             ),
         ],
       ),
       drawer: const SettingsDrawer(),
     );
-  }
-
-  void _showContextMenu(BuildContext context, Playlist playlist) {
-
-    showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-        PlaylistContextDialog(
-            playlistContext: playlist,
-            onDelete: () {
-              setState(() {
-                playlists.remove(playlist);
-              });
-            }));
-  }
-  void _openPlaylistPage(BuildContext context, Playlist playlist) {
-
-    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
   }
 }

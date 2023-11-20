@@ -96,15 +96,10 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
   @override
   Widget build(BuildContext context) {
-    logging.finest("dedrawing");
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(title),
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
+        backgroundColor: Theme .of(context) .colorScheme .inversePrimary,
         actions: [
           IconButton(
               onPressed: addSongsPicker,
@@ -118,20 +113,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               Padding(
                   padding: const EdgeInsets.all(pad),
                   child: TextFormField(
-                      decoration: InputDecoration(labelText: DemoLocalizations
-                          .of(context)
-                          .playlistTitle),
+                      decoration: InputDecoration(labelText: DemoLocalizations.of(context).playlistTitle),
                       controller: _playlistTitleTextController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return DemoLocalizations
-                              .of(context)
-                              .emptyTitleError;
+                          return DemoLocalizations.of(context).emptyTitleError;
                         }
                         if (value.length > maxTitleLength) {
-                          return "${DemoLocalizations
-                              .of(context)
-                              .titleMaxLengthError} $maxTitleLength";
+                          return "${DemoLocalizations.of(context).titleMaxLengthError} $maxTitleLength";
                         }
                         return null;
                       }
@@ -143,9 +132,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(DemoLocalizations
-                            .of(context)
-                            .selectedSongsIsEmpty),
+                        Text(DemoLocalizations.of(context).selectedSongsIsEmpty),
                       ],
                     )
                 )
@@ -184,8 +171,9 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                         );
                       },
                       onReorder: (int oldIndex, int newIndex) {
-                        if (newIndex > selectedSongs.length)
+                        if (newIndex > selectedSongs.length) {
                           newIndex = selectedSongs.length;
+                        }
                         if (oldIndex < newIndex) newIndex--;
 
                         setState(() {
@@ -208,7 +196,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
-          SizedBox(height: 16), // Adjust the spacing as needed
+          const SizedBox(height: 16), // Adjust the spacing as needed
           FloatingActionButton(
             tooltip: DemoLocalizations
                 .of(context)

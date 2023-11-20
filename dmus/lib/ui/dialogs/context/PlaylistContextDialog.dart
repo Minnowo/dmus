@@ -1,4 +1,5 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
@@ -14,9 +15,8 @@ import '../picker/ConfirmDestructiveAction.dart';
 class PlaylistContextDialog extends StatelessWidget {
 
   final Playlist playlistContext;
-  final VoidCallback onDelete;
 
-  const PlaylistContextDialog({super.key, required this.playlistContext, required this.onDelete});
+  const PlaylistContextDialog({super.key, required this.playlistContext});
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +51,11 @@ class PlaylistContextDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static Future<T?> showAsDialog<T>(BuildContext context, Playlist p) {
+
+    return showDialog(context: context, builder: (ctx) => PlaylistContextDialog(playlistContext: p));
   }
 
   Future<void> _playPlaylist(BuildContext context, Playlist p) async {
@@ -98,9 +103,7 @@ class PlaylistContextDialog extends StatelessWidget {
       return;
     }
 
-    await TablePlaylist.deletePlaylist(p.id);
-
-    onDelete();
+    await ImportController.deletePlaylist(p);
 
     MessagePublisher.publishSnackbar(SnackBarData(text: "Playlist ${p.title} has been removed from the app"));
   }

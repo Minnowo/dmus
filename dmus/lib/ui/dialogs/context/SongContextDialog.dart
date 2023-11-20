@@ -1,8 +1,10 @@
 import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/pages/MetadataPage.dart';
 import 'package:flutter/material.dart';
 
@@ -14,41 +16,8 @@ import '../../../core/localstorage/dbimpl/TableSong.dart';
 class SongContextDialog extends StatelessWidget {
 
   final Song songContext;
-  final VoidCallback onDelete;
-  const SongContextDialog ({required this.songContext, Key? key, required this.onDelete}) : super(key: key);
 
-
-  Future<void> showMetadataPage(BuildContext context) async {
-
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (ctxt) => MetadataPage(entity: songContext,)));
-  }
-
-
-  Future<void> addQueue(Song s, BuildContext context) async
-  {
-    JustAudioController.instance.addNextToQueue(s);
-
-    MessagePublisher.publishSnackbar(SnackBarData(text: "${s.title} has been added to the queue"));
-
-    popNavigatorSafe(context);
-  }
-
-
-  Future<void> deleteSong(Song s,BuildContext context) async {
-
-    await TableSong.deleteSongById(s.id);
-
-    ExternalStorageModel().deleteFileFromExternalStorage(s.file.path);
-
-    onDelete();
-
-    popNavigatorSafe(context);
-
-    MessagePublisher.publishSnackbar(SnackBarData(text: "Song ${s.title} has been removed from the app"));
-  }
-
-
+  const SongContextDialog ({required this.songContext, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,5 +47,55 @@ class SongContextDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+
+  static Future<T?> showAsDialog<T>(BuildContext context, Song song) async {
+
+    return showDialog( context: context, builder: (BuildContext context) => SongContextDialog( songContext: song) );
+  }
+
+
+  Future<void> showMetadataPage(BuildContext context) async {
+
+    Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (ctxt) => MetadataPage(entity: songContext,)));
+  }
+
+
+  Future<void> addQueue(Song s, BuildContext context) async
+  {
+    JustAudioController.instance.addNextToQueue(s);
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: "${s.title} has been added to the queue"));
+
+    popNavigatorSafe(context);
+  }
+
+
+  Future<void> deleteSong(Song s,BuildContext context) async {
+
+    popNavigatorSafe(context);
+
+    bool? result = await showDialog(
+        context: context,
+        builder: (ctx) => const ConfirmDestructiveAction(
+          promptText: "Are you sture you want to delete this song from the app? It will NOT be deleted from the file system.",
+          yesText: "Delete",
+          noText: "Keep",
+          yesTextColor: Colors.red,
+          noTextColor: null,
+        )
+    );
+
+    if(result == null || !result){
+      return;
+    }
+
+    await ImportController.deleteSong(s);
+
+    ExternalStorageModel.deleteFileFromExternalStorage(s.file.path);
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: "Song ${s.title} has been removed from the app"));
   }
 }

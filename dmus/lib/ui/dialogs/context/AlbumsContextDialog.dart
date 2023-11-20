@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
 import '../../pages/SelectedPlaylistPage.dart';
+import '../Util.dart';
 
 class AlbumsContextDialog extends StatelessWidget {
 
@@ -25,10 +26,10 @@ class AlbumsContextDialog extends StatelessWidget {
           ),
           ListTile(
               title: Text(DemoLocalizations.of(context).playNow),
-              onTap: () => _playPlaylist(context, playlistContext) ),
+              onTap: () => playPlaylist(context, playlistContext) ),
           ListTile(
             title: Text(DemoLocalizations.of(context).queueAll),
-            onTap: () => _queuePlaylist(context, playlistContext),
+            onTap: () => queuePlaylist(context, playlistContext),
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),
@@ -39,20 +40,6 @@ class AlbumsContextDialog extends StatelessWidget {
     );
   }
 
-  Future<void> _playPlaylist(BuildContext context, Playlist p) async {
-
-    popNavigatorSafe(context);
-    await JustAudioController.instance.stopAndEmptyQueue();
-    await JustAudioController.instance.queuePlaylist(playlistContext);
-    await JustAudioController.instance.playSongAt(0);
-    await JustAudioController.instance.play();;
-  }
-
-  void _queuePlaylist(BuildContext context, Playlist p) {
-
-    popNavigatorSafe(context);
-    JustAudioController.instance.queuePlaylist(p);
-  }
 
   void _showPlaylistDetails(BuildContext context) {
 

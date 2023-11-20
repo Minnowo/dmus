@@ -337,6 +337,7 @@ final class JustAudioController extends BaseAudioHandler {
     _firePlayerSong(song);
     mediaItem.add(song.toMediaItem());
     await _player.setAudioSource(ja.AudioSource.file(song.file.path));
+    await play();
   }
 
   Future<void> playSongAt(int index) async {

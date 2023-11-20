@@ -1,13 +1,10 @@
 
 
-import 'package:dmus/ui/dialogs/context/AlbumsContextDialog.dart';
+import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
-import '../dialogs/context/PlaylistContextDialog.dart';
-import '../lookfeel/Animations.dart';
-import '../pages/SelectedPlaylistPage.dart';
 import 'ArtDisplay.dart';
 
 class AlbumTile extends StatelessWidget {
@@ -35,33 +32,8 @@ class AlbumTile extends StatelessWidget {
           ),
           child: ArtDisplay(songContext: playlist.songs.firstOrNull,)
       ),
-      onTap: ()=> _openPlaylistPage(context, playlist),
-      onLongPress: () => _showContextMenu(context),
+      onTap: () => openPlaylistPage(context, playlist),
+      onLongPress: () => showPlaylistOrAlbumContextMenu(context, playlist),
     );
-  }
-
-
-  void _showContextMenu(BuildContext context) {
-
-    if(playlist is Album) {
-
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              AlbumsContextDialog( playlistContext: playlist as Album)
-      );
-
-    } else {
-
-      showDialog(
-          context: context,
-          builder: (BuildContext context) =>
-              PlaylistContextDialog( playlistContext: playlist, onDelete: (){},)
-      );
-    }
-  }
-  void _openPlaylistPage(BuildContext context, Playlist playlist) {
-
-    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
   }
 }

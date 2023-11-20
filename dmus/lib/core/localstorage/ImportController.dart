@@ -24,15 +24,27 @@ final class ImportController {
   /// A pub for when an import has completed for a song
   static final _songImportedController = StreamController<Song>.broadcast();
 
+  /// A pub for when a song is deleted
+  static final _songDeletedController = StreamController<Song>.broadcast();
+
   /// A pub for when a playlist has been created
   static final _playlistCreatedController = StreamController<Playlist>.broadcast();
 
   /// A pub for when a playlist has been created
   static final _playlistUpdatedController = StreamController<Playlist>.broadcast();
 
+  /// A pub for when a playlist has been deleted
+  static final _playlistDeletedController = StreamController<Playlist>.broadcast();
+
   /// A pub for when the albums have been rebuilt
   static final _albumsRebuiltController = StreamController<void>.broadcast();
 
+
+
+  /// A pub for when an import has completed for a song
+  static Stream<Song> get onSongDeleted {
+    return _songDeletedController.stream;
+  }
 
 
   /// A pub for when an import has completed for a song
@@ -44,6 +56,12 @@ final class ImportController {
   /// A pub for when a playlist has been created
   static Stream<Playlist> get onPlaylistCreated {
     return _playlistCreatedController.stream;
+  }
+
+
+  /// A pub for when a playlist has been deleted
+  static Stream<Playlist> get onPlaylistDeleted {
+    return _playlistDeletedController.stream;
   }
 
 
@@ -70,6 +88,13 @@ final class ImportController {
     _albumsRebuiltController.add(null);
 
     _importCount = 0;
+  }
+
+  static Future<void> deleteSong(Song s) async {
+
+    await TableSong.deleteSongById(s.id);
+
+    _songDeletedController.add(s);
   }
 
 
@@ -162,6 +187,17 @@ final class ImportController {
 
       MessagePublisher.publishRawException(e);
     }
+  }
+
+
+  /// Deletes a playlist
+  ///
+  /// This sends out events accordingly
+  static Future<void> deletePlaylist(Playlist playlist) async {
+
+    await TablePlaylist.deletePlaylist(playlist.id);
+
+    _playlistDeletedController.add(playlist);
   }
 
 

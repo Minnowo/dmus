@@ -2,8 +2,9 @@ import 'package:dmus/core/Util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-class ExternalStorageModel {
-  Future<void> deleteFileFromExternalStorage(String? filePath) async {
+final class ExternalStorageModel {
+
+  static Future<void> deleteFileFromExternalStorage(String? filePath) async {
     final downloadsDirectory = await getExternalStorageDirectory();
 
 

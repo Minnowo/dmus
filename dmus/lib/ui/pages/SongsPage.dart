@@ -9,6 +9,7 @@ import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
+import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/audio/JustAudioController.dart';
@@ -45,6 +46,13 @@ class _SongsPageState extends  State<SongsPage> {
     });
   }
 
+  void _onSongDeleted(Song s) {
+
+    setState(() {
+      songs.removeWhere((e) => e.id == s.id);
+    });
+  }
+
   @override
   void initState() {
 
@@ -52,6 +60,7 @@ class _SongsPageState extends  State<SongsPage> {
 
     _subscriptions = [
       ImportController.onSongImported.listen(_onSongImported),
+      ImportController.onSongDeleted.listen(_onSongDeleted)
     ];
 
     TableSong.selectAllWithMetadata().then( (value) {
@@ -72,88 +81,6 @@ class _SongsPageState extends  State<SongsPage> {
     }
 
     super.dispose();
-  }
-
-  Widget buildSongList(BuildContext context, int index) {
-    final Song song = songs[index];
-
-    return Dismissible(
-      key: Key(song.id.toString()),
-      direction: DismissDirection.endToStart,
-      confirmDismiss: (direction) async {
-        JustAudioController.instance.addNextToQueue(song);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${song.title} added to the queue'),
-            duration: fastSnackBarDuration,
-          ),
-        );
-
-        return false;
-      },
-      background: Container(
-        color: Colors.green,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 20.0),
-        child: const Icon(
-          Icons.playlist_add,
-          color: Colors.white,
-        ),
-      ),
-      secondaryBackground: Container(
-        color: Colors.green,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        child: const Icon(
-          Icons.playlist_add,
-          color: Colors.white,
-        ),
-      ),
-      child: InkWell(
-        onTap: () async {
-          await JustAudioController.instance.playSong(song);
-          await JustAudioController.instance.play();
-        },
-        onLongPress: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) => SongContextDialog(
-              songContext: song,
-              onDelete: () {
-                setState(() {
-                  songs.remove(song);
-                });
-              },
-            ),
-          );
-        },
-        child: ListTile(
-          leading: SizedBox(
-            width: THUMB_SIZE,
-            child: ArtDisplay(songContext: song),
-          ),
-          title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          trailing: InkWell(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => SongContextDialog(
-                  songContext: song,
-                  onDelete: () {
-                    setState(() {
-                      songs.remove(song);
-                    });
-                  },
-                ),
-              );
-            },
-            child: Icon(Icons.more_vert),
-          ),
-          subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
-        ),
-      ),
-    );
   }
 
 
@@ -194,12 +121,14 @@ class _SongsPageState extends  State<SongsPage> {
 
             else
               Expanded(
-                child: ListView.builder(
-                  itemCount: songs.length,
-                  itemBuilder: buildSongList,
-                )
-              )
-          ],
+                  child: ListView (
+                    children: [
+                      for(final i in songs)
+                        SongListWidget(song: i)
+                    ],
+                  )
+              ),
+          ]
         ),
       endDrawerEnableOpenDragGesture: true,
       drawer: const SettingsDrawer(),
