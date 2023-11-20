@@ -182,4 +182,43 @@ final class TableSong {
       return false;
     }
   }
+
+
+
+  static Future<List<Song>> songsWhichMatch(List<String> text) async {
+
+    if(text.isEmpty) {
+      return [];
+    }
+
+
+
+    const whereQueryTbl = "LOWER(${TableFMetadata.name}.${TableFMetadata.titleCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.albumArtistCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.albumCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.trackArtistCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.trackNumberCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.genreCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.mimetypeCol}) LIKE '%' || LOWER(?) || '%'"
+                      " OR LOWER(${TableFMetadata.name}.${TableFMetadata.yearCol}) LIKE '%' || LOWER(?) || '%'"
+    ;
+
+    final sqlWhere = text.map((e) => whereQueryTbl).join(" OR ");
+
+    var db = await DatabaseController.database;
+
+    String sql = "SELECT * FROM ${TableSong.name}"
+        " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
+        " WHERE $sqlWhere"
+    ;
+
+    var result = await db.rawQuery(sql, multiplyListTerms(text, 8));
+
+    final results = result.map((e) => fromMappedObjects(e)) .toList();
+
+    for(final Song i in results) {
+      i.liked  = await TableLikes.isSongLiked(i.id);
+    }
+    return results;
+  }
 }

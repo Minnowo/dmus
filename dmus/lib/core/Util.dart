@@ -284,3 +284,13 @@ Future<void> deleteFileFromExternalStorage(String filePath) async {
     logging.warning("While trying to delete $filePath from external storage: $e");
   }
 }
+
+
+
+List<String> multiplyListTerms(List<String> terms, int n) {
+  return [
+    for (var term in terms)
+      for(int i = 0; i < n; i++)
+        term
+  ];
+}

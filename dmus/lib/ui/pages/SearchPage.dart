@@ -1,11 +1,13 @@
 
 
 
+import 'package:dmus/core/localstorage/SearchHandler.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
@@ -29,11 +31,6 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
       body: Column(
       children: [
         Padding(
@@ -49,16 +46,9 @@ class _SearchPageState extends State<SearchPage> {
         Expanded(
           child: ListView(
             children: [
-
-              for(final i in _songResults)
-                SongListWidget(song: i),
-
-              for(final i in _albumResults)
-                PlaylistListWidget(playlist: i),
-
-              // for(final i in _playlistResults)
-              //   SongListWidget(song: i),
-
+              ...buildSongDisplay(context),
+              ...buildPlaylistDisplay(context),
+              ...buildAlbumsDisplay(context),
             ],
           ),
         ),
@@ -69,7 +59,61 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  List<Widget> buildSongDisplay(BuildContext context) {
+
+    if(_songResults.isEmpty) {
+      return [];
+    }
+
+    return [
+
+      const Text("--- Songs ---"),
+
+      for(final i in _songResults)
+        SongListWidget(song: i),
+    ];
+  }
+
+  List<Widget> buildPlaylistDisplay(BuildContext context) {
+
+    if(_playlistResults.isEmpty) {
+      return [];
+    }
+
+    return [
+
+      const Text("--- Playlists---"),
+
+      for(final i in _playlistResults)
+        PlaylistListWidget(playlist: i),
+    ];
+  }
+
+  List<Widget> buildAlbumsDisplay(BuildContext context) {
+
+    if(_albumResults.isEmpty) {
+      return [];
+    }
+
+    return [
+
+      const Text("--- Albums ---"),
+
+      for(final i in _albumResults)
+        PlaylistListWidget(playlist: i),
+    ];
+  }
+
   void _performSearch(String query) {
 
+    logging.info("Searched for $query");
+
+    SearchHandler.searchForSongs(query).then((value){
+
+      _songResults.clear();
+      _songResults.addAll(value);
+
+      setState(() { });
+    });
   }
 }
