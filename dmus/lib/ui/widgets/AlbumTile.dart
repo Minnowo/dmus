@@ -1,5 +1,6 @@
 
 
+import 'package:dmus/ui/dialogs/context/AlbumsContextDialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
@@ -30,34 +31,37 @@ class AlbumTile extends StatelessWidget {
                 formatDuration(playlist.duration),
                 style: const TextStyle(color: Colors.white),
               ),
-              trailing: IconButton(
-                icon: const Icon(Icons.play_arrow),
-                onPressed: () async {
-                  logging.finest(playlist);
-                  // AudioController.queuePlaylist(playlist);
-                  // await AudioController.playQueue();
-                },
-              ),
             ),
           ),
           child: ArtDisplay(songContext: playlist.songs.firstOrNull,)
       ),
       onTap: ()=> _openPlaylistPage(context, playlist),
-      onLongPress: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => PlaylistContextDialog(playlistContext: playlist, onDelete: () {  },),
-        );
-      },
+      onLongPress: () => _showContextMenu(context),
     );
   }
 
 
+  void _showContextMenu(BuildContext context) {
 
+    if(playlist is Album) {
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              AlbumsContextDialog( playlistContext: playlist as Album)
+      );
+
+    } else {
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              PlaylistContextDialog( playlistContext: playlist, onDelete: (){},)
+      );
+    }
+  }
   void _openPlaylistPage(BuildContext context, Playlist playlist) {
 
     animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
-
   }
-
 }

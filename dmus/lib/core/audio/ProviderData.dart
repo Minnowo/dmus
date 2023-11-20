@@ -83,3 +83,8 @@ final class PlayerShuffleOrder {
 
   const PlayerShuffleOrder({required this.before, required this.after});
 }
+
+final class PlayerRepeat {
+  final bool repeat;
+  const PlayerRepeat({required this.repeat});
+}

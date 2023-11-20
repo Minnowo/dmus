@@ -20,7 +20,7 @@ class AlbumsPage extends StatefulNavigationPage {
 
 class _AlbumsPageState extends State<AlbumsPage>{
 
-  static const String onEmptyText = "Nothing is here!\nHit the + in the top right to create a playlist.";
+  static const String onEmptyText = "Albums will appear as you import music!";
 
   late final List<StreamSubscription> _subscriptions;
 
@@ -66,27 +66,6 @@ class _AlbumsPageState extends State<AlbumsPage>{
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(widget.title),
           centerTitle: true,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                TableAlbum.selectAll().then((value) {
-
-                  setState(() {
-                    albums.clear();
-                    albums.addAll(value);
-                  });
-
-                });
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                TableAlbum.generateAlbums().whenComplete(() => setState((){}));
-              },
-            ),
-          ],
         ),
         body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,

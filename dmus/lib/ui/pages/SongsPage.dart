@@ -34,8 +34,10 @@ class _SongsPageState extends  State<SongsPage> {
 
   void _onSongImported(Song s) {
 
-    if(songs.contains(s)) {
-      return;
+    for(final i in songs){
+      if(i.id == s.id) {
+        return;
+      }
     }
 
     setState(() {

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
+import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/SelectedPlaylistPage.dart';
 import 'package:flutter/material.dart';
 
@@ -110,25 +111,25 @@ class _PlaylistsPageState extends State<PlaylistsPage>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "No playlists",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 8),
-                  Text(
+                  const SizedBox(height: 8),
+                  const Text(
                     "Click to create",
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   InkWell(
                     onTap: () => createPlaylist(context),
                     child: Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(12),
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.purple,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.add,
                         color: Colors.white,
                       ),
@@ -144,47 +145,20 @@ class _PlaylistsPageState extends State<PlaylistsPage>
                 itemBuilder: (context, index) {
                   final playlist = playlists[index];
                   return InkWell(
-                    onTap: () {
-                      _openPlaylistPage(context, playlist);
-                    },
+                    onTap: () => _openPlaylistPage(context, playlist),
                     child: ListTile(
                       title: Text(playlist.title),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           InkWell(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                  PlaylistContextDialog(
-                                      playlistContext: playlist,
-                                      onDelete: () {
-                                          setState(() {
-                                          playlists.remove(playlist);
-                                          });
-                                        }),
-                                );
-                              },
-                            child: Icon(Icons.more_vert),
+                            onTap: () => _showContextMenu(context, playlist),
+                            child: const Icon(Icons.more_vert),
                           ),
                         ],
                       ),
                     ),
-                    onLongPress: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            PlaylistContextDialog(
-                                playlistContext: playlist,
-                                onDelete: () {
-                                  setState(() {
-                                    playlists.remove(playlist);
-                                  });
-                                }),
-
-                      );
-                    },
+                    onLongPress: () => _showContextMenu(context, playlist),
                   );
                 },
               ),
@@ -195,12 +169,21 @@ class _PlaylistsPageState extends State<PlaylistsPage>
     );
   }
 
+  void _showContextMenu(BuildContext context, Playlist playlist) {
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) =>
+        PlaylistContextDialog(
+            playlistContext: playlist,
+            onDelete: () {
+              setState(() {
+                playlists.remove(playlist);
+              });
+            }));
+  }
   void _openPlaylistPage(BuildContext context, Playlist playlist) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SelectedPlaylistPage(playlistContext: playlist),
-      ),
-    );
+
+    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlist));
   }
 }

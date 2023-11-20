@@ -149,14 +149,18 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     Consumer<PlayerShuffleOrder>(
                       builder: (context, shuffleOrder, child) {
                         return IconButton(
-                          icon: shuffleOrder.after == ShuffleOrder.inOrder ? const Icon(Icons.shuffle) : const Icon(Icons.shuffle_on_outlined),
+                          icon:  shuffleOrder.after == ShuffleOrder.inOrder ? const Icon(Icons.shuffle) : const Icon(Icons.shuffle_on_outlined),
                           onPressed: JustAudioController.instance.toggleShuffle,
                         );
                       },
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.repeat),
-                      onPressed: () {},
+                    Consumer<PlayerRepeat>(
+                      builder: (context, playerRepeat, child) {
+                        return IconButton(
+                          icon: !playerRepeat.repeat ? const Icon(Icons.repeat) : const Icon(Icons.repeat_on_outlined),
+                          onPressed: JustAudioController.instance.toggleRepeat,
+                        );
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.speed),
