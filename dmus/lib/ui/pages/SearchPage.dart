@@ -33,16 +33,6 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       body: Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            controller: _searchController,
-            onChanged: _performSearch,
-            decoration: const InputDecoration(
-              hintText: 'Search...',
-            ),
-          ),
-        ),
         Expanded(
           child: ListView(
             children: [
@@ -50,6 +40,20 @@ class _SearchPageState extends State<SearchPage> {
               ...buildPlaylistDisplay(context),
               ...buildAlbumsDisplay(context),
             ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            controller: _searchController,
+            onChanged: _performSearch,
+            decoration: InputDecoration(
+              hintText: 'Search...',
+              suffixIcon: IconButton(
+                onPressed: _clearSearchbar,
+                icon: const Icon(Icons.clear),
+              ),
+            ),
           ),
         ),
       ],
@@ -102,6 +106,12 @@ class _SearchPageState extends State<SearchPage> {
       for(final i in _albumResults)
         PlaylistListWidget(playlist: i),
     ];
+  }
+
+  void _clearSearchbar(){
+
+    _searchController.clear();
+    _performSearch("");
   }
 
   void _performSearch(String query) {

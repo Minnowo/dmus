@@ -218,8 +218,9 @@ class SelectableDataItem<A> {
 
   final A item;
   bool isSelected;
+  bool isVisible;
 
-  SelectableDataItem(this.item, this.isSelected);
+  SelectableDataItem(this.item, this.isSelected, this.isVisible);
 }
 
 
