@@ -171,4 +171,82 @@ final class TablePlaylist {
       return false;
     }
   }
+
+
+
+  /// Returns all playlists which contain the given songs
+  static Future<List<Playlist>> playlistsWithSongs(List<Song> songs) async {
+
+    String sql = "SELECT ${TablePlaylist.name}.${TablePlaylist.idCol}, ${TablePlaylist.name}.${TablePlaylist.titleCol} FROM ${TablePlaylistSong.name}"
+        " JOIN ${TablePlaylist.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.name}.${TablePlaylist.idCol}"
+        " JOIN ${TableSong.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        " WHERE ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} IN (${songs.map((e) => "?").join(",")})"
+    ;
+
+    var db = await DatabaseController.database;
+
+    var playlistsResult = await db.rawQuery(sql, songs.map((e) => e.id).toList());
+
+    List<Playlist> playlists = [];
+    Set<int> seenId = {};
+
+    for(var e in playlistsResult) {
+
+      int id = e[TablePlaylist.idCol] as int;
+
+      if(seenId.contains(id)) {
+        continue;
+      }
+
+      seenId.add(id);
+
+      Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
+
+      p.songs.addAll(await selectPlaylistSongs(id));
+
+      p.updateDuration();
+
+      playlists.add(p);
+    }
+
+    return playlists;
+  }
+
+  /// Returns all playlists where the title matches the given search terms
+  static Future<List<Playlist>> playlistsWhichMatch(List<String> text) async {
+
+    if(text.isEmpty) {
+      return [];
+    }
+
+    const whereQueryTbl = "LOWER(${TablePlaylist.name}.${TablePlaylist.titleCol}) LIKE '%' || LOWER(?) || '%'"
+    ;
+
+    final sqlWhere = text.map((e) => whereQueryTbl).join(" OR ");
+
+    var db = await DatabaseController.database;
+
+    String sql = "SELECT * FROM ${TablePlaylist.name}"
+        " WHERE $sqlWhere"
+    ;
+
+    var playlistsResult = await db.rawQuery(sql, text);
+
+    List<Playlist> playlists = [];
+
+    for(var e in playlistsResult) {
+
+      int id = e[TablePlaylist.idCol] as int;
+
+      Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
+
+      p.songs.addAll(await selectPlaylistSongs(id));
+
+      p.updateDuration();
+
+      playlists.add(p);
+    }
+
+    return playlists;
+  }
 }

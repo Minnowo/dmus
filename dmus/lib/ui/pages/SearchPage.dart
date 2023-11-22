@@ -106,12 +106,32 @@ class _SearchPageState extends State<SearchPage> {
 
   void _performSearch(String query) {
 
-    logging.info("Searched for $query");
+    if(query.isEmpty) {
+      _songResults.clear();
+      _playlistResults.clear();
+      _albumResults.clear();
+      setState(() { });
+      return;
+    }
 
-    SearchHandler.searchForSongs(query).then((value){
+    SearchHandler.searchForText(query).then((value){
 
       _songResults.clear();
-      _songResults.addAll(value);
+      _playlistResults.clear();
+      _albumResults.clear();
+
+      for(final i in value){
+        logging.info(i);
+        switch(i.entityType) {
+
+          case EntityType.song:
+            _songResults.add(i as Song);
+          case EntityType.playlist:
+            _playlistResults.add(i as Playlist);
+          case EntityType.album:
+          _albumResults.add(i as Album);
+        }
+      }
 
       setState(() { });
     });
