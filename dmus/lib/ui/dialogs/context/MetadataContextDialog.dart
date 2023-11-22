@@ -1,6 +1,7 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/dialogs/form/MetadataSearchForm.dart';
+import 'package:dmus/ui/pages/EditMetadataPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
@@ -26,6 +27,10 @@ class MetadataContextDialog extends StatelessWidget {
             title: Text(DemoLocalizations.of(context).editMetadata),
             onTap: () {
 
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => EditMetadataPage(entity: songContext)))
+                  .then((value) {
+                logging.info("=wuu================== $value ${value.runtimeType}");
+              });
             },
           ),
           ListTile(

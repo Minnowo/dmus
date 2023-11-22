@@ -22,7 +22,7 @@ class _SongPickerState extends State<SongPicker> {
 
   List<SelectableDataItem<Song>> songs = [];
 
-  final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _filterController = TextEditingController();
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class _SongPickerState extends State<SongPicker> {
               padding: const EdgeInsets.all(16.0),
               child:
               TextField(
-                controller: _searchController,
+                controller: _filterController,
                 onChanged: _filter,
                 decoration: InputDecoration(
                   hintText: 'Filter Name...',
@@ -110,7 +110,7 @@ class _SongPickerState extends State<SongPicker> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton:  Padding(
-            padding: EdgeInsets.only(bottom: 24 + 16 * 2),
+            padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
             child: FloatingActionButton(
               onPressed: finishSelection,
               child: const Icon(Icons.save),

@@ -5,6 +5,7 @@ import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,23 @@ class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
 
   Future<void> refreshMetadata(BuildContext context) async {
+
+    popNavigatorSafe(context);
+
+    final r = await showDialog(
+        context: context,
+        builder: (ctx) => const ConfirmDestructiveAction(
+            promptText: "Are you sure you want to do a full metadata refresh?",
+            yesText: "Refresh Metadata",
+            noText: "Cancel",
+            yesTextColor: Colors.red,
+            noTextColor:  null
+        )
+    );
+
+    if(r == null || !r) {
+      return;
+    }
 
     await ImportController.reimportAll();
 
