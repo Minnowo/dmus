@@ -1,4 +1,5 @@
 
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -21,6 +22,16 @@ final class TablePlaylist {
   static const String name = "tbl_playlist";
   static const String idCol = "id";
   static const String titleCol = "title";
+
+  static const int likedPlaylistId = -1;
+  static const String likedPlaylistName = "Favorites";
+
+  static Future<void> generateLikesPlaylist() async {
+
+    final db = await DatabaseController.database;
+
+    await db.rawInsert("INSERT OR IGNORE INTO ${TablePlaylist.name}($idCol, $titleCol) VALUES (?, ?)", [likedPlaylistId, likedPlaylistName]);
+  }
 
   
   /// Inserts a new playlist into the database
@@ -129,6 +140,13 @@ final class TablePlaylist {
 
       int id = e[TablePlaylist.idCol] as int;
 
+      final _ = MyDataEntityCache.getFromCache(id);
+
+      if(_ != null && _ is Playlist) {
+        playlists.add(_);
+        continue;
+      }
+
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
@@ -136,10 +154,13 @@ final class TablePlaylist {
       p.updateDuration();
 
       playlists.add(p);
+
+      MyDataEntityCache.updateCache(p);
     }
 
     return playlists;
   }
+
 
   /// Deletes a playlist from the database
   ///
@@ -173,7 +194,6 @@ final class TablePlaylist {
   }
 
 
-
   /// Returns all playlists which contain the given songs
   static Future<List<Playlist>> playlistsWithSongs(List<Song> songs) async {
 
@@ -200,6 +220,13 @@ final class TablePlaylist {
 
       seenId.add(id);
 
+      final _ = MyDataEntityCache.getFromCache(id);
+
+      if(_ != null && _ is Playlist) {
+        playlists.add(_);
+        continue;
+      }
+
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
@@ -207,10 +234,13 @@ final class TablePlaylist {
       p.updateDuration();
 
       playlists.add(p);
+
+      MyDataEntityCache.updateCache(p);
     }
 
     return playlists;
   }
+
 
   /// Returns all playlists where the title matches the given search terms
   static Future<List<Playlist>> playlistsWhichMatch(List<String> text) async {
@@ -238,6 +268,13 @@ final class TablePlaylist {
 
       int id = e[TablePlaylist.idCol] as int;
 
+      final _ = MyDataEntityCache.getFromCache(id);
+
+      if(_ != null && _ is Playlist) {
+        playlists.add(_);
+        continue;
+      }
+
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
@@ -245,6 +282,8 @@ final class TablePlaylist {
       p.updateDuration();
 
       playlists.add(p);
+
+      MyDataEntityCache.updateCache(p);
     }
 
     return playlists;

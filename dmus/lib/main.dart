@@ -6,6 +6,7 @@ import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
@@ -39,7 +40,9 @@ Future<void> main() async {
   final Locale myLocale = Locale(Platform.localeName);
   await LocalizationMapper.load(myLocale);
 
-  DatabaseController.database.then((value) => logging.finest("database ready"));
+  DatabaseController.database.then((value) {
+    logging.finest("database ready");
+  });
 
   runApp(const DMUSApp());
 }

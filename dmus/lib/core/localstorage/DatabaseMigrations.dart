@@ -68,7 +68,8 @@ final class DatabaseMigrations {
 
     await db.execute('''
     CREATE TABLE $TBL_LIKES (
-        $SONG_ID INTEGER PRIMARY KEY
+        $SONG_ID INTEGER PRIMARY KEY,
+        liked_at DATETIME DEFAULT CURRENT_TIMESTAMP 
     ) 
     ''');
 

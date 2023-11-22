@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/localstorage/dbimpl/TableLikes.dart';
 import '../dialogs/Util.dart';
 import '../dialogs/context/PlaylistContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
@@ -72,14 +73,15 @@ class _PlaylistsPageState extends State<PlaylistsPage>
       ImportController.onPlaylistDeleted.listen(_onPlaylistDeleted),
     ];
 
-    TablePlaylist.selectAll().then((value) {
+    TableLikes.reGenerateLikedPlaylist()
+        .then((e) => TablePlaylist.selectAll().then((value) {
 
       setState(() {
         playlists.clear();
         playlists.addAll(value);
       });
 
-    });
+    }));
   }
 
 

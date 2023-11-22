@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:dmus/core/localstorage/DatabaseMigrations.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';

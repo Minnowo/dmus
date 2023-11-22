@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
@@ -91,6 +92,12 @@ final class TableSong {
   /// Returns Song
   static Future<Song?> selectFromId(int songId) async {
 
+    final i = MyDataEntityCache.getFromCache(songId);
+
+    if(i != null && i is Song) {
+      return i;
+    }
+
     var db = await DatabaseController.database;
 
     const String sql = "SELECT * FROM ${TableSong.name}"
@@ -154,6 +161,8 @@ final class TableSong {
     Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
 
     s.setPictureCacheKey(e[TableFMetadata.artCacheKeyCol] as Uint8List?);
+
+    MyDataEntityCache.updateCache(s);
 
     return s;
   }
