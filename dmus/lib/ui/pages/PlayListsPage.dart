@@ -59,6 +59,8 @@ class _PlaylistsPageState extends State<PlaylistsPage>
         return;
       }
     }
+
+    _onPlaylistCreated(p);
   }
 
 

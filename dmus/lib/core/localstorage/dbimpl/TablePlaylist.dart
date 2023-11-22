@@ -26,6 +26,8 @@ final class TablePlaylist {
   static const int likedPlaylistId = -1;
   static const String likedPlaylistName = "Favorites";
 
+
+  /// Creates the favorites playlist or does nothing
   static Future<void> generateLikesPlaylist() async {
 
     final db = await DatabaseController.database;

@@ -60,11 +60,21 @@ final class TablePlaylistSong {
 
 
 
+  static Future<void> removeSongFromPlaylist(int playlistId, int songId) async {
+
+    var db = await DatabaseController.database;
+
+    await db.delete(
+        TablePlaylistSong.name,
+        where: "${TablePlaylistSong.playlistIdCol} = ? AND ${TablePlaylistSong.songIdCol} = ?",
+        whereArgs: [playlistId, songId]
+    );
+  }
   static Future<void> appendSongToPlaylist(int playlistId, int songId) async {
 
     var db = await DatabaseController.database;
 
-    const sql = "SELECT index FROM ${TablePlaylistSong.name} WHERE ${TablePlaylistSong.playlistIdCol} = ? ORDER BY ${TablePlaylistSong.songIndexCol} DESC LIMIT 1";
+    const sql = "SELECT song_index FROM ${TablePlaylistSong.name} WHERE ${TablePlaylistSong.playlistIdCol} = ? ORDER BY ${TablePlaylistSong.songIndexCol} DESC LIMIT 1";
 
     final lastIndex = await db.rawQuery(sql, [songId]);
 
@@ -77,8 +87,8 @@ final class TablePlaylistSong {
     }
 
     await db.insert(name, {
-      playlistIdCol: playlistIdCol,
-      songIdCol: songIdCol,
+      playlistIdCol: playlistId,
+      songIdCol: songId,
       songIndexCol: index
     });
   }

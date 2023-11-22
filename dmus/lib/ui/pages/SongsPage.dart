@@ -46,11 +46,15 @@ class _SongsPageState extends  State<SongsPage> {
     });
   }
 
-  void _onSongDeleted(Song s) {
+  void _onSongDeletedId(int s) {
 
     setState(() {
-      songs.removeWhere((e) => e.id == s.id);
+      songs.removeWhere((e) => e.id == s);
     });
+  }
+
+  void _onSongDeleted(Song s) {
+    _onSongDeletedId(s.id);
   }
 
   @override
@@ -60,7 +64,8 @@ class _SongsPageState extends  State<SongsPage> {
 
     _subscriptions = [
       ImportController.onSongImported.listen(_onSongImported),
-      ImportController.onSongDeleted.listen(_onSongDeleted)
+      ImportController.onSongDeleted.listen(_onSongDeleted),
+      ImportController.onSongDeletedId.listen(_onSongDeletedId)
     ];
 
     TableSong.selectAllWithMetadata().then( (value) {

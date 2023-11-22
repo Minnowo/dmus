@@ -216,12 +216,15 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
 
   void _onPlaylistUpdated(Playlist playlist) {
+    if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onPlaylistCreated(Playlist playlist) {
+    if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onSongImported(Song s) {
+    if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration));
   }
   void _onSomethingWentWrong(String s) {

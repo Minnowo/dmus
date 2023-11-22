@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dmus/core/cloudstorage/CloudStorageDownload.dart';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +19,11 @@ import '../pages/cloud/registerPage.dart';
 class SettingsDrawer extends StatelessWidget {
   const SettingsDrawer({super.key});
 
+  Future<void> refreshMetadata(BuildContext context) async {
+
+    await ImportController.reimportAll();
+
+  }
 
   Future<void> backupDatabase(BuildContext context) async {
 
@@ -105,7 +111,7 @@ class SettingsDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.refresh),
             title: const Text("Refresh Metadata"),
-            onTap: () {},
+            onTap: () => refreshMetadata(context),
           ),
           ListTile(
             leading: const Icon(Icons.backup),

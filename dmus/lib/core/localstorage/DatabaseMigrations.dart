@@ -69,7 +69,8 @@ final class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_LIKES (
         $SONG_ID INTEGER PRIMARY KEY,
-        liked_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        liked_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
     ) 
     ''');
 
@@ -78,7 +79,8 @@ final class DatabaseMigrations {
     await db.execute('''
     CREATE TABLE $TBL_HISTORY (
         $SONG_ID INTEGER,
-        played_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        played_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
     ) 
     ''');
 

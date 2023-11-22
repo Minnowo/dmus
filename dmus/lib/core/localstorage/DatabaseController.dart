@@ -35,6 +35,10 @@ final class DatabaseController {
   /// database instance getter, initalizes the database on first call
   static Future<Database> get database async {
 
+    if(_database != null && !_database!.isOpen) {
+      _database = null;
+    }
+
     _database ??= await _initDatabase();
 
     return _database!;

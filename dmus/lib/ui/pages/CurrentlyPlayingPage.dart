@@ -122,9 +122,9 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                               songContext.liked = !songContext.liked;
 
                               if (songContext.liked) {
-                                TableLikes.markSongLiked(songContext.id);
+                                TableLikes.markSongLiked(songContext);
                               } else {
-                                TableLikes.markSongNotLiked(songContext.id);
+                                TableLikes.markSongNotLiked(songContext);
                               }
 
                               setState(() { });

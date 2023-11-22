@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 
 import '../Util.dart';
@@ -19,10 +20,14 @@ final class ImportController {
   ImportController._();
 
   static int _importCount = 0;
+  static bool _supressSnackbars = false;
 
 
   /// A pub for when an import has completed for a song
   static final _songImportedController = StreamController<Song>.broadcast();
+
+  /// A pub for when a song is deleted
+  static final _songDeletedIdController = StreamController<int>.broadcast();
 
   /// A pub for when a song is deleted
   static final _songDeletedController = StreamController<Song>.broadcast();
@@ -39,6 +44,15 @@ final class ImportController {
   /// A pub for when the albums have been rebuilt
   static final _albumsRebuiltController = StreamController<void>.broadcast();
 
+
+  static bool get reduceSnackBars {
+    return _supressSnackbars;
+  }
+
+  /// A pub for when a song was deleted with only the id known
+  static Stream<int> get onSongDeletedId {
+    return _songDeletedIdController.stream;
+  }
 
 
   /// A pub for when an import has completed for a song
@@ -77,6 +91,30 @@ final class ImportController {
   }
 
 
+  static Future<void> reimportAll() async {
+
+    final db = await DatabaseController.database;
+
+    final results = await db.query(TableSong.name);
+
+    for(final i in results) {
+
+      final  id = i[TableSong.idCol] as int;
+      final path = i[TableSong.songPathCol] as String;
+
+      final filePath = File(path);
+
+      if(!await filePath.exists()) {
+        MessagePublisher.publishSnackbar(SnackBarData(text: "Song $path does not exist, it will be removed from the app."));
+        await TableSong.deleteSongById(id);
+        _songDeletedIdController.add(id);
+        continue;
+      }
+
+      await importSong(filePath);
+    }
+
+  }
 
   /// Finish importing and build the album cache
   static Future<void> endImports() async {
@@ -138,11 +176,20 @@ final class ImportController {
   /// This sends out events accordingly
   static Future<void> importSongs(List<File> files) async {
 
+    if(files.length > 3) {
+      MessagePublisher.publishSnackbar(SnackBarData(text: "Importing ${files.length} songs..."));
+      _supressSnackbars = true;
+    }
+
     for(var f in files) {
       await ImportController.importSong(f);
     }
 
     await endImports();
+
+    if(files.length > 3) {
+      _supressSnackbars = false;
+    }
   }
 
 
@@ -263,5 +310,13 @@ final class ImportController {
     _playlistUpdatedController.add(pl);
 
     return pl;
+  }
+
+
+  static Future<void> pubLikedPlaylistUpdated(Playlist p) async {
+
+    _supressSnackbars = true;
+    _playlistUpdatedController.add(p);
+    _supressSnackbars = false;
   }
 }
