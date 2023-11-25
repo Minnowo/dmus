@@ -59,8 +59,17 @@ final class DatabaseMigrations {
     const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
     const String TBL_LIKES = "tbl_likes";
     const String TBL_HISTORY = "tbl_history";
+    const String TBL_BLACKLISTS = "tbl_blacklist";
 
     await db.execute("PRAGMA foreign_keys = ON");
+
+    logging.config("Creating $TBL_BLACKLISTS");
+
+    await db.execute('''
+    CREATE TABLE $TBL_BLACKLISTS (
+        song_path VARCHAR UNIQUE NOT NULL
+    ) 
+    ''');
 
     const String SONG_ID = "song_id";
 

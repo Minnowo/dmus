@@ -2,6 +2,7 @@ import 'package:dmus/core/audio/AudioMetadata.dart';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
@@ -36,6 +37,11 @@ class SongContextDialog extends StatelessWidget {
           ListTile(
             title: const Text("Delete Song"),
             onTap: () => deleteSong(songContext,context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: const Text("Remove and block from reimport"),
+            onTap: () => removeAndBlock(songContext,context),
           ),
           ListTile(
             title: Text(DemoLocalizations.of(context).close),
@@ -73,6 +79,29 @@ class SongContextDialog extends StatelessWidget {
   }
 
 
+  Future<void> removeAndBlock(Song s,BuildContext context) async {
+
+    popNavigatorSafe(context);
+
+    bool? result = await showDialog(
+        context: context,
+        builder: (ctx) => const ConfirmDestructiveAction(
+          promptText: "Are you sture you want to block this song from the app? It will be skipped when importing again. You can remove it from the blacklist under settings.",
+          yesText: "Block",
+          noText: "Keep",
+          yesTextColor: Colors.red,
+          noTextColor: null,
+        )
+    );
+
+    if(result == null || !result){
+      return;
+    }
+
+    await ImportController.blockSong(s);
+  }
+
+
   Future<void> deleteSong(Song s,BuildContext context) async {
 
     popNavigatorSafe(context);
@@ -93,8 +122,6 @@ class SongContextDialog extends StatelessWidget {
     }
 
     await ImportController.deleteSong(s);
-
-    ExternalStorageModel.deleteFileFromExternalStorage(s.file.path);
 
     MessagePublisher.publishSnackbar(SnackBarData(text: "Song ${s.title} has been removed from the app"));
   }

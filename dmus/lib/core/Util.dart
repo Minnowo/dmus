@@ -223,25 +223,25 @@ String filenameWithoutExtension(String path){
 /// Asks or gets permission to manage external storage
 Future<bool> getExternalStoragePermission() async {
 
-  final c = await Permission.audio.isGranted;
-
-  if(!c) {
-    await Permission.audio.request();
-
-    if (!await Permission.audio.isGranted) {
-      logging.warning("No audio permissions");
-    }
-  }
-
-  final b = await Permission.storage.isGranted;
-
-  if(!b) {
-    await Permission.storage.request();
-
-    if (!await Permission.storage.isGranted) {
-      logging.warning("No storage permissions");
-    }
-  }
+  // final c = await Permission.audio.isGranted;
+  //
+  // if(!c) {
+  //   await Permission.audio.request();
+  //
+  //   if (!await Permission.audio.isGranted) {
+  //     logging.warning("No audio permissions");
+  //   }
+  // }
+  //
+  // final b = await Permission.storage.isGranted;
+  //
+  // if(!b) {
+  //   await Permission.storage.request();
+  //
+  //   if (!await Permission.storage.isGranted) {
+  //     logging.warning("No storage permissions");
+  //   }
+  // }
 
   final a = await Permission.manageExternalStorage.isGranted;
 

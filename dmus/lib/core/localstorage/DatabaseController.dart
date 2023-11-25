@@ -1,6 +1,7 @@
 
 import 'dart:io';
 import 'package:dmus/core/localstorage/DatabaseMigrations.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
@@ -88,6 +89,7 @@ final class DatabaseController {
   /// On open enable foreign keys
   static Future<void> _onOpen(Database db) async {
     await db.execute("PRAGMA foreign_keys = ON");
+    await TableBlacklist.loadCache(db);
   }
 
 

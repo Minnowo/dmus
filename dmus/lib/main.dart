@@ -35,14 +35,12 @@ Future<void> main() async {
 
   await initLogging(Level.ALL);
 
+  await DatabaseController.database;
+
   await Firebase.initializeApp();
   
   final Locale myLocale = Locale(Platform.localeName);
   await LocalizationMapper.load(myLocale);
-
-  DatabaseController.database.then((value) {
-    logging.finest("database ready");
-  });
 
   runApp(const DMUSApp());
 }

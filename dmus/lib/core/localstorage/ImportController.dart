@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
 import 'dbimpl/TablePlaylist.dart';
 import 'dbimpl/TableSong.dart';
+import 'dbimpl/TableWatchDirectory.dart';
 
 
 
@@ -20,7 +22,7 @@ final class ImportController {
   ImportController._();
 
   static int _importCount = 0;
-  static bool _supressSnackbars = false;
+  static bool _supressSnackBars = false;
 
 
   /// A pub for when an import has completed for a song
@@ -46,7 +48,7 @@ final class ImportController {
 
 
   static bool get reduceSnackBars {
-    return _supressSnackbars;
+    return _supressSnackBars;
   }
 
   /// A pub for when a song was deleted with only the id known
@@ -91,6 +93,27 @@ final class ImportController {
   }
 
 
+  static Future<void> checkWatchFolders() async {
+
+    final watchDirs = await TableWatchDirectory.selectAll();
+
+    final c = await getExternalStoragePermission();
+
+    if(!c) {
+      logging.warning("No external storage permission! Trying to check watch dirs anyway!");
+    }
+
+    for(final d in watchDirs) {
+
+      Directory dd = Directory(d.directoryPath);
+
+      if(await dd.exists()) {
+        await importSongFromDirectory(dd, d.isRecursive);
+      }
+    }
+  }
+
+
   static Future<void> reimportAll() async {
 
     final db = await DatabaseController.database;
@@ -128,11 +151,20 @@ final class ImportController {
     _importCount = 0;
   }
 
+
+  /// Deletes the song from the database
   static Future<void> deleteSong(Song s) async {
 
     await TableSong.deleteSongById(s.id);
 
     _songDeletedController.add(s);
+  }
+
+
+  /// Adds the song path to the blacklist and deletes it from the database
+  static Future<void> blockSong(Song s) async {
+    await TableBlacklist.addToBlacklist(s.file.path);
+    await deleteSong(s);
   }
 
 
@@ -178,7 +210,7 @@ final class ImportController {
 
     if(files.length > 3) {
       MessagePublisher.publishSnackbar(SnackBarData(text: "Importing ${files.length} songs..."));
-      _supressSnackbars = true;
+      _supressSnackBars = true;
     }
 
     for(var f in files) {
@@ -188,7 +220,7 @@ final class ImportController {
     await endImports();
 
     if(files.length > 3) {
-      _supressSnackbars = false;
+      _supressSnackBars = false;
     }
   }
 
@@ -210,6 +242,7 @@ final class ImportController {
 
       var files = await dir.list(recursive: isRecursive)
           .where((event) => musicFileExtensions.contains(fileExtensionNoDot(event.path).toLowerCase()))
+          .where((event) => !TableBlacklist.isBlacklisted(event.path))
           .map((event) => File(event.path))
           .toList();
 
@@ -315,8 +348,8 @@ final class ImportController {
 
   static Future<void> pubLikedPlaylistUpdated(Playlist p) async {
 
-    _supressSnackbars = true;
+    _supressSnackBars = true;
     _playlistUpdatedController.add(p);
-    _supressSnackbars = false;
+    _supressSnackBars = false;
   }
 }
