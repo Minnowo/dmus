@@ -184,13 +184,6 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      JustAudioController.instance.stop();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(

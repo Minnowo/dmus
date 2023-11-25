@@ -43,6 +43,7 @@ final class JustAudioController extends BaseAudioHandler {
 
   final _player = ja.AudioPlayer();
   final PlayQueue _playQueue = PlayQueue();
+  late final AudioSession _audioSession;
 
   /// Get the current queue
   UnmodifiableListView<Song> get queueView{
@@ -67,7 +68,7 @@ final class JustAudioController extends BaseAudioHandler {
 
     _isInit = true;
 
-    final session = await AudioSession.instance;
+    _audioSession = await AudioSession.instance;
 
     await AudioService.init(
       builder: () => instance,
@@ -78,7 +79,8 @@ final class JustAudioController extends BaseAudioHandler {
       ),
     );
 
-    await session.configure(const AudioSessionConfiguration.music());
+
+    await _audioSession.configure(const AudioSessionConfiguration.music());
 
     _positionStream.addStream(_player.positionStream.map((event) => PlayerPosition(position: event, duration: _player.duration)));
     _durationStream.addStream(_player.durationStream.map((event) => PlayerDuration(position: _player.position, duration: event)));
@@ -140,9 +142,6 @@ final class JustAudioController extends BaseAudioHandler {
           MediaControl.skipToPrevious,
           if(_player.playing) MediaControl.pause else MediaControl.play,
           MediaControl.skipToNext,
-
-
-          //MediaControl.stop
         ],
         systemActions: const {
           MediaAction.seek,
@@ -156,7 +155,6 @@ final class JustAudioController extends BaseAudioHandler {
           ja.ProcessingState.buffering: AudioProcessingState.buffering,
           ja.ProcessingState.ready: AudioProcessingState.ready,
           ja.ProcessingState.completed: AudioProcessingState.completed,
-
         }[_player.processingState]!,
         playing: _player.playing,
         updatePosition: _player.position,
@@ -334,10 +332,14 @@ final class JustAudioController extends BaseAudioHandler {
       return MessagePublisher.publishSomethingWentWrong("Cannot play ${song.file} because it does not exist!");
     }
 
-    _firePlayerSong(song);
-    mediaItem.add(song.toMediaItem());
-    await _player.setAudioSource(ja.AudioSource.file(song.file.path));
-    await play();
+    if(await _audioSession.setActive(true)) {
+      _firePlayerSong(song);
+      mediaItem.add(song.toMediaItem());
+      await _player.setAudioSource(ja.AudioSource.file(song.file.path));
+      await play();
+    } else {
+      MessagePublisher.publishSomethingWentWrong("Cannot play audio!");
+    }
   }
 
   Future<void> playSongAt(int index) async {
