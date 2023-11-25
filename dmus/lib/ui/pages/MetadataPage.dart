@@ -120,6 +120,10 @@ class MetadataPage extends StatelessWidget {
                     DataCell(Text(mimeType ?? "N/A")),
                   ]),
                   DataRow(cells: [
+                    const DataCell(Text('File Path')),
+                    DataCell(Text(song.file.path)),
+                  ]),
+                  DataRow(cells: [
                     const DataCell(Text('Year')),
                     DataCell(Text(year == null ? "N/A" : year.toString())),
                   ]),
