@@ -4,8 +4,8 @@ import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path_provider/path_provider.dart';
 
+import 'package:path/path.dart' as Path;
 import '../Util.dart';
 import '../localstorage/ImportController.dart';
 
@@ -24,13 +24,25 @@ final class CloudStorageDownloadHelper {
     }
 
     try {
-      final downloadsDirectory = await getExternalStorageDirectory();
+      final String? downloadsPath = await getDownloadPath();
 
-      if (downloadsDirectory == null) {
+      if (downloadsPath == null) {
         logging.warning( 'External storage directory is null. Make sure external storage access is granted.');
         MessagePublisher.publishSomethingWentWrong("External storage folder is null!");
         return;
       }
+
+      final downloadsDirectory = Directory(Path.join(downloadsPath, "dmus"));
+
+      await downloadsDirectory.create();
+
+      if(!await downloadsDirectory.exists()) {
+        logging.warning( 'Cannot create downloads folder!! $downloadsDirectory');
+        MessagePublisher.publishSomethingWentWrong("Cannot create downloads folder $downloadsDirectory");
+        return;
+      }
+
+      logging.info("Downloads directory is $downloadsDirectory ==============================");
 
       MessagePublisher.publishSnackbar(const SnackBarData(text: "Downloading songs...", duration: Duration(seconds: 2)));
 
@@ -71,6 +83,7 @@ final class CloudStorageDownloadHelper {
 
         if (await localFile.exists()) {
           logging.info("Skipping download of $localFile since it already exists");
+          await ImportController.importSong(localFile);
           continue;
         }
 

@@ -176,6 +176,9 @@ final class ImportController {
   static Future<void> importSong(File path) async {
 
     // don't need to check if it exists because the insertSong function does
+    if(TableBlacklist.isBlacklisted(path.path)) {
+      return;
+    }
 
     logging.info("Importing $path...");
 
