@@ -5,6 +5,7 @@ import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -19,7 +20,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    bool dontShow = context.select((PlayerStateExtended value) => !value.paused && !value.playing);
+    bool dontShow = context.select((PlayerStateExtended value) => !value.paused && !value.playing || value.processingState == ProcessingState.completed);
 
 
     return Visibility(
