@@ -13,24 +13,23 @@ import '../Util.dart';
 import '../picker/ConfirmDestructiveAction.dart';
 
 class PlaylistContextDialog extends StatelessWidget {
-
   final Playlist playlistContext;
 
-  const PlaylistContextDialog({super.key, required this.playlistContext});
+  const PlaylistContextDialog({Key? key, required this.playlistContext})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
+    return Container(
+      child: Wrap(
         children: <Widget>[
           ListTile(
             title: Text(LocalizationMapper.current.viewDetails),
             onTap: () => _showPlaylistDetails(context),
           ),
           ListTile(
-              title: Text(LocalizationMapper.current.playNow),
-              onTap: () => _playPlaylist(context, playlistContext)
+            title: Text(LocalizationMapper.current.playNow),
+            onTap: () => _playPlaylist(context, playlistContext),
           ),
           ListTile(
             title: Text(LocalizationMapper.current.queueAll),
@@ -41,7 +40,7 @@ class PlaylistContextDialog extends StatelessWidget {
             onTap: () => _editPlaylist(context, playlistContext),
           ),
           ListTile(
-            title: const Text("Delete Playlists"),
+            title: const Text("Delete Playlist"),
             onTap: () => _deletePlaylist(context, playlistContext),
           ),
           ListTile(
@@ -54,57 +53,60 @@ class PlaylistContextDialog extends StatelessWidget {
   }
 
   static Future<T?> showAsDialog<T>(BuildContext context, Playlist p) {
-
-    return showDialog(context: context, builder: (ctx) => PlaylistContextDialog(playlistContext: p));
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) =>
+          PlaylistContextDialog(playlistContext: p),
+    );
   }
 
   Future<void> _playPlaylist(BuildContext context, Playlist p) async {
-
     popNavigatorSafe(context);
     await JustAudioController.instance.stopAndEmptyQueue();
     await JustAudioController.instance.queuePlaylist(playlistContext);
     await JustAudioController.instance.playSongAt(0);
-    await JustAudioController.instance.play();;
+    await JustAudioController.instance.play();
   }
 
   void _queuePlaylist(BuildContext context, Playlist p) {
-
     popNavigatorSafe(context);
     JustAudioController.instance.queuePlaylist(p);
   }
 
   void _editPlaylist(BuildContext context, Playlist p) {
-
     popNavigatorSafe(context);
     editPlaylist(context, p);
   }
 
   void _showPlaylistDetails(BuildContext context) {
-
     popNavigatorSafe(context);
-    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlistContext));
+    animateOpenFromBottom(
+        context, SelectedPlaylistPage(playlistContext: playlistContext));
   }
 
-  Future<void> _deletePlaylist(BuildContext context,Playlist p) async {
-
+  Future<void> _deletePlaylist(BuildContext context, Playlist p) async {
     popNavigatorSafe(context);
 
     bool? result = await showDialog(
-        context: context,
-        builder: (ctx) => const ConfirmDestructiveAction(
-          promptText: "Are you sure you want to delete this playlist? This action cannot be undone.",
-          yesText: "Delete Playlist?",
-          yesTextColor: Colors.red,
-          noText: "Cancel",
-          noTextColor: null,
-        ));
+      context: context,
+      builder: (ctx) => const ConfirmDestructiveAction(
+        promptText:
+        "Are you sure you want to delete this playlist? This action cannot be undone.",
+        yesText: "Delete Playlist?",
+        yesTextColor: Colors.red,
+        noText: "Cancel",
+        noTextColor: null,
+      ),
+    );
 
-    if(result == null || !result) {
+    if (result == null || !result) {
       return;
     }
 
     await ImportController.deletePlaylist(p);
 
-    MessagePublisher.publishSnackbar(SnackBarData(text: "Playlist ${p.title} has been removed from the app"));
+    MessagePublisher.publishSnackbar(
+      SnackBarData(text: "Playlist ${p.title} has been removed from the app"),
+    );
   }
 }
