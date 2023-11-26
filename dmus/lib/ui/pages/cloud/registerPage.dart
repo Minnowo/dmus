@@ -73,7 +73,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
         _snackBarColor = Colors.green; // Set the color for successful registration
         _showSnackBar('Registration successful', _snackBarColor);
         popNavigatorSafe(context);
-        popNavigatorSafe(context);
+
       }
     } catch (e) {
       _showSnackBar('Registration failed. Error: $e', _snackBarColor);

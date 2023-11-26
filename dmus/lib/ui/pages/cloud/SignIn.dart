@@ -64,7 +64,7 @@ class _SignInWidgetState extends State<SignInWidget> {
         _showSnackBar("Signed in: ${userCredential.user?.email}", Colors.green);
 
         popNavigatorSafe(context);
-        popNavigatorSafe(context);
+
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
