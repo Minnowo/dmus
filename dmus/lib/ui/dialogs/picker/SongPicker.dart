@@ -4,7 +4,7 @@
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _SongPickerState extends State<SongPicker> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(DemoLocalizations.of(context).pickSongs),
+          title: Text(LocalizationMapper.current.pickSongs),
           centerTitle: true,
           actions: [
             IconButton(

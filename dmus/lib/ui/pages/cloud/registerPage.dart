@@ -1,5 +1,5 @@
 
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -96,21 +96,21 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  errorText: _isEmailValid ? null : DemoLocalizations.of(context).enterValidEmail,
+                  errorText: _isEmailValid ? null : LocalizationMapper.current.enterValidEmail,
                 ),
               ),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  errorText: _isPasswordValid ? null : DemoLocalizations.of(context).minPasswordLen,
+                  errorText: _isPasswordValid ? null : LocalizationMapper.current.minPasswordLen,
                 ),
                 obscureText: true,
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _register,
-                child: Text(DemoLocalizations.of(context).register),
+                child: Text(LocalizationMapper.current.register),
               ),
             ],
           ),

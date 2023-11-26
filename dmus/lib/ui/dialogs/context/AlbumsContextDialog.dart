@@ -1,5 +1,5 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
@@ -21,18 +21,18 @@ class AlbumsContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: Text(DemoLocalizations.of(context).viewDetails),
+            title: Text(LocalizationMapper.current.viewDetails),
             onTap: () => _showPlaylistDetails(context),
           ),
           ListTile(
-              title: Text(DemoLocalizations.of(context).playNow),
+              title: Text(LocalizationMapper.current.playNow),
               onTap: () => playPlaylist(context, playlistContext) ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).queueAll),
+            title: Text(LocalizationMapper.current.queueAll),
             onTap: () => queuePlaylist(context, playlistContext),
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).close),
+            title: Text(LocalizationMapper.current.close),
             onTap: () => popNavigatorSafe(context),
           ),
         ],

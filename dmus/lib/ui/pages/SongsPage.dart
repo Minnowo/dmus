@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -135,7 +135,7 @@ class _SongsPageState extends  State<SongsPage> {
 
             if(songs.isEmpty)
               Center(
-                child: Text(DemoLocalizations.of(context).noSongs,
+                child: Text(LocalizationMapper.current.noSongs,
                     textAlign: TextAlign.center
                 ),
               )

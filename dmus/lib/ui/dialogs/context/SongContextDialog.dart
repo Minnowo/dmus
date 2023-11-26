@@ -1,3 +1,4 @@
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -11,7 +12,6 @@ import '../../../core/audio/AudioMetadata.dart';
 import '../../Util.dart';
 import '../../dialogs/picker/ConfirmDestructiveAction.dart';
 import '../../pages/MetadataPage.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
 
 class SongContextDialog extends StatelessWidget {
   final Song songContext;
@@ -29,7 +29,7 @@ class SongContextDialog extends StatelessWidget {
             onTap: () => addQueue(songContext, context),
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).viewDetails),
+            title: Text(LocalizationMapper.current.viewDetails),
             onTap: () => showMetadataPage(context),
           ),
           ListTile(
@@ -42,7 +42,7 @@ class SongContextDialog extends StatelessWidget {
             onTap: () => removeAndBlock(songContext, context),
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).close),
+            title: Text(LocalizationMapper.current.close),
             onTap: () {
               Navigator.pop(context);
             },

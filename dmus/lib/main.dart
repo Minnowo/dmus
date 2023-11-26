@@ -210,18 +210,18 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   void _onPlaylistUpdated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onPlaylistCreated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
   void _onSongImported(Song s) {
     if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration));
   }
   void _onSomethingWentWrong(String s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${DemoLocalizations.of(context).error} $s", longSnackBarDuration));
+    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.error} $s", longSnackBarDuration));
   }
   void _onShowSnackBar(SnackBarData s) {
     ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));

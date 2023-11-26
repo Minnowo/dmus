@@ -1,6 +1,6 @@
 
 import 'package:dmus/core/data/musicbrainz/SearchAPI.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SearchYesNoPicker.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
 
   String? validateSearch(String? search) {
     if (search == null || search.isEmpty) {
-      return DemoLocalizations.of(context).searchEmpty;
+      return LocalizationMapper.current.searchEmpty;
     }
     return null;
   }
@@ -118,7 +118,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                     child: FutureBuilder(future: searchResults, builder: (context, snapshot) {
 
                       if(snapshot.hasError) {
-                        return Text(DemoLocalizations.of(context).searchError);
+                        return Text(LocalizationMapper.current.searchError);
                       }
 
                       if(snapshot.connectionState != ConnectionState.done || !snapshot.hasData ) {
@@ -126,7 +126,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                       }
 
                       if((snapshot.data?.length ?? 0) <= 0) {
-                        return Text(DemoLocalizations.of(context).noSearchResults);
+                        return Text(LocalizationMapper.current.noSearchResults);
                       }
 
                       final songMetadata = snapshot.data!;
@@ -150,10 +150,10 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                       items: [
                         DropdownMenuItem(
                             value: 0,
-                            child: Text(DemoLocalizations.of(context).releases)),
+                            child: Text(LocalizationMapper.current.releases)),
                         DropdownMenuItem(
                             value: 1,
-                            child: Text(DemoLocalizations.of(context).recordings))
+                            child: Text(LocalizationMapper.current.recordings))
                       ],
                       onChanged:(value) {
 
@@ -176,7 +176,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
             )
         ) ,
       floatingActionButton: FloatingActionButton(
-          tooltip: DemoLocalizations.of(context).search,
+          tooltip: LocalizationMapper.current.search,
           child: const Icon(Icons.save),
           onPressed: performSearch
       ),

@@ -67,7 +67,7 @@ class DemoLocalizations {
 
   final String localeName;
 
-  //Localization getters
+  ///------------------Localization getters------------------///
 
   //main.dart
   String get title {

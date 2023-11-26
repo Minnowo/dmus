@@ -1,7 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +25,19 @@ class PlaylistContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: Text(DemoLocalizations.of(context).viewDetails),
+            title: Text(LocalizationMapper.current.viewDetails),
             onTap: () => _showPlaylistDetails(context),
           ),
           ListTile(
-              title: Text(DemoLocalizations.of(context).playNow),
+              title: Text(LocalizationMapper.current.playNow),
               onTap: () => _playPlaylist(context, playlistContext)
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).queueAll),
+            title: Text(LocalizationMapper.current.queueAll),
             onTap: () => _queuePlaylist(context, playlistContext),
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).editPlaylist),
+            title: Text(LocalizationMapper.current.editPlaylist),
             onTap: () => _editPlaylist(context, playlistContext),
           ),
           ListTile(
@@ -45,7 +45,7 @@ class PlaylistContextDialog extends StatelessWidget {
             onTap: () => _deletePlaylist(context, playlistContext),
           ),
           ListTile(
-            title: Text(DemoLocalizations.of(context).close),
+            title: Text(LocalizationMapper.current.close),
             onTap: () => popNavigatorSafe(context),
           ),
         ],

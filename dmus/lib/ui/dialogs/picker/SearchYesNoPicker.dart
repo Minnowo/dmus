@@ -3,7 +3,7 @@
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/musicbrainz/ResponseData.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return artists.map((e) =>
 
       DataRow(cells: [
-        DataCell(Text(DemoLocalizations.of(context).artist)),
+        DataCell(Text(LocalizationMapper.current.artist)),
         DataCell(Text(e.toString())),
       ])).toList();
   }
@@ -29,7 +29,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return tags.map((e) =>
 
       DataRow(cells: [
-        DataCell(Text(DemoLocalizations.of(context).tag)),
+        DataCell(Text(LocalizationMapper.current.tag)),
         DataCell(Text(e.toString())),
       ])).toList();
   }
@@ -37,7 +37,7 @@ class SearchYesNoPicker extends StatelessWidget {
   List<DataRow> dataRowsForRelease(BuildContext context, ReleaseSearchResult releaseSearch) {
     return [
       DataRow(cells: [
-        DataCell(Text(DemoLocalizations.of(context).releaseTitle)),
+        DataCell(Text(LocalizationMapper.current.releaseTitle)),
         DataCell(Text(releaseSearch.title ?? 'N/A')),
       ]),
 
@@ -125,7 +125,7 @@ class SearchYesNoPicker extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(DemoLocalizations.of(context).searchResult),
+        title: Text(LocalizationMapper.current.searchResult),
         centerTitle: true,
       ),
       body: Column(
@@ -138,8 +138,8 @@ class SearchYesNoPicker extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                   columns: [
-                    DataColumn(label: Text(DemoLocalizations.of(context).property)),
-                    DataColumn(label: Text(DemoLocalizations.of(context).value)),
+                    DataColumn(label: Text(LocalizationMapper.current.property)),
+                    DataColumn(label: Text(LocalizationMapper.current.value)),
                   ],
                   rows: dataRowsForSearch(context)
               ),
@@ -151,10 +151,10 @@ class SearchYesNoPicker extends StatelessWidget {
           children: [
             ElevatedButton(onPressed: (){
               popNavigatorSafeWithArgs(context, true);
-            }, child: Text(DemoLocalizations.of(context).use)),
+            }, child: Text(LocalizationMapper.current.use)),
             ElevatedButton(onPressed: (){
               popNavigatorSafeWithArgs(context, false);
-            }, child: Text(DemoLocalizations.of(context).cancel))
+            }, child: Text(LocalizationMapper.current.cancel))
           ],
         )
       ],

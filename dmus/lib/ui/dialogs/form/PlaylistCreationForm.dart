@@ -3,7 +3,7 @@
 import 'dart:ffi';
 import 'dart:math';
 
-import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SongPicker.dart';
 import 'package:flutter/cupertino.dart';
@@ -113,14 +113,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               Padding(
                   padding: const EdgeInsets.all(pad),
                   child: TextFormField(
-                      decoration: InputDecoration(labelText: DemoLocalizations.of(context).playlistTitle),
+                      decoration: InputDecoration(labelText: LocalizationMapper.current.playlistTitle),
                       controller: _playlistTitleTextController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return DemoLocalizations.of(context).emptyTitleError;
+                          return LocalizationMapper.current.emptyTitleError;
                         }
                         if (value.length > maxTitleLength) {
-                          return "${DemoLocalizations.of(context).titleMaxLengthError} $maxTitleLength";
+                          return "${LocalizationMapper.current.titleMaxLengthError} $maxTitleLength";
                         }
                         return null;
                       }
@@ -132,7 +132,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(DemoLocalizations.of(context).selectedSongsIsEmpty),
+                        Text(LocalizationMapper.current.selectedSongsIsEmpty),
                       ],
                     )
                 )
@@ -191,18 +191,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            tooltip: DemoLocalizations
-                .of(context)
-                .increment,
+            tooltip: LocalizationMapper.current.increment,
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: null,
-            tooltip: DemoLocalizations
-                .of(context)
-                .increment,
+            tooltip: LocalizationMapper.current.increment,
             onPressed: finishPlaylist,
             child: const Icon(Icons.save),
           ),
