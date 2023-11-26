@@ -1,24 +1,28 @@
-
-
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmDestructiveAction extends StatelessWidget {
-
   final String promptText;
   final String yesText;
   final String noText;
   final Color? yesTextColor;
   final Color? noTextColor;
 
-  const ConfirmDestructiveAction({super.key, required this.promptText, required this.yesText, required this.noText,required this.yesTextColor, required this.noTextColor});
+  const ConfirmDestructiveAction({
+    Key? key,
+    required this.promptText,
+    required this.yesText,
+    required this.noText,
+    required this.yesTextColor,
+    required this.noTextColor,
+  }) : super(key: key);
 
-  void _onYesPressed(BuildContext context){
+  void _onYesPressed(BuildContext context) {
     popNavigatorSafeWithArgs(context, true);
   }
 
-  void _onNoPressed(BuildContext context){
+  void _onNoPressed(BuildContext context) {
     popNavigatorSafeWithArgs(context, false);
   }
 
@@ -29,23 +33,23 @@ class ConfirmDestructiveAction extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(promptText),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          const SizedBox(height: 20),
+          Column(
             children: [
               ElevatedButton(
                 onPressed: () => _onYesPressed(context),
-                child: Text(
-                  yesText,
-                  style: TextStyle(color: yesTextColor),
-                ),
+
+                child: Text(yesText,
+                    style: TextStyle(color: yesTextColor)),
+
               ),
+              SizedBox(height: 8), // Adjust spacing between buttons
               ElevatedButton(
                 onPressed: () => _onNoPressed(context),
-                child: Text(
-                  noText,
-                  style: TextStyle(color: noTextColor),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateColor.resolveWith((states) => noTextColor ?? Colors.black),
                 ),
+                child: Text(noText),
               ),
             ],
           ),
@@ -53,7 +57,4 @@ class ConfirmDestructiveAction extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

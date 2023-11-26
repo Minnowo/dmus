@@ -91,8 +91,8 @@ class PlaylistContextDialog extends StatelessWidget {
       context: context,
       builder: (ctx) => const ConfirmDestructiveAction(
         promptText:
-        "Are you sure you want to delete this playlist? This action cannot be undone.",
-        yesText: "Delete Playlist?",
+        "Are you sure you want to delete this playlist?",
+        yesText: "Delete Playlist",
         yesTextColor: Colors.red,
         noText: "Cancel",
         noTextColor: null,
