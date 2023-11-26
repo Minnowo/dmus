@@ -57,5 +57,8 @@
 	"noAlbums": "Nothing is here!\nHit the + in the top right to create an album.",
 	"allSongsDownloaded": "All songs downloaded",
 
-	"noSongs": "Nothing is here!\nHit the + in the top right to import music."
+	"noSongs": "Nothing is here!\nHit the + in the top right to import music.",
+
+	"blacklistPageHelperText": "Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.",
+	"blacklistPageTitle": "Blacklisted Files"
 }

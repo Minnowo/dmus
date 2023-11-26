@@ -430,6 +430,24 @@ class LocalizationMapper {
     );
   }
 
+  String get blacklistPageTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'blacklistPageTitle',
+      desc: 'Blacklisted Files',
+
+    );
+  }
+  String get blacklistPageHelperText {
+    return Intl.message(
+      'placeholder',
+      name: 'blacklistPageHelperText',
+      desc: 'Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.',
+
+    );
+  }
+
+
   String get allSongsDownloaded {
     return Intl.message(
       'placeholder',

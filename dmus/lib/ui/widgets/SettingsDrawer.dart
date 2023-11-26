@@ -6,6 +6,7 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
+import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,12 @@ class SettingsDrawer extends StatelessWidget {
             onTap: () => backupDatabase(context),
           ),
 
+          ListTile(
+            leading: const Icon(Icons.backup),
+            title: const Text("Blacklisted Files"),
+            onTap: () => showBlacklistedFiles(context),
+          ),
+
           const Divider(),
 
           Padding(
@@ -137,6 +144,12 @@ class SettingsDrawer extends StatelessWidget {
     );
   }
 
+
+  Future<void> showBlacklistedFiles(BuildContext context) async {
+
+    popNavigatorSafe(context);
+    await animateOpenFromBottom(context, const BlacklistedFilePage());
+  }
 
   Future<void> showImportDialog(BuildContext context) async {
 

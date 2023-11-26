@@ -85,6 +85,11 @@ bool hasMusicFileExtension(String path){
   return musicFileExtensions.contains(fileExtensionNoDot(path).toLowerCase());
 }
 
+/// File filter which allows all files
+bool alwaysTrueFilter(String path){
+  return true;
+}
+
 
 /// Formats the position time out of the duration time to display to the user
 ///

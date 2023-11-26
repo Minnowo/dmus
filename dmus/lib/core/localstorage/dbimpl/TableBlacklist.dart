@@ -7,7 +7,7 @@ final class TableBlacklist {
 
   final String songPath;
 
-  TableBlacklist.privateConstructor({required this.songPath});
+  TableBlacklist._privateConstructor({required this.songPath});
 
   static const String name = "tbl_blacklist";
   static const String songPathCol = "song_path";
@@ -23,6 +23,12 @@ final class TableBlacklist {
 
     _cache.clear();
     _cache.addAll(f.map((e) => e[songPathCol] as String));
+  }
+
+
+  ///  Gets the list of blacklisted file paths
+  static List<String> selectAll() {
+    return _cache.toList();
   }
 
 
