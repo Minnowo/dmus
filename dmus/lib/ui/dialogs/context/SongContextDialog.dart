@@ -35,7 +35,7 @@ class SongContextDialog extends StatelessWidget {
             onTap: () => showMetadataPage(context),
           ),
           ListTile(
-            title: const Text("Delete Song"),
+            title: const Text("Remove Song"),
             onTap: () => deleteSong(songContext,context),
           ),
           ListTile(
@@ -109,8 +109,8 @@ class SongContextDialog extends StatelessWidget {
     bool? result = await showDialog(
         context: context,
         builder: (ctx) => const ConfirmDestructiveAction(
-          promptText: "Are you sture you want to delete this song from the app? It will NOT be deleted from the file system.",
-          yesText: "Delete",
+          promptText: "Are you sure you want to remove this song from the app?",
+          yesText: "Remove",
           noText: "Keep",
           yesTextColor: Colors.red,
           noTextColor: null,
