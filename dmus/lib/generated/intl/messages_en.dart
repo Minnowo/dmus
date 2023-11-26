@@ -28,6 +28,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "allSongsDownloaded":
             MessageLookupByLibrary.simpleMessage("All songs downloaded"),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
+        "blacklistPageHelperText": MessageLookupByLibrary.simpleMessage(
+            "Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top."),
+        "blacklistPageTitle":
+            MessageLookupByLibrary.simpleMessage("Blacklisted Files"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "createdPlaylist":

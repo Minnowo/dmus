@@ -519,6 +519,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.`
+  String get blacklistPageHelperText {
+    return Intl.message(
+      'Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.',
+      name: 'blacklistPageHelperText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blacklisted Files`
+  String get blacklistPageTitle {
+    return Intl.message(
+      'Blacklisted Files',
+      name: 'blacklistPageTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

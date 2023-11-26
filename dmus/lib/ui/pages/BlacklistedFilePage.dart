@@ -4,13 +4,14 @@ import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/data/DataEntity.dart';
-import '../../l10n/LocalizationMapper.dart';
+
 import '../dialogs/picker/ConfirmDestructiveAction.dart';
 
 class BlacklistedFilePage extends StatefulWidget {
@@ -58,9 +59,7 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
 
             if(_blacklistedFiles.isEmpty)
               Center(
-                child: Text(LocalizationMapper.current.blacklistPageHelperText,
-                    textAlign: TextAlign.center
-                ),
+                child: Text(LocalizationMapper.current.blacklistPageHelperText),
               )
 
             else
