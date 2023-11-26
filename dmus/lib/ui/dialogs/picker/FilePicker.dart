@@ -125,7 +125,7 @@ class _FilePickerState extends State<FilePicker> {
               ),
               onTap: (){
                 i.isSelected = !i.isSelected;
-                logging.info("Item is selected ${i.isSelected}");
+                logging.info("Item is selected ${i.item}");
                 setState(() { });
               },
             ));

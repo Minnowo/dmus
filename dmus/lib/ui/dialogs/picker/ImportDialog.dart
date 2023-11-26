@@ -23,12 +23,7 @@ class ImportDialog extends StatelessWidget {
 
           if(value == null) return;
 
-          for(final f in value) {
-
-            await ImportController.importSong(f);
-          }
-
-          await ImportController.endImports();
+          await ImportController.importSongs(value);
     });
   }
 

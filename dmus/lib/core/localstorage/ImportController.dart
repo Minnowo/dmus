@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
@@ -157,6 +158,8 @@ final class ImportController {
 
     await TableSong.deleteSongById(s.id);
 
+    MyDataEntityCache.deleteFromCache(s.id);
+
     _songDeletedController.add(s);
   }
 
@@ -215,6 +218,8 @@ final class ImportController {
       MessagePublisher.publishSnackbar(SnackBarData(text: "Importing ${files.length} songs..."));
       _supressSnackBars = true;
     }
+
+    logging.info(files);
 
     for(var f in files) {
       await ImportController.importSong(f);
