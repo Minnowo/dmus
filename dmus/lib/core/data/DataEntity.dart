@@ -17,6 +17,24 @@ enum EntityType {
   album
 }
 
+/// Song sorts orders
+enum SongSort {
+  byId,
+  byTitle,
+  byArtist,
+  byAlbum,
+  byDuration,
+}
+
+
+/// Playlist sorts orders
+enum PlaylistSort {
+  byId,
+  byTitle,
+  byDuration,
+  byNumberOfTracks,
+}
+
 
 /// The base DataEntity class
 ///
@@ -108,6 +126,14 @@ class Song extends DataEntity {
     );
   }
 
+
+  String songArtist() {
+    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? "N/A";
+  }
+
+  String songAlbum() {
+    return metadata.albumName ?? "N/A";
+  }
 
   String artistAlbumText() {
 

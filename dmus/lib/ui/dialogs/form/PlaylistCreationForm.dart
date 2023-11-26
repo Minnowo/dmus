@@ -190,14 +190,16 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: null,
             tooltip: DemoLocalizations
                 .of(context)
                 .increment,
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
-          const SizedBox(height: 16), // Adjust the spacing as needed
+          const SizedBox(height: 16),
           FloatingActionButton(
+            heroTag: null,
             tooltip: DemoLocalizations
                 .of(context)
                 .increment,

@@ -1,18 +1,15 @@
 
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
-import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/pages/SelectedPlaylistPage.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/dbimpl/TableLikes.dart';
 import '../dialogs/Util.dart';
-import '../dialogs/context/PlaylistContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 
@@ -106,6 +103,31 @@ class _PlaylistsPageState extends State<PlaylistsPage>
         title: Text(widget.title),
         centerTitle: true,
         actions: [
+          PopupMenuButton<PlaylistSort>(
+            onSelected: sortPlaylistsBy,
+            icon: const Icon(Icons.sort),
+            itemBuilder: (BuildContext context) {
+              // Define the items in the menu
+              return <PopupMenuEntry<PlaylistSort>>[
+                const PopupMenuItem(
+                  value: PlaylistSort.byId,
+                  child: Text('Sort by ID'),
+                ),
+                const PopupMenuItem(
+                  value: PlaylistSort.byTitle,
+                  child: Text('Sort by Title'),
+                ),
+                const PopupMenuItem(
+                  value: PlaylistSort.byDuration,
+                  child: Text('Sort by Duration'),
+                ),
+                const PopupMenuItem(
+                  value: PlaylistSort.byNumberOfTracks,
+                  child: Text('Sort by Number of Tracks'),
+                ),
+              ];
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () => createPlaylist(context),
@@ -160,5 +182,23 @@ class _PlaylistsPageState extends State<PlaylistsPage>
       ),
       drawer: const SettingsDrawer(),
     );
+  }
+
+
+
+  void sortPlaylistsBy(PlaylistSort sort){
+
+    switch(sort) {
+      case PlaylistSort.byId:
+        playlists.sort((a, b) => a.id.compareTo(b.id));
+      case PlaylistSort.byTitle:
+        playlists.sort((a, b) => compareNatural(a.title, b.title));
+      case PlaylistSort.byNumberOfTracks:
+        playlists.sort((a, b) => a.songs.length.compareTo(b.songs.length));
+      case PlaylistSort.byDuration:
+        playlists.sort((a, b) => a.duration.compareTo(b.duration));
+    }
+
+    setState(() { });
   }
 }

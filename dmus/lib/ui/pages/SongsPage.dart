@@ -1,18 +1,13 @@
 import 'dart:async';
 
-import 'package:dmus/core/Util.dart';
+import 'package:collection/collection.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
-import 'package:dmus/ui/Settings.dart';
-import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
-import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImportController.dart';
 import 'NavigationPage.dart';
@@ -93,26 +88,47 @@ class _SongsPageState extends  State<SongsPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()),
-              icon: const Icon(Icons.add),
-            ),
-            IconButton(
-              onPressed: () async {
-                await TableSong.selectAllWithMetadata();
-                await JustAudioController.instance.stop();
-                // AudioController.stopAndEmptyQueue();
-              },
-              icon: const Icon(Icons.stop),
-            ),
-          ],
-        ),
-        body: Column(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+        centerTitle: true,
+        actions: [
+          PopupMenuButton<SongSort>(
+            onSelected: sortSongsBy ,
+            icon: const Icon(Icons.sort),
+            itemBuilder: (BuildContext context) {
+              // Define the items in the menu
+              return <PopupMenuEntry<SongSort>>[
+                const PopupMenuItem(
+                  value: SongSort.byId,
+                  child: Text('Sort by ID'),
+                ),
+                const PopupMenuItem(
+                  value: SongSort.byTitle,
+                  child: Text('Sort by Title'),
+                ),
+                const PopupMenuItem(
+                  value: SongSort.byArtist,
+                  child: Text('Sort by Artist'),
+                ),
+                const PopupMenuItem(
+                  value: SongSort.byAlbum,
+                  child: Text('Sort by Album'),
+                ),
+                const PopupMenuItem(
+                  value: SongSort.byDuration,
+                  child: Text('Sort by Duration'),
+                ),
+              ];
+            },
+          ),
+          IconButton(
+            onPressed: () => showDialog(context: context, builder: (BuildContext context) => const ImportDialog()),
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: <Widget>[
@@ -141,7 +157,22 @@ class _SongsPageState extends  State<SongsPage> {
   }
 
 
+  void sortSongsBy(SongSort sort){
+    
+    switch(sort) {
+      case SongSort.byId:
+        songs.sort((a, b) => a.id.compareTo(b.id));
+      case SongSort.byTitle:
+        songs.sort((a, b) => compareNatural(a.title, b.title));
+      case SongSort.byArtist:
+        songs.sort((a, b) => compareNatural(a.songArtist(), b.songArtist()));
+      case SongSort.byAlbum:
+        songs.sort((a, b) => compareNatural(a.songAlbum(), b.songAlbum()));
+      case SongSort.byDuration:
+        songs.sort((a, b) => a.duration.compareTo(b.duration));
+    }
 
-
+    setState(() { });
+  }
 }
 
