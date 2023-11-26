@@ -165,6 +165,8 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
       MessagePublisher.onRawError.listen(_onRawException),
       MessagePublisher.onShowSnackbar.listen(_onShowSnackBar)
     ];
+
+    ImportController.checkWatchFolders();
   }
 
   @override

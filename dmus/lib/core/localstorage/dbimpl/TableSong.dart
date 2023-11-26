@@ -28,6 +28,26 @@ final class TableSong {
   static const String songPathCol = "song_path";
 
 
+  static Future<void> filterPathsWhichAreInDb(List<File> paths) async {
+
+    if(paths.isEmpty) return;
+
+    final db = await DatabaseController.database;
+
+    var result = await db.query(
+        name,
+        columns: [songPathCol],
+        where: "$songPathCol IN (${paths.map((e) => "?").join(",")})",
+        whereArgs: paths.map((e) => e.path).toList()
+    );
+
+    final i = paths.length;
+    paths.removeWhere((e) => result.any((r) => (r[songPathCol] as String) == e.path));
+
+    logging.info("Removed ${i - paths.length} from the files list");
+  }
+
+
   /// Selects the songId from the given path
   ///
   /// Returns null if the path does not exist in the database

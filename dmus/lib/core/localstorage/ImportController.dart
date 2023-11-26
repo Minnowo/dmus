@@ -24,6 +24,7 @@ final class ImportController {
 
   static int _importCount = 0;
   static bool _supressSnackBars = false;
+  static bool _silencePubs = false;
 
 
   /// A pub for when an import has completed for a song
@@ -94,9 +95,12 @@ final class ImportController {
   }
 
 
+  /// Runs imports for watch folders if any exist
   static Future<void> checkWatchFolders() async {
 
     final watchDirs = await TableWatchDirectory.selectAll();
+
+    if(watchDirs.isEmpty) return;
 
     final c = await getExternalStoragePermission();
 
@@ -104,17 +108,22 @@ final class ImportController {
       logging.warning("No external storage permission! Trying to check watch dirs anyway!");
     }
 
+    MessagePublisher.publishSnackbar(SnackBarData(text: "Checking ${watchDirs.length} watch directories..."));
+
     for(final d in watchDirs) {
 
       Directory dd = Directory(d.directoryPath);
 
       if(await dd.exists()) {
-        await importSongFromDirectory(dd, d.isRecursive);
+        _silencePubs = true;
+        await importSongFromDirectory(dd, d.isRecursive, true);
+        _silencePubs = false;
       }
     }
   }
 
 
+  /// Import all files which are known in the db
   static Future<void> reimportAll() async {
 
     final db = await DatabaseController.database;
@@ -200,7 +209,10 @@ final class ImportController {
 
     if(songId == null) {
       logging.warning("Cannot import $path because it does not exist");
-      MessagePublisher.publishSomethingWentWrong("Cannot import song because the file does not exist!");
+      if(!_silencePubs) {
+        MessagePublisher.publishSomethingWentWrong(
+            "Cannot import song because the file does not exist!");
+      }
       return;
     }
 
@@ -208,7 +220,10 @@ final class ImportController {
 
     if(s == null) {
       logging.warning("Could not get song with id $songId, even though it was just imported???!?!");
-      MessagePublisher.publishSomethingWentWrong("Cannot import song event though it was just imported!?!??!");
+      if(!_silencePubs) {
+        MessagePublisher.publishSomethingWentWrong(
+            "Cannot import song event though it was just imported!?!??!");
+      }
       return;
     }
 
@@ -226,7 +241,10 @@ final class ImportController {
   static Future<void> importSongs(List<File> files) async {
 
     if(files.length > 3) {
-      MessagePublisher.publishSnackbar(SnackBarData(text: "Importing ${files.length} songs..."));
+      if(!_silencePubs) {
+        MessagePublisher.publishSnackbar(
+            SnackBarData(text: "Importing ${files.length} songs..."));
+      }
       _supressSnackBars = true;
     }
 
@@ -249,7 +267,7 @@ final class ImportController {
   /// Process and adds the songs to the database
   ///
   /// This sends out events accordingly
-  static Future<void> importSongFromDirectory(Directory dir, bool isRecursive) async {
+  static Future<void> importSongFromDirectory(Directory dir, bool isRecursive, bool importOnlyIfNotInDb) async {
 
     bool a = await getExternalStoragePermission();
 
@@ -265,12 +283,21 @@ final class ImportController {
           .map((event) => File(event.path))
           .toList();
 
-      logging.finest("Found files $files");
+      if(importOnlyIfNotInDb) {
+        await TableSong.filterPathsWhichAreInDb(files);
+        if(files.isEmpty) {
+          return;
+        }
+      }
 
       if(files.isEmpty) {
-        MessagePublisher.publishSomethingWentWrong("No files found in this folder!");
+        if(!_silencePubs) {
+          MessagePublisher.publishSnackbar(const SnackBarData(text: "No files found in this folder!"));
+        }
         return;
       }
+
+      logging.finest("Found files $files");
 
       await importSongs(files);
     }
@@ -278,13 +305,18 @@ final class ImportController {
 
       logging.warning("There is actually no permissions to read this path! $e");
 
-      MessagePublisher.publishSomethingWentWrong("No permission to list files in this directory!");
+      if(!_silencePubs) {
+        MessagePublisher.publishSomethingWentWrong(
+            "No permission to list files in this directory!");
+      }
     }
     on Exception catch(e) {
 
       logging.warning("Error while reading files from directory! $e");
 
-      MessagePublisher.publishRawException(e);
+      if(!_silencePubs) {
+        MessagePublisher.publishRawException(e);
+      }
     }
   }
 

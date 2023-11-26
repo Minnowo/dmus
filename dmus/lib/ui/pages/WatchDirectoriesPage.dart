@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableWatchDirectory.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
@@ -57,77 +58,92 @@ class WatchDirectoriesModel extends ChangeNotifier {
   }
 }
 
-class WatchDirectoriesPage extends  StatelessNavigationPage {
-  const WatchDirectoriesPage({super.key}) : super(title: "Watch Directories", icon: Icons.folder);
+
+class WatchDirectoriesPage extends StatefulWidget {
+
+  const WatchDirectoriesPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => WatchDirectoriesModel(),
-      child: _WatchDirectoriesPage(this),
-    );
-  }
+  State<WatchDirectoriesPage> createState() => _WatchDirectoriesState();
 }
 
-class _WatchDirectoriesPage extends StatefulWidget {
-  final WatchDirectoriesPage parent;
+class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
 
-  const _WatchDirectoriesPage(this.parent);
+  List<String> _directoryPaths = [];
 
   @override
-  State<_WatchDirectoriesPage> createState() => _WatchDirectoriesState();
-}
+  void initState() {
+    super.initState();
+    
+    TableWatchDirectory.selectAll().then((value){
+      
+      _directoryPaths.clear();
+      _directoryPaths.addAll(value.map((e) => e.directoryPath));
 
-class _WatchDirectoriesState extends State<_WatchDirectoriesPage> {
-
-  Future<void> pickAddDirectory() async {
-
-    var directoryModel = context.read<WatchDirectoriesModel>();
-
-    var dir = await pickDirectory();
-
-    if(dir != null) {
-      directoryModel.addDirectory(dir);
-    }
+      setState(() { });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    var directoryModel = context.watch<WatchDirectoriesModel>();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.parent.title),
+        title: Text("Watch Directories"),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: pickAddDirectory,
           ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-
-              if(directoryModel.directoryPaths.isNotEmpty) {
-
-                directoryModel.removeDirectory(directoryModel.directoryPaths.first);
-              }
-            },
+          const IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: ImportController.checkWatchFolders,
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: directoryModel.directoryPaths.length,
-        itemBuilder: (context, index) {
-          var directory = directoryModel.directoryPaths[index];
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
 
-          return InkWell(
-              child:ListTile(
-                title: Text(directory),
+          children: <Widget>[
+
+            if(_directoryPaths.isEmpty)
+              const Center(
+                child: Text("Watch directories will be checked when the app starts and automatically import music.",
+                    textAlign: TextAlign.center
+                ),
               )
-          );
-        },
+
+            else
+              Expanded(
+                  child: ListView (
+                    children: [
+                      for(final i in _directoryPaths)
+                        InkWell(
+                            child:ListTile(
+                              title: Text(i),
+                            )
+                        ),
+                    ],
+                  )
+              ),
+          ]
       ),
     );
+  }
+
+
+  Future<void> pickAddDirectory() async {
+
+    var dir = await pickDirectory();
+
+    if(dir == null) return;
+
+    TableWatchDirectory.insertDirectory(File(dir), 0, true)
+        .then((value) {
+
+      _directoryPaths.add(dir);
+
+      setState(() { });
+    });
   }
 }

@@ -38,7 +38,7 @@ class ImportDialog extends StatelessWidget {
 
           logging.info("About to import files from $d");
 
-          await ImportController.importSongFromDirectory(d, true);
+          await ImportController.importSongFromDirectory(d, true, true);
     });
 
     // (not an error) Pop as soon as we open the above dialog
