@@ -21,34 +21,32 @@ class SongContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
-        children: <Widget>[
-          ListTile(
-            title: const Text("Add to Queue"),
-            onTap: () => addQueue(songContext, context),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.viewDetails),
-            onTap: () => showMetadataPage(context),
-          ),
-          ListTile(
-            title: const Text("Remove Song"),
-            onTap: () => deleteSong(songContext, context),
-          ),
-          ListTile(
-            leading: const Icon(Icons.block),
-            title: const Text("Remove and block from reimport"),
-            onTap: () => removeAndBlock(songContext, context),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.close),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
-      ),
+    return Wrap(
+      children: <Widget>[
+        ListTile(
+          title: const Text("Add to Queue"),
+          onTap: () => addQueue(songContext, context),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.viewDetails),
+          onTap: () => showMetadataPage(context),
+        ),
+        ListTile(
+          title: const Text("Remove Song"),
+          onTap: () => deleteSong(songContext, context),
+        ),
+        ListTile(
+          leading: const Icon(Icons.block),
+          title: const Text("Remove and block from reimport"),
+          onTap: () => removeAndBlock(songContext, context),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.close),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
     );
   }
 
@@ -84,7 +82,7 @@ class SongContextDialog extends StatelessWidget {
       context: context,
       builder: (ctx) => const ConfirmDestructiveAction(
         promptText:
-        "Are you sure you want to block this song from the app? It will be skipped when importing again. You can remove it from the blacklist under settings.",
+        "Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.",
         yesText: "Block",
         noText: "Keep",
         yesTextColor: Colors.red,

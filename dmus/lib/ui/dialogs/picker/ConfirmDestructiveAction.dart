@@ -14,8 +14,8 @@ class ConfirmDestructiveAction extends StatelessWidget {
     required this.promptText,
     required this.yesText,
     required this.noText,
-    required this.yesTextColor,
-    required this.noTextColor,
+    this.yesTextColor,
+    this.noTextColor,
   }) : super(key: key);
 
   void _onYesPressed(BuildContext context) {
@@ -32,18 +32,26 @@ class ConfirmDestructiveAction extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(promptText),
-          const SizedBox(height: 20),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+
+              Text(
+                  promptText,
+                  textAlign: TextAlign.center
+              ),
+
+              const SizedBox(height: 8),
+
               ElevatedButton(
                 onPressed: () => _onYesPressed(context),
-
                 child: Text(yesText,
-                    style: TextStyle(color: yesTextColor)),
-
+                    style: TextStyle(color: yesTextColor),
+                ),
               ),
-              SizedBox(height: 8), // Adjust spacing between buttons
+
+              const SizedBox(height: 8),
+
               ElevatedButton(
                 onPressed: () => _onNoPressed(context),
                 style: ButtonStyle(

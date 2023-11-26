@@ -16,10 +16,8 @@ class AlbumsContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+    return Wrap(
+      children: <Widget>[
           ListTile(
             title: Text(LocalizationMapper.current.viewDetails),
             onTap: () => _showPlaylistDetails(context),
@@ -36,10 +34,16 @@ class AlbumsContextDialog extends StatelessWidget {
             onTap: () => popNavigatorSafe(context),
           ),
         ],
-      ),
     );
   }
 
+  static Future<T?> showAsDialog<T>(BuildContext context, Album album) async {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) =>
+          AlbumsContextDialog(playlistContext: album),
+    );
+  }
 
   void _showPlaylistDetails(BuildContext context) {
 

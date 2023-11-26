@@ -105,7 +105,7 @@ void showPlaylistOrAlbumContextMenu(BuildContext context, Playlist playlist) {
 
   if(playlist is Album) {
 
-    showDialog(
+    showModalBottomSheet(
         context: context,
         builder: (BuildContext context) =>
             AlbumsContextDialog( playlistContext: playlist)
@@ -113,7 +113,7 @@ void showPlaylistOrAlbumContextMenu(BuildContext context, Playlist playlist) {
 
   } else {
 
-    showDialog(
+    showModalBottomSheet(
         context: context,
         builder: (BuildContext context) =>
             PlaylistContextDialog( playlistContext: playlist)

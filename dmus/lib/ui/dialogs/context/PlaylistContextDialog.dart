@@ -20,35 +20,33 @@ class PlaylistContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
-        children: <Widget>[
-          ListTile(
-            title: Text(LocalizationMapper.current.viewDetails),
-            onTap: () => _showPlaylistDetails(context),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.playNow),
-            onTap: () => _playPlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.queueAll),
-            onTap: () => _queuePlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.editPlaylist),
-            onTap: () => _editPlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: const Text("Delete Playlist"),
-            onTap: () => _deletePlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.close),
-            onTap: () => popNavigatorSafe(context),
-          ),
-        ],
-      ),
+    return Wrap(
+      children: <Widget>[
+        ListTile(
+          title: Text(LocalizationMapper.current.viewDetails),
+          onTap: () => _showPlaylistDetails(context),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.playNow),
+          onTap: () => _playPlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.queueAll),
+          onTap: () => _queuePlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.editPlaylist),
+          onTap: () => _editPlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: const Text("Delete Playlist"),
+          onTap: () => _deletePlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.close),
+          onTap: () => popNavigatorSafe(context),
+        ),
+      ],
     );
   }
 
