@@ -59,6 +59,6 @@
 
 	"noSongs": "Nothing is here!\nHit the + in the top right to import music.",
 
-	"blacklistPageHelperText": "Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.",
+	"blacklistPageHelperText": "Files which are blocked from being imported will show up here.\nYou can add or delete them using the buttons in the top.",
 	"blacklistPageTitle": "Blacklisted Files"
 }

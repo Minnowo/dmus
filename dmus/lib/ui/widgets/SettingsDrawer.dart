@@ -4,6 +4,7 @@ import 'package:dmus/core/cloudstorage/CloudStorageDownload.dart';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
@@ -27,9 +28,6 @@ class SettingsDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var headerColor = Theme.of(context).colorScheme.inversePrimary;
-    var textColor =
-        Theme.of(context).textTheme.headlineLarge?.color ?? Colors.white;
 
     var headerFontSize = 32.0;
     var subheaderFontSize = 24.0;
@@ -43,13 +41,9 @@ class SettingsDrawer extends StatelessWidget {
         children: <Widget>[
 
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: headerColor,
-            ),
             child: Text(
               'Settings',
               style: TextStyle(
-                color: textColor,
                 fontSize: headerFontSize,
               ),
             ),
@@ -59,7 +53,7 @@ class SettingsDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("General",
                 style:
-                TextStyle(color: textColor, fontSize: subheaderFontSize)),
+                TextStyle(fontSize: subheaderFontSize)),
           ),
 
           ListTile(
@@ -87,8 +81,8 @@ class SettingsDrawer extends StatelessWidget {
           ),
 
           ListTile(
-            leading: const Icon(Icons.backup),
-            title: const Text("Blacklisted Files"),
+            leading: const Icon(Icons.block),
+            title: Text(LocalizationMapper.current.blacklistPageTitle),
             onTap: () => showBlacklistedFiles(context),
           ),
 
@@ -98,7 +92,7 @@ class SettingsDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("Sync With Firebase",
                 style:
-                TextStyle(color: textColor, fontSize: subheaderFontSize)),
+                TextStyle(fontSize: subheaderFontSize)),
           ),
 
           if (user == null)

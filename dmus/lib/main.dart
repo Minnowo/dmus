@@ -11,6 +11,7 @@ import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
@@ -101,10 +102,7 @@ class DMUSApp extends StatelessWidget {
     ],
         child: MaterialApp(
           title: title,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
+          theme: theme(),
           localizationsDelegates: const [
             S.delegate,
             ...GlobalMaterialLocalizations.delegates,

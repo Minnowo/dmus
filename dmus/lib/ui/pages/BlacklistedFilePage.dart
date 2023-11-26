@@ -38,7 +38,6 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(LocalizationMapper.current.blacklistPageTitle),
         centerTitle: true,
         actions: [
@@ -59,7 +58,14 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
 
             if(_blacklistedFiles.isEmpty)
               Center(
-                child: Text(LocalizationMapper.current.blacklistPageHelperText),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Text(
+                        LocalizationMapper.current.blacklistPageHelperText,
+                        textAlign: TextAlign.center
+                    ),
+
+                  )
               )
 
             else

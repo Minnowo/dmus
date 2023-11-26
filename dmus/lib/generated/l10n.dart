@@ -520,10 +520,10 @@ class S {
     );
   }
 
-  /// `Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.`
+  /// `Files which are blocked from being imported will show up here.\nYou can add or delete them using the buttons in the top.`
   String get blacklistPageHelperText {
     return Intl.message(
-      'Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.',
+      'Files which are blocked from being imported will show up here.\nYou can add or delete them using the buttons in the top.',
       name: 'blacklistPageHelperText',
       desc: '',
       args: [],
