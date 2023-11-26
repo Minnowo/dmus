@@ -51,7 +51,6 @@ final class CloudStorageDownloadHelper {
 
       final songsJsonFile = File('${downloadsDirectory.path}/songs.json');
 
-      await ImportController.endImports();
 
       if (await songsJsonFile.exists()) {
         logging.info("Deleting existing songs json...");
@@ -92,6 +91,8 @@ final class CloudStorageDownloadHelper {
         await item.writeToFile(localFile);
         await ImportController.importSong(localFile);
       }
+
+      await ImportController.endImports();
 
       MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.allSongsDownloaded, duration: const Duration(seconds: 2)));
 
