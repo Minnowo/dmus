@@ -36,6 +36,8 @@ class _FilePickerState extends State<FilePicker> {
   void initState() {
     super.initState();
 
+    getExternalStoragePermission().then((value) => setState((){}));
+
     ExternalPath.getExternalStorageDirectories().then((value) {
       for(final i in value) {
         _externalStorageRoots.add(i);

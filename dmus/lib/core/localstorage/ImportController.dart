@@ -140,14 +140,23 @@ final class ImportController {
 
   }
 
+
+  /// Rebuilds the albums
+  static Future<void> rebuildAlbums() async {
+
+    await TableAlbum.generateAlbums();
+
+    _albumsRebuiltController.add(null);
+
+  }
+
+
   /// Finish importing and build the album cache
   static Future<void> endImports() async {
 
     if(_importCount < 1) return;
 
-    await TableAlbum.generateAlbums();
-
-    _albumsRebuiltController.add(null);
+    await rebuildAlbums();
 
     _importCount = 0;
   }
@@ -161,6 +170,8 @@ final class ImportController {
     MyDataEntityCache.deleteFromCache(s.id);
 
     _songDeletedController.add(s);
+
+    await rebuildAlbums();
   }
 
 
