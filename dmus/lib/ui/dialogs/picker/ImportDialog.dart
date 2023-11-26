@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/DemoLocalizations.dart';
+import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
+import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -14,23 +16,20 @@ class ImportDialog extends StatelessWidget {
 
   void pickFilesAndImport(BuildContext context) {
 
-    pickMusicFiles()
+    popNavigatorSafe(context);
+
+    animateOpenFromBottom<List<File>?>(context, const FilePicker(showFileFilter: hasMusicFileExtension,))
         .then((value) async {
 
           if(value == null) return;
 
-          for(var f in value) {
+          for(final f in value) {
 
-            if(f.path == null) continue;
-
-            await ImportController.importSong(File(f.path!));
+            await ImportController.importSong(f);
           }
 
           await ImportController.endImports();
     });
-
-    // (not an error) Pop as soon as we open the above dialog
-    popNavigatorSafe(context);
   }
 
   void pickFolderAndImport(BuildContext context) {
@@ -60,10 +59,10 @@ class ImportDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // TextButton(
-            //   onPressed: () => pickFilesAndImport(context),
-            //   child: Text(DemoLocalizations.of(context).addFiles)
-            // ),
+            TextButton(
+              onPressed: () => pickFilesAndImport(context),
+              child: Text(DemoLocalizations.of(context).addFiles)
+            ),
             TextButton(
               onPressed: () => pickFolderAndImport(context) ,
               child: Text(DemoLocalizations.of(context).addFolder),

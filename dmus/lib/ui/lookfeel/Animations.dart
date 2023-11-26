@@ -3,11 +3,11 @@
 
 import 'package:flutter/cupertino.dart';
 
-Future<void> animateOpenFromBottom(BuildContext context, Widget page) async {
+Future<T?> animateOpenFromBottom<T extends Object?>(BuildContext context, Widget page) async {
 
-  if(!context.mounted) return;
+  if(!context.mounted) return null;
 
-  Navigator.push(
+  return Navigator.push(
     context,
     PageRouteBuilder(
       pageBuilder: (BuildContext context, animation, secondaryAnimation) => page,

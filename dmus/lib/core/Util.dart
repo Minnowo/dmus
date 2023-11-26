@@ -80,6 +80,11 @@ Future<void> initLogging(Level l) async {
 }
 
 
+/// Returns true if the file path has a music file extension
+bool hasMusicFileExtension(String path){
+  return musicFileExtensions.contains(fileExtensionNoDot(path).toLowerCase());
+}
+
 
 /// Formats the position time out of the duration time to display to the user
 ///
