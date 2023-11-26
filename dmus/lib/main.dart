@@ -8,7 +8,6 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/generated/l10n.dart';
-import 'package:dmus/l10n/DemoLocalizations.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
@@ -108,7 +107,6 @@ class DMUSApp extends StatelessWidget {
           ),
           localizationsDelegates: const [
             S.delegate,
-            DemoLocalizationsDelegate(),
             ...GlobalMaterialLocalizations.delegates,
             GlobalWidgetsLocalizations.delegate,
           ],
