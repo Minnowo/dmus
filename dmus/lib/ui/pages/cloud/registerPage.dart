@@ -10,20 +10,21 @@ class RegistrationWidget extends StatefulWidget {
 }
 
 class _RegistrationWidgetState extends State<RegistrationWidget> {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   bool _isPasswordValid = true;
   bool _isEmailValid = true;
-  Color _snackBarColor = Colors.red; // Snackbar color
+  bool _isLoading = false;
+  bool _obscureText = false; // Initially obscure the password
+  Color _snackBarColor = Colors.red;
 
   void _showSnackBar(String message, Color backgroundColor) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: backgroundColor, // Set the Snackbar color
+        backgroundColor: backgroundColor,
       ),
     );
   }
@@ -33,14 +34,19 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     return emailRegex.hasMatch(email);
   }
 
-  void _register() async {
+  Future<void> _register() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     final String email = _emailController.text;
     final String password = _passwordController.text;
 
     if (email.isEmpty || !_validateEmail(email)) {
       setState(() {
         _isEmailValid = false;
-        _snackBarColor = Colors.red; // Set the color for email validation error
+        _snackBarColor = Colors.red;
+        _isLoading = false;
       });
       _showSnackBar('Please enter a valid email address.', _snackBarColor);
       return;
@@ -53,7 +59,8 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
     if (password.length < 6) {
       setState(() {
         _isPasswordValid = false;
-        _snackBarColor = Colors.red; // Set the color for password validation error
+        _snackBarColor = Colors.red;
+        _isLoading = false;
       });
       _showSnackBar('Password must be at least 6 characters long.', _snackBarColor);
       return;
@@ -70,13 +77,16 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
       );
 
       if (userCredential.user != null) {
-        _snackBarColor = Colors.green; // Set the color for successful registration
+        _snackBarColor = Colors.green;
         _showSnackBar('Registration successful', _snackBarColor);
         popNavigatorSafe(context);
-
       }
-    } catch (e) {
-      _showSnackBar('Registration failed. Error: $e', _snackBarColor);
+    } on FirebaseAuthException catch (e) {
+      _showSnackBar('Registration failed. Error: ${e.message}', _snackBarColor);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -99,18 +109,31 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
                   errorText: _isEmailValid ? null : LocalizationMapper.current.enterValidEmail,
                 ),
               ),
+              const SizedBox(height: 12.0),
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   errorText: _isPasswordValid ? null : LocalizationMapper.current.minPasswordLen,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _obscureText,
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: _register,
-                child: Text(LocalizationMapper.current.register),
+                onPressed: _isLoading ? null : _register,
+                child: _isLoading
+                    ? CircularProgressIndicator()
+                    : Text(LocalizationMapper.current.register),
               ),
             ],
           ),

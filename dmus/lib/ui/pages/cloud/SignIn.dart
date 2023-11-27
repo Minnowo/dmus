@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInWidget extends StatefulWidget {
-  const SignInWidget({super.key});
+  const SignInWidget({Key? key}) : super(key: key);
 
   @override
   State<SignInWidget> createState() => _SignInWidgetState();
@@ -18,6 +18,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   bool _isLoading = false;
   bool _isEmailEmpty = false;
   bool _isPasswordEmpty = false;
+  bool _obscureText = false;
 
   Future<void> _signIn() async {
     setState(() {
@@ -64,7 +65,6 @@ class _SignInWidgetState extends State<SignInWidget> {
         _showSnackBar("Signed in: ${userCredential.user?.email}", Colors.green);
 
         popNavigatorSafe(context);
-
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
@@ -72,7 +72,7 @@ class _SignInWidgetState extends State<SignInWidget> {
       } else if (e.code == 'user-not-found') {
         _showSnackBar('Email not found. Please check your email address.', Colors.red);
       } else {
-        _showSnackBar('Sign-In Error: $e', Colors.red);
+        _showSnackBar('Sign-In Error: ${e.message}', Colors.red);
       }
     }
 
@@ -88,6 +88,12 @@ class _SignInWidgetState extends State<SignInWidget> {
         backgroundColor: backgroundColor,
       ),
     );
+  }
+
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 
   @override
@@ -114,8 +120,12 @@ class _SignInWidgetState extends State<SignInWidget> {
                 decoration: InputDecoration(
                   labelText: LocalizationMapper.current.password,
                   errorText: _isPasswordEmpty ? LocalizationMapper.current.passwordEmpty : null,
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                    onPressed: _togglePasswordVisibility,
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _obscureText,
               ),
               const SizedBox(height: 16.0),
               _isLoading
