@@ -5,6 +5,7 @@ import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import '../../Util.dart';
 import '../../data/DataEntity.dart';
+import '../../data/MyDataEntityCache.dart';
 import 'TableFMetadata.dart';
 
 
@@ -59,6 +60,101 @@ final class TableAlbum {
     );
   }
 
+
+  /// Finds albums which match the given text, this does not search for songs in the album
+  static Future<List<Album>> albumsWhichMatch(List<String> text) async {
+
+    if(text.isEmpty) {
+      return [];
+    }
+
+    const whereQueryTbl = "LOWER(${TableAlbum.name}.${TableAlbum.titleCol}) LIKE '%' || LOWER(?) || '%'"
+    ;
+
+    final sqlWhere = text.map((e) => whereQueryTbl).join(" OR ");
+
+    var db = await DatabaseController.database;
+
+    String sql = "SELECT * FROM ${TableAlbum.name}"
+        " WHERE $sqlWhere"
+    ;
+
+    var playlistsResult = await db.rawQuery(sql, text);
+
+    List<Album> playlists = [];
+
+    for(var e in playlistsResult) {
+
+      int id = e[TableAlbum.idCol] as int;
+
+      final _ = MyDataEntityCache.getFromCache(id);
+
+      if(_ != null && _ is Album) {
+        playlists.add(_);
+        continue;
+      }
+
+      Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
+
+      p.songs.addAll(await selectAlbumSongs(id));
+
+      p.updateDuration();
+
+      playlists.add(p);
+
+      MyDataEntityCache.updateCache(p);
+    }
+
+    return playlists;
+  }
+
+
+  /// Returns all albums which contain the given songs
+  static Future<List<Album>> albumsWithSongs(List<Song> songs) async {
+
+    String sql = "SELECT ${TableAlbum.name}.${TableAlbum.idCol}, ${TableAlbum.name}.${TableAlbum.titleCol} FROM ${TableAlbumSong.name}"
+        " JOIN ${TableAlbum.name} ON ${TableAlbumSong.name}.${TableAlbumSong.albumIdCol} = ${TableAlbum.name}.${TableAlbum.idCol}"
+        " JOIN ${TableSong.name} ON ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        " WHERE ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} IN (${songs.map((e) => "?").join(",")})"
+    ;
+
+    var db = await DatabaseController.database;
+
+    var playlistsResult = await db.rawQuery(sql, songs.map((e) => e.id).toList());
+
+    List<Album> playlists = [];
+    Set<int> seenId = {};
+
+    for(var e in playlistsResult) {
+
+      int id = e[TableAlbum.idCol] as int;
+
+      if(seenId.contains(id)) {
+        continue;
+      }
+
+      seenId.add(id);
+
+      final _ = MyDataEntityCache.getFromCache(id);
+
+      if(_ != null && _ is Album) {
+        playlists.add(_);
+        continue;
+      }
+
+      Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
+
+      p.songs.addAll(await selectAlbumSongs(id));
+
+      p.updateDuration();
+
+      playlists.add(p);
+
+      MyDataEntityCache.updateCache(p);
+    }
+
+    return playlists;
+  }
 
   /// Inserts a new playlist into the database
   ///
