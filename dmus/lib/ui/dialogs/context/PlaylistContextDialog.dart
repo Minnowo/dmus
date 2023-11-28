@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../../core/data/MessagePublisher.dart';
 import '../../pages/SelectedPlaylistPage.dart';
+import '../../widgets/EntityInfoTile.dart';
 import '../Util.dart';
 import '../picker/ConfirmDestructiveAction.dart';
 
@@ -23,33 +24,33 @@ class PlaylistContextDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
+
+        EntityInfoTile(entity: playlistContext),
+
         ListTile(
+          leading: const Icon(Icons.details),
           title: Text(LocalizationMapper.current.viewDetails),
           onTap: () => _showPlaylistDetails(context),
         ),
         ListTile(
+          leading: const Icon(Icons.play_arrow),
           title: Text(LocalizationMapper.current.playNow),
           onTap: () => _playPlaylist(context, playlistContext),
         ),
         ListTile(
+          leading: const Icon(Icons.queue),
           title: Text(LocalizationMapper.current.queueAll),
           onTap: () => _queuePlaylist(context, playlistContext),
         ),
         ListTile(
+          leading: const Icon(Icons.edit),
           title: Text(LocalizationMapper.current.editPlaylist),
           onTap: () => _editPlaylist(context, playlistContext),
         ),
         ListTile(
-          title: Text(LocalizationMapper.current.shareButton),
-          onTap: () => popShowShareDialog(context, playlistContext),
-        ),
-        ListTile(
+          leading: const Icon(Icons.delete_forever),
           title: const Text("Delete Playlist"),
           onTap: () => _deletePlaylist(context, playlistContext),
-        ),
-        ListTile(
-          title: Text(LocalizationMapper.current.close),
-          onTap: () => popNavigatorSafe(context),
         ),
       ],
     );

@@ -4,9 +4,11 @@
 
 
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImportController.dart';
@@ -128,4 +130,23 @@ void popShowShareDialog(BuildContext context, DataEntity toShare) {
 
   popNavigatorSafe(context);
   ShareContextDialog.showAsDialog(context, toShare);
+}
+
+DecorationImage? getDataEntityImageAsDecoration(DataEntity dataEntity) {
+
+  if(dataEntity.artPath == null) {
+    return null;
+  }
+
+  Image i = Image.file(dataEntity.artPath!, fit: BoxFit.cover,
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+
+        logging.warning("Could not load image for $dataEntity");
+
+        return const Icon(Icons.music_note);
+      });
+
+  return DecorationImage(
+      image: i.image
+  );
 }

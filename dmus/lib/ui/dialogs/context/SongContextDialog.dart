@@ -1,6 +1,9 @@
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
+import 'package:dmus/ui/widgets/ArtDisplay.dart';
+import 'package:dmus/ui/widgets/EntityInfoTile.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -25,19 +28,21 @@ class SongContextDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
+
+        EntityInfoTile(entity: songContext),
+
         ListTile(
+          leading: const Icon(Icons.queue),
           title: const Text("Add to Queue"),
           onTap: () => addQueue(songContext, context),
         ),
         ListTile(
+          leading: const Icon(Icons.details),
           title: Text(LocalizationMapper.current.viewDetails),
           onTap: () => showMetadataPage(context),
         ),
         ListTile(
-          title: Text(LocalizationMapper.current.shareButton),
-          onTap: () => popShowShareDialog(context, songContext),
-        ),
-        ListTile(
+          leading: const Icon(Icons.block),
           title: const Text("Remove Song"),
           onTap: () => deleteSong(songContext, context),
         ),
@@ -45,12 +50,6 @@ class SongContextDialog extends StatelessWidget {
           leading: const Icon(Icons.block),
           title: const Text("Remove and block from reimport"),
           onTap: () => removeAndBlock(songContext, context),
-        ),
-        ListTile(
-          title: Text(LocalizationMapper.current.close),
-          onTap: () {
-            Navigator.pop(context);
-          },
         ),
       ],
     );
