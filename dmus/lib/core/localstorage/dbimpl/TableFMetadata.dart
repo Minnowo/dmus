@@ -74,6 +74,8 @@ final class TableFMetadata {
 
     if(m.albumArt != null) {
       cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    } else {
+      cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
     }
 
     try{
@@ -121,9 +123,7 @@ final class TableFMetadata {
     if(m.albumArt != null) {
       cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
     } else {
-
-      // TODO: Fix this when we figure out a way to get around the file picker copying literally every file
-      // cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
+      cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
     }
 
     var db = await DatabaseController.database;

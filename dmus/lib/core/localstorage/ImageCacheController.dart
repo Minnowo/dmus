@@ -193,6 +193,8 @@ abstract class ImageCacheController {
 
     if(p != null) {
 
+      logging.info("Cache hit with directory cover art!!!");
+
       if(p.itemB) {
         return p.itemA;
       }
@@ -220,7 +222,6 @@ abstract class ImageCacheController {
         _dirCoverCache.putIfAbsent(dir.path, () => Pair(itemA: null, itemB: false));
         return null;
       }
-      return null;
 
       File f = files.first;
 
