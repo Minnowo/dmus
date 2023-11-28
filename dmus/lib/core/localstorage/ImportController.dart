@@ -350,7 +350,7 @@ final class ImportController {
     }
 
     Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
-
+    p.setPictureCacheKey(null);
     _playlistCreatedController.add(p);
   }
 
@@ -373,6 +373,7 @@ final class ImportController {
     }
 
     Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
+    p.setPictureCacheKey(null);
 
     _playlistUpdatedController.add(p);
   }

@@ -9,6 +9,7 @@ import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
+import 'package:dmus/ui/widgets/LikeButton.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -105,39 +106,21 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
                 const Spacer(flex: 20,),
 
-                StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
 
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              songContext.liked ? Icons.favorite : Icons.favorite_border,
-                              color: songContext.liked ? Colors.red : null,
-                            ),
-                            onPressed: () async {
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                              songContext.liked = !songContext.liked;
+                    LikeButton(songContext: songContext),
 
-                              if (songContext.liked) {
-                                TableLikes.markSongLiked(songContext);
-                              } else {
-                                TableLikes.markSongNotLiked(songContext);
-                              }
-
-                              setState(() { });
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.playlist_add),
-                            onPressed: () {
-                              logging.finest("ADD TO PLAYLIST");
-                            },
-                          ),
-                        ],
-                      );
-                    }),
+                    IconButton(
+                      icon: const Icon(Icons.playlist_add),
+                      onPressed: () {
+                        logging.finest("ADD TO PLAYLIST");
+                      },
+                    ),
+                  ],
+                ),
 
                 CurrentlyPlayingControlBar(songContext: songContext,),
 
