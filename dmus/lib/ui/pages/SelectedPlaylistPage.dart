@@ -45,7 +45,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                       width: 100,
                       height: 100,
                       child: playlistContext.songs.isNotEmpty
-                          ? ArtDisplay(songContext: playlistContext.songs.firstOrNull)
+                          ? ArtDisplay(dataEntity: playlistContext.songs.firstOrNull)
                           : Container(),
                     ),
                   ],
@@ -152,7 +152,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                     child: ListTile(
                       leading: SizedBox(
                         width: THUMB_SIZE,
-                        child: ArtDisplay(songContext: song),
+                        child: ArtDisplay(dataEntity: song),
                       ),
                       title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
                       trailing: Text(formatDuration(song.duration)),
@@ -181,7 +181,7 @@ class SelectedPlaylistPage extends StatelessWidget {
             SizedBox(
               width: 100,
               height: 100,
-              child: ArtDisplay(songContext: playlistContext.songs.firstOrNull),
+              child: ArtDisplay(dataEntity: playlistContext.songs.firstOrNull),
             ),
           const SizedBox(height: 16),
           const Text(

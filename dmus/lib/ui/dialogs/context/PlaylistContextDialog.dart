@@ -3,6 +3,7 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,10 @@ class PlaylistContextDialog extends StatelessWidget {
         ListTile(
           title: Text(LocalizationMapper.current.editPlaylist),
           onTap: () => _editPlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.shareButton),
+          onTap: () => popShowShareDialog(context, playlistContext),
         ),
         ListTile(
           title: const Text("Delete Playlist"),

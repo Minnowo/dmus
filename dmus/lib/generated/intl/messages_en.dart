@@ -79,6 +79,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchResult": MessageLookupByLibrary.simpleMessage("Search Result"),
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Use the + in the top right to add songs"),
+        "shareButton": MessageLookupByLibrary.simpleMessage("Share"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),

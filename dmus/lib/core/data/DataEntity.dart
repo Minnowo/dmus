@@ -190,6 +190,22 @@ class Playlist extends DataEntity {
     super.duration = songs.map((e) => e.duration).reduce((value, element) => value + element);
   }
 
+  @override
+  void setPictureCacheKey(Uint8List? pictureCacheKey) {
+
+    if(pictureCacheKey != null) {
+      super.setPictureCacheKey(pictureCacheKey);
+      return;
+    }
+
+    for(final i in songs) {
+
+      logging.info("searching for picture cache key in songs!");
+      if(i.pictureCacheKey != null) {
+        super.setPictureCacheKey(i.pictureCacheKey);
+      }
+    }
+  }
 
   @override
   EntityType get entityType => EntityType.playlist;

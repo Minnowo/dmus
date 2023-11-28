@@ -444,8 +444,15 @@ class LocalizationMapper {
       desc: 'Files which are blocked from being imported will show up here. You can add or delete them using the buttons in the top.',
     );
   }
-  
 
+
+  String get shareButton {
+    return Intl.message(
+      'placeholder',
+      name: 'shareButton',
+      desc: 'Share stuff',
+    );
+  }
 
   String get allSongsDownloaded {
     return Intl.message(

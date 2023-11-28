@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../pages/SelectedPlaylistPage.dart';
 import '../Util.dart';
+import 'ShareContextDialog.dart';
 
 class AlbumsContextDialog extends StatelessWidget {
 
@@ -18,22 +19,26 @@ class AlbumsContextDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
-          ListTile(
-            title: Text(LocalizationMapper.current.viewDetails),
-            onTap: () => _showPlaylistDetails(context),
-          ),
-          ListTile(
-              title: Text(LocalizationMapper.current.playNow),
-              onTap: () => playPlaylist(context, playlistContext) ),
-          ListTile(
-            title: Text(LocalizationMapper.current.queueAll),
-            onTap: () => queuePlaylist(context, playlistContext),
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.close),
-            onTap: () => popNavigatorSafe(context),
-          ),
-        ],
+        ListTile(
+          title: Text(LocalizationMapper.current.viewDetails),
+          onTap: () => _showPlaylistDetails(context),
+        ),
+        ListTile(
+            title: Text(LocalizationMapper.current.playNow),
+            onTap: () => playPlaylist(context, playlistContext) ),
+        ListTile(
+          title: Text(LocalizationMapper.current.queueAll),
+          onTap: () => queuePlaylist(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.shareButton),
+          onTap: () => popShowShareDialog(context, playlistContext),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.close),
+          onTap: () => popNavigatorSafe(context),
+        ),
+      ],
     );
   }
 

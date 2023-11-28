@@ -30,7 +30,7 @@ class AlbumTile extends StatelessWidget {
               ),
             ),
           ),
-          child: ArtDisplay(songContext: playlist.songs.firstOrNull,)
+          child: ArtDisplay(dataEntity: playlist,)
       ),
       onTap: () => openPlaylistPage(context, playlist),
       onLongPress: () => showPlaylistOrAlbumContextMenu(context, playlist),

@@ -3,6 +3,7 @@
 
 
 
+import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,4 +120,12 @@ void showPlaylistOrAlbumContextMenu(BuildContext context, Playlist playlist) {
             PlaylistContextDialog( playlistContext: playlist)
     );
   }
+}
+
+
+/// Pop the navigator and show the share dialog
+void popShowShareDialog(BuildContext context, DataEntity toShare) {
+
+  popNavigatorSafe(context);
+  ShareContextDialog.showAsDialog(context, toShare);
 }

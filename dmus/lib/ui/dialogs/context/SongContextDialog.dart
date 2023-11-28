@@ -1,4 +1,6 @@
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/dialogs/Util.dart';
+import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -30,6 +32,10 @@ class SongContextDialog extends StatelessWidget {
         ListTile(
           title: Text(LocalizationMapper.current.viewDetails),
           onTap: () => showMetadataPage(context),
+        ),
+        ListTile(
+          title: Text(LocalizationMapper.current.shareButton),
+          onTap: () => popShowShareDialog(context, songContext),
         ),
         ListTile(
           title: const Text("Remove Song"),

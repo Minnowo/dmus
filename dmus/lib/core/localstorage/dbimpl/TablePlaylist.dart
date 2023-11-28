@@ -152,7 +152,7 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-
+      p.setPictureCacheKey(null);
       p.updateDuration();
 
       playlists.add(p);
@@ -232,7 +232,7 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-
+      p.setPictureCacheKey(null);
       p.updateDuration();
 
       playlists.add(p);
@@ -280,7 +280,7 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-
+      p.setPictureCacheKey(null);
       p.updateDuration();
 
       playlists.add(p);

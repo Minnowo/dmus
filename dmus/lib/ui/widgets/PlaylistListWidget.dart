@@ -24,7 +24,7 @@ class PlaylistListWidget extends StatelessWidget {
         child: ListTile(
           leading: SizedBox(
             width: THUMB_SIZE,
-            child: ArtDisplay(songContext: playlist.songs.firstOrNull),
+            child: ArtDisplay(dataEntity: playlist),
           ),
           title: Text(playlist.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           trailing: InkWell(

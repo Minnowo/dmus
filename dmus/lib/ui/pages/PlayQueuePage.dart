@@ -103,7 +103,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
           child: ListTile(
             leading: SizedBox (
               width: THUMB_SIZE,
-              child: ArtDisplay(songContext: song,),
+              child: ArtDisplay(dataEntity: song,),
             ),
             title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
             trailing: Text(formatDuration(song.duration)),

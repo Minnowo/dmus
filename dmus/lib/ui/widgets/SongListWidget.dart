@@ -60,7 +60,7 @@ class SongListWidget extends StatelessWidget {
         child: ListTile(
           leading: SizedBox(
             width: THUMB_SIZE,
-            child: ArtDisplay(songContext: song),
+            child: ArtDisplay(dataEntity: song),
           ),
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           trailing: InkWell(

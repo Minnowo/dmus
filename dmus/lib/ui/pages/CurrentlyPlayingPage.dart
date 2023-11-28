@@ -57,7 +57,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
               children: [
                 Expanded(
                     flex: 720,
-                    child: ArtDisplay(songContext: songContext)
+                    child: ArtDisplay(dataEntity: songContext, interactiveIcon: true,)
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),

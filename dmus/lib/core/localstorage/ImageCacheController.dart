@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as Path;
 import '../Util.dart';
@@ -153,6 +154,34 @@ abstract class ImageCacheController {
     return hash;
   }
 
+
+  /// Copies a file into a temp directory with the given extension
+  static Future<File?> copyToTempWithExtension(File path, String tempNameExtension) async {
+
+    try {
+
+      Directory cache = await getTemporaryDirectory();
+
+      File tempFile = File(Path.join(cache.path, "${Path.basename(path.path)}.$tempNameExtension"));
+
+      await path.copy(tempFile.path);
+
+      return tempFile;
+    }
+    on MissingPlatformDirectoryException catch(e){
+      logging.warning("Could not get temp directory!; $e");
+      MessagePublisher.publishSomethingWentWrong("Could not get a temporary directory!");
+    }
+    on IOException catch(e) {
+      logging.warning("Could not copy file to temp; $e");
+      MessagePublisher.publishRawException(e);
+    }
+    on Exception catch(e) {
+      MessagePublisher.publishRawException(e);
+    }
+
+    return null;
+  }
 
 
   /// Searches the given directory for common album cover filenames and caches them
