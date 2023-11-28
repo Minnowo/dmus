@@ -111,6 +111,7 @@ class DMUSApp extends StatelessWidget {
           supportedLocales: const [
             Locale('en', ''),
             Locale('fr', ''),
+            Locale('sp', ''),
           ],
           home: const RootPage(title: title),
         )
