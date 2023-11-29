@@ -49,7 +49,6 @@ class _SongPickerState extends State<SongPicker> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text(LocalizationMapper.current.pickSongs),
           centerTitle: true,
           actions: [

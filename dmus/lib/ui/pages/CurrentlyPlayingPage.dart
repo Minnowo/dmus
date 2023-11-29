@@ -37,11 +37,19 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text(title),
-          leading: IconButton(
-            icon: const Icon(Icons.expand_more_rounded),
-            onPressed: () => popNavigatorSafe(context),
-          ),
+            title: const Text(title),
+            leadingWidth: THUMB_SIZE + HORIZONTAL_PADDING,
+            leading: Padding(
+                padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
+                child: SizedBox(
+                    width: THUMB_SIZE,
+                    child: Center(child:  IconButton(
+                      icon: const Icon(Icons.expand_more_rounded),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    )
+                )
+            )
         ),
         body: SafeArea(
           child: GestureDetector(

@@ -99,7 +99,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(title),
-        backgroundColor: Theme .of(context) .colorScheme .inversePrimary,
         actions: [
           IconButton(
               onPressed: addSongsPicker,
