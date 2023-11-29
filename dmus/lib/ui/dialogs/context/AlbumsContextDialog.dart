@@ -31,7 +31,7 @@ class AlbumsContextDialog extends StatelessWidget {
         ListTile(
             leading: const Icon(Icons.play_arrow),
             title: Text(LocalizationMapper.current.playNow),
-            onTap: () => playPlaylist(context, playlistContext) ),
+            onTap: () => popNavigatorPlayPlaylist(context, playlistContext) ),
         ListTile(
           leading: const Icon(Icons.queue),
           title: Text(LocalizationMapper.current.queueAll),

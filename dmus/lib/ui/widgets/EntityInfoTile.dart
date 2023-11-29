@@ -2,6 +2,7 @@
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/widgets/LikeButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class EntityInfoTile extends StatelessWidget {
       child: Row(
       children: [
 
-        getImage(context),
+        getRoundedCornerContainerImage(context, entity, THUMB_SIZE * 1.5),
 
         const SizedBox(width: 6),
 
@@ -46,21 +47,6 @@ class EntityInfoTile extends StatelessWidget {
   }
 
 
-  Widget getImage(BuildContext context) {
-
-    if(entity.artPath != null){
-      return Container(
-        width: THUMB_SIZE*1.5,
-        height: THUMB_SIZE*1.5,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.0),
-            image: getDataEntityImageAsDecoration(entity)
-        ),
-      );
-    }
-
-    return const Icon(Icons.music_note);
-  }
 
   Widget getSubtitleText(BuildContext context){
 

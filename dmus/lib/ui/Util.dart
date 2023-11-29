@@ -6,6 +6,8 @@ import 'package:dmus/ui/Settings.dart';
 import 'package:flutter/material.dart';
 
 import '../core/audio/JustAudioController.dart';
+import 'dialogs/Util.dart';
+import 'lookfeel/Theming.dart';
 
 void popNavigatorSafe(BuildContext context) {
   if(context.mounted) {
@@ -44,6 +46,28 @@ SnackBar createSnackBar(SnackBarData data) {
   return snackBar;
 }
 
+
+Widget getRoundedCornerContainerImage(BuildContext context, DataEntity entity, double size) {
+
+  if(entity.artPath != null){
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          image: getDataEntityImageAsDecoration(entity)
+      ),
+    );
+  }
+
+  return const Icon(Icons.music_note);
+}
+
+Icon playPauseIcon(BuildContext context, bool playing){
+  return playing ?
+  Icon(Icons.pause, color: Theme.of(context).colorScheme.inversePrimary) :
+  Icon(Icons.play_arrow, color: Theme.of(context).colorScheme.inversePrimary);
+}
 
 Widget iconDismissibleBackgroundContainer(Color? color, IconData icon) {
   return Container(

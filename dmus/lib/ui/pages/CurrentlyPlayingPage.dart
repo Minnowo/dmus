@@ -38,7 +38,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             title: const Text(title),
-            leadingWidth: THUMB_SIZE + HORIZONTAL_PADDING,
+            leadingWidth: THUMB_SIZE,
             leading: Padding(
                 padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
                 child: SizedBox(
@@ -54,7 +54,6 @@ class CurrentlyPlayingPage extends  StatelessWidget {
         body: SafeArea(
           child: GestureDetector(
             onVerticalDragEnd: (detail){
-              logging.info(detail);
               if (detail.primaryVelocity! < -GESTURE_SWIPE_SENSITIVITY) {
                 _openQueue(context);
               } else if (detail.primaryVelocity! > GESTURE_SWIPE_SENSITIVITY) {

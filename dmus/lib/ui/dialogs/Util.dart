@@ -78,13 +78,16 @@ Future<Playlist?> updateExistingPlaylist(BuildContext context, Playlist playlist
 
 
 /// Plays a playlist and pop the navigator
-Future<void> playPlaylist(BuildContext context, Playlist p) async {
+Future<void> popNavigatorPlayPlaylist(BuildContext context, Playlist p) async {
 
   popNavigatorSafe(context);
+  await playPlaylist(p);
+}
+Future<void> playPlaylist(Playlist p) async {
+
   await JustAudioController.instance.stopAndEmptyQueue();
   await JustAudioController.instance.queuePlaylist(p);
   await JustAudioController.instance.playSongAt(0);
-  await JustAudioController.instance.play();;
 }
 
 
