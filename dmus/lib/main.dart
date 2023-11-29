@@ -102,7 +102,7 @@ class DMUSApp extends StatelessWidget {
     ],
         child: MaterialApp(
           title: title,
-          theme: theme(),
+          theme: darkTheme(),
           localizationsDelegates: const [
             S.delegate,
             ...GlobalMaterialLocalizations.delegates,
