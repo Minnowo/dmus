@@ -66,8 +66,6 @@ class SelectedPlaylistPage extends StatelessWidget {
                     ],
                   )
                 ),
-
-                const SizedBox(width: HORIZONTAL_PADDING),
               ],
             ),
 
@@ -112,7 +110,6 @@ class SelectedPlaylistPage extends StatelessWidget {
                         onPressed: () => _letUserUpdatePlaylist(context)
 
                     ),
-
                   ],
                 ),
               ],
@@ -128,6 +125,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           song: i,
                           selected: false,
                           confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+                          background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
                           onTap: () => JustAudioController.instance.playSong(i),
                           onLongPress: () => SongContextDialog.showAsDialog(context, i),
                           leadWith: playlistContext.entityType == EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
