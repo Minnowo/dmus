@@ -81,18 +81,12 @@ Future<Playlist?> updateExistingPlaylist(BuildContext context, Playlist playlist
 Future<void> popNavigatorPlayPlaylist(BuildContext context, Playlist p) async {
 
   popNavigatorSafe(context);
-  await playPlaylist(p);
-}
-Future<void> playPlaylist(Playlist p) async {
-
-  await JustAudioController.instance.stopAndEmptyQueue();
-  await JustAudioController.instance.queuePlaylist(p);
-  await JustAudioController.instance.playSongAt(0);
+  await JustAudioController.instance.playPlaylist(p);
 }
 
 
 /// Queue a playlist and pop the navigator
-Future<void> queuePlaylist(BuildContext context, Playlist p) async {
+Future<void> popNavigatorQueuePlaylist(BuildContext context, Playlist p) async {
 
   popNavigatorSafe(context);
   await JustAudioController.instance.queuePlaylist(p);
@@ -135,21 +129,3 @@ void popShowShareDialog(BuildContext context, DataEntity toShare) {
   ShareContextDialog.showAsDialog(context, toShare);
 }
 
-DecorationImage? getDataEntityImageAsDecoration(DataEntity dataEntity) {
-
-  if(dataEntity.artPath == null) {
-    return null;
-  }
-
-  Image i = Image.file(dataEntity.artPath!, fit: BoxFit.cover,
-      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-
-        logging.warning("Could not load image for $dataEntity");
-
-        return const Icon(Icons.music_note);
-      });
-
-  return DecorationImage(
-      image: i.image
-  );
-}

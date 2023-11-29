@@ -89,11 +89,13 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
   Widget buildSongTile(BuildContext context, Song song, int index, bool currentSong) {
 
     return SongListWidget(
-        song: song,
-        selected: currentSong,
-        confirmDismiss: (d) => songDismiss(d, index),
-        onTap: () => songTap(index),
-        background: iconDismissibleBackgroundContainer(Colors.red, Icons.delete),
+      song: song,
+      leadWith: SongListWidgetLead.leadWithArtwork,
+      trailWith: SongListWidgetTrail.trailWithDuration,
+      selected: currentSong,
+      confirmDismiss: (d) => songDismiss(d, index),
+      onTap: () => songTap(index),
+      background: iconDismissibleBackgroundContainer(Colors.red, Icons.delete),
     );
   }
 

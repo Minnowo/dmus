@@ -33,7 +33,7 @@ class EntityInfoTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(entity.title),
-                getSubtitleText(context),
+                Text(entity.basicInfoText()),
               ],
             )
         ),
@@ -46,19 +46,6 @@ class EntityInfoTile extends StatelessWidget {
     ) ;
   }
 
-
-
-  Widget getSubtitleText(BuildContext context){
-
-    switch(entity.entityType) {
-
-      case EntityType.song:
-        return Text(formatDuration(entity.duration));
-      case EntityType.playlist:
-      case EntityType.album:
-        return Text("${formatDuration(entity.duration)} - ${(entity as Playlist).songs.length} songs");
-    }
-  }
 
   Widget getTrailing(BuildContext context){
 

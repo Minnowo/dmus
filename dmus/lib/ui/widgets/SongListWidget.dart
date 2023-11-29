@@ -13,6 +13,17 @@ import '../dialogs/context/SongContextDialog.dart';
 import '../lookfeel/Theming.dart';
 import 'ArtDisplay.dart';
 
+
+enum SongListWidgetLead {
+  leadWithArtwork,
+  leadWithTrackNumber,
+}
+
+enum SongListWidgetTrail {
+  trailWithMenu,
+  trailWithDuration,
+}
+
 class SongListWidget extends StatelessWidget {
 
   final Song song;
@@ -22,6 +33,8 @@ class SongListWidget extends StatelessWidget {
   final Future<void> Function()? onLongPress;
   final Widget? background;
   final Widget? secondaryBackground;
+  final SongListWidgetLead leadWith;
+  final SongListWidgetTrail trailWith;
 
   const SongListWidget({
     super.key,
@@ -29,6 +42,8 @@ class SongListWidget extends StatelessWidget {
     required this.selected,
     required this.confirmDismiss,
     required this.onTap,
+    required this.leadWith,
+    required this.trailWith,
     this.onLongPress,
     this.background,
     this.secondaryBackground
@@ -46,20 +61,40 @@ class SongListWidget extends StatelessWidget {
         onTap: onTap,
         onLongPress: onLongPress,
         child: ListTile(
-          leading: SizedBox(
-            width: THUMB_SIZE,
-            child: ArtDisplay(dataEntity: song),
-          ),
+          leading: getLeadWith(context),
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          trailing: InkWell(
-            onTap: () => SongContextDialog.showAsDialog(context, song),
-            child: const Icon(Icons.more_vert),
-          ),
+          trailing: getTrailWith(context),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
           selected: selected,
           selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
     );
+  }
+
+  Widget getTrailWith(BuildContext context){
+    switch(trailWith){
+
+      case SongListWidgetTrail.trailWithDuration:
+        return Text(formatDuration(song.duration));
+
+      case SongListWidgetTrail.trailWithMenu:
+        return InkWell(
+          onTap: () => SongContextDialog.showAsDialog(context, song),
+          child: const Icon(Icons.more_vert),
+        );
+    }
+  }
+  Widget getLeadWith(BuildContext context){
+    switch(leadWith) {
+
+      case SongListWidgetLead.leadWithArtwork:
+        return SizedBox(
+          width: THUMB_SIZE,
+          child: ArtDisplay(dataEntity: song),
+        );
+      case SongListWidgetLead.leadWithTrackNumber:
+        return Text(song.metadata.trackNumber?.toString() ?? "N/A");
+    }
   }
 }

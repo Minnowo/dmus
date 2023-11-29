@@ -341,6 +341,7 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
   Future<void> _setAudioSource(Song song) async {
+    if(!_isInit || _isDisposed) return;
 
     if(!await song.file.exists()) {
       return MessagePublisher.publishSomethingWentWrong("Cannot play ${song.file} because it does not exist!");
@@ -357,6 +358,7 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
   Future<void> playSongAt(int index) async {
+    if(!_isInit || _isDisposed) return;
 
     logging.info("Playing song at $index");
 
@@ -372,7 +374,16 @@ final class JustAudioController extends BaseAudioHandler {
     await playSong(s);
   }
 
+  Future<void> playPlaylist(Playlist p) async {
+    if(!_isInit || _isDisposed || p.songs.isEmpty) return;
+
+    await JustAudioController.instance.stopAndEmptyQueue();
+    await JustAudioController.instance.queuePlaylist(p);
+    await JustAudioController.instance.playSongAt(0);
+  }
+
   Future<void> stopAndEmptyQueue() async {
+    if(!_isInit || _isDisposed) return;
 
     _player.stop();
 

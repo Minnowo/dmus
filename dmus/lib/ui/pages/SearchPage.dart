@@ -80,6 +80,8 @@ class _SearchPageState extends State<SearchPage> {
         SongListWidget(
           song: i,
           selected: false,
+          leadWith: SongListWidgetLead.leadWithArtwork,
+          trailWith: SongListWidgetTrail.trailWithDuration,
           onTap: () => JustAudioController.instance.playSong(i),
           onLongPress: () => SongContextDialog.showAsDialog(context, i),
           confirmDismiss: (d) => addToQueueSongDismiss(d, i),

@@ -8,6 +8,7 @@ import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
 
 
+const String DEFAULT_SEP = "  ";
 
 /// Enum used to quickly determine which type of entity
 /// a given DataEntity is
@@ -79,6 +80,9 @@ abstract class DataEntity {
     }
   }
 
+  String basicInfoText();
+  String basicInfoTextWithSep(String sep);
+
   @override
   String toString() {
     return "<$runtimeType $id $title ${formatDuration(duration)}>";
@@ -114,6 +118,23 @@ class Song extends DataEntity {
   @override
   EntityType get entityType => EntityType.song;
 
+
+  @override
+  String basicInfoTextWithSep(String sep) {
+    return [
+      formatDuration(duration),
+
+      if(metadata.discNumber != null)
+        "Disc ${metadata.discNumber}",
+
+      if(metadata.trackNumber != null)
+        "Track ${metadata.trackNumber}",
+
+    ].join(sep);
+  }
+
+  @override
+  String basicInfoText() => basicInfoTextWithSep(DEFAULT_SEP);
 
   MediaItem toMediaItem(){
     return MediaItem(
@@ -213,6 +234,17 @@ class Playlist extends DataEntity {
 
   @override
   EntityType get entityType => EntityType.playlist;
+
+  @override
+  String basicInfoTextWithSep(String sep){
+    return [
+      formatDuration(duration),
+      "${songs.length} songs",
+    ].join(sep);
+  }
+
+  @override
+  String basicInfoText() => basicInfoTextWithSep(DEFAULT_SEP);
 
   @override
   String toString() {

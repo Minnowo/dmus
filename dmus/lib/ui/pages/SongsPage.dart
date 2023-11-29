@@ -150,6 +150,8 @@ class _SongsPageState extends  State<SongsPage> {
                       for(final i in songs)
                         SongListWidget(
                           song: i,
+                          leadWith: SongListWidgetLead.leadWithArtwork,
+                          trailWith: SongListWidgetTrail.trailWithMenu,
                           confirmDismiss: (d) => addToQueueSongDismiss(d, i),
                           onTap: () => JustAudioController.instance.playSong(i),
                           onLongPress: () => SongContextDialog.showAsDialog(context, i),

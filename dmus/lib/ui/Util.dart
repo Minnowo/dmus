@@ -5,6 +5,7 @@ import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:flutter/material.dart';
 
+import '../core/Util.dart';
 import '../core/audio/JustAudioController.dart';
 import 'dialogs/Util.dart';
 import 'lookfeel/Theming.dart';
@@ -15,11 +16,13 @@ void popNavigatorSafe(BuildContext context) {
   }
 }
 
+
 void popNavigatorSafeWithArgs<T extends Object>(BuildContext context, [T? result]) {
   if(context.mounted) {
     Navigator.pop(context, result);
   }
 }
+
 
 SnackBar createSimpleSnackBar(String text) {
 
@@ -28,12 +31,14 @@ SnackBar createSimpleSnackBar(String text) {
   return snackBar;
 }
 
+
 SnackBar createSimpleSnackBarWithDuration(String text, Duration d) {
 
   final snackBar = SnackBar( content: Text(text), duration: d,);
 
   return snackBar;
 }
+
 
 SnackBar createSnackBar(SnackBarData data) {
 
@@ -63,11 +68,13 @@ Widget getRoundedCornerContainerImage(BuildContext context, DataEntity entity, d
   return const Icon(Icons.music_note);
 }
 
+
 Icon playPauseIcon(BuildContext context, bool playing){
   return playing ?
   Icon(Icons.pause, color: Theme.of(context).colorScheme.inversePrimary) :
   Icon(Icons.play_arrow, color: Theme.of(context).colorScheme.inversePrimary);
 }
+
 
 Widget iconDismissibleBackgroundContainer(Color? color, IconData icon) {
   return Container(
@@ -77,6 +84,8 @@ Widget iconDismissibleBackgroundContainer(Color? color, IconData icon) {
     child: Icon(icon),
   );
 }
+
+
 Future<bool> addToQueueSongDismiss(DismissDirection direction, Song song) async
 {
   JustAudioController.instance.addNextToQueue(song);
@@ -89,4 +98,24 @@ Future<bool> addToQueueSongDismiss(DismissDirection direction, Song song) async
   );
 
   return false;
+}
+
+
+DecorationImage? getDataEntityImageAsDecoration(DataEntity dataEntity) {
+
+  if(dataEntity.artPath == null) {
+    return null;
+  }
+
+  Image i = Image.file(dataEntity.artPath!, fit: BoxFit.cover,
+      errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+
+        logging.warning("Could not load image for $dataEntity");
+
+        return const Icon(Icons.music_note);
+      });
+
+  return DecorationImage(
+      image: i.image
+  );
 }

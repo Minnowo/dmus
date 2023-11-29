@@ -3,6 +3,7 @@ import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
+import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import '../../core/Util.dart';
 import '../../core/audio/ProviderData.dart';
 import '../Util.dart';
 import '../dialogs/Util.dart';
+import '../dialogs/context/SongContextDialog.dart';
 import '../lookfeel/Theming.dart';
 import '../widgets/CurrentlyPlayingBar.dart';
 
@@ -77,7 +79,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                   children: [
                     const SizedBox(width: HORIZONTAL_PADDING),
 
-                    Text( "${formatDuration(playlistContext.duration)} - ${playlistContext.songs.length} songs" , style: TEXT_SUBTITLE,),
+                    Text( playlistContext.basicInfoTextWithSep(" - ") , style: TEXT_SUBTITLE,),
                   ],
                 ),
 
@@ -95,7 +97,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                               if(playerState.playing) {
                                 await JustAudioController.instance.pause();
                               } else {
-                                await playPlaylist(playlistContext);
+                                await JustAudioController.instance.playPlaylist(playlistContext);
                               }
                             },
                           );
@@ -119,49 +121,21 @@ class SelectedPlaylistPage extends StatelessWidget {
             Expanded(
               child: playlistContext.songs.isEmpty
                   ? _buildEmptyPlaylist(context)
-                  : ListView.builder(
-                itemCount: playlistContext.songs.length,
-                itemBuilder: (context, index) {
-                  final Song song = playlistContext.songs[index];
+                  : ListView(
+                    children: [
+                      for(final i in playlistContext.songs)
+                        SongListWidget(
+                          song: i,
+                          selected: false,
+                          confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+                          onTap: () => JustAudioController.instance.playSong(i),
+                          onLongPress: () => SongContextDialog.showAsDialog(context, i),
+                          leadWith: playlistContext.entityType == EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
+                          trailWith: SongListWidgetTrail.trailWithDuration,
+                        ),
+                    ],
+                  )
 
-                  return Dismissible(
-                    key: Key(song.id.toString()),
-                    confirmDismiss: (direction) async {
-                      return false;
-                    },
-                    background: Container(
-                      color: Colors.green,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: const Icon(
-                        Icons.playlist_add,
-                        color: Colors.white,
-                      ),
-                    ),
-                    secondaryBackground: Container(
-                      color: Colors.green,
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 20.0),
-                      child: const Icon(
-                        Icons.playlist_add,
-                        color: Colors.white,
-                      ),
-                    ),
-                    child: ListTile(
-                      leading: SizedBox(
-                        width: THUMB_SIZE,
-                        child: ArtDisplay(dataEntity: song),
-                      ),
-                      title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-                      trailing: Text(formatDuration(song.duration)),
-                      subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      onTap: () {
-                        _playPlaylistFromIndex(context, index);
-                      },
-                    ),
-                  );
-                },
-              ),
             ),
             const CurrentlyPlayingBar(),
           ],
@@ -198,16 +172,6 @@ class SelectedPlaylistPage extends StatelessWidget {
     );
   }
 
-  Future<void> _playPlaylistFromIndex(BuildContext context, int startIndex) async {
-    try {
-      await JustAudioController.instance.stopAndEmptyQueue();
-      await JustAudioController.instance.queuePlaylist(playlistContext);
-      await JustAudioController.instance.playSongAt(startIndex);
-      await JustAudioController.instance.play();
-    } catch (e) {
-      logging.finest('Error playing playlist from index $startIndex: $e');
-    }
-  }
 
   void _letUserUpdatePlaylist(BuildContext context) {
 
@@ -219,9 +183,5 @@ class SelectedPlaylistPage extends StatelessWidget {
             }
       });
 
-  }
-
-  void _openQueue(BuildContext context) {
-    animateOpenFromBottom(context, const PlayQueuePage());
   }
 }
