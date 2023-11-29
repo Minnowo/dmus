@@ -8,7 +8,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
+import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../Util.dart';
+import '../dialogs/context/SongContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 
@@ -74,7 +77,14 @@ class _SearchPageState extends State<SearchPage> {
       const Text("--- Songs ---"),
 
       for(final i in _songResults)
-        SongListWidget(song: i),
+        SongListWidget(
+          song: i,
+          selected: false,
+          onTap: () => JustAudioController.instance.playSong(i),
+          onLongPress: () => SongContextDialog.showAsDialog(context, i),
+          confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+          background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
+        ),
     ];
   }
 

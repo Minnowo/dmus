@@ -16,47 +16,35 @@ import 'ArtDisplay.dart';
 class SongListWidget extends StatelessWidget {
 
   final Song song;
+  final bool selected;
+  final Future<bool?> Function(DismissDirection) confirmDismiss;
+  final Future<void> Function() onTap;
+  final Future<void> Function()? onLongPress;
+  final Widget? background;
+  final Widget? secondaryBackground;
 
-  const SongListWidget({super.key, required this.song});
+  const SongListWidget({
+    super.key,
+    required this.song,
+    required this.selected,
+    required this.confirmDismiss,
+    required this.onTap,
+    this.onLongPress,
+    this.background,
+    this.secondaryBackground
+  });
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(song.id.toString()),
+      key: UniqueKey(),
       direction: DismissDirection.endToStart,
-      confirmDismiss: (direction) async {
-        JustAudioController.instance.addNextToQueue(song);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${song.title} added to the queue'),
-            duration: fastSnackBarDuration,
-          ),
-        );
-
-        return false;
-      },
-      background: Container(
-        color: Colors.green,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 20.0),
-        child: const Icon(
-          Icons.playlist_add,
-          color: Colors.white,
-        ),
-      ),
-      secondaryBackground: Container(
-        color: Colors.green,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 20.0),
-        child: const Icon(
-          Icons.playlist_add,
-          color: Colors.white,
-        ),
-      ),
+      confirmDismiss: confirmDismiss,
+      background: background,
+      secondaryBackground: secondaryBackground,
       child: InkWell(
-        onTap: () => JustAudioController.instance.playSong(song),
-        onLongPress: () => SongContextDialog.showAsDialog(context, song),
+        onTap: onTap,
+        onLongPress: onLongPress,
         child: ListTile(
           leading: SizedBox(
             width: THUMB_SIZE,
@@ -68,9 +56,10 @@ class SongListWidget extends StatelessWidget {
             child: const Icon(Icons.more_vert),
           ),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
+          selected: selected,
+          selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
         ),
       ),
     );
   }
-
 }

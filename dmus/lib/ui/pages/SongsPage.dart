@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImportController.dart';
+import '../Settings.dart';
+import '../dialogs/context/SongContextDialog.dart';
 import 'NavigationPage.dart';
 
 
@@ -144,7 +148,14 @@ class _SongsPageState extends  State<SongsPage> {
                   child: ListView (
                     children: [
                       for(final i in songs)
-                        SongListWidget(song: i)
+                        SongListWidget(
+                          song: i,
+                          confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+                          onTap: () => JustAudioController.instance.playSong(i),
+                          onLongPress: () => SongContextDialog.showAsDialog(context, i),
+                          selected: false,
+                          background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
+                        )
                     ],
                   )
               ),

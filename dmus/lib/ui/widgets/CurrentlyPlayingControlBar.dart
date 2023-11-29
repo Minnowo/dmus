@@ -17,7 +17,9 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
+    return  Container(
+      color: Theme.of(context).colorScheme.background,
+        child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -116,6 +118,7 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
                => TimeSlider(songDuration: playerPosition.duration ?? Duration.zero, songPosition: playerPosition.position),
             ),
           ],
+        )
     );
   }
 

@@ -28,9 +28,9 @@ final class JustAudioController extends BaseAudioHandler {
   bool _isInit = false;
   bool _isDisposed = false;
   bool _isPaused = true;
-  bool _isFirstPub = true;
   ShuffleOrder _shuffleOrder = ShuffleOrder.inOrder;
   bool _isRepeat = false;
+  bool _currentIsNext = false;
 
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();
@@ -241,7 +241,14 @@ final class JustAudioController extends BaseAudioHandler {
   Future<void> skipToNext() async {
     if(!_isInit || _isDisposed) return;
 
-    Song? s = _playQueue.advanceNext();
+    Song? s;
+
+    if(_currentIsNext) {
+      _currentIsNext = false;
+      s = _playQueue.current();
+    } else {
+      s = _playQueue.advanceNext();
+    }
 
     if(s != null) {
       await _setAudioSource( s);
@@ -252,7 +259,14 @@ final class JustAudioController extends BaseAudioHandler {
   Future<void> skipToPrevious() async {
     if(!_isInit || _isDisposed) return;
 
-    Song? s = _playQueue.advancePrevious();
+    Song? s;
+
+    if(_currentIsNext) {
+      _currentIsNext = false;
+      s = _playQueue.current();
+    } else {
+      s = _playQueue.advancePrevious();
+    }
 
     if(s != null) {
       await _setAudioSource( s);
@@ -370,6 +384,21 @@ final class JustAudioController extends BaseAudioHandler {
   Future<void> queuePlaylist(Playlist p) async {
     logging.finest("playing playlist ${p.toStringWithSongs()}");
     _playQueue.addAllToQueue(p.songs);
+  }
+
+  Future<void> removeQueueAt(int index) async {
+
+    if(index < 0 || index >= _playQueue.length) return;
+
+    if(index == _playQueue.currentPosition) {
+      _currentIsNext = true;
+    }
+
+    Song? song = _playQueue.removeAt(index);
+
+    if(_playQueue.state == QueueState.end && song != null) {
+      _firePlayerSong(song);
+    }
   }
 
 

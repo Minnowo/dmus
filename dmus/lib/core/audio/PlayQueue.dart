@@ -30,6 +30,8 @@ class PlayQueue {
   /// Get the current position
   int get currentPosition => _currentPosition;
 
+  int get length => _queue.length;
+
   /// Get the state of the queue
   QueueState get state => _queueState;
 
@@ -44,6 +46,9 @@ class PlayQueue {
 
   /// The private position
   int _currentPosition = -1;
+
+  /// If the current index is removed, the next song / previous song should be just the current index again
+  bool _nextIsCurrent = false;
 
   /// The private state
   QueueState _queueState = QueueState.empty;
@@ -204,6 +209,26 @@ class PlayQueue {
   void addToQueue(Song s) {
     _queue.add(s);
     setPosition(_currentPosition);
+  }
+
+
+  /// Removes the queue at the given index
+  Song? removeAt(int i) {
+    if(i < 0 || i > _queue.length) return null;
+
+    Song? s;
+
+    if(_queue.length == 1) {
+      s = current();
+      clear();
+      return s;
+    }
+
+    s = _queue.removeAt(i);
+
+    setPosition(_currentPosition);
+
+    return s;
   }
 
 
