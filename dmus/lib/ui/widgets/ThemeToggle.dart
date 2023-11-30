@@ -1,4 +1,4 @@
-import 'package:dmus/ui/widgets/ThemeProvider.dart';
+import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,11 +13,12 @@ class ThemeToggle extends StatelessWidget {
         Expanded(
           child: Align(
             alignment: Alignment.centerRight,
-            child: Switch(
-              value: Provider.of<ThemeProvider>(context).isDarkModeEnabled,
-              onChanged: (value) {
-                Provider.of<ThemeProvider>(context, listen: false).toggleDarkMode();
-              },
+            child: Consumer<ThemeProvider>(
+                builder: (context, themProvider, child)  =>
+                    Switch(
+                      value: themProvider.isDarkModeEnabled,
+                      onChanged: themProvider.setTheme,
+                    )
             ),
           ),
         ),

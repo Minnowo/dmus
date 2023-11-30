@@ -3,11 +3,13 @@
 
 
 import 'package:dmus/core/Util.dart';
+import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/data/DataEntity.dart';
 
@@ -28,11 +30,9 @@ class _SongPickerState extends State<SongPicker> {
   void initState() {
     super.initState();
 
-    TableSong.selectAllWithMetadata()
-        .then((value) => value.map((e) => SelectableDataItem(e, false, true)))
-        .then((value) => songs.addAll(value))
-        .whenComplete(() => setState((){}));
-
+    songs.addAll(
+        context.read<SongsProvider>().songs
+            .map((e) => SelectableDataItem(e, false, true)));
   }
 
   void finishSelection(){
@@ -85,7 +85,6 @@ class _SongPickerState extends State<SongPicker> {
                           },
                         ),
                       ),
-
                 ],
               ),
             ),

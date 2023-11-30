@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/core/data/provider/AlbumProvider.dart';
+import 'package:dmus/core/data/provider/PlaylistProvider.dart';
+import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
@@ -18,7 +21,7 @@ import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SearchPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
-import 'package:dmus/ui/widgets/ThemeProvider.dart';
+import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -61,6 +64,18 @@ class DMUSApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MultiProvider(providers: [
+
+      ChangeNotifierProvider<PlaylistProvider>(
+          create: (_) => PlaylistProvider()
+      ),
+
+      ChangeNotifierProvider<SongsProvider>(
+          create: (_) => SongsProvider()
+      ),
+
+      ChangeNotifierProvider<AlbumProvider>(
+          create: (_) => AlbumProvider()
+      ),
 
       StreamProvider<PlayerSong>(
           create: (_) => JustAudioController.instance.onPlayerSongChanged,

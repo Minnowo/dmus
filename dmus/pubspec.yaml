@@ -37,6 +37,9 @@ dependencies:
   intl: ^0.18.1
   intl_translation: ^0.18.2
 
+  # dart lang
+  collection: ^1.18.0
+
   # for audio services
   audio_session: ^0.1.5
   audio_service: ^0.18.12
