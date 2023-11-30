@@ -60,8 +60,18 @@ final class DatabaseMigrations {
     const String TBL_LIKES = "tbl_likes";
     const String TBL_HISTORY = "tbl_history";
     const String TBL_BLACKLISTS = "tbl_blacklist";
+    const String TBL_SETTINGS = "tbl_settings";
 
     await db.execute("PRAGMA foreign_keys = ON");
+
+    logging.config("Creating $TBL_SETTINGS");
+
+    await db.execute('''
+    CREATE TABLE $TBL_SETTINGS (
+        settings_key VARCHAR UNIQUE NOT NULL,
+        settings_value VARCHAR
+    ) 
+    ''');
 
     logging.config("Creating $TBL_BLACKLISTS");
 

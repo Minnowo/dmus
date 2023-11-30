@@ -9,6 +9,7 @@ import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
@@ -40,6 +41,8 @@ Future<void> main() async {
   await initLogging(Level.ALL);
 
   await DatabaseController.database;
+
+  await SettingsHandler.load();
 
   await Firebase.initializeApp();
   
@@ -201,6 +204,8 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
 
     JustAudioController.instance.dispose();
+
+    SettingsHandler.save();
 
     for(var i in _subscriptions) {
       i.cancel();
