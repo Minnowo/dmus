@@ -9,6 +9,7 @@ import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
+import 'package:dmus/ui/widgets/ThemeToggle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -20,15 +21,8 @@ import '../lookfeel/Animations.dart';
 import '../pages/cloud/SignIn.dart';
 import '../pages/cloud/registerPage.dart';
 
-class SettingsDrawer extends StatefulWidget {
-  const SettingsDrawer({Key? key}) : super(key: key);
-
-  @override
-  _SettingsDrawerState createState() => _SettingsDrawerState();
-}
-
-class _SettingsDrawerState extends State<SettingsDrawer> {
-  bool isDarkModeEnabled = false;
+class SettingsDrawer extends StatelessWidget {
+  const SettingsDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -137,38 +131,17 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
 
               ],
             ),
-        
-        const Divider(),
+
+          const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("Appearance", style: TextStyle(fontSize: subheaderFontSize)),
           ),
-          ListTile(
-            leading: const Icon(Icons.dark_mode),
-            title: Row(
-              children: [
-                const Text('Dark Mode'),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Switch(
-                      value: isDarkModeEnabled,
-                      onChanged: (value) {
-                        setState(() {
-                          isDarkModeEnabled = value;
-                          // Implement your dark mode logic here
-                          // You can use a package like provider to notify other parts of your app about the theme change.
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          const ListTile(
+            leading: Icon(Icons.dark_mode),
+            title: ThemeToggle(),
           ),
         ],
-      
-        
       ),
     );
   }

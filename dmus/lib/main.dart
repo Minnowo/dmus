@@ -18,6 +18,7 @@ import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SearchPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
+import 'package:dmus/ui/widgets/ThemeProvider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +43,13 @@ Future<void> main() async {
   final Locale myLocale = Locale(Platform.localeName);
   await LocalizationMapper.load(myLocale);
 
-  runApp(const DMUSApp());
+  //runApp(const DMUSApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(), // Add ThemeProvider to the root of your widget tree
+      child: const DMUSApp(),
+    ),
+  );
 }
 
 class DMUSApp extends StatelessWidget {
@@ -100,9 +107,14 @@ class DMUSApp extends StatelessWidget {
       )
 
     ],
-        child: MaterialApp(
+    child: Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
           title: title,
-          theme: darkTheme(),
+          theme: themeProvider.isDarkModeEnabled ? darkTheme() : ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
           localizationsDelegates: const [
             S.delegate,
             ...GlobalMaterialLocalizations.delegates,
@@ -114,7 +126,9 @@ class DMUSApp extends StatelessWidget {
             Locale('sp', ''),
           ],
           home: const RootPage(title: title),
-        )
+        );
+      },
+    ),
     );
   }
 }
