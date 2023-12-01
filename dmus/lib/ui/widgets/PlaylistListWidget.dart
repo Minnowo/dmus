@@ -28,6 +28,7 @@ class PlaylistListWidget extends StatelessWidget {
           ),
           title: Text(playlist.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           trailing: InkWell(
+            borderRadius: BorderRadius.circular(50),
             onTap: () => PlaylistContextDialog.showAsDialog(context, playlist),
             child: const Icon(Icons.more_vert),
           ),

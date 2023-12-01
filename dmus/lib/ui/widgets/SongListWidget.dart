@@ -63,7 +63,11 @@ class SongListWidget extends StatelessWidget {
         child: ListTile(
           leading: getLeadWith(context),
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-          trailing: getTrailWith(context),
+          trailing: InkWell(
+            borderRadius: BorderRadius.circular(50),
+            onTap: () => SongContextDialog.showAsDialog(context, song),
+            child: getTrailWith(context),
+          ),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
           selected: selected,
           selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
