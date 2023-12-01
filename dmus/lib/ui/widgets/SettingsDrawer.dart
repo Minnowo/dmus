@@ -196,7 +196,7 @@ class SettingsDrawer extends StatelessWidget {
 
     if(user != null) {
       await CloudStorageUploadHelper.addAllSongs(user.uid);
-      await CloudStorageUploadHelper.addAllPlaylists(user.uid);
+      //await CloudStorageUploadHelper.addAllPlaylists(user.uid);
     }
   }
 
