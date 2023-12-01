@@ -9,7 +9,7 @@ import 'ArtDisplay.dart';
 class PlaylistListWidget extends StatelessWidget {
   final Playlist playlist;
 
-  const PlaylistListWidget({Key? key, required this.playlist}) : super(key: key);
+  const PlaylistListWidget({super.key, required this.playlist});
 
   @override
   Widget build(BuildContext context) {
