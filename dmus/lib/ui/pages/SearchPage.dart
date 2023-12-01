@@ -73,8 +73,29 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     return [
-
-      const Text("--- Songs ---"),
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Row(
+            children: [
+              Text(
+                "Songs",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          dense: true,
+        ),
+      ),
+      Divider(
+        color: Colors.blue,
+        thickness: 2.5,
+        indent: 0,
+        endIndent: 250,
+      ),
 
       for(final i in _songResults)
         SongListWidget(
@@ -97,8 +118,29 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     return [
-
-      const Text("--- Playlists---"),
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Row(
+            children: [
+              Text(
+                "Playlists",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          dense: true,
+        ),
+      ),
+      Divider(
+        color: Colors.blue,
+        thickness: 2.5,
+        indent: 0,
+        endIndent: 240,
+      ),
 
       for(final i in _playlistResults)
         PlaylistListWidget(playlist: i),
@@ -112,8 +154,29 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     return [
-
-      const Text("--- Albums ---"),
+      Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Row(
+            children: [
+              Text(
+                "Albums",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          dense: true,
+        ),
+      ),
+      Divider(
+        color: Colors.blue,
+        thickness: 2.5,
+        indent: 0,
+        endIndent: 250,
+      ),
 
       for(final i in _albumResults)
         PlaylistListWidget(playlist: i),
