@@ -80,18 +80,15 @@ class SongsPage extends  StatelessNavigationPage {
                       child: ListView (
                         children: [
                           for(final i in songsProvider.songs)
-                            InkWell(
-                              borderRadius: BorderRadius.circular(100.0),
-                              child: SongListWidget(
-                                song: i,
-                                leadWith: SongListWidgetLead.leadWithArtwork,
-                                trailWith: SongListWidgetTrail.trailWithMenu,
-                                confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-                                onTap: () => JustAudioController.instance.playSong(i),
-                                onLongPress: () => SongContextDialog.showAsDialog(context, i),
-                                selected: false,
-                                background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
-                              ),
+                            SongListWidget(
+                              song: i,
+                              leadWith: SongListWidgetLead.leadWithArtwork,
+                              trailWith: SongListWidgetTrail.trailWithMenu,
+                              confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+                              onTap: () => JustAudioController.instance.playSong(i),
+                              onLongPress: () => SongContextDialog.showAsDialog(context, i),
+                              selected: false,
+                              background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
                             )
                         ],
                       )
