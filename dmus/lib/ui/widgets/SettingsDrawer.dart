@@ -7,6 +7,7 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
+import 'package:dmus/ui/pages/AdvancedSettingsPage.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:dmus/ui/widgets/ThemeToggle.dart';
@@ -133,13 +134,28 @@ class SettingsDrawer extends StatelessWidget {
             ),
 
           const Divider(),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Text("Appearance", style: TextStyle(fontSize: subheaderFontSize)),
           ),
+
           const ListTile(
             leading: Icon(Icons.dark_mode),
             title: ThemeToggle(),
+          ),
+
+          const Divider(),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text("Other", style: TextStyle(fontSize: subheaderFontSize)),
+          ),
+
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text("Advanced Settings"),
+            onTap: () => showAdvancedSettings(context),
           ),
         ],
       ),
@@ -147,6 +163,11 @@ class SettingsDrawer extends StatelessWidget {
   }
 
 
+  Future<void> showAdvancedSettings(BuildContext context) async {
+
+    popNavigatorSafe(context);
+    await animateOpenFromBottom(context, const AdvancedSettingsPage());
+  }
   Future<void> showBlacklistedFiles(BuildContext context) async {
 
     popNavigatorSafe(context);

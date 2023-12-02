@@ -9,7 +9,7 @@ class ThemeProvider extends ChangeNotifier {
 
   ThemeProvider() {
 
-    _isDarkModeEnabled = SettingsHandler.isDarkTheme ?? true;
+    _isDarkModeEnabled = SettingsHandler.isDarkTheme;
   }
 
   void toggleDarkMode() {

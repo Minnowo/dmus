@@ -2,6 +2,7 @@
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/CurrentlyPlayingPage.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,22 @@ import 'package:text_scroll/text_scroll.dart';
 import '../../core/Util.dart';
 import '../lookfeel/Theming.dart';
 
+
+enum CurrentlyPlayingBarSwipe {
+  swipeToCancel,
+  swipeToNextPrevious,
+}
+
+CurrentlyPlayingBarSwipe cpbsFromInt(int i) {
+  return CurrentlyPlayingBarSwipe.values[i.clamp(0, CurrentlyPlayingBarSwipe.values.length - 1)];
+}
+
 class CurrentlyPlayingBar extends  StatelessWidget {
-  const CurrentlyPlayingBar({super.key});
 
   static int _keyValue = 0;
+
+  const CurrentlyPlayingBar({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +41,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
             color: Theme.of(context).colorScheme.background,
             child: Dismissible(
               key: ValueKey(_keyValue),
-              onDismissed: (_) async {
-                _keyValue++;
-                await JustAudioController.instance.stop();
-              },
+              confirmDismiss: handleSwipe,
               child: InkWell(
                   onTap: () => _openCurrentlyPlayingPage(context),
                   child: Padding(
@@ -112,6 +122,37 @@ class CurrentlyPlayingBar extends  StatelessWidget {
   void _openCurrentlyPlayingPage(BuildContext context) {
 
     animateOpenFromBottom(context, const CurrentlyPlayingPage());
+  }
 
+
+  Future<bool?> handleSwipe(DismissDirection dir) async {
+      _keyValue++;
+
+      switch(cpbsFromInt(SettingsHandler.currentlyPlayingSwipeMode)) {
+
+        case CurrentlyPlayingBarSwipe.swipeToCancel:
+          await JustAudioController.instance.stop();
+          return true;
+
+        case CurrentlyPlayingBarSwipe.swipeToNextPrevious:
+
+          switch(dir) {
+
+            case DismissDirection.endToStart:
+              await JustAudioController.instance.skipToPrevious();
+              return false;
+
+            case DismissDirection.startToEnd:
+              await JustAudioController.instance.skipToNext();
+              return false;
+
+            case DismissDirection.vertical:
+            case DismissDirection.horizontal:
+            case DismissDirection.up:
+            case DismissDirection.down:
+            case DismissDirection.none:
+              return false;
+          }
+      }
   }
 }

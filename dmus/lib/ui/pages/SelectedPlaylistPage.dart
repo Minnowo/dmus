@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
 import '../../core/audio/ProviderData.dart';
+import '../../core/localstorage/SettingsHandler.dart';
 import '../Util.dart';
 import '../dialogs/Util.dart';
 import '../dialogs/context/SongContextDialog.dart';
@@ -155,7 +156,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                   )
               ),
             ),
-            const CurrentlyPlayingBar(),
+            const CurrentlyPlayingBar()
           ],
         ),
       ),
