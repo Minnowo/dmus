@@ -51,19 +51,26 @@ final class CloudStorageUploadHelper {
 
         allSongsDetails.add(songDetails);
 
-        // Monitor the upload task as before
-        uploadTask.snapshotEvents.listen((event) {
-          final progress = event.bytesTransferred / event.totalBytes;
-          logging.fine('Upload progress: $progress');
-        }, onError: (error) {
-          logging.fine('Error during upload: $error');
-        });
+        // Check if the song is already uploaded using the URI
+        final isUploaded = await isSongUploaded(userID, file.uri);
 
-        return uploadTask;
+        if (!isUploaded) {
+          // Monitor the upload task as before
+          uploadTask.snapshotEvents.listen((event) {
+            final progress = event.bytesTransferred / event.totalBytes;
+            logging.fine('Upload progress: $progress');
+          }, onError: (error) {
+            logging.fine('Error during upload: $error');
+          });
+
+          return uploadTask;
+        } else {
+          logging.finest('Song ${file.uri.pathSegments.last} is already uploaded.');
+          return null; // Skip the upload task for already uploaded songs
+        }
       }).toList();
 
-
-      await Future.wait(uploadTasks);
+      await Future.wait(uploadTasks.where((task) => task != null));
 
       // Create a JSON file with all the song details and upload it
       final allSongsDetailsJson = jsonEncode(allSongsDetails);
@@ -132,6 +139,33 @@ final class CloudStorageUploadHelper {
       logging.warning('Error uploading playlists and songs to Firebase Cloud Storage: $e');
 
       MessagePublisher.publishRawException(e);
+    }
+  }
+
+  static Future<bool> isSongUploaded(String userID, Uri? songUri) async {
+    final FirebaseStorage _storage = FirebaseStorage.instance;
+
+    try {
+      if (songUri == null) {
+        // Handle the case where the songUri is null (invalid)
+        return false;
+      }
+
+      // Construct the remote path for the song
+      final remotePath = 'users/$userID/songs/${songUri.pathSegments.last}';
+
+      // Get a reference to the song in Firebase Storage
+      final reference = _storage.ref(remotePath);
+
+      // Attempt to get metadata for the song
+      final result = await reference.getMetadata();
+      print(result);
+
+      // If metadata is available, the song is uploaded
+      return result != null;
+    } catch (e) {
+      // If an exception occurs or metadata is not available, consider it not uploaded
+      return false;
     }
   }
 }
