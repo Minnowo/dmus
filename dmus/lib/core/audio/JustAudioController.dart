@@ -15,7 +15,7 @@ import '../Util.dart';
 import '../data/DataEntity.dart';
 import 'PlayQueue.dart';
 
-
+const INVALID_PLAYLIST_ID = -7;
 
 final class JustAudioController extends BaseAudioHandler {
 
@@ -31,7 +31,10 @@ final class JustAudioController extends BaseAudioHandler {
   ShuffleOrder _shuffleOrder = ShuffleOrder.inOrder;
   bool _isRepeat = false;
   bool _currentIsNext = false;
+  int _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
 
+  final _queueShuffledStream = StreamController<QueueShuffle>.broadcast();
+  final _queueChangedStream = StreamController<QueueChanged>.broadcast();
   final _positionStream = StreamController<PlayerPosition>.broadcast();
   final _durationStream = StreamController<PlayerDuration>.broadcast();
   final _playingStream = StreamController<PlayerPlaying>.broadcast();
@@ -89,8 +92,10 @@ final class JustAudioController extends BaseAudioHandler {
     _playerStateStream.addStream(_player.playerStateStream.map(_transformPlayerState));
 
     _playerStateStream.stream.listen(_onPlayerStateChanged);
+    _playQueue.onQueueChanged.listen(_fireQueueChanged);
 
     _player.playbackEventStream.map(_transformPlaybackEvent).pipe(playbackState);
+
   }
 
   Future<void> _onPlayerStateChanged(PlayerStateExtended event) async {
@@ -164,6 +169,26 @@ final class JustAudioController extends BaseAudioHandler {
     );
   }
 
+  int get queueSize {
+    return _playQueue.length;
+  }
+
+  int get queueIndex {
+    return _playQueue.currentPosition;
+  }
+
+  int get lastPlaylistInQueue {
+    return _isPlayingLastPlaylist;
+}
+
+  /// Publish events when the queue is shuffled
+  Stream<QueueShuffle> get onQueueShuffle {
+    return _queueShuffledStream.stream;
+  }
+  /// Publish events when the queue changes
+  Stream<QueueChanged> get onQueueChanged {
+    return _queueChangedStream.stream;
+  }
   /// Publish events when the repeat mode changes
   Stream<PlayerRepeat> get onRepeatChanged {
     return _repeatOrderStream.stream;
@@ -288,7 +313,13 @@ final class JustAudioController extends BaseAudioHandler {
 
     if(song == null) return await stop();
 
+    final before = _playQueue.length;
+
     _playQueue.jumpTo(song);
+
+    if(before != _playQueue.length) {
+      _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+    }
 
     await _setAudioSource(song);
   }
@@ -371,33 +402,49 @@ final class JustAudioController extends BaseAudioHandler {
 
     Song? s = _playQueue.current();
 
+    logging.info("About to play song $s");
+
     await playSong(s);
   }
 
   Future<void> playPlaylist(Playlist p) async {
+    await playPlaylistStartingFrom(p, 0);
+  }
+
+  Future<void> playPlaylistStartingFrom(Playlist p, int index) async {
     if(!_isInit || _isDisposed || p.songs.isEmpty) return;
 
-    await JustAudioController.instance.stopAndEmptyQueue();
-    await JustAudioController.instance.queuePlaylist(p);
-    await JustAudioController.instance.playSongAt(0);
+    if(_isPlayingLastPlaylist == p.songsHashCode()) {
+      await playSongAt(index);
+      logging.info("Cache hit for playlist being last played");
+      return;
+    }
+
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+    _playQueue.replaceWithNoChange(p.songs);
+
+    _isPlayingLastPlaylist = p.songsHashCode();
+
+    await playSongAt(index);
   }
 
   Future<void> stopAndEmptyQueue() async {
     if(!_isInit || _isDisposed) return;
 
-    _player.stop();
-
     await stop();
 
     _playQueue.clear();
+
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
   }
 
-  Future<void> queuePlaylist(Playlist p) async {
+  void queuePlaylist(Playlist p) {
     logging.finest("playing playlist ${p.toStringWithSongs()}");
     _playQueue.addAllToQueue(p.songs);
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
   }
 
-  Future<void> removeQueueAt(int index) async {
+  void removeQueueAt(int index) {
 
     if(index < 0 || index >= _playQueue.length) return;
 
@@ -405,11 +452,21 @@ final class JustAudioController extends BaseAudioHandler {
       _currentIsNext = true;
     }
 
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+
     Song? song = _playQueue.removeAt(index);
 
     if(_playQueue.state == QueueState.end && song != null) {
       _firePlayerSong(song);
     }
+  }
+
+  void shuffleQueue() {
+    if(!_isInit || _isDisposed) return;
+    logging.info("Shuffle queue");
+    _playQueue.shuffleQueue();
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+    _fireQueueShuffle(null);
   }
 
 
@@ -439,5 +496,19 @@ final class JustAudioController extends BaseAudioHandler {
         position: _player.position,
         index: _playQueue.currentPosition)
     );
+  }
+
+  void _fireQueueChanged(void _){
+    _queueChangedStream.add(QueueChanged(
+        length: _playQueue.length,
+        position: _playQueue.currentPosition,
+        lastPlaylistIsQueue: _isPlayingLastPlaylist,
+        state: _playQueue.state,
+        song: _playQueue.current())
+    );
+  }
+
+  void _fireQueueShuffle(void _){
+    _queueShuffledStream.add(const QueueShuffle());
   }
 }

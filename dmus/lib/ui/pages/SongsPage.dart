@@ -88,7 +88,7 @@ class SongsPage extends  StatelessNavigationPage {
                               onTap: () => JustAudioController.instance.playSong(i),
                               onLongPress: () => SongContextDialog.showAsDialog(context, i),
                               selected: false,
-                              background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
+                              background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
                             )
                         ],
                       )

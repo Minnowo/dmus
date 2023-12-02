@@ -5,6 +5,8 @@ import 'dart:collection';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -16,46 +18,13 @@ import '../../core/data/DataEntity.dart';
 import '../Util.dart';
 import '../widgets/ArtDisplay.dart';
 
-class PlayQueuePage extends StatefulWidget {
+class PlayQueuePage extends StatelessWidget {
 
   static const String QUEUE_EMPTY_TEXT = "The queue is empty!";
 
   const PlayQueuePage({super.key});
 
 
-  @override
-  State<StatefulWidget> createState()=> _PlayQueuePageState();
-
-}
-
-class _PlayQueuePageState extends State<PlayQueuePage> {
-
-  late final List<StreamSubscription> _subscriptions;
-
-  void _onSongChanged(Song? song) {
-
-      setState(() { });
-  }
-
-  @override
-  void initState() {
-
-    super.initState();
-
-    _subscriptions = [
-      // AudioController.onSongChanged.listen(_onSongChanged),
-    ];
-  }
-
-  @override
-  void dispose() {
-
-    for(final i in _subscriptions) {
-      i.cancel();
-    }
-
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
 
@@ -72,7 +41,18 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
                   ),
                   )
               )
+          ),
+          title: Consumer<QueueChanged>(builder: (context, queueChanged, child) => Text("${queueChanged.length} Songs")),
+        actions: [
+          IconButton(
+              onPressed: JustAudioController.instance.shuffleQueue,
+              icon: const Icon(Icons.shuffle)
+          ),
+          IconButton(
+              onPressed: () => createPlaylistFromQueue(context),
+              icon: const Icon(Icons.playlist_add)
           )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -101,8 +81,8 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
 
   Widget buildBody(BuildContext context) {
 
-    return Consumer<PlayerSong>(
-        builder: (context, playerSong, child) {
+    return Consumer2<PlayerSong, QueueShuffle>(
+        builder: (context, playerSong, _, child) {
 
           UnmodifiableListView<Song> queue = JustAudioController.instance.queueView;
 
@@ -123,7 +103,7 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
                       context,
                       queue[i],
                       i,
-                      i == playerSong.index && playerSong.song != null && playerSong.song!.id == queue[i].id),
+                      i == JustAudioController.instance.queueIndex && playerSong.song != null && playerSong.song!.id == queue[i].id),
               ],
             ),
           );
@@ -141,8 +121,8 @@ class _PlayQueuePageState extends State<PlayQueuePage> {
       return false;
     }
 
-    await JustAudioController.instance.removeQueueAt(index);
-    setState(() { });
+    JustAudioController.instance.removeQueueAt(index);
+
     return true;
   }
 }

@@ -176,6 +176,14 @@ class Song extends DataEntity {
 
     return a.join(" - ");
   }
+
+  @override
+  int get hashCode => id;
+
+  @override
+  bool operator ==(Object other) {
+    return other is Song && (other).id == id;
+  }
 }
 
 
@@ -253,6 +261,10 @@ class Playlist extends DataEntity {
 
   String toStringWithSongs() {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: $songs>";
+  }
+
+  int songsHashCode(){
+    return songs.hashCode;
   }
 }
 

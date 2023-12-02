@@ -1,14 +1,9 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/DataEntity.dart';
-import 'package:dmus/ui/lookfeel/Animations.dart';
-import 'package:dmus/ui/pages/PlayQueuePage.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'package:text_scroll/text_scroll.dart';
-
 
 import '../../core/Util.dart';
 import '../../core/audio/ProviderData.dart';
@@ -47,93 +42,118 @@ class SelectedPlaylistPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
 
-                const SizedBox(width: HORIZONTAL_PADDING),
+            Container(
+              color: Theme.of(context).colorScheme.background,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                getRoundedCornerContainerImage(context, playlistContext, THUMB_SIZE * 2),
+                  const SizedBox(width: HORIZONTAL_PADDING),
 
-                const SizedBox(width: HORIZONTAL_PADDING),
+                  getRoundedCornerContainerImage(context, playlistContext, THUMB_SIZE * 2),
 
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(width: HORIZONTAL_PADDING),
+
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(playlistContext.title, style: TEXT_BIG,),
+                        ],
+                      )
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              color: Theme.of(context).colorScheme.background,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  Row(
                     children: [
-                      Text(playlistContext.title, style: TEXT_BIG,),
+                      const SizedBox(width: HORIZONTAL_PADDING),
+
+                      Text( playlistContext.basicInfoTextWithSep(" - ") , style: TEXT_SUBTITLE,),
                     ],
-                  )
-                ),
-              ],
-            ),
+                  ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
 
-                Row(
-                  children: [
-                    const SizedBox(width: HORIZONTAL_PADDING),
+                      Consumer2<QueueChanged, PlayerStateExtended>(
+                        builder: (context, queueChanged, playerStateExtended, child) =>
+                            IconButton(
+                                icon: playPauseIcon(context, queueChanged.lastPlaylistIsQueue == playlistContext.songsHashCode() && playerStateExtended.playing),
+                                onPressed: () async {
 
-                    Text( playlistContext.basicInfoTextWithSep(" - ") , style: TEXT_SUBTITLE,),
-                  ],
-                ),
+                                  if(queueChanged.lastPlaylistIsQueue == playlistContext.songsHashCode()) {
+                                    if(playerStateExtended.playing) {
+                                      await JustAudioController.instance.pause();
+                                    } else {
+                                      await JustAudioController.instance.play();
+                                    }
+                                  } else {
+                                    await JustAudioController.instance.playPlaylist(playlistContext);
+                                  }
+                                }
+                            ),
+                      ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                      IconButton(
+                          icon: const Icon(Icons.queue),
+                          onPressed: () => JustAudioController.instance.queuePlaylist(playlistContext)
+                      ),
 
-                    Consumer<PlayerStateExtended>(
-                        builder: (context, playerState, child){
+                      IconButton(
+                          icon: const Icon(Icons.copy),
+                          onPressed: () => createPlaylistFrom(context, playlistContext.songs).whenComplete(() => Navigator.pop(context))
+                      ),
 
-                          return IconButton(
-                            icon: playPauseIcon(context, playerState.playing),
-                            onPressed: () async {
+                      if(playlistContext.entityType != EntityType.album)
+                        IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _letUserUpdatePlaylist(context)
 
-                              if(playerState.playing) {
-                                await JustAudioController.instance.pause();
-                              } else {
-                                await JustAudioController.instance.playPlaylist(playlistContext);
-                              }
-                            },
-                          );
-                        }
-                    ),
-
-                    IconButton(
-                        icon: Icon(
-                          Icons.edit,
-                          color: Theme.of(context).colorScheme.inversePrimary,
                         ),
-                        onPressed: () => _letUserUpdatePlaylist(context)
-
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
+
 
             Expanded(
               child: playlistContext.songs.isEmpty
                   ? _buildEmptyPlaylist(context)
-                  : ListView(
-                    children: [
-                      for(final i in playlistContext.songs)
-                        SongListWidget(
-                          song: i,
-                          selected: false,
-                          confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-                          background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
-                          onTap: () => JustAudioController.instance.playSong(i),
-                          onLongPress: () => SongContextDialog.showAsDialog(context, i),
-                          leadWith: playlistContext.entityType == EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
-                          trailWith: SongListWidgetTrail.trailWithDuration,
-                        ),
-                    ],
-                  )
+                  :
 
+              Consumer<PlayerSong>(
+                  builder: (context, playerSong, child) =>
+                      ListView.builder(
+                      itemCount: playlistContext.songs.length,
+                      itemBuilder: (context, i) {
+                        Song s = playlistContext.songs[i];
+                        return SongListWidget(
+                          song: s,
+                          selected: (JustAudioController.instance.lastPlaylistInQueue == playlistContext.songsHashCode() && s.id == playerSong.song?.id && i == playerSong.index) ||
+                                    (JustAudioController.instance.lastPlaylistInQueue != playlistContext.songsHashCode() && s.id == playerSong.song?.id),
+                          confirmDismiss: (d) => addToQueueSongDismiss(d, s),
+                          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
+                          onTap: () => JustAudioController.instance.playPlaylistStartingFrom(playlistContext, i),
+                          onLongPress: () => SongContextDialog.showAsDialog(context, s),
+                          leadWith: playlistContext.entityType ==
+                              EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
+                          trailWith: SongListWidgetTrail.trailWithDuration,
+                        );
+                      }
+                  )
+              ),
             ),
             const CurrentlyPlayingBar(),
           ],

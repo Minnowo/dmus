@@ -35,32 +35,32 @@ class _SearchPageState extends State<SearchPage> {
 
     return Scaffold(
       body: Column(
-      children: [
-        Expanded(
-          child: ListView(
-            children: [
-              ...buildSongDisplay(context),
-              ...buildPlaylistDisplay(context),
-              ...buildAlbumsDisplay(context),
-            ],
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                ...buildSongDisplay(context),
+                ...buildPlaylistDisplay(context),
+                ...buildAlbumsDisplay(context),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            controller: _searchController,
-            onChanged: _performSearch,
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              suffixIcon: IconButton(
-                onPressed: _clearSearchbar,
-                icon: const Icon(Icons.clear),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: _performSearch,
+              decoration: InputDecoration(
+                hintText: 'Search...',
+                suffixIcon: IconButton(
+                  onPressed: _clearSearchbar,
+                  icon: const Icon(Icons.clear),
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
+        ],
+      ),
       endDrawerEnableOpenDragGesture: true,
       drawer: const SettingsDrawer(),
     );
@@ -74,8 +74,8 @@ class _SearchPageState extends State<SearchPage> {
 
     return [
       Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        child: ListTile(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: const ListTile(
           title: Row(
             children: [
               Text(
@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-      Divider(
+      const Divider(
         color: Colors.blue,
         thickness: 2.5,
         indent: 0,
@@ -106,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
           onTap: () => JustAudioController.instance.playSong(i),
           onLongPress: () => SongContextDialog.showAsDialog(context, i),
           confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-          background: iconDismissibleBackgroundContainer(Colors.green, Icons.queue),
+          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
         ),
     ];
   }
@@ -119,8 +119,8 @@ class _SearchPageState extends State<SearchPage> {
 
     return [
       Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        child: ListTile(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: const ListTile(
           title: Row(
             children: [
               Text(
@@ -135,7 +135,8 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-      Divider(
+
+      const Divider(
         color: Colors.blue,
         thickness: 2.5,
         indent: 0,
@@ -155,8 +156,8 @@ class _SearchPageState extends State<SearchPage> {
 
     return [
       Container(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
-        child: ListTile(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: const ListTile(
           title: Row(
             children: [
               Text(
@@ -171,7 +172,8 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-      Divider(
+
+      const Divider(
         color: Colors.blue,
         thickness: 2.5,
         indent: 0,
@@ -214,7 +216,7 @@ class _SearchPageState extends State<SearchPage> {
           case EntityType.playlist:
             _playlistResults.add(i as Playlist);
           case EntityType.album:
-          _albumResults.add(i as Album);
+            _albumResults.add(i as Album);
         }
       }
 

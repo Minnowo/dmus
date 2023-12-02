@@ -4,11 +4,8 @@
 
 
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/ImportController.dart';
@@ -20,10 +17,28 @@ import 'context/PlaylistContextDialog.dart';
 import 'form/PlaylistCreationForm.dart';
 
 
+Future<void> createPlaylistFrom(BuildContext context, List<Song> s) async {
+
+  Playlist p = Playlist(id: 0, title: "");
+  p.songs.addAll(s);
+
+  PlaylistCreationFormResult? result = await animateOpenFromBottom<PlaylistCreationFormResult?>(context, PlaylistCreationForm(editing: p));
+
+  if(result == null) {
+    return;
+  }
+
+  await ImportController.createPlaylist(result.title, result.songs);
+}
+
+Future<void> createPlaylistFromQueue(BuildContext context) async {
+  await createPlaylistFrom(context, JustAudioController.instance.queueView);
+}
+
 /// Creates a playlist from the user
 Future<void> createPlaylist(BuildContext context) async {
 
-  PlaylistCreationFormResult? result =  await Navigator.push(context, MaterialPageRoute(builder: (ctx) => const PlaylistCreationForm()));
+  PlaylistCreationFormResult? result = await animateOpenFromBottom<PlaylistCreationFormResult?>(context, const PlaylistCreationForm());
 
   if(result == null) {
     return;
@@ -38,8 +53,7 @@ Future<void> createPlaylist(BuildContext context) async {
 /// Creates playlist if it does not exist
 Future<void> editPlaylist(BuildContext context, Playlist playlist) async {
 
-  PlaylistCreationFormResult? result = await Navigator.push(context,
-      MaterialPageRoute(builder: (ctx) => PlaylistCreationForm(editing: playlist,)));
+  PlaylistCreationFormResult? result = await animateOpenFromBottom<PlaylistCreationFormResult?>(context, PlaylistCreationForm(editing: playlist));
 
   if (result == null) {
     return;
@@ -60,8 +74,7 @@ Future<void> editPlaylist(BuildContext context, Playlist playlist) async {
 /// Returns null if the user cancels or the updated playlist has no id
 Future<Playlist?> updateExistingPlaylist(BuildContext context, Playlist playlist) async {
 
-  PlaylistCreationFormResult? result = await Navigator.push(context,
-      MaterialPageRoute(builder: (ctx) => PlaylistCreationForm(editing: playlist,)));
+  PlaylistCreationFormResult? result = await animateOpenFromBottom<PlaylistCreationFormResult?>(context, PlaylistCreationForm(editing: playlist));
 
   if (result == null) {
     return null;
@@ -86,10 +99,10 @@ Future<void> popNavigatorPlayPlaylist(BuildContext context, Playlist p) async {
 
 
 /// Queue a playlist and pop the navigator
-Future<void> popNavigatorQueuePlaylist(BuildContext context, Playlist p) async {
+void popNavigatorQueuePlaylist(BuildContext context, Playlist p) {
 
   popNavigatorSafe(context);
-  await JustAudioController.instance.queuePlaylist(p);
+  JustAudioController.instance.queuePlaylist(p);
 }
 
 

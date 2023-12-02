@@ -1,6 +1,7 @@
 
 
 
+import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
@@ -25,7 +26,12 @@ class PlayQueue {
 
   PlayQueue();
 
+  final _queueChangedStream = StreamController<void>.broadcast();
+  bool _supressUpdate = false;
 
+  Stream<void> get onQueueChanged {
+    return _queueChangedStream.stream;
+  }
 
   /// Get the current position
   int get currentPosition => _currentPosition;
@@ -46,9 +52,6 @@ class PlayQueue {
 
   /// The private position
   int _currentPosition = -1;
-
-  /// If the current index is removed, the next song / previous song should be just the current index again
-  bool _nextIsCurrent = false;
 
   /// The private state
   QueueState _queueState = QueueState.empty;
@@ -121,23 +124,27 @@ class PlayQueue {
     if(_queue.length == 1) {
       _currentPosition = 0;
       _queueState = QueueState.single;
+      _fireChanged();
       return;
     }
 
     if(index <= 0)   {
       _currentPosition = 0;
       _queueState = QueueState.start;
+      _fireChanged();
       return;
     }
 
     if(index >= _queue.length - 1) {
       _currentPosition = _queue.length - 1;
       _queueState = QueueState.end;
+      _fireChanged();
       return;
     }
 
     _currentPosition = index;
     _queueState = QueueState.middle;
+    _fireChanged();
   }
 
 
@@ -239,10 +246,45 @@ class PlayQueue {
   }
 
 
+  /// Shuffles the queue
+  void shuffleQueue() {
+    if(_queue.isEmpty) return;
+
+    Song? s = current();
+
+    if(s == null) return;
+
+    logging.info("Shuffle queue ------------------------");
+    _queue.shuffle();
+    jumpTo(s);
+
+    _fireChanged();
+  }
+
+
+  /// Replace the queue contents with the given iterable
+  ///
+  /// Does not fire a queuechanged event
+  void replaceWithNoChange(Iterable<Song> s) {
+    _supressUpdate = true;
+    _queue.replaceRange(0, _queue.length, s);
+    setPosition(_currentPosition);
+    _supressUpdate = false;
+  }
+
+
   /// Empty the queue
   void clear() {
     _queue.clear();
     _currentPosition = -1;
     _queueState = QueueState.empty;
+    _fireChanged();
+  }
+
+
+  void _fireChanged() {
+    if(!_supressUpdate) {
+      _queueChangedStream.add(null);
+    }
   }
 }

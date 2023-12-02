@@ -32,9 +32,30 @@ SnackBar createSimpleSnackBar(String text) {
 }
 
 
+SnackBar createTopSnackbar(BuildContext context){
+
+  final snackBar = SnackBar(
+    showCloseIcon: true,
+    closeIconColor: Colors.white,
+    content: Text('your text', textAlign: TextAlign.center),
+    dismissDirection: DismissDirection.up,
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 70, left: 10, right: 10),
+  );
+
+  return snackBar;
+}
+
 SnackBar createSimpleSnackBarWithDuration(String text, Duration d) {
 
-  final snackBar = SnackBar( content: Text(text), duration: d,);
+  final snackBar = SnackBar(
+    content: Text(text),
+    duration: d,
+  );
 
   return snackBar;
 }
@@ -71,8 +92,8 @@ Widget getRoundedCornerContainerImage(BuildContext context, DataEntity entity, d
 
 Icon playPauseIcon(BuildContext context, bool playing){
   return playing ?
-  Icon(Icons.pause, color: Theme.of(context).colorScheme.inversePrimary) :
-  Icon(Icons.play_arrow, color: Theme.of(context).colorScheme.inversePrimary);
+  const Icon(Icons.pause) :
+  const Icon(Icons.play_arrow);
 }
 
 

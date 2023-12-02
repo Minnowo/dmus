@@ -32,6 +32,7 @@ import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
 
 import 'core/Util.dart';
+import 'core/audio/PlayQueue.dart';
 import 'core/data/DataEntity.dart';
 
 Future<void> main() async {
@@ -87,6 +88,17 @@ class DMUSApp extends StatelessWidget {
               position: Duration.zero, duration: Duration.zero, index: 0
           ),
         lazy: false, // creates stream immediately (fixes first song = null problem)
+      ),
+
+      StreamProvider<QueueShuffle>(
+        create: (_) => JustAudioController.instance.onQueueShuffle,
+        initialData: const QueueShuffle(),
+        updateShouldNotify: (a, b) => true,
+      ),
+
+      StreamProvider<QueueChanged>(
+        create: (_) => JustAudioController.instance.onQueueChanged,
+        initialData: const QueueChanged(length: 0, position: -1, lastPlaylistIsQueue: INVALID_PLAYLIST_ID, song: null, state: QueueState.empty),
       ),
 
       StreamProvider<PlayerStateExtended>(
@@ -243,20 +255,25 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
+
   void _onPlaylistCreated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
   }
+
   void _onSongImported(Song s) {
     if(ImportController.reduceSnackBars) return;
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration));
   }
+
   void _onSomethingWentWrong(String s) {
     ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.error} $s", longSnackBarDuration));
   }
+
   void _onShowSnackBar(SnackBarData s) {
     ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));
   }
+
   void _onRawException(Exception e) {
     ScaffoldMessenger.of(context)
         .showSnackBar(createSnackBar(

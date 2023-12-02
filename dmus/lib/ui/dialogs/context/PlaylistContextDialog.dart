@@ -1,9 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
@@ -66,10 +64,7 @@ class PlaylistContextDialog extends StatelessWidget {
 
   Future<void> _playPlaylist(BuildContext context, Playlist p) async {
     popNavigatorSafe(context);
-    await JustAudioController.instance.stopAndEmptyQueue();
-    await JustAudioController.instance.queuePlaylist(playlistContext);
-    await JustAudioController.instance.playSongAt(0);
-    await JustAudioController.instance.play();
+    await JustAudioController.instance.playPlaylist(p);
   }
 
   void _queuePlaylist(BuildContext context, Playlist p) {

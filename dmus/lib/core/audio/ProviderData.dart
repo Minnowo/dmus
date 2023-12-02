@@ -1,6 +1,7 @@
 
 
 
+import 'package:dmus/core/audio/PlayQueue.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../data/DataEntity.dart';
@@ -87,4 +88,18 @@ final class PlayerShuffleOrder {
 final class PlayerRepeat {
   final bool repeat;
   const PlayerRepeat({required this.repeat});
+}
+
+
+final class QueueChanged {
+  final int position;
+  final int length;
+  final QueueState state;
+  final Song? song;
+  final int lastPlaylistIsQueue;
+  const QueueChanged({required this.length, required this.position, required this.lastPlaylistIsQueue, required this.state, required this.song});
+}
+
+final class QueueShuffle {
+  const QueueShuffle();
 }
