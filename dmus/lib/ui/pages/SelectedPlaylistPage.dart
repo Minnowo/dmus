@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
 import '../../core/audio/ProviderData.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../../core/localstorage/SettingsHandler.dart';
 import '../Util.dart';
 import '../dialogs/Util.dart';

@@ -1,6 +1,7 @@
 
 
 
+import 'package:dmus/core/data/UIEnumSettings.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSettings.dart';
 
 import '../Util.dart';
@@ -20,7 +21,12 @@ final class SettingsHandler {
     settings.addAll(f);
 
     _isDarkTheme = getBool(_darkThemeKey, true);
-    _currentlyPlayingSwipeMode = getInt(_currentlyPlayingSwipeModeKey, 0);
+    _songPageTileTrailWith = songListWidgetTrailFromInt(getInt(_songPageTileTrailWithKey, 0));
+    _currentlyPlayingSwipeMode = currentlyPlayingBarSwipeFromInt(getInt(_currentlyPlayingSwipeModeKey, 0));
+
+    logging.config("Loaded setting $_darkThemeKey as $_isDarkTheme");
+    logging.config("Loaded setting $_songPageTileTrailWithKey as $_songPageTileTrailWith");
+    logging.config("Loaded setting $_currentlyPlayingSwipeModeKey as $_currentlyPlayingSwipeMode");
   }
 
 
@@ -73,12 +79,26 @@ final class SettingsHandler {
 
   static const String _currentlyPlayingSwipeModeKey = "currently_playing_swipe_mode";
 
-  static int _currentlyPlayingSwipeMode = 0;
-  static int get currentlyPlayingSwipeMode => _currentlyPlayingSwipeMode;
+  static CurrentlyPlayingBarSwipe _currentlyPlayingSwipeMode = CurrentlyPlayingBarSwipe.swipeToCancel;
+  static CurrentlyPlayingBarSwipe get currentlyPlayingSwipeMode => _currentlyPlayingSwipeMode;
 
-  static void setCurrentlyPlayingSwipeMode(int swipeMode) {
+  static void setCurrentlyPlayingSwipeMode(CurrentlyPlayingBarSwipe swipeMode) {
     logging.config("Setting $_currentlyPlayingSwipeModeKey to $swipeMode");
     _currentlyPlayingSwipeMode = swipeMode;
-    TableSettings.persist(_currentlyPlayingSwipeModeKey, _currentlyPlayingSwipeModeKey.toString());
+    TableSettings.persist(_currentlyPlayingSwipeModeKey, currentlyPlayingBarSwipeToInt(swipeMode).toString());
+  }
+
+
+
+
+  static const String _songPageTileTrailWithKey = "song_page_tile_trail";
+
+  static SongListWidgetTrail _songPageTileTrailWith = SongListWidgetTrail.trailWithMenu;
+  static SongListWidgetTrail get songPageTileTrailWith => _songPageTileTrailWith;
+
+  static void setSongsPageTrailWith(SongListWidgetTrail trailWith) {
+    logging.config("Setting $_songPageTileTrailWithKey to $trailWith");
+    _songPageTileTrailWith = trailWith;
+    TableSettings.persist(_songPageTileTrailWithKey, songListWidgetTrailToInt(trailWith).toString());
   }
 }

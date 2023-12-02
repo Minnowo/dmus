@@ -11,17 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../lookfeel/Theming.dart';
 
-
-enum CurrentlyPlayingBarSwipe {
-  swipeToCancel,
-  swipeToNextPrevious,
-}
-
-CurrentlyPlayingBarSwipe cpbsFromInt(int i) {
-  return CurrentlyPlayingBarSwipe.values[i.clamp(0, CurrentlyPlayingBarSwipe.values.length - 1)];
-}
 
 class CurrentlyPlayingBar extends  StatelessWidget {
 
@@ -128,7 +120,7 @@ class CurrentlyPlayingBar extends  StatelessWidget {
   Future<bool?> handleSwipe(DismissDirection dir) async {
       _keyValue++;
 
-      switch(cpbsFromInt(SettingsHandler.currentlyPlayingSwipeMode)) {
+      switch(SettingsHandler.currentlyPlayingSwipeMode) {
 
         case CurrentlyPlayingBarSwipe.swipeToCancel:
           await JustAudioController.instance.stop();

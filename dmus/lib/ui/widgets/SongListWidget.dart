@@ -8,21 +8,12 @@ import 'package:flutter/material.dart';
 import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../Settings.dart';
 import '../dialogs/context/SongContextDialog.dart';
 import '../lookfeel/Theming.dart';
 import 'ArtDisplay.dart';
 
-
-enum SongListWidgetLead {
-  leadWithArtwork,
-  leadWithTrackNumber,
-}
-
-enum SongListWidgetTrail {
-  trailWithMenu,
-  trailWithDuration,
-}
 
 class SongListWidget extends StatelessWidget {
 

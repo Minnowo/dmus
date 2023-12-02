@@ -1,4 +1,5 @@
 import 'package:dmus/core/data/provider/SongsProvider.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../dialogs/context/SongContextDialog.dart';
 import 'NavigationPage.dart';
 
@@ -83,7 +85,7 @@ class SongsPage extends  StatelessNavigationPage {
                             SongListWidget(
                               song: i,
                               leadWith: SongListWidgetLead.leadWithArtwork,
-                              trailWith: SongListWidgetTrail.trailWithMenu,
+                              trailWith: SettingsHandler.songPageTileTrailWith,
                               confirmDismiss: (d) => addToQueueSongDismiss(d, i),
                               onTap: () => JustAudioController.instance.playSong(i),
                               onLongPress: () => SongContextDialog.showAsDialog(context, i),

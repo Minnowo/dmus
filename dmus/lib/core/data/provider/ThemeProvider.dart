@@ -21,4 +21,8 @@ class ThemeProvider extends ChangeNotifier {
     SettingsHandler.setDarkTheme(_isDarkModeEnabled);
     notifyListeners();
   }
+
+  void notify(){
+    notifyListeners();
+  }
 }

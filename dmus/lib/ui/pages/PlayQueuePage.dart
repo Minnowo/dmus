@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../Util.dart';
 import '../widgets/ArtDisplay.dart';
 

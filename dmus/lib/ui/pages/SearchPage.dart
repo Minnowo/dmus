@@ -2,6 +2,8 @@
 
 
 import 'package:dmus/core/localstorage/SearchHandler.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
+import 'package:dmus/ui/widgets/BlueDivider.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/data/UIEnumSettings.dart';
 import '../Util.dart';
 import '../dialogs/context/SongContextDialog.dart';
 import '../widgets/SettingsDrawer.dart';
@@ -80,22 +83,15 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Text(
                 "Songs",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TEXT_BIG,
               ),
             ],
           ),
           dense: true,
         ),
       ),
-      const Divider(
-        color: Colors.blue,
-        thickness: 2.5,
-        indent: 0,
-        endIndent: 250,
-      ),
+
+      const BlueDivider(),
 
       for(final i in _songResults)
         SongListWidget(
@@ -125,10 +121,7 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Text(
                 "Playlists",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TEXT_BIG,
               ),
             ],
           ),
@@ -136,12 +129,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
 
-      const Divider(
-        color: Colors.blue,
-        thickness: 2.5,
-        indent: 0,
-        endIndent: 240,
-      ),
+      const BlueDivider(),
 
       for(final i in _playlistResults)
         PlaylistListWidget(playlist: i),
@@ -162,10 +150,7 @@ class _SearchPageState extends State<SearchPage> {
             children: [
               Text(
                 "Albums",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TEXT_BIG,
               ),
             ],
           ),
@@ -173,12 +158,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
 
-      const Divider(
-        color: Colors.blue,
-        thickness: 2.5,
-        indent: 0,
-        endIndent: 250,
-      ),
+      const BlueDivider(),
 
       for(final i in _albumResults)
         PlaylistListWidget(playlist: i),

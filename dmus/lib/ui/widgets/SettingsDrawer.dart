@@ -7,10 +7,10 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
+import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/pages/AdvancedSettingsPage.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
-import 'package:dmus/ui/widgets/ThemeToggle.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -39,17 +39,18 @@ class SettingsDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
 
-          DrawerHeader(
-            child: Text(
-              'Settings',
-              style: TextStyle(
-                fontSize: headerFontSize,
+          const SizedBox(
+            height: 128,
+            child: DrawerHeader(
+              child: Text(
+                'dmus v0.1',
+                style: TEXT_HEADER,
               ),
             ),
           ),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
             child: Text("General",
                 style:
                 TextStyle(fontSize: subheaderFontSize)),
@@ -68,18 +69,6 @@ class SettingsDrawer extends StatelessWidget {
           ),
 
           ListTile(
-            leading: const Icon(Icons.refresh),
-            title: const Text("Refresh Metadata"),
-            onTap: () => refreshMetadata(context),
-          ),
-
-          ListTile(
-            leading: const Icon(Icons.backup),
-            title: const Text("Backup Database"),
-            onTap: () => backupDatabase(context),
-          ),
-
-          ListTile(
             leading: const Icon(Icons.block),
             title: Text(LocalizationMapper.current.blacklistPageTitle),
             onTap: () => showBlacklistedFiles(context),
@@ -88,7 +77,7 @@ class SettingsDrawer extends StatelessWidget {
           const Divider(),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
             child: Text("Sync With Firebase",
                 style:
                 TextStyle(fontSize: subheaderFontSize)),
@@ -136,19 +125,7 @@ class SettingsDrawer extends StatelessWidget {
           const Divider(),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text("Appearance", style: TextStyle(fontSize: subheaderFontSize)),
-          ),
-
-          const ListTile(
-            leading: Icon(Icons.dark_mode),
-            title: ThemeToggle(),
-          ),
-
-          const Divider(),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
             child: Text("Other", style: TextStyle(fontSize: subheaderFontSize)),
           ),
 
@@ -238,56 +215,4 @@ class SettingsDrawer extends StatelessWidget {
     }
   }
 
-  Future<void> refreshMetadata(BuildContext context) async {
-
-    popNavigatorSafe(context);
-
-    final r = await showDialog(
-        context: context,
-        builder: (ctx) => const ConfirmDestructiveAction(
-            promptText: "Are you sure you want to do a full metadata refresh?",
-            yesText: "Refresh Metadata",
-            noText: "Cancel",
-            yesTextColor: Colors.red,
-            noTextColor:  null
-        )
-    );
-
-    if(r == null || !r) {
-      return;
-    }
-
-    await ImportController.reimportAll();
-  }
-
-
-
-  Future<void> backupDatabase(BuildContext context) async {
-
-    pickDirectory().then((value) async {
-
-      if(value == null) return;
-
-      File databaseExport = File(Path.join(value, DatabaseController.databaseFilename));
-
-      logging.info(databaseExport);
-
-      if(await databaseExport.exists()) {
-        logging.warning("Cannot save file because it already exists");
-
-        if(context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("The path $databaseExport already exists"));
-        }
-        return;
-      }
-
-      if(await DatabaseController.backupDatabase(databaseExport)) {
-
-        if(context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("Exported database to $databaseExport"));
-        }
-
-      }
-    });
-  }
 }

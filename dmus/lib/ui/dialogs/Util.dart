@@ -3,11 +3,18 @@
 
 
 
-import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
 
+import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
+import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
+import 'package:flutter/material.dart';
+import 'package:path/path.dart' as Path;
+
+import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
+import '../../core/data/FileDialog.dart';
+import '../../core/localstorage/DatabaseController.dart';
 import '../../core/localstorage/ImportController.dart';
 import '../Util.dart';
 import '../lookfeel/Animations.dart';
@@ -142,3 +149,55 @@ void popShowShareDialog(BuildContext context, DataEntity toShare) {
   ShareContextDialog.showAsDialog(context, toShare);
 }
 
+Future<void> refreshMetadata(BuildContext context) async {
+
+  popNavigatorSafe(context);
+
+  final r = await showDialog(
+      context: context,
+      builder: (ctx) => const ConfirmDestructiveAction(
+          promptText: "Are you sure you want to do a full metadata refresh?",
+          yesText: "Refresh Metadata",
+          noText: "Cancel",
+          yesTextColor: Colors.red,
+          noTextColor:  null
+      )
+  );
+
+  if(r == null || !r) {
+    return;
+  }
+
+  await ImportController.reimportAll();
+}
+
+
+
+Future<void> backupDatabase(BuildContext context) async {
+
+  pickDirectory().then((value) async {
+
+    if(value == null) return;
+
+    File databaseExport = File(Path.join(value, DatabaseController.databaseFilename));
+
+    logging.info(databaseExport);
+
+    if(await databaseExport.exists()) {
+      logging.warning("Cannot save file because it already exists");
+
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("The path $databaseExport already exists"));
+      }
+      return;
+    }
+
+    if(await DatabaseController.backupDatabase(databaseExport)) {
+
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("Exported database to $databaseExport"));
+      }
+
+    }
+  });
+}
