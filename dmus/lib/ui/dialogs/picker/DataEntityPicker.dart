@@ -19,13 +19,17 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
 
   bool _selectAll = false;
 
+  String get title;
+
+  String get filterText;
+
   Widget buildListItem(SelectableDataItem<T> item);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocalizationMapper.current.pickSongs),
+        title: Text(title),
         centerTitle: true,
         actions: [
           IconButton(
@@ -55,7 +59,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
               controller: _filterController,
               onChanged: filterDataEntities,
               decoration: InputDecoration(
-                hintText: 'Filter Name...',
+                hintText: filterText,
                 suffixIcon: IconButton(
                   onPressed: () => filterDataEntities(""),
                   icon: const Icon(Icons.clear),
@@ -104,6 +108,12 @@ class SongPicker extends StatefulWidget {
 class _SongPickerState extends _DataEntityPickerState<Song> {
 
   @override
+  String get filterText => "Filter songs...";
+
+  @override
+  String get title => "Pick Songs";
+
+  @override
   void initState() {
     super.initState();
 
@@ -142,6 +152,12 @@ class PlaylistPicker extends StatefulWidget {
 }
 
 class _PlaylistPickerState extends _DataEntityPickerState<Playlist> {
+
+  @override
+  String get filterText => "Filter playlists...";
+
+  @override
+  String get title => "Pick Playlists";
 
   @override
   void initState() {
