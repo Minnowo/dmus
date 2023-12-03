@@ -4,7 +4,10 @@ import 'package:crypto/crypto.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 
+import '../../ui/dialogs/form/songUploadForm.dart';
+import '../../ui/lookfeel/Animations.dart';
 import '../Util.dart';
 import '../localstorage/dbimpl/TablePlaylist.dart';
 import '../localstorage/dbimpl/TableSong.dart';
@@ -18,15 +21,18 @@ final class CloudStorageUploadHelper {
 
   /// Adds All songs to the Firebase Storage from the Local Storage
   /// Stored by the User that is currently Logged in
-  static Future<void> addAllSongs(String userID) async {
+  static Future<void> addAllSongs(String userID,BuildContext context) async {
 
     final FirebaseStorage _storage = FirebaseStorage.instance;
 
+    SongUploadFormResult? result = await animateOpenFromBottom<SongUploadFormResult?>(context, SongUploadForm());
+
+
     try {
 
-      final allSongs = await TableSong.selectAllWithMetadata();
+      final allSongs = result?.songs;
 
-      if(allSongs.isEmpty) {
+      if(allSongs!.isEmpty) {
         MessagePublisher.publishSnackbar(const SnackBarData(text: "There are no songs to upload!", duration: Duration(seconds: 2)));
         return;
       }

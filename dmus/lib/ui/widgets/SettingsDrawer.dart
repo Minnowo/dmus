@@ -193,7 +193,7 @@ class SettingsDrawer extends StatelessWidget {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if(user != null) {
-      await CloudStorageUploadHelper.addAllSongs(user.uid);
+      await CloudStorageUploadHelper.addAllSongs(user.uid,context);
       //await CloudStorageUploadHelper.addAllPlaylists(user.uid);
     }
   }

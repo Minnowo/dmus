@@ -26,6 +26,8 @@ class _SongPickerState extends State<SongPicker> {
 
   final TextEditingController _filterController = TextEditingController();
 
+  bool _selectAll = false;
+
   @override
   void initState() {
     super.initState();
@@ -45,79 +47,85 @@ class _SongPickerState extends State<SongPicker> {
     );
   }
 
+
+
+  void toggleSelectAll() {
+    _selectAll = !_selectAll;
+    for (final song in songs) {
+      song.isSelected = _selectAll;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(LocalizationMapper.current.pickSongs),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: finishSelection,
-                icon: const Icon(Icons.check)
-            )
-          ],
-        ),
-        body:  Column(
-          children: [
-
-            Expanded(
-              child: ListView(
-                children: [
-
-                  for(final tuple in songs)
-                    if(tuple.isVisible)
-                      InkWell(
-                        child: CheckboxListTile(
-                          title: Text(tuple.item.title),
-                          subtitle: Text(subtitleFromMetadata(tuple.item.metadata)),
-                          value: tuple.isSelected,
-                          enableFeedback: true,
-                          onChanged: (checked){
-
-                            if(checked != null && checked) {
-                              tuple.isSelected = true;
-                            } else {
-                              tuple.isSelected = false;
-                            }
-
-                            setState(() { });
-                          },
-                        ),
+      appBar: AppBar(
+        title: Text(LocalizationMapper.current.pickSongs),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: toggleSelectAll,
+            icon: const Icon(Icons.select_all),
+          ),
+          IconButton(
+            onPressed: finishSelection,
+            icon: const Icon(Icons.check),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              children: [
+                for (final tuple in songs)
+                  if (tuple.isVisible)
+                    InkWell(
+                      child: CheckboxListTile(
+                        title: Text(tuple.item.title),
+                        subtitle: Text(subtitleFromMetadata(tuple.item.metadata)),
+                        value: tuple.isSelected,
+                        enableFeedback: true,
+                        onChanged: (checked) {
+                          if (checked != null && checked) {
+                            tuple.isSelected = true;
+                          } else {
+                            tuple.isSelected = false;
+                          }
+                          setState(() {});
+                        },
                       ),
-                ],
-              ),
+                    ),
+              ],
             ),
-
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child:
-              TextField(
-                controller: _filterController,
-                onChanged: _filter,
-                decoration: InputDecoration(
-                  hintText: 'Filter Name...',
-                  suffixIcon: IconButton(
-                    onPressed: () => _filter(""),
-                    icon: const Icon(Icons.clear),
-                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _filterController,
+              onChanged: _filter,
+              decoration: InputDecoration(
+                hintText: 'Filter Name...',
+                suffixIcon: IconButton(
+                  onPressed: () => _filter(""),
+                  icon: const Icon(Icons.clear),
                 ),
               ),
-            )
-          ],
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
+        child: FloatingActionButton(
+          onPressed: finishSelection,
+          child: const Icon(Icons.save),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton:  Padding(
-            padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
-            child: FloatingActionButton(
-              onPressed: finishSelection,
-              child: const Icon(Icons.save),
-            )
-        )
-
+      ),
     );
   }
-
 
   void _filter(String text) {
 
