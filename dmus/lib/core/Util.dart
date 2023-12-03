@@ -330,5 +330,8 @@ bool dataEntityMatches(String text, DataEntity di) {
     case EntityType.playlist:
       return di.title.toLowerCase().contains(text);
   }
+}
 
+Duration sumDuration(Duration x, Duration y) {
+  return x + y;
 }

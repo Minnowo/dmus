@@ -28,8 +28,7 @@ import 'form/PlaylistCreationForm.dart';
 
 Future<void> createPlaylistFrom(BuildContext context, List<Song> s) async {
 
-  Playlist p = Playlist(id: 0, title: "");
-  p.songs.addAll(s);
+  Playlist p = Playlist.withSongs(id: 0, title: "", songs: s);
 
   PlaylistCreationFormResult? result = await animateOpenFromBottom<PlaylistCreationFormResult?>(context, PlaylistCreationForm(editing: p));
 
@@ -93,6 +92,7 @@ Future<Playlist?> updateExistingPlaylist(BuildContext context, Playlist playlist
     playlist.id = result.playlistId!;
     playlist.songs = result.songs;
     playlist.title = result.title;
+    playlist.updateDuration();
     return await ImportController.updatePlaylistInDb(playlist);
   }
   return null;

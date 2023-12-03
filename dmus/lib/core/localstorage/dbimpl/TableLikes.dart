@@ -71,7 +71,7 @@ final class TableLikes {
     if(likedPlaylist == null){
       await reGenerateLikedPlaylist();
     } else {
-      likedPlaylist!.songs.removeWhere((e) => e.id == song.id);
+      likedPlaylist!.removeAllOfSongId(song.id);
       await likedPlaylist!.setPictureCacheKey(null);
       ImportController.pubLikedPlaylistUpdated(likedPlaylist!);
     }

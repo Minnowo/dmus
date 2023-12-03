@@ -219,7 +219,7 @@ class Playlist extends DataEntity {
       super.duration = const Duration(milliseconds: 0);
       return;
     }
-    super.duration = songs.map((e) => e.duration).reduce((value, element) => value + element);
+    super.duration = songs.map((e) => e.duration).reduce(sumDuration);
   }
 
   @override
@@ -269,6 +269,24 @@ class Playlist extends DataEntity {
 
   void addSongs(Iterable<Song> s) {
     songs.addAll(s.map((e) { duration += e.duration; return e;}));
+  }
+
+  Song? removeSongAt(int i) {
+    if(i < 0 || i >= songs.length) return null;
+    Song s = songs.removeAt(i);
+    duration -= s.duration;
+    return s;
+  }
+
+  void removeAllOfSongId(int id) {
+    songs.removeWhere((e) => e.id == id);
+    updateDuration();
+  }
+
+  void removeSong(Song s) {
+    if(songs.remove(s)) {
+      duration -= s.duration;
+    }
   }
 
   String toStringWithSongs() {
