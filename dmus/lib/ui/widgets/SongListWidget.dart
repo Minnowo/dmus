@@ -71,9 +71,13 @@ class SongListWidget extends StatelessWidget {
         return Text(formatDuration(song.duration));
 
       case SongListWidgetTrail.trailWithMenu:
-        return InkWell(
-          onTap: () => SongContextDialog.showAsDialog(context, song),
-          child: const Icon(Icons.more_vert),
+        return SizedBox(
+            height: THUMB_SIZE,
+            width: THUMB_SIZE / 1.5,
+            child: InkWell(
+              onTap: () => SongContextDialog.showAsDialog(context, song),
+              child: const Icon(Icons.more_vert),
+            )
         );
     }
   }

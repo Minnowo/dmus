@@ -13,28 +13,26 @@ class PlaylistListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(6.0), // Add padding around the PlaylistListWidget
-      child: InkWell(
-        onTap: () => openPlaylistPage(context, playlist),
-        onLongPress: () => PlaylistContextDialog.showAsDialog(context, playlist),
-        child: SizedBox(
-          width: THUMB_SIZE,
+    return InkWell(
+      onTap: () => openPlaylistPage(context, playlist),
+      onLongPress: () => PlaylistContextDialog.showAsDialog(context, playlist),
+      child: ListTile(
+        leading: SizedBox(
           height: THUMB_SIZE,
-          child: ListTile(
-            leading: SizedBox(
-              width: THUMB_SIZE,
-              height: THUMB_SIZE,
-              child: ArtDisplay(dataEntity: playlist),
-            ),
-            title: Text(playlist.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-            trailing: InkWell(
-              borderRadius: BorderRadius.circular(50),
+          width: THUMB_SIZE,
+          child: ArtDisplay(dataEntity: playlist),
+        ),
+        title: Text(playlist.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+        subtitle: Text(playlist.basicInfoText()),
+        trailing: SizedBox(
+            height: THUMB_SIZE,
+            width: THUMB_SIZE / 1.5,
+            child: InkWell(
               onTap: () => PlaylistContextDialog.showAsDialog(context, playlist),
               child: const Icon(Icons.more_vert),
-            ),
-          ),
+            )
         ),
+        selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
       ),
     );
   }

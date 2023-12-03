@@ -19,6 +19,7 @@ import '../../core/localstorage/DatabaseController.dart';
 import '../../core/localstorage/ImportController.dart';
 import '../Util.dart';
 import '../lookfeel/Animations.dart';
+import '../lookfeel/CommonTheme.dart';
 import '../pages/SelectedPlaylistPage.dart';
 import 'context/AlbumsContextDialog.dart';
 import 'context/PlaylistContextDialog.dart';
@@ -160,7 +161,7 @@ Future<void> refreshMetadata(BuildContext context) async {
           promptText: "Are you sure you want to do a full metadata refresh?",
           yesText: "Refresh Metadata",
           noText: "Cancel",
-          yesTextColor: Colors.red,
+          yesTextColor: RED,
           noTextColor:  null
       )
   );
