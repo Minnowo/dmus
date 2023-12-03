@@ -43,7 +43,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   int _stupidUniqueKeyForDismissible = minInteger;
   List<Song> selectedSongs = [];
 
-  static const String title = "Create Playlist";
+  late final String title;
   static const double pad = 15.0;
   static const int maxTitleLength = 512;
 
@@ -52,9 +52,12 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     super.initState();
 
     if (widget.editing != null) {
+      title = "Edit Playlist";
       _playlistTitleTextController.text = widget.editing!.title;
 
       selectedSongs.addAll(widget.editing!.songs);
+    } else {
+      title = "Create Playlist";
     }
   }
 
@@ -93,7 +96,8 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(title),
+        title: Text(title),
+        centerTitle: true,
         actions: [
           IconButton(
               onPressed: addSongsPicker,
