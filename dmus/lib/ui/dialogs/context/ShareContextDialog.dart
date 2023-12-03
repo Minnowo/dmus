@@ -32,6 +32,11 @@ class ShareContextDialog extends StatelessWidget {
       children: <Widget>[
 
         ListTile(
+          title: const Text("Share File"),
+          onTap: () => shareFile(context),
+        ),
+
+        ListTile(
           title: const Text("Share Title"),
           onTap: () => shareTitle(context),
         ),
@@ -72,6 +77,11 @@ class ShareContextDialog extends StatelessWidget {
           onTap: () => sharePlaylistSongs(context),
         ),
 
+        ListTile(
+          title: const Text("Share All Song Titles + More"),
+          onTap: () => sharePlaylistSongsAndMore(context),
+        ),
+
         if(dataEntity.artPath != null)
           ListTile(
             title: const Text("Share Picture"),
@@ -96,6 +106,11 @@ class ShareContextDialog extends StatelessWidget {
     );
   }
 
+  Future<void> shareFile(BuildContext context) async {
+
+    popNavigatorSafe(context);
+    await Share.shareXFiles([XFile((dataEntity as Song).file.path)]);
+  }
   Future<void> shareTitle(BuildContext context) async {
 
     popNavigatorSafe(context);
@@ -105,13 +120,29 @@ class ShareContextDialog extends StatelessWidget {
   Future<void> shareSongTitleAndMore(BuildContext context) async {
 
     popNavigatorSafe(context);
-    await Share.share(dataEntity.title);
+    await Share.share("${dataEntity.title} - ${(dataEntity as Song).artistAlbumText()}");
+  }
+
+  Future<void> sharePlaylistSongsAndMore(BuildContext context) async {
+
+    popNavigatorSafe(context);
+
+    Playlist p = dataEntity as Playlist;
+
+    String titles = p.songs.map((e) => "${e.title} - ${e.artistAlbumText()}").reduce((value, element) => "$value\n$element");
+
+    await Share.share(titles);
   }
 
   Future<void> sharePlaylistSongs(BuildContext context) async {
 
     popNavigatorSafe(context);
-    await Share.share(dataEntity.title);
+
+    Playlist p = dataEntity as Playlist;
+
+    String titles = p.songs.map((e) => e.title).reduce((value, element) => "$value\n$element");
+
+    await Share.share(titles);
   }
 
   Future<void> shareArtwork(BuildContext context) async {
