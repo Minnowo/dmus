@@ -7,6 +7,7 @@ import 'dart:io';
 
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
+import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 
@@ -200,4 +201,22 @@ Future<void> backupDatabase(BuildContext context) async {
 
     }
   });
+}
+
+
+/// Selects any number of playlists and adds the given song to them
+Future<void> selectPlaylistAndAddSong(BuildContext context, Song s) async {
+
+  Iterable<Playlist>? result = await showDialog(context: context, builder: (ctx) => const PlaylistPicker());
+
+  if(result == null) return;
+
+  for(final p in result) {
+
+    p.songs.add(s);
+    p.duration += s.duration;
+    p.setPictureCacheKey(null);
+
+    ImportController.updatePlaylistInDb(p);
+  }
 }

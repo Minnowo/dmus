@@ -28,6 +28,7 @@ const List<String> albumArtFilenames   = ['cover', 'album', 'folder'];
 
 
 
+/// Setup logging
 Future<void> initLogging(Level l) async {
 
   final dir = await getExternalStorageDirectory();
@@ -148,23 +149,21 @@ String formatDuration(Duration d) {
 /// If none of the information exists it returns an empty string
 String subtitleFromMetadata(Metadata m) {
 
-  List<String> a = [];
+  return [
 
-  if(m.albumName != null) {
-    a.add(m.albumName!);
-  }
-  else if(m.albumArtistName != null) {
-    a.add(m.albumArtistName!);
-  }
+  if(m.albumName != null)
+    m.albumName!,
 
-  if(m.authorName != null) {
-    a.add(m.authorName!);
-  }
-  else if(m.trackArtistNames != null) {
-    a.add(m.trackArtistNames!.join(", "));
-  }
+  if(m.albumName == null && m.albumArtistName != null)
+    m.albumArtistName!,
 
-  return a.join(" - ");
+  if(m.authorName != null)
+    m.authorName!,
+
+  if(m.authorName == null && m.trackArtistNames != null)
+    m.trackArtistNames!.join(", "),
+
+  ].join(" - ");
 }
 
 
@@ -175,18 +174,18 @@ String subtitleFromMetadata(Metadata m) {
 String currentlyPlayingTextFromMetadata(Song s) {
 
   var m = s.metadata;
-  List<String> a = [];
 
-  if(m.authorName != null) {
-    a.add(m.authorName!);
-  }
-  else if(m.trackArtistNames != null) {
-    a.add(m.trackArtistNames!.join(", "));
-  }
+  return [
 
-  a.add(s.title);
+  if(m.authorName != null)
+    m.authorName!,
 
-  return a.join(" --- ");
+  if(m.authorName == null && m.trackArtistNames != null)
+    m.trackArtistNames!.join(", "),
+
+    s.title,
+
+  ].join(" --- ");
 }
 
 
@@ -233,25 +232,15 @@ String filenameWithoutExtension(String path){
 /// Asks or gets permission to manage external storage
 Future<bool> getExternalStoragePermission() async {
 
-  // final c = await Permission.audio.isGranted;
-  //
-  // if(!c) {
-  //   await Permission.audio.request();
-  //
-  //   if (!await Permission.audio.isGranted) {
-  //     logging.warning("No audio permissions");
-  //   }
-  // }
-  //
-  // final b = await Permission.storage.isGranted;
-  //
-  // if(!b) {
-  //   await Permission.storage.request();
-  //
-  //   if (!await Permission.storage.isGranted) {
-  //     logging.warning("No storage permissions");
-  //   }
-  // }
+  final b = await Permission.storage.isGranted;
+
+  if(!b) {
+    await Permission.storage.request();
+
+    if (!await Permission.storage.isGranted) {
+      logging.warning("No storage permissions");
+    }
+  }
 
   final a = await Permission.manageExternalStorage.isGranted;
 
@@ -325,4 +314,21 @@ List<String> multiplyListTerms(List<String> terms, int n) {
       for(int i = 0; i < n; i++)
         term
   ];
+}
+
+
+
+bool dataEntityMatches(String text, DataEntity di) {
+
+  switch(di.entityType) {
+
+    case EntityType.song:
+      return di.title.toLowerCase().contains(text) ||
+             subtitleFromMetadata((di as Song).metadata).toLowerCase().contains(text);
+
+    case EntityType.album:
+    case EntityType.playlist:
+      return di.title.toLowerCase().contains(text);
+  }
+
 }

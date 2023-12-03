@@ -80,7 +80,10 @@ abstract class DataEntity {
     }
   }
 
+  /// Returns basic info text about the entity
   String basicInfoText();
+
+  /// Returns basic info text about the entity with the given separator
   String basicInfoTextWithSep(String sep);
 
   @override

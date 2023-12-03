@@ -4,6 +4,7 @@ import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/pages/PlayQueuePage.dart';
@@ -122,9 +123,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
                     IconButton(
                       icon: const Icon(Icons.playlist_add),
-                      onPressed: () {
-                        logging.finest("ADD TO PLAYLIST");
-                      },
+                      onPressed: () => selectPlaylistAndAddSong(context, songContext),
                     ),
                   ],
                 ),
