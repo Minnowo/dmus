@@ -12,7 +12,7 @@ import 'package:text_scroll/text_scroll.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/UIEnumSettings.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 
 
 class CurrentlyPlayingBar extends  StatelessWidget {

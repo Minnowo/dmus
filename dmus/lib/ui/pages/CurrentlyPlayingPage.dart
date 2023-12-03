@@ -1,9 +1,6 @@
-// import 'package:audioplayers/audioplayers.dart';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/ui/Constants.dart';
-import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
@@ -15,9 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 
 class CurrentlyPlayingPage extends  StatelessWidget {
 
@@ -96,11 +92,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                           delayBefore: const Duration(milliseconds: 500),
                           pauseBetween: const Duration(milliseconds: 2000),
                           pauseOnBounce: const Duration(milliseconds: 1000),
-                          style: TextStyle(
-                            color: Colors.grey[300],
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: TEXT_SUBTITLE,
                           textAlign: TextAlign.left,
                           fadedBorder: true,
                           fadedBorderWidth: 0.02,

@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'CommonTheme.dart';
+
 const Color DARK1 = Color(0xff141216);
 const Color DARK2 = Color(0xFF1e1b21);
 const Color DARK25 = Color(0xFF242127);
@@ -10,12 +12,6 @@ const Color DARK4 = Color(0xff56525b);
 const Color LIGHT1 = Color(0xff913af1);
 const Color LIGHT2 = Color(0xffac5bfb);
 
-const Color RED = Colors.red;
-const Color GREEN = Color.fromARGB(255, 61, 161, 65);
-
-const double HORIZONTAL_PADDING = 16.0;
-
-const double THUMB_SIZE = 56.0;
 
 ThemeData darkTheme() => ThemeData(
   useMaterial3: true,
@@ -31,6 +27,9 @@ ThemeData darkTheme() => ThemeData(
     onBackground: Colors.white10, // only seen used in Switch so far
     onError: Colors.white,
     brightness: Brightness.dark,
+  ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: DARK3
   ),
   primaryColor: DARK1,
   primaryColorLight: DARK2,
@@ -178,68 +177,11 @@ ThemeData darkTheme() => ThemeData(
         if (states.contains(MaterialState.disabled)) {
           return Colors.white30;
         } else if (states.contains(MaterialState.selected)) {
-          return Colors.white10;
+          return Colors.white30;
         }
         return Colors.white;
       },
     ),
   ),
 );
-
-const TextStyle TEXT_HEADER = TextStyle(
-  fontSize: 20.0,
-  fontWeight: FontWeight.w800,
-);
-
-const TextStyle TEXT_HEADER_S = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.bold,
-);
-
-const TextStyle TEXT_BIG = TextStyle(
-  fontSize: 22.0,
-  fontWeight: FontWeight.bold,
-);
-
-const TextStyle TEXT_SUBTITLE = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w200,
-);
-
-const TextStyle TEXT_SMALL_HEADLINE = TextStyle(
-  fontSize: 13.0,
-  fontWeight: FontWeight.normal,
-);
-
-const TextStyle TEXT_SMALL_SUBTITLE = TextStyle(
-  fontSize: 13.0,
-  fontWeight: FontWeight.w300,
-);
-
-extension TextStyleX on TextStyle {
-  /// A method to underline a text with a customizable [distance] between the text
-  /// and underline. The [color], [thickness] and [style] can be set
-  /// as the decorations of a [TextStyle].
-  TextStyle underlined({
-    Color? underlineColor,
-    Color? textColor,
-    double distance = 1,
-    double thickness = 1,
-    TextDecorationStyle style = TextDecorationStyle.solid,
-  }) {
-    return copyWith(
-      shadows: [
-        Shadow(
-          color: textColor ?? (color ?? Colors.black),
-          offset: Offset(0, -distance),
-        )
-      ],
-      color: Colors.transparent,
-      decoration: TextDecoration.underline,
-      decorationThickness: thickness,
-      decorationColor: underlineColor ?? color,
-      decorationStyle: style,
-    );
-  }
-}
 

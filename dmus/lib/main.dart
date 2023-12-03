@@ -10,12 +10,12 @@ import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
-import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
+import 'package:dmus/ui/lookfeel/DarkTheme.dart';
+import 'package:dmus/ui/lookfeel/LightTheme.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
@@ -141,10 +141,7 @@ class DMUSApp extends StatelessWidget {
       builder: (context, themeProvider, child) {
         return MaterialApp(
           title: title,
-          theme: themeProvider.isDarkModeEnabled ? darkTheme() : ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
+          theme: themeProvider.isDarkModeEnabled ? darkTheme() : lightTheme(),
           localizationsDelegates: const [
             S.delegate,
             ...GlobalMaterialLocalizations.delegates,

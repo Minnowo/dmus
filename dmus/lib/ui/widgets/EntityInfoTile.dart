@@ -1,14 +1,12 @@
 
 
-import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/widgets/LikeButton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../dialogs/Util.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 
 class EntityInfoTile extends StatelessWidget {
 

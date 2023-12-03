@@ -5,14 +5,12 @@ import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/Util.dart';
 import '../../core/audio/ProviderData.dart';
 import '../../core/data/UIEnumSettings.dart';
-import '../../core/localstorage/SettingsHandler.dart';
 import '../Util.dart';
 import '../dialogs/Util.dart';
 import '../dialogs/context/SongContextDialog.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 import '../widgets/CurrentlyPlayingBar.dart';
 
 class SelectedPlaylistPage extends StatelessWidget {

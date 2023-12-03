@@ -1,24 +1,16 @@
-import 'dart:io';
-
 import 'package:dmus/core/cloudstorage/CloudStorageDownload.dart';
-import 'package:dmus/core/data/FileDialog.dart';
-import 'package:dmus/core/localstorage/DatabaseController.dart';
-import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
-import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/pages/AdvancedSettingsPage.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
 import 'package:dmus/ui/pages/WatchDirectoriesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as Path;
 
-import '../../core/Util.dart';
 import '../../core/cloudstorage/CloudStorageUpload.dart';
 import '../dialogs/picker/ImportDialog.dart';
 import '../lookfeel/Animations.dart';
+import '../lookfeel/CommonTheme.dart';
 import '../pages/cloud/SignIn.dart';
 import '../pages/cloud/registerPage.dart';
 

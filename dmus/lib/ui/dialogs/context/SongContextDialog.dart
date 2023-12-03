@@ -1,19 +1,11 @@
 import 'package:dmus/l10n/LocalizationMapper.dart';
-import 'package:dmus/ui/dialogs/Util.dart';
-import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
-import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/EntityInfoTile.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/Util.dart';
-import '../../../core/cloudstorage/ExternalStorageModel.dart';
-import '../../../core/data/DataEntity.dart';
-import '../../../core/localstorage/dbimpl/TableSong.dart';
-import '../../../core/localstorage/ImportController.dart';
-import '../../../core/data/MessagePublisher.dart';
 import '../../../core/audio/JustAudioController.dart';
-import '../../../core/audio/AudioMetadata.dart';
+import '../../../core/data/DataEntity.dart';
+import '../../../core/data/MessagePublisher.dart';
+import '../../../core/localstorage/ImportController.dart';
 import '../../Util.dart';
 import '../../dialogs/picker/ConfirmDestructiveAction.dart';
 import '../../pages/MetadataPage.dart';

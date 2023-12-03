@@ -2,11 +2,9 @@
 
 
 import 'package:dmus/core/localstorage/SearchHandler.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
 import 'package:dmus/ui/widgets/BlueDivider.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
@@ -15,6 +13,7 @@ import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
 import '../Util.dart';
 import '../dialogs/context/SongContextDialog.dart';
+import '../lookfeel/CommonTheme.dart';
 import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 

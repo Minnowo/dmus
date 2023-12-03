@@ -2,16 +2,13 @@
 
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
-import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
-import '../Settings.dart';
 import '../dialogs/context/SongContextDialog.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 import 'ArtDisplay.dart';
 
 

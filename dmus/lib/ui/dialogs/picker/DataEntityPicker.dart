@@ -5,7 +5,6 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

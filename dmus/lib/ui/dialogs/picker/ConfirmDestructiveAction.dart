@@ -54,10 +54,9 @@ class ConfirmDestructiveAction extends StatelessWidget {
 
               ElevatedButton(
                 onPressed: () => _onNoPressed(context),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateColor.resolveWith((states) => noTextColor ?? Colors.black),
+                child: Text(noText,
+                  style: TextStyle(color: noTextColor),
                 ),
-                child: Text(noText),
               ),
             ],
           ),

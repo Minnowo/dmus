@@ -3,7 +3,7 @@ import 'package:dmus/ui/dialogs/context/PlaylistContextDialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/data/DataEntity.dart';
-import '../lookfeel/Theming.dart';
+import '../lookfeel/CommonTheme.dart';
 import 'ArtDisplay.dart';
 
 class PlaylistListWidget extends StatelessWidget {

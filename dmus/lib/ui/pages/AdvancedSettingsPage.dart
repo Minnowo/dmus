@@ -2,14 +2,12 @@
 
 import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
-import 'package:dmus/ui/lookfeel/Theming.dart';
-import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
-import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/data/UIEnumSettings.dart';
 import '../dialogs/Util.dart';
+import '../lookfeel/CommonTheme.dart';
 import '../widgets/BlueDivider.dart';
 
 class AdvancedSettingsPage extends StatelessWidget {
