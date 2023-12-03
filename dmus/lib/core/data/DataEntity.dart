@@ -72,11 +72,11 @@ abstract class DataEntity {
   /// Sets the picture cache key of this item
   ///
   /// This also will fetch the file path of the cached item if possible
-  void setPictureCacheKey(Uint8List? pictureCacheKey) {
+  Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
     _pictureCacheKey = pictureCacheKey;
 
     if(pictureCacheKey != null) {
-      ImageCacheController.getImagePathFromRaw(pictureCacheKey).then((value) => artPath = value);
+      artPath =  await ImageCacheController.getImagePathFromRaw(pictureCacheKey);
     }
   }
 
@@ -223,21 +223,21 @@ class Playlist extends DataEntity {
   }
 
   @override
-  void setPictureCacheKey(Uint8List? pictureCacheKey) {
+  Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
 
     if(this.pictureCacheKey != null) {
       return;
     }
 
     if(pictureCacheKey != null) {
-      super.setPictureCacheKey(pictureCacheKey);
+      await super.setPictureCacheKey(pictureCacheKey);
       return;
     }
 
     for(final i in songs) {
 
       if(i.pictureCacheKey != null) {
-        super.setPictureCacheKey(i.pictureCacheKey);
+        await super.setPictureCacheKey(i.pictureCacheKey);
         return;
       }
     }

@@ -123,7 +123,7 @@ final class TablePlaylist {
 
     final result = await db.rawQuery(sql, [playlistId]);
 
-    return result.map((e) => TableSong.fromMappedObjects(e));
+    return await Future.wait(result.map((e) => TableSong.fromMappedObjects(e)));
   }
 
 
@@ -152,8 +152,8 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+      await p.setPictureCacheKey(null);
 
       playlists.add(p);
 
@@ -232,8 +232,8 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+      await p.setPictureCacheKey(null);
 
       playlists.add(p);
 
@@ -280,8 +280,8 @@ final class TablePlaylist {
       Playlist p = Playlist(id: id, title: e[TablePlaylist.titleCol] as String);
 
       p.songs.addAll(await selectPlaylistSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+      await p.setPictureCacheKey(null);
 
       playlists.add(p);
 

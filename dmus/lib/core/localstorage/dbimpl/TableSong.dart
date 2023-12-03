@@ -148,7 +148,7 @@ final class TableSong {
 
     var result = await db.rawQuery(sql);
 
-    final results = result.map((e) => fromMappedObjects(e)) .toList();
+    final results = await Future.wait(result.map((e) => fromMappedObjects(e)));
 
     for(final Song i in results) {
       i.liked  = await TableLikes.isSongLiked(i.id);
@@ -160,7 +160,7 @@ final class TableSong {
   /// Returns a song from a map of column names to their datatype
   ///
   /// Does not check for keys to exist, only use this if you know your map is good
-  static Song fromMappedObjects(Map<String, Object?> e) {
+  static Future<Song> fromMappedObjects(Map<String, Object?> e) async {
 
     Metadata m = TableFMetadata.fromMap(e);
 
@@ -180,7 +180,9 @@ final class TableSong {
 
     Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
 
-    s.setPictureCacheKey(e[TableFMetadata.artCacheKeyCol] as Uint8List?);
+    await s.setPictureCacheKey(e[TableFMetadata.artCacheKeyCol] as Uint8List?);
+
+    s.liked  = await TableLikes.isSongLiked(s.id);
 
     MyDataEntityCache.updateCache(s);
 
@@ -220,8 +222,6 @@ final class TableSong {
       return [];
     }
 
-
-
     const whereQueryTbl = "LOWER(${TableFMetadata.name}.${TableFMetadata.titleCol}) LIKE '%' || LOWER(?) || '%'"
                       " OR LOWER(${TableFMetadata.name}.${TableFMetadata.albumArtistCol}) LIKE '%' || LOWER(?) || '%'"
                       " OR LOWER(${TableFMetadata.name}.${TableFMetadata.albumCol}) LIKE '%' || LOWER(?) || '%'"
@@ -243,11 +243,6 @@ final class TableSong {
 
     var result = await db.rawQuery(sql, multiplyListTerms(text, 8));
 
-    final results = result.map((e) => fromMappedObjects(e)) .toList();
-
-    for(final Song i in results) {
-      i.liked  = await TableLikes.isSongLiked(i.id);
-    }
-    return results;
+    return await Future.wait(result.map((e) => fromMappedObjects(e)));
   }
 }

@@ -97,8 +97,9 @@ final class TableAlbum {
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
       p.songs.addAll(await selectAlbumSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+
+      await p.setPictureCacheKey(null);
 
       playlists.add(p);
 
@@ -145,8 +146,9 @@ final class TableAlbum {
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
       p.songs.addAll(await selectAlbumSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+
+      await p.setPictureCacheKey(null);
 
       playlists.add(p);
 
@@ -200,7 +202,7 @@ final class TableAlbum {
 
     final result = await db.rawQuery(sql, [albumId]);
 
-    return result.map((e) => TableSong.fromMappedObjects(e));
+    return await Future.wait(result.map((e) => TableSong.fromMappedObjects(e)));
   }
 
 
@@ -222,8 +224,9 @@ final class TableAlbum {
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
       p.songs.addAll(await selectAlbumSongs(id));
-      p.setPictureCacheKey(null);
       p.updateDuration();
+
+      await p.setPictureCacheKey(null);
 
       albums.add(p);
     }
