@@ -1,5 +1,6 @@
 
 import 'package:dmus/core/data/provider/AlbumProvider.dart';
+import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/widgets/AlbumTile.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,13 @@ class AlbumsPage extends StatelessNavigationPage {
         appBar: AppBar(
           title: Text(title),
           centerTitle: true,
+          actions: const [
+
+            IconButton(
+                onPressed: ImportController.rebuildAlbums,
+                icon: Icon(Icons.refresh)
+            )
+          ],
         ),
         body:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
