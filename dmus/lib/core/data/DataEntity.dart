@@ -262,6 +262,15 @@ class Playlist extends DataEntity {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: ${songs.length}>";
   }
 
+  void addSong(Song s) {
+    duration += s.duration;
+    songs.add(s);
+  }
+
+  void addSongs(Iterable<Song> s) {
+    songs.addAll(s.map((e) { duration += e.duration; return e;}));
+  }
+
   String toStringWithSongs() {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: $songs>";
   }

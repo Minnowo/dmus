@@ -96,8 +96,7 @@ final class TableAlbum {
 
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
-      p.songs.addAll(await selectAlbumSongs(id));
-      p.updateDuration();
+      p.addSongs(await selectAlbumSongs(id));
 
       await p.setPictureCacheKey(null);
 
@@ -145,8 +144,7 @@ final class TableAlbum {
 
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
-      p.songs.addAll(await selectAlbumSongs(id));
-      p.updateDuration();
+      p.addSongs(await selectAlbumSongs(id));
 
       await p.setPictureCacheKey(null);
 
@@ -223,8 +221,7 @@ final class TableAlbum {
 
       Album p = Album(id: id, title: e[TableAlbum.titleCol] as String);
 
-      p.songs.addAll(await selectAlbumSongs(id));
-      p.updateDuration();
+      p.addSongs(await selectAlbumSongs(id));
 
       await p.setPictureCacheKey(null);
 

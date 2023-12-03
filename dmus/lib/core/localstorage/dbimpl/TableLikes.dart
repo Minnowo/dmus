@@ -35,8 +35,7 @@ final class TableLikes {
 
     Playlist p = Playlist(id: TablePlaylist.likedPlaylistId, title: TablePlaylist.likedPlaylistName);
 
-    p.songs.addAll(await TablePlaylist.selectPlaylistSongs(TablePlaylist.likedPlaylistId));
-    p.updateDuration();
+    p.addSongs(await TablePlaylist.selectPlaylistSongs(TablePlaylist.likedPlaylistId));
     await p.setPictureCacheKey(null);
 
     likedPlaylist = p;
@@ -54,7 +53,7 @@ final class TableLikes {
     if(likedPlaylist == null){
       await reGenerateLikedPlaylist();
     } else {
-      likedPlaylist!.songs.add(song);
+      likedPlaylist!.addSong(song);
       await likedPlaylist!.setPictureCacheKey(null);
       ImportController.pubLikedPlaylistUpdated(likedPlaylist!);
     }
