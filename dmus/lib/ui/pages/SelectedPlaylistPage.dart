@@ -30,7 +30,8 @@ class SelectedPlaylistPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
               child: SizedBox(
                   width: THUMB_SIZE,
-                  child: Center(child:  IconButton(
+                  child: Center(
+                    child: IconButton(
                     icon: const Icon(Icons.expand_more_rounded),
                     onPressed: () => Navigator.pop(context),
                   ),
@@ -44,6 +45,7 @@ class SelectedPlaylistPage extends StatelessWidget {
           children: [
 
             Container(
+              height: THUMB_SIZE * 2,
               color: Theme.of(context).colorScheme.background,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,14 +58,15 @@ class SelectedPlaylistPage extends StatelessWidget {
                   const SizedBox(width: HORIZONTAL_PADDING),
 
                   Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(playlistContext.title, style: TEXT_BIG,),
-                        ],
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child:  Text(
+                          playlistContext.title,
+                          style: TEXT_BIG,
+                          overflow: TextOverflow.fade,
+                        ),
                       )
-                  ),
+                  )
                 ],
               ),
             ),
@@ -74,12 +77,16 @@ class SelectedPlaylistPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
-                  Row(
-                    children: [
-                      const SizedBox(width: HORIZONTAL_PADDING),
+                  const SizedBox(width: HORIZONTAL_PADDING),
 
-                      Text( playlistContext.basicInfoTextWithSep(" - ") , style: TEXT_SUBTITLE,),
-                    ],
+                  Expanded(
+                    child: Text(
+                      playlistContext.basicInfoTextWithSep(" - "),
+                      maxLines: 1,
+                      style: TEXT_SUBTITLE,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
 
                   Row(
@@ -124,6 +131,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                     ],
                   ),
                 ],
+
               ),
             ),
 
