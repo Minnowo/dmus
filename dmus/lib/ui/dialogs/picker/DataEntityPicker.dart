@@ -72,6 +72,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
         child: FloatingActionButton(
+          tooltip: "Confirm Selection",
           onPressed: () => super.finishSelection(context),
           child: const Icon(Icons.save),
         ),

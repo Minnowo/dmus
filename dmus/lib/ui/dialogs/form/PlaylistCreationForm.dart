@@ -185,14 +185,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.increment,
+            tooltip: "Pick Songs",
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.increment,
+            tooltip: "Save the Playlist",
             onPressed: finishPlaylist,
             child: const Icon(Icons.save),
           ),
