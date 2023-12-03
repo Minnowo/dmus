@@ -88,11 +88,11 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
               },
             ),
             ListTile(
-              title: Text(LocalizationMapper.current.ok),
+              title: Text(LocalizationMapper.current.ok, textAlign: TextAlign.center,),
               onTap: changePlaybackSpeedSubmit,
             ),
             ListTile(
-              title: Text(LocalizationMapper.current.cancel),
+              title: Text(LocalizationMapper.current.cancel, textAlign: TextAlign.center,),
               onTap: cancel,
             ),
           ]

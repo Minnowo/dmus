@@ -28,19 +28,20 @@ class PlayQueuePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          leadingWidth: THUMB_SIZE + HORIZONTAL_PADDING,
-          leading: Padding(
-              padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
-              child: SizedBox(
-                  width: THUMB_SIZE,
-                  child: Center(child:  IconButton(
-                    icon: const Icon(Icons.expand_more_rounded),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  )
-              )
-          ),
-          title: Consumer<QueueChanged>(builder: (context, queueChanged, child) => Text("${queueChanged.length} Songs")),
+        leadingWidth: THUMB_SIZE + HORIZONTAL_PADDING,
+        centerTitle: true,
+        leading: Padding(
+            padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
+            child: SizedBox(
+                width: THUMB_SIZE,
+                child: Center(child:  IconButton(
+                  icon: const Icon(Icons.expand_more_rounded),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                )
+            )
+        ),
+        title: Consumer<QueueChanged>(builder: (context, queueChanged, child) => Text("${queueChanged.length} Songs")),
         actions: [
           IconButton(
               onPressed: JustAudioController.instance.shuffleQueue,

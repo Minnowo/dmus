@@ -35,6 +35,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
     return Scaffold(
         appBar: AppBar(
             title: const Text(title),
+            centerTitle: true,
             leadingWidth: THUMB_SIZE,
             leading: Padding(
                 padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
@@ -150,8 +151,9 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                 ),
 
                 Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                  child: SizedBox(
+                      width: THUMB_SIZE * 3,
+                      height: THUMB_SIZE / 1.5,
                       child: InkWell(
                         onTap: ()=> _openQueue(context),
                         child: const Icon(

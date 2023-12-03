@@ -1,4 +1,5 @@
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,25 +38,28 @@ class ConfirmDestructiveAction extends StatelessWidget {
             children: [
 
               Text(
-                  promptText,
-                  textAlign: TextAlign.center
+                promptText,
+                textAlign: TextAlign.center,
+                style: TEXT_SUBTITLE,
               ),
 
               const SizedBox(height: 8),
 
-              ElevatedButton(
-                onPressed: () => _onYesPressed(context),
-                child: Text(yesText,
-                    style: TextStyle(color: yesTextColor),
+              ListTile(
+                onTap: () => _onYesPressed(context),
+                title: Text(yesText,
+                  style: TextStyle(color: yesTextColor),
+                  textAlign: TextAlign.center,
                 ),
               ),
 
               const SizedBox(height: 8),
 
-              ElevatedButton(
-                onPressed: () => _onNoPressed(context),
-                child: Text(noText,
+              ListTile(
+                onTap: () => _onNoPressed(context),
+                title: Text(noText,
                   style: TextStyle(color: noTextColor),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
