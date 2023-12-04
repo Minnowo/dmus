@@ -115,7 +115,7 @@ class SongContextDialog extends StatelessWidget {
     await ImportController.deleteSong(s);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "Song ${s.title} has been removed from the app"),
+      SnackBarData(text: "Song ${s.title} has been removed from the app")
     );
   }
 }

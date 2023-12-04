@@ -352,5 +352,7 @@ class SnackBarData {
   final Duration? duration;
   final Color? color;
 
-  const SnackBarData({required this.text, this.duration, this.color});
+  static const Duration defaultDuration = const Duration(milliseconds: 700);
+
+  const SnackBarData({required this.text, this.duration=defaultDuration, this.color});
 }
