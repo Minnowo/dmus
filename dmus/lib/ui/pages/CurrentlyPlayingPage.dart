@@ -47,7 +47,15 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     ),
                     )
                 )
-            )
+            ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () {
+                ShowShareDialog(context, songContext);
+              },
+            ),
+          ],
         ),
         body: SafeArea(
           child: GestureDetector(

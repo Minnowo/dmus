@@ -151,6 +151,12 @@ void popShowShareDialog(BuildContext context, DataEntity toShare) {
   ShareContextDialog.showAsDialog(context, toShare);
 }
 
+void ShowShareDialog(BuildContext context, DataEntity toShare) {
+
+
+  ShareContextDialog.showAsDialog(context, toShare);
+}
+
 Future<void> refreshMetadata(BuildContext context) async {
 
   popNavigatorSafe(context);
