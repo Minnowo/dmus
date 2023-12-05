@@ -11,11 +11,16 @@ import '../DataEntity.dart';
 
 class SongsProvider extends ChangeNotifier {
 
+  static SongsProvider? get  instance => _instance;
+  static SongsProvider? _instance;
+
   late final List<StreamSubscription> _subscriptions;
 
   final List<Song> songs = [];
 
   SongsProvider() {
+
+    _instance = this;
 
     _subscriptions = [
       ImportController.onSongImported.listen(addSong),

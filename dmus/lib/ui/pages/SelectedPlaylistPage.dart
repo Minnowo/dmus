@@ -1,5 +1,6 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,8 @@ class SelectedPlaylistPage extends StatelessWidget {
                                 icon: playPauseIcon(context, queueChanged.lastPlaylistIsQueue == playlistContext.songsHashCode() && playerStateExtended.playing),
                                 onPressed: () async {
 
+                                  JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
+
                                   if(queueChanged.lastPlaylistIsQueue == playlistContext.songsHashCode()) {
                                     if(playerStateExtended.playing) {
                                       await JustAudioController.instance.pause();
@@ -153,7 +156,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                                     (JustAudioController.instance.lastPlaylistInQueue != playlistContext.songsHashCode() && s.id == playerSong.song?.id),
                           confirmDismiss: (d) => addToQueueSongDismiss(d, s),
                           background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
-                          onTap: () => JustAudioController.instance.playPlaylistStartingFrom(playlistContext, i),
+                          onTap: () => playSong(playlistContext, i) ,
                           onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode, null),
                           leadWith: playlistContext.entityType ==
                               EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
@@ -208,6 +211,11 @@ class SelectedPlaylistPage extends StatelessWidget {
               Navigator.pushReplacement(context,  MaterialPageRoute(builder: (ctx) => SelectedPlaylistPage(playlistContext: value)));
             }
       });
+  }
 
+
+  Future<void> playSong(Playlist p, int i) async {
+    JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
+    await JustAudioController.instance.playPlaylistStartingFrom(playlistContext, i);
   }
 }

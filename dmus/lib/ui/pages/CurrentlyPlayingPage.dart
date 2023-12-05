@@ -1,6 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/Constants.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
@@ -43,7 +44,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     width: THUMB_SIZE,
                     child: Center(child:  IconButton(
                       icon: const Icon(Icons.expand_more_rounded),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => _close(context),
                     ),
                     )
                 )
@@ -55,7 +56,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
               if (detail.primaryVelocity! < -GESTURE_SWIPE_SENSITIVITY) {
                 _openQueue(context);
               } else if (detail.primaryVelocity! > GESTURE_SWIPE_SENSITIVITY) {
-                Navigator.pop(context);
+                _close(context);
               }
             },
             child: Column(
@@ -180,5 +181,10 @@ class CurrentlyPlayingPage extends  StatelessWidget {
     animateOpenFromBottom(context, const PlayQueuePage());
   }
 
+  void _close(BuildContext context) {
+
+    JustAudioController.instance.clearQueueIfStopped();
+    popNavigatorSafe(context);
+  }
 
 }

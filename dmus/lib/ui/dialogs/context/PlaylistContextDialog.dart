@@ -64,6 +64,7 @@ class PlaylistContextDialog extends StatelessWidget {
 
   Future<void> _playPlaylist(BuildContext context, Playlist p) async {
     popNavigatorSafe(context);
+    JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
     await JustAudioController.instance.playPlaylist(p);
   }
 

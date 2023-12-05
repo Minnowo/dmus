@@ -9,6 +9,9 @@ import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/core/data/QueueGeneration.dart';
+import 'package:dmus/core/data/UIEnumSettings.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 
 import '../Util.dart';
@@ -16,6 +19,8 @@ import '../data/DataEntity.dart';
 import 'PlayQueue.dart';
 
 const INVALID_PLAYLIST_ID = -7;
+const int FILL_QUEUE_WHEN = 20;
+const int FILL_QUEUE_NEVER = -1;
 
 final class JustAudioController extends BaseAudioHandler {
 
@@ -31,6 +36,7 @@ final class JustAudioController extends BaseAudioHandler {
   ShuffleOrder _shuffleOrder = ShuffleOrder.inOrder;
   bool _isRepeat = false;
   bool _currentIsNext = false;
+  int _autoFillQueueWhen = FILL_QUEUE_NEVER;
   int _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
 
   final _queueShuffledStream = StreamController<QueueShuffle>.broadcast();
@@ -110,6 +116,7 @@ final class JustAudioController extends BaseAudioHandler {
     switch(_shuffleOrder){
 
       case ShuffleOrder.inOrder:
+        checkForFillQueueWith(null);
         return await skipToNext();
       case ShuffleOrder.randomOrder:
         return await skipToRandom();
@@ -231,6 +238,7 @@ final class JustAudioController extends BaseAudioHandler {
   @override
   Future<void> stop() async {
     if(!_isInit || _isDisposed) return;
+    _autoFillQueueWhen = FILL_QUEUE_NEVER;
     await _player.stop();
   }
 
@@ -308,7 +316,7 @@ final class JustAudioController extends BaseAudioHandler {
     }
   }
 
-  Future<void> playSong(Song? song) async {
+  Future<void> playSong(Song? song, {bool fillQ = false}) async {
     if(!_isInit || _isDisposed) return;
 
     if(song == null) return await stop();
@@ -316,6 +324,18 @@ final class JustAudioController extends BaseAudioHandler {
     final before = _playQueue.length;
 
     _playQueue.jumpTo(song);
+
+    if(fillQ) {
+
+      switch(SettingsHandler.queueFillMode) {
+        case QueueFillMode.fillWithRandom:
+          checkForFillQueueWith(null);
+          break;
+        case QueueFillMode.fillWithRandomPrioritySameArtist:
+          checkForFillQueueWith(song);
+          break;
+      }
+    }
 
     if(before != _playQueue.length) {
       _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
@@ -325,7 +345,7 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
 
-  Future<void> addNextToQueue(Song s) async {
+  void addNextToQueue(Song s) {
     _playQueue.queueNext(s);
   }
 
@@ -435,6 +455,53 @@ final class JustAudioController extends BaseAudioHandler {
     _playQueue.clear();
 
     _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+  }
+
+  void clearQueueIfStopped(){
+
+    switch(_player.processingState) {
+
+      case ja.ProcessingState.loading:
+      case ja.ProcessingState.buffering:
+      case ja.ProcessingState.ready:
+        return;
+
+      case ja.ProcessingState.idle:
+      case ja.ProcessingState.completed:
+        break;
+    }
+
+    _playQueue.clear();
+    _autoFillQueueWhen = FILL_QUEUE_NEVER;
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+    logging.info("Play queue has been cleared");
+  }
+
+  void setAutofillQueueWhen(int fillQueueWhen) {
+    _autoFillQueueWhen = fillQueueWhen;
+  }
+
+  void fillQueueRandom(){
+    QueueGeneration.fillRandomN(_playQueue, 10 + _autoFillQueueWhen * 2);
+  }
+
+  void fillQueueRandomN(int n){
+    QueueGeneration.fillRandomN(_playQueue, n);
+  }
+
+  void fillQueueRandomWithPriorityArtistOf(Song s, int n){
+    QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, n);
+  }
+
+  void checkForFillQueueWith(Song? s) {
+
+    if(_playQueue.currentPosition + _autoFillQueueWhen > _playQueue.length) {
+      if(s == null) {
+        QueueGeneration.fillRandomN(_playQueue, _autoFillQueueWhen * 2);
+      } else {
+        QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, _autoFillQueueWhen * 2);
+      }
+    }
   }
 
   void queuePlaylist(Playlist p) {

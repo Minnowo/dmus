@@ -103,6 +103,30 @@ class AdvancedSettingsPage extends StatelessWidget {
             ),
 
 
+            StatefulBuilder(builder: (context, setState)
+            => PopupMenuButton<QueueFillMode>(
+              onSelected: (c) => setState(() => SettingsHandler.setQueueFillMode(c)) ,
+              child: ListTile(
+                title: const Text("Queue Fill Mode"),
+                trailing: Text("${queueFillModeToInt(SettingsHandler.queueFillMode)}"),
+              ),
+              itemBuilder: (BuildContext context) {
+                // Define the items in the menu
+                return <PopupMenuEntry<QueueFillMode>>[
+                  const PopupMenuItem(
+                    value: QueueFillMode.fillWithRandom,
+                    child: Text('Fill With Random'),
+                  ),
+                  const PopupMenuItem(
+                    value: QueueFillMode.fillWithRandomPrioritySameArtist,
+                    child: Text('Fill With Random Priority Same Artist'),
+                  ),
+                ];
+              },
+            ),
+            ),
+
+
             const Padding(
               padding: EdgeInsets.only(bottom: 8),
               child:  Text(

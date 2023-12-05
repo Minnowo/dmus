@@ -16,6 +16,11 @@ enum CurrentlyPlayingBarSwipe {
   swipeToNextPrevious,
 }
 
+enum QueueFillMode{
+  fillWithRandom,
+  fillWithRandomPrioritySameArtist,
+}
+
 
 
 int songListWidgetTrailToInt(SongListWidgetTrail s) {
@@ -30,4 +35,11 @@ int currentlyPlayingBarSwipeToInt(CurrentlyPlayingBarSwipe s) {
 }
 CurrentlyPlayingBarSwipe currentlyPlayingBarSwipeFromInt(int s) {
   return CurrentlyPlayingBarSwipe.values[s.clamp(0, CurrentlyPlayingBarSwipe.values.length - 1)];
+}
+
+int queueFillModeToInt(QueueFillMode s) {
+  return QueueFillMode.values.indexOf(s);
+}
+QueueFillMode queueFillModeFromInt(int s) {
+  return QueueFillMode.values[s.clamp(0, QueueFillMode.values.length - 1)];
 }

@@ -23,10 +23,12 @@ final class SettingsHandler {
     _isDarkTheme = getBool(_darkThemeKey, true);
     _songPageTileTrailWith = songListWidgetTrailFromInt(getInt(_songPageTileTrailWithKey, 0));
     _currentlyPlayingSwipeMode = currentlyPlayingBarSwipeFromInt(getInt(_currentlyPlayingSwipeModeKey, 0));
+    _queueFillMode = queueFillModeFromInt(getInt(_queueFillModeKey, 0));
 
     logging.config("Loaded setting $_darkThemeKey as $_isDarkTheme");
     logging.config("Loaded setting $_songPageTileTrailWithKey as $_songPageTileTrailWith");
     logging.config("Loaded setting $_currentlyPlayingSwipeModeKey as $_currentlyPlayingSwipeMode");
+    logging.config("Loaded setting $_queueFillModeKey as $_queueFillMode");
   }
 
 
@@ -100,5 +102,19 @@ final class SettingsHandler {
     logging.config("Setting $_songPageTileTrailWithKey to $trailWith");
     _songPageTileTrailWith = trailWith;
     TableSettings.persist(_songPageTileTrailWithKey, songListWidgetTrailToInt(trailWith).toString());
+  }
+
+
+
+
+  static const String _queueFillModeKey = "queue_fill_mode";
+
+  static QueueFillMode _queueFillMode = QueueFillMode.fillWithRandom;
+  static QueueFillMode get queueFillMode => _queueFillMode;
+
+  static void setQueueFillMode(QueueFillMode trailWith) {
+    logging.config("Setting $_queueFillModeKey to $trailWith");
+    _queueFillMode = trailWith;
+    TableSettings.persist(_queueFillModeKey, queueFillModeToInt(trailWith).toString());
   }
 }

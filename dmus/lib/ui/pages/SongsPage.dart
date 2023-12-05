@@ -1,6 +1,7 @@
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
@@ -8,6 +9,7 @@ import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
@@ -87,7 +89,7 @@ class SongsPage extends  StatelessNavigationPage {
                               leadWith: SongListWidgetLead.leadWithArtwork,
                               trailWith: SettingsHandler.songPageTileTrailWith,
                               confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-                              onTap: () => JustAudioController.instance.playSong(i),
+                              onTap: () => playSong(i),
                               onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode, null),
                               selected: false,
                               background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
@@ -101,6 +103,11 @@ class SongsPage extends  StatelessNavigationPage {
       endDrawerEnableOpenDragGesture: true,
       drawer: const SettingsDrawer(),
     );
+  }
+  
+  Future<void> playSong(Song s ) async {
+    JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_WHEN);
+    await JustAudioController.instance.playSong(s, fillQ: true);
   }
 }
 
