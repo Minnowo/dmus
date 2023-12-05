@@ -6,13 +6,13 @@ import 'dart:collection';
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
-import 'package:dmus/ui/dialogs/context/QueueContextDialog.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
 import '../Util.dart';
@@ -68,21 +68,21 @@ class PlayQueuePage extends StatelessWidget {
 
 
   Widget buildSongTile(BuildContext context, Song song, int index, bool currentSong) {
-    return InkWell(
-      onLongPress: () => songLongPress(context,song,index),
-      child: SongListWidget(
+      return SongListWidget(
         song: song,
         leadWith: SongListWidgetLead.leadWithArtwork,
         trailWith: SongListWidgetTrail.trailWithDuration,
         selected: currentSong,
         confirmDismiss: (d) => songDismiss(d, index),
         onTap: () => songTap(index),
+        onLongPress: () => SongContextDialog.showAsDialog(context, song, SongContextMode.queueMode, index),
         background: iconDismissibleBackgroundContainer(Colors.red, Icons.delete),
-      ),
     );
   }
 
   Widget buildBody(BuildContext context) {
+
+    context.select((QueueChanged q) => q.length);
 
     return Consumer2<PlayerSong, QueueShuffle>(
         builder: (context, playerSong, _, child) {
@@ -128,14 +128,4 @@ class PlayQueuePage extends StatelessWidget {
 
     return true;
   }
-
-  void songLongPress(BuildContext context,Song s, int index) {
-    // Handle the long press event here
-    QueueContextDialog.showAsDialog(context, s,index);
-    buildBody(context);
-
-
-  }
-
-
 }

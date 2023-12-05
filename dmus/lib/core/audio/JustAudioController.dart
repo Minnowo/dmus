@@ -511,4 +511,8 @@ final class JustAudioController extends BaseAudioHandler {
   void _fireQueueShuffle(void _){
     _queueShuffledStream.add(const QueueShuffle());
   }
+
+  void simulateShuffleQueue(){
+    _fireQueueShuffle(null);
+  }
 }

@@ -154,7 +154,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           confirmDismiss: (d) => addToQueueSongDismiss(d, s),
                           background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
                           onTap: () => JustAudioController.instance.playPlaylistStartingFrom(playlistContext, i),
-                          onLongPress: () => SongContextDialog.showAsDialog(context, s),
+                          onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode, null),
                           leadWith: playlistContext.entityType ==
                               EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
                           trailWith: SongListWidgetTrail.trailWithDuration,
