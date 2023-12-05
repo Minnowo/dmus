@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,20 +24,27 @@ class FilePicker extends StatefulWidget {
   State<StatefulWidget> createState() => _FilePickerState();
 }
 
-class _FilePickerState extends State<FilePicker> {
+class FileSystemEntityX {
+  final FileSystemEntity systemEntity;
+  final bool isDir;
+  const FileSystemEntityX({required this.systemEntity, required this.isDir});
+}
+
+class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSystemEntityX> {
 
   final List<String> _externalStorageRoots = [];
 
-  int _depth = 0;
-  String? _currentDirectory;
+  final TextEditingController _filterController = TextEditingController();
 
-  List<SelectableDataItem<FileSystemEntity>> _files = [];
+  int _depth = 0;
+  bool _selctedAll = false;
+  String? _currentDirectory;
 
   @override
   void initState() {
     super.initState();
 
-    getExternalStoragePermission().then((value) => setState((){}));
+    getExternalStoragePermission().whenComplete(() => setState(() => buildFileCache()));
 
     ExternalPath.getExternalStorageDirectories().then((value) {
       for(final i in value) {
@@ -63,48 +71,118 @@ class _FilePickerState extends State<FilePicker> {
     return WillPopScope(
       onWillPop: willPop,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Pick Files"),
-          actions: [
-            IconButton(
-                onPressed: confirmSelection,
-                icon: const Icon(Icons.check)
-            )
-          ],
-        ),
-        body: ListView(
-          children: [
-
-            if(_depth > 0)
-              InkWell(
-                  onTap: gotoParent,
-                  child: const ListTile(
-                    title: Text(".."),
-                  )
+          appBar: AppBar(
+            title: const Text("Pick Files"),
+            actions: [
+              IconButton(
+                  onPressed: toggleSelectAll,
+                  icon: const Icon(Icons.select_all)
               ),
+              IconButton(
+                  onPressed: () => finishSelection(context),
+                  icon: const Icon(Icons.check)
+              ),
+            ],
+          ),
+          body: Column(
+              children: [
 
-            if(_currentDirectory == null)
-              for(final d in _externalStorageRoots)
-                InkWell(
-                  child: ListTile(
-                    title: Text(d),
-                  )
-                  ,onTap: () => setDirectory(d),
+                Expanded(
+                  child:ListView(
+                      children: [
+
+                        if(_depth > 0)
+                          InkWell(
+                              onTap: gotoParent,
+                              child: const ListTile(
+                                title: Text(".."),
+                              )
+                          ),
+
+                        if(_currentDirectory == null)
+                          for(final d in _externalStorageRoots)
+                            InkWell(
+                              child: ListTile(
+                                title: Text(d),
+                              )
+                              ,onTap: () => setDirectory(d),
+                            ),
+
+                        if(_currentDirectory != null)
+                          ...buildFileList(),
+                      ]
+                  ) ,
                 ),
 
-            if(_currentDirectory != null)
-              ...buildFileList()
-
-          ],
+                Container(
+                  color: Theme.of(context).colorScheme.background,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextField(
+                      controller: _filterController,
+                      onChanged: filterDataEntities,
+                      decoration: InputDecoration(
+                        hintText: "Filter Filename",
+                        suffixIcon: IconButton(
+                          onPressed: clearFilter,
+                          icon: const Icon(Icons.clear),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ]
+          ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
+          child: FloatingActionButton(
+            tooltip: "Confirm Selection",
+            onPressed: () => finishSelection(context),
+            child: const Icon(Icons.save),
+          ),
         ),
-        floatingActionButton: FloatingActionButton(
-              onPressed: confirmSelection,
-              child: const Icon(Icons.check),
-            )
       ),
     );
   }
 
+  @override
+  void clearFilter() {
+    _filterController.text = "";
+    super.clearFilter();
+    setState(() { });
+  }
+
+  @override
+  void finishSelection(BuildContext context){
+
+    popNavigatorSafeWithArgs<List<File>>(
+        context,
+        items
+            .where((e) => e.isSelected)
+            .map((e) => File(e.item.systemEntity.path))
+            .toList()
+    );
+  }
+
+  void toggleSelectAll(){
+    _selctedAll = !_selctedAll;
+    setAllItemsSelection(_selctedAll);
+    setState(() { });
+  }
+
+
+  bool systemFileMatches(String search, FileSystemEntityX e) {
+    return Path.basename(e.systemEntity.path).toLowerCase().contains(search);
+  }
+
+  void filterDataEntities(String text) {
+
+    logging.info("asldkajlsdkajsldaksdjlksdjlaksjdlaksjdlak");
+    super.filterItems(text, systemFileMatches);
+
+    setState(() { });
+  }
 
   List<Widget> buildFileList() {
 
@@ -112,18 +190,20 @@ class _FilePickerState extends State<FilePicker> {
       return [];
     }
 
-    final List<Widget> items = [];
+    final List<Widget> ritems = [];
 
-    for(final i in _files) {
+    for(final i in items) {
 
-      if(!i.isVisible) {
+      if(!i.isVisible) continue;
 
-        items.add(
+      if(!i.item.isDir) {
+
+        ritems.add(
             InkWell(
               child: ListTile(
-                title: Text(Path.basename(i.item.path)),
+                title: Text(Path.basename(i.item.systemEntity.path)),
                 selected: i.isSelected,
-                selectedTileColor: Colors.amber,
+                selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
               ),
               onTap: (){
                 i.isSelected = !i.isSelected;
@@ -135,29 +215,19 @@ class _FilePickerState extends State<FilePicker> {
         continue;
       }
 
-      items.add(
+      ritems.add(
           InkWell(
             child: ListTile(
               leading: const Icon(Icons.folder),
-              title: Text(Path.basename(i.item.path)),
+              title: Text(Path.basename(i.item.systemEntity.path)),
             ),
-            onTap: () => setDirectory(i.item.path),
+            onTap: () => setDirectory(i.item.systemEntity.path),
           ));
     }
 
-    return items;
+    return ritems;
   }
 
-  void confirmSelection() {
-
-    popNavigatorSafeWithArgs<List<File>>(
-        context,
-        _files
-            .where((e) => e.isSelected)
-            .map((e) => File(e.item.path))
-            .toList()
-    );
-  }
 
   Future<bool> willPop() async {
 
@@ -197,22 +267,25 @@ class _FilePickerState extends State<FilePicker> {
     final dir = Directory(_currentDirectory!);
 
     try {
-      _files = dir.listSync(recursive: false)
-          .where((e) => e is Directory || widget.showFileFilter(e.path))
-          .map((e) => SelectableDataItem(e, false, e is Directory))
-          .toList();
+      items.replaceRange(
+          0,
+          items.length,
+          dir.listSync(recursive: false)
+              .where((e) => e is Directory || widget.showFileFilter(e.path))
+              .map((e) => SelectableDataItem(FileSystemEntityX(systemEntity: e, isDir: e is Directory), false, true))
+      );
 
-      _files.sort((a, b) {
+      items.sort((a, b) {
 
-        if(a.isVisible  && !b.isVisible) {
+        if(a.item.isDir && !b.item.isDir) {
           return -1;
         }
 
-        if(b.isVisible && !a.isVisible) {
+        if(b.item.isDir && !a.item.isDir) {
           return 1;
         }
 
-        return compareNatural(Path.basename(a.item.path), Path.basename(b.item.path));
+        return compareNatural(Path.basename(a.item.systemEntity.path), Path.basename(b.item.systemEntity.path));
       });
     }
     catch(e) {

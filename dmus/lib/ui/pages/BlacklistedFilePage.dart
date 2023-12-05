@@ -76,7 +76,7 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
                         InkWell(
                           child: ListTile(
                             title: Text(i.item),
-                            selectedTileColor: Colors.amber,
+                            selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
                             selected: i.isSelected,
 
                           ),
