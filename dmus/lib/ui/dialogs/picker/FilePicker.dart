@@ -32,6 +32,9 @@ class FileSystemEntityX {
 
 class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSystemEntityX> {
 
+  static String? lastDirectory = null;
+  static int lastDirectoryDepth = -1;
+
   final List<String> _externalStorageRoots = [];
 
   final TextEditingController _filterController = TextEditingController();
@@ -56,11 +59,26 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
         popNavigatorSafe(context);
         return;
       }
-      if(_externalStorageRoots.length == 1) {
+
+      logging.info("last directory is $lastDirectory last dir depth is $lastDirectoryDepth");
+
+      if(lastDirectory != null && Directory(lastDirectory!).existsSync()) {
+        _currentDirectory = lastDirectory;
+        _depth = lastDirectoryDepth;
+        buildFileCache();
+      }
+      else if(_externalStorageRoots.length == 1) {
         _currentDirectory = _externalStorageRoots.first;
         _depth = 1;
         buildFileCache();
+        lastDirectory = null;
+        lastDirectoryDepth = -1;
       }
+      else {
+        lastDirectory = null;
+        lastDirectoryDepth = -1;
+      }
+
 
       setState(() { });
     });
@@ -155,6 +173,9 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
 
   @override
   void finishSelection(BuildContext context){
+
+    lastDirectory = _currentDirectory;
+    lastDirectoryDepth = _depth;
 
     popNavigatorSafeWithArgs<List<File>>(
         context,
