@@ -9,6 +9,10 @@ mixin class SelectionListPicker<T> {
 
   final List<SelectableDataItem<T>> items = [];
 
+  void clearFilter(){
+    showAllItems();
+  }
+
   void filterItems(String text, bool Function(String, T) matcher) {
     if(text.isEmpty) {
       showAllItems();
@@ -48,7 +52,7 @@ mixin class SelectionListPicker<T> {
 
 
   void showAllItems() {
-    setAllItemsSelection(true);
+    setAllItemsVisibility(true);
   }
 
   void hideAllItems() {

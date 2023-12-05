@@ -88,7 +88,7 @@ class SongsPage extends  StatelessNavigationPage {
                               trailWith: SettingsHandler.songPageTileTrailWith,
                               confirmDismiss: (d) => addToQueueSongDismiss(d, i),
                               onTap: () => JustAudioController.instance.playSong(i),
-                              onLongPress: () => SongContextDialog.showAsDialog(context, i),
+                              onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode, null),
                               selected: false,
                               background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
                             )

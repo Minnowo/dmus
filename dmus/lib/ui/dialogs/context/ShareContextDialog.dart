@@ -52,12 +52,6 @@ class ShareContextDialog extends StatelessWidget {
             onTap: () => shareArtwork(context),
           ),
 
-        ListTile(
-          title: Text(LocalizationMapper.current.close),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ],
     );
   }
@@ -88,12 +82,6 @@ class ShareContextDialog extends StatelessWidget {
             onTap: () => shareArtwork(context),
           ),
 
-        ListTile(
-          title: Text(LocalizationMapper.current.close),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ],
     );
   }

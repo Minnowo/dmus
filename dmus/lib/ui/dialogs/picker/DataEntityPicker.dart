@@ -52,20 +52,25 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _filterController,
-              onChanged: filterDataEntities,
-              decoration: InputDecoration(
-                hintText: filterText,
-                suffixIcon: IconButton(
-                  onPressed: () => filterDataEntities(""),
-                  icon: const Icon(Icons.clear),
+
+          Container(
+            color: Theme.of(context).colorScheme.background,
+            child:
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _filterController,
+                onChanged: filterDataEntities,
+                decoration: InputDecoration(
+                  hintText: filterText,
+                  suffixIcon: IconButton(
+                    onPressed: clearFilter,
+                    icon: const Icon(Icons.clear),
+                  ),
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -80,6 +85,12 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
     );
   }
 
+  @override
+  void clearFilter() {
+    _filterController.text = "";
+    super.clearFilter();
+    setState(() { });
+  }
 
   void toggleSelectAll() {
     _selectAll = !_selectAll;

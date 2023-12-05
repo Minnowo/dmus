@@ -81,7 +81,7 @@ final class TableFMetadata {
     try{
 
       await db.update(name, {
-        titleCol: m.trackName,
+        titleCol: m.trackName ?? Path.basename(file.path),
         albumCol: m.albumName,
         albumArtistCol: m.albumArtistName,
         trackArtistCol: m.trackArtistNames?.join(trackArtistJoinValue),
@@ -132,7 +132,7 @@ final class TableFMetadata {
 
       await db.insert(name,{
         idCol: songId,
-        titleCol: m.trackName,
+        titleCol: m.trackName ?? Path.basename(file.path),
         albumCol: m.albumName,
         albumArtistCol: m.albumArtistName,
         trackArtistCol: m.trackArtistNames?.join(trackArtistJoinValue),

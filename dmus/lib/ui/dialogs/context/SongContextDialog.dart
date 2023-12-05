@@ -10,11 +10,17 @@ import '../../Util.dart';
 import '../../dialogs/picker/ConfirmDestructiveAction.dart';
 import '../../pages/MetadataPage.dart';
 
+enum SongContextMode {
+  normalMode,
+  queueMode,
+}
+
 class SongContextDialog extends StatelessWidget {
   final Song songContext;
+  final SongContextMode mode;
+  final int? currentSongQueueIndex;
 
-  const SongContextDialog({required this.songContext, Key? key})
-      : super(key: key);
+  const SongContextDialog({super.key, required this.songContext, required this.mode, this.currentSongQueueIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +29,36 @@ class SongContextDialog extends StatelessWidget {
 
         EntityInfoTile(entity: songContext),
 
-        ListTile(
-          leading: const Icon(Icons.queue),
-          title: const Text("Add to Queue"),
-          onTap: () => addQueue(songContext, context),
-        ),
+        if(mode == SongContextMode.normalMode)
+          ListTile(
+            leading: const Icon(Icons.queue),
+            title: const Text("Add to Queue"),
+            onTap: () => addQueue(songContext, context),
+          ),
+
         ListTile(
           leading: const Icon(Icons.details),
           title: Text(LocalizationMapper.current.viewDetails),
           onTap: () => showMetadataPage(context),
         ),
-        ListTile(
-          leading: const Icon(Icons.block),
-          title: const Text("Remove Song"),
-          onTap: () => deleteSong(songContext, context),
-        ),
-        ListTile(
-          leading: const Icon(Icons.block),
+
+        if(mode == SongContextMode.queueMode && currentSongQueueIndex != null)
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: const Text("Remove From Queue"),
+            onTap: () => removeQueueAt(currentSongQueueIndex!, context),
+          ),
+
+        if(mode == SongContextMode.normalMode)
+          ListTile(
+            leading: const Icon(Icons.block),
+            title: const Text("Remove Song"),
+            onTap: () => deleteSong(songContext, context),
+          ),
+
+        if(mode == SongContextMode.normalMode)
+          ListTile(
+            leading: const Icon(Icons.block),
           title: const Text("Remove and block from reimport"),
           onTap: () => removeAndBlock(songContext, context),
         ),
@@ -47,11 +66,11 @@ class SongContextDialog extends StatelessWidget {
     );
   }
 
-  static Future<T?> showAsDialog<T>(BuildContext context, Song song) async {
+  static Future<T?> showAsDialog<T>(BuildContext context, Song song, SongContextMode mode, int? currentSongIndex) async {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) =>
-          SongContextDialog(songContext: song),
+          SongContextDialog(songContext: song, mode: mode, currentSongQueueIndex: currentSongIndex,),
     );
   }
 
@@ -62,6 +81,11 @@ class SongContextDialog extends StatelessWidget {
     );
   }
 
+  Future<void> removeQueueAt(int index, BuildContext context) async {
+    JustAudioController.instance.removeQueueAt(index);
+
+    popNavigatorSafe(context);
+  }
   Future<void> addQueue(Song s, BuildContext context) async {
     JustAudioController.instance.addNextToQueue(s);
 

@@ -326,8 +326,7 @@ final class JustAudioController extends BaseAudioHandler {
 
 
   Future<void> addNextToQueue(Song s) async {
-    _playQueue.addToQueue(s);
-
+    _playQueue.queueNext(s);
   }
 
   double get playbackSpeed => _player.speed;
@@ -510,5 +509,9 @@ final class JustAudioController extends BaseAudioHandler {
 
   void _fireQueueShuffle(void _){
     _queueShuffledStream.add(const QueueShuffle());
+  }
+
+  void simulateShuffleQueue(){
+    _fireQueueShuffle(null);
   }
 }

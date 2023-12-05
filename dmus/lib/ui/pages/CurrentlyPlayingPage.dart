@@ -48,14 +48,6 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     )
                 )
             ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.share),
-              onPressed: () {
-                ShowShareDialog(context, songContext);
-              },
-            ),
-          ],
         ),
         body: SafeArea(
           child: GestureDetector(
@@ -125,6 +117,11 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.playlist_add),
                       onPressed: () => selectPlaylistAndAddSong(context, songContext),
+                    ),
+
+                    IconButton(
+                        icon: const Icon(Icons.share),
+                        onPressed: () => ShowShareDialog(context, songContext)
                     ),
                   ],
                 ),
