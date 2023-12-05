@@ -326,8 +326,7 @@ final class JustAudioController extends BaseAudioHandler {
 
 
   Future<void> addNextToQueue(Song s) async {
-    _playQueue.addToQueue(s);
-
+    _playQueue.queueNext(s);
   }
 
   double get playbackSpeed => _player.speed;
