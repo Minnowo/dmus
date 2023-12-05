@@ -230,16 +230,6 @@ class S {
     );
   }
 
-  /// `Playlist Title`
-  String get playlistTitle {
-    return Intl.message(
-      'Playlist Title',
-      name: 'playlistTitle',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `title cannot be empty!`
   String get emptyTitleError {
     return Intl.message(
@@ -410,16 +400,6 @@ class S {
     );
   }
 
-  /// `Please enter a valid email address.`
-  String get enterValidEmail {
-    return Intl.message(
-      'Please enter a valid email address.',
-      name: 'enterValidEmail',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Password must be at least 6 characters long.`
   String get minPasswordLen {
     return Intl.message(
@@ -540,11 +520,801 @@ class S {
     );
   }
 
-  /// `Share`
-  String get shareButton {
+  /// `Cannot play`
+  String get cannotPlaySongFile1 {
     return Intl.message(
-      'Share',
-      name: 'shareButton',
+      'Cannot play',
+      name: 'cannotPlaySongFile1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `because it does not exist!`
+  String get cannotPlaySongFile2 {
+    return Intl.message(
+      'because it does not exist!',
+      name: 'cannotPlaySongFile2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot play audio!`
+  String get cannotPlayAudio {
+    return Intl.message(
+      'Cannot play audio!',
+      name: 'cannotPlayAudio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External storage folder is null!`
+  String get externalFolderNull {
+    return Intl.message(
+      'External storage folder is null!',
+      name: 'externalFolderNull',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot create downloads folder`
+  String get cannotCreateDownloadsFolder {
+    return Intl.message(
+      'Cannot create downloads folder',
+      name: 'cannotCreateDownloadsFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Downloading songs...`
+  String get downloadingSongs {
+    return Intl.message(
+      'Downloading songs...',
+      name: 'downloadingSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not write to songs json metadata`
+  String get couldNotWriteSongs {
+    return Intl.message(
+      'Could not write to songs json metadata',
+      name: 'couldNotWriteSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no songs to upload!`
+  String get noSongsToUpload {
+    return Intl.message(
+      'There are no songs to upload!',
+      name: 'noSongsToUpload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uploading songs...`
+  String get uploadingSongs {
+    return Intl.message(
+      'Uploading songs...',
+      name: 'uploadingSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All songs uploaded!`
+  String get songsUploaded {
+    return Intl.message(
+      'All songs uploaded!',
+      name: 'songsUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uploading playlists!`
+  String get uploadingPlaylists {
+    return Intl.message(
+      'Uploading playlists!',
+      name: 'uploadingPlaylists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All playlists uploaded!`
+  String get playlistsUploaded {
+    return Intl.message(
+      'All playlists uploaded!',
+      name: 'playlistsUploaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not get a temporary directory!`
+  String get noTemporaryDirectory {
+    return Intl.message(
+      'Could not get a temporary directory!',
+      name: 'noTemporaryDirectory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking`
+  String get checkingDirectories1 {
+    return Intl.message(
+      'Checking',
+      name: 'checkingDirectories1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `watch directories...`
+  String get checkingDirectories2 {
+    return Intl.message(
+      'watch directories...',
+      name: 'checkingDirectories2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Song`
+  String get songPathDoesNotExist1 {
+    return Intl.message(
+      'Song',
+      name: 'songPathDoesNotExist1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `does not exist, it will be removed from the app.`
+  String get songPathDoesNotExist2 {
+    return Intl.message(
+      'does not exist, it will be removed from the app.',
+      name: 'songPathDoesNotExist2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot import song because the file does not exist`
+  String get cannotImportSongDoesNotExist {
+    return Intl.message(
+      'Cannot import song because the file does not exist',
+      name: 'cannotImportSongDoesNotExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Importing`
+  String get importingSongs1 {
+    return Intl.message(
+      'Importing',
+      name: 'importingSongs1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `songs...`
+  String get importingSongs2 {
+    return Intl.message(
+      'songs...',
+      name: 'importingSongs2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No files found in this folder!`
+  String get noFilesInFolder {
+    return Intl.message(
+      'No files found in this folder!',
+      name: 'noFilesInFolder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No permission to list files in this directory!`
+  String get noPermissionInDirectory {
+    return Intl.message(
+      'No permission to list files in this directory!',
+      name: 'noPermissionInDirectory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot create playlist with an empty name!`
+  String get emptyName {
+    return Intl.message(
+      'Cannot create playlist with an empty name!',
+      name: 'emptyName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot edit playlist with an empty name or which does not exist!`
+  String get cannotEditPlaylist {
+    return Intl.message(
+      'Cannot edit playlist with an empty name or which does not exist!',
+      name: 'cannotEditPlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Playlist`
+  String get deletePlaylist {
+    return Intl.message(
+      'Delete Playlist',
+      name: 'deletePlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this playlist?`
+  String get confirmPlaylistDelete {
+    return Intl.message(
+      'Are you sure you want to delete this playlist?',
+      name: 'confirmPlaylistDelete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlist`
+  String get playlistRemoved1 {
+    return Intl.message(
+      'Playlist',
+      name: 'playlistRemoved1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `has been removed from the app`
+  String get playlistRemoved2 {
+    return Intl.message(
+      'has been removed from the app',
+      name: 'playlistRemoved2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share Title`
+  String get shareTitle {
+    return Intl.message(
+      'Share Title',
+      name: 'shareTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share Title + More`
+  String get shareTitlePlus {
+    return Intl.message(
+      'share Title + More',
+      name: 'shareTitlePlus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share Picture`
+  String get sharePicture {
+    return Intl.message(
+      'Share Picture',
+      name: 'sharePicture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share All Song Titles`
+  String get shareAllSongs {
+    return Intl.message(
+      'Share All Song Titles',
+      name: 'shareAllSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Song`
+  String get removeSong {
+    return Intl.message(
+      'Remove Song',
+      name: 'removeSong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove and block from reimport`
+  String get removeAndBlock {
+    return Intl.message(
+      'Remove and block from reimport',
+      name: 'removeAndBlock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `has been added to the queue`
+  String get titleAddedToQueue {
+    return Intl.message(
+      'has been added to the queue',
+      name: 'titleAddedToQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.`
+  String get confirmBlockSong {
+    return Intl.message(
+      'Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.',
+      name: 'confirmBlockSong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Block`
+  String get block {
+    return Intl.message(
+      'Block',
+      name: 'block',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep`
+  String get keep {
+    return Intl.message(
+      'Keep',
+      name: 'keep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove this song from the app?`
+  String get confirmRemoveSong {
+    return Intl.message(
+      'Are you sure you want to remove this song from the app?',
+      name: 'confirmRemoveSong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get remove {
+    return Intl.message(
+      'Remove',
+      name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Song`
+  String get songRemoved1 {
+    return Intl.message(
+      'Song',
+      name: 'songRemoved1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `has been removed from the app`
+  String get songRemoved2 {
+    return Intl.message(
+      'has been removed from the app',
+      name: 'songRemoved2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Metadata Lookup`
+  String get metadataLookup {
+    return Intl.message(
+      'Metadata Lookup',
+      name: 'metadataLookup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `N/A`
+  String get nA {
+    return Intl.message(
+      'N/A',
+      name: 'nA',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlist Title`
+  String get playlistTitle {
+    return Intl.message(
+      'Playlist Title',
+      name: 'playlistTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Playlist`
+  String get createPlaylist {
+    return Intl.message(
+      'Create Playlist',
+      name: 'createPlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Got songs from picker:`
+  String get gotSongs {
+    return Intl.message(
+      'Got songs from picker:',
+      name: 'gotSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot find any storage!`
+  String get noStorage {
+    return Intl.message(
+      'Cannot find any storage!',
+      name: 'noStorage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Files`
+  String get pickFiles {
+    return Intl.message(
+      'Pick Files',
+      name: 'pickFiles',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot access`
+  String get cannotAccessDirectory1 {
+    return Intl.message(
+      'Cannot access',
+      name: 'cannotAccessDirectory1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `!! No permissions.`
+  String get cannotAccessDirectory2 {
+    return Intl.message(
+      '!! No permissions.',
+      name: 'cannotAccessDirectory2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release Group`
+  String get releaseGroup {
+    return Intl.message(
+      'Release Group',
+      name: 'releaseGroup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release Date`
+  String get releaseDate {
+    return Intl.message(
+      'Release Date',
+      name: 'releaseDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Count`
+  String get trackCount {
+    return Intl.message(
+      'Track Count',
+      name: 'trackCount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release Country`
+  String get releaseCountry {
+    return Intl.message(
+      'Release Country',
+      name: 'releaseCountry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release Status`
+  String get releaseStatus {
+    return Intl.message(
+      'Release Status',
+      name: 'releaseStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID`
+  String get iD {
+    return Intl.message(
+      'ID',
+      name: 'iD',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status ID`
+  String get statusID {
+    return Intl.message(
+      'Status ID',
+      name: 'statusID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Packaging ID`
+  String get packagingID {
+    return Intl.message(
+      'Packaging ID',
+      name: 'packagingID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get title {
+    return Intl.message(
+      'Title',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Release Date`
+  String get firstReleaseDate {
+    return Intl.message(
+      'First Release Date',
+      name: 'firstReleaseDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Length`
+  String get length {
+    return Intl.message(
+      'Length',
+      name: 'length',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter Name...`
+  String get filterName {
+    return Intl.message(
+      'Filter Name...',
+      name: 'filterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current playback speed is`
+  String get currentPlaybackSpeed {
+    return Intl.message(
+      'Current playback speed is',
+      name: 'currentPlaybackSpeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address.`
+  String get enterValidEmail {
+    return Intl.message(
+      'Please enter a valid email address.',
+      name: 'enterValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters long.`
+  String get passwordLength {
+    return Intl.message(
+      'Password must be at least 6 characters long.',
+      name: 'passwordLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful`
+  String get registrationSuccessful {
+    return Intl.message(
+      'Registration successful',
+      name: 'registrationSuccessful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration failed. Error:`
+  String get registrationFailed {
+    return Intl.message(
+      'Registration failed. Error:',
+      name: 'registrationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incorrect password. Please try again.`
+  String get incorrectPassword {
+    return Intl.message(
+      'Incorrect password. Please try again.',
+      name: 'incorrectPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email not found. Please check your email address.`
+  String get emailNotFound {
+    return Intl.message(
+      'Email not found. Please check your email address.',
+      name: 'emailNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign-In Error:`
+  String get signInError {
+    return Intl.message(
+      'Sign-In Error:',
+      name: 'signInError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `wrong-password`
+  String get wrongPassword {
+    return Intl.message(
+      'wrong-password',
+      name: 'wrongPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `user-not-found`
+  String get userNotFound {
+    return Intl.message(
+      'user-not-found',
+      name: 'userNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Albums`
+  String get albums {
+    return Intl.message(
+      'Albums',
+      name: 'albums',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Albums will appear as you import music!`
+  String get albumsAppear {
+    return Intl.message(
+      'Albums will appear as you import music!',
+      name: 'albumsAppear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove these files from the blacklist?`
+  String get confirmRemoveFromBlacklist {
+    return Intl.message(
+      'Are you sure you want to remove these files from the blacklist?',
+      name: 'confirmRemoveFromBlacklist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove them`
+  String get removeThem {
+    return Intl.message(
+      'Remove them',
+      name: 'removeThem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currently Playing`
+  String get currentlyPlaying {
+    return Intl.message(
+      'Currently Playing',
+      name: 'currentlyPlaying',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ADD TO PLAYLIST`
+  String get addToPlaylist {
+    return Intl.message(
+      'ADD TO PLAYLIST',
+      name: 'addToPlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No image path found.`
+  String get noImagePath {
+    return Intl.message(
+      'No image path found.',
+      name: 'noImagePath',
       desc: '',
       args: [],
     );

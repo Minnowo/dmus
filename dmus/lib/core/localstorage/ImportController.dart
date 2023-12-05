@@ -6,6 +6,7 @@ import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
@@ -243,7 +244,7 @@ final class ImportController {
     if(files.length > 3) {
       if(!_silencePubs) {
         MessagePublisher.publishSnackbar(
-            SnackBarData(text: "Importing ${files.length} songs..."));
+            SnackBarData(text: "${LocalizationMapper.current.importingSongs1} ${files.length} ${LocalizationMapper.current.importingSongs2}"));
       }
       _supressSnackBars = true;
     }

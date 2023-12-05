@@ -1,7 +1,5 @@
 //From: https://stackoverflow.com/questions/51803755/getting-buildcontext-in-flutter-for-localization
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
@@ -272,8 +270,7 @@ class LocalizationMapper {
   String get releaseTitle {
     return Intl.message(
       'placeholder',
-      name: 'releaseTitle',
-      
+      name: 'releaseTitle',  
     );
   }
   String get searchResult {
@@ -461,4 +458,781 @@ class LocalizationMapper {
       desc: 'All songs downloaded from firebase sync',
     );
   }
+
+//CORE
+  String get cannotPlaySongFile1 {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotPlaySongFile1',  
+    );
+  }
+  String get cannotPlaySongFile2 {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotPlaySongFile2',  
+    );
+  }
+
+  String get cannotPlayAudio {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotPlayAudio',  
+    );
+  }
+
+  String get externalFolderNull {
+    return Intl.message(
+      'placeholder',
+      name: 'externalFolderNull',
+    );
+  }
+  String get cannotCreateDownloadsFolder {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotCreateDownloadsFolder',
+    );
+  }
+  String get downloadingSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'downloadingSongs',
+    );
+  }
+  String get couldNotWriteSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'couldNotWriteSongs',  
+    );
+  }
+	
+  String get noSongsToUpload {
+    return Intl.message(
+      'placeholder',
+      name: 'noSongsToUpload',
+    );
+  }
+  String get uploadingSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'uploadingSongs',
+    );
+  }
+  String get songsUploaded {
+    return Intl.message(
+      'placeholder',
+      name: 'songsUploaded',
+    );
+  }
+  String get uploadingPlaylists {
+    return Intl.message(
+      'placeholder',
+      name: 'uploadingPlaylists',  
+    );
+  }
+  String get playlistsUploaded {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistsUploaded',
+    );
+  }
+ 
+  String get noTemporaryDirectory {
+    return Intl.message(
+      'placeholder',
+      name: 'noTemporaryDirectory',
+    );
+  }
+
+  String get checkingDirectories1 {
+    return Intl.message(
+      'placeholder',
+      name: 'checkingDirectories1',  
+    );
+  }
+  String get checkingDirectories2 {
+    return Intl.message(
+      'placeholder',
+      name: 'checkingDirectories2',  
+    );
+  }
+  String get songPathDoesNotExist1 {
+    return Intl.message(
+      'placeholder',
+      name: 'songPathDoesNotExist1',  
+    );
+  }
+  String get songPathDoesNotExist2 {
+    return Intl.message(
+      'placeholder',
+      name: 'songPathDoesNotExist2',  
+    );
+  }
+  String get cannotImportSongDoesNotExist {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotImportSongDoesNotExist',  
+    );
+  }  
+  String get cannotImportSongJustImported {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotImportSongJustImported',  
+    );
+  }  
+  String get importingSongs1 {
+    return Intl.message(
+      'placeholder',
+      name: 'importingSongs1',
+    );
+  }
+  String get importingSongs2 {
+    return Intl.message(
+      'placeholder',
+      name: 'importingSongs2',
+    );
+  }  
+  String get noFilesInFolder {
+    return Intl.message(
+      'placeholder',
+      name: 'noFilesInFolder',  
+    );
+  }  
+  String get noPermissionInDirectory {
+    return Intl.message(
+      'placeholder',
+      name: 'noPermissionInDirectory',  
+    );
+  }  
+  String get emptyName {
+    return Intl.message(
+      'placeholder',
+      name: 'emptyName',  
+    );
+  }  
+  String get cannotEditPlaylist {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotEditPlaylist',  
+    );
+  }
+	
+  String get deletePlaylist {
+    return Intl.message(
+      'placeholder',
+      name: 'deletePlaylist',  
+    );
+  }  
+  String get confirmPlaylistDelete {
+    return Intl.message(
+      'placeholder',
+      name: 'confirmPlaylistDelete',
+    );
+  }  
+  String get playlistRemoved1 {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistRemoved1',  
+    );
+  }	
+  String get playlistRemoved2 {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistRemoved2',  
+    );
+  }	
+
+  String get shareTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'shareTitle',  
+    );
+  }  
+  String get shareTitlePlus {
+    return Intl.message(
+      'placeholder',
+      name: 'shareTitlePlus',  
+    );
+  }  
+  String get sharePicture {
+    return Intl.message(
+      'placeholder',
+      name: 'sharePicture',  
+    );
+  }  
+  String get shareAllSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'shareAllSongs',  
+    );
+  }
+
+  String get removeSong {
+    return Intl.message(
+      'placeholder',
+      name: 'removeSong',  
+    );
+  }  
+  String get removeAndBlock {
+    return Intl.message(
+      'placeholder',
+      name: 'removeAndBlock',  
+    );
+  }  
+  String get titleAddedToQueue {
+    return Intl.message(
+      'placeholder',
+      name: 'titleAddedToQueue',  
+    );
+  }  
+  String get confirmBlockSong {
+    return Intl.message(
+      'placeholder',
+      name: 'confirmBlockSong',  
+    );
+  }  
+  String get block {
+    return Intl.message(
+      'placeholder',
+      name: 'block',
+    );
+  }  
+  String get keep {
+    return Intl.message(
+      'placeholder',
+      name: 'keep',  
+    );
+  }  
+  String get confirmRemoveSong {
+    return Intl.message(
+      'placeholder',
+      name: 'confirmRemoveSong',  
+    );
+  }  
+  String get remove {
+    return Intl.message(
+      'placeholder',
+      name: 'remove',  
+    );
+  }  
+  String get songRemoved {
+    return Intl.message(
+      'placeholder',
+      name: 'songRemoved',  
+    );
+  }
+
+  String get metadataLookup {
+    return Intl.message(
+      'placeholder',
+      name: 'metadataLookup',  
+    );
+  }  
+  String get nA {
+    return Intl.message(
+      'placeholder',
+      name: 'nA',  
+    );
+  }  
+
+  String get createPlaylist {
+    return Intl.message(
+      'placeholder',
+      name: 'createPlaylist',  
+    );
+  }  
+  String get gotSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'gotSongs',  
+    );
+  }
+
+  String get noStorage {
+    return Intl.message(
+      'placeholder',
+      name: 'noStorage',  
+    );
+  }  
+  String get pickFile {
+    return Intl.message(
+      'placeholder',
+      name: 'pickFile',  
+    );
+  }  
+  String get cannotAccessDirectory {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotAccessDirectory',  
+    );
+  }
+
+  String get releaseGroup {
+    return Intl.message(
+      'placeholder',
+      name: 'releaseGroup',  
+    );
+  }  
+  String get releaseDate {
+    return Intl.message(
+      'placeholder',
+      name: 'releaseDate',  
+    );
+  }  
+  String get trackCount {
+    return Intl.message(
+      'placeholder',
+      name: 'trackCount',  
+    );
+  }
+  String get releaseCountry {
+    return Intl.message(
+      'placeholder',
+      name: 'releaseCountry',  
+    );
+  }  
+  String get releaseStatus {
+    return Intl.message(
+      'placeholder',
+      name: 'releaseStatus',  
+    );
+  }  
+  String get iD {
+    return Intl.message(
+      'placeholder',
+      name: 'iD',  
+    );
+  }
+  String get statusID {
+    return Intl.message(
+      'placeholder',
+      name: 'statusID',  
+    );
+  }  
+  String get packagingID {
+    return Intl.message(
+      'placeholder',
+      name: 'packagingID',  
+    );
+  }
+  String get length {
+    return Intl.message(
+      'placeholder',
+      name: 'length',  
+    );
+  }
+
+  String get filterName {
+    return Intl.message(
+      'placeholder',
+      name: 'filterName',
+    );
+  }  
+	  
+  String get passwordLength {
+    return Intl.message(
+      'placeholder',
+      name: 'passwordLength',  
+    );
+  }  
+  String get registrationSuccessful {
+    return Intl.message(
+      'placeholder',
+      name: 'registrationSuccessful',  
+    );
+  }
+  String get registrationFailed {
+    return Intl.message(
+      'placeholder',
+      name: 'registrationFailed',
+    );
+  }  
+  String get registration {
+    return Intl.message(
+      'placeholder',
+      name: 'registration',
+    );
+  }
+
+  String get incorrectPassword {
+    return Intl.message(
+      'placeholder',
+      name: 'incorrectPassword',  
+    );
+  }  
+  String get emailNotFound {
+    return Intl.message(
+      'placeholder',
+      name: 'emailNotFound',  
+    );
+  }  
+  String get signInError {
+    return Intl.message(
+      'placeholder',
+      name: 'signInError',  
+    );
+  }
+  String get wrongPassword {
+    return Intl.message(
+      'placeholder',
+      name: 'wrongPassword',
+    );
+  }  
+  String get userNotFound {
+    return Intl.message(
+      'placeholder',
+      name: 'userNotFound',
+    );
+  }
+
+  String get albums {
+    return Intl.message(
+      'placeholder',
+      name: 'albums',
+    );
+  }  
+  String get albumsAppear {
+    return Intl.message(
+      'placeholder',
+      name: 'albumsAppear',
+    );
+  }
+
+  String get confirmRemoveFromBlacklist {
+    return Intl.message(
+      'placeholder',
+      name: 'confirmRemoveFromBlacklist',
+    );
+  }  
+  String get removeThem {
+    return Intl.message(
+      'placeholder',
+      name: 'removeThem',
+    );
+  }
+
+  String get currentlyPlaying {
+    return Intl.message(
+      'placeholder',
+      name: 'currentlyPlaying',
+    );
+  }  
+  String get addToPlaylist {
+    return Intl.message(
+      'placeholder',
+      name: 'addToPlaylist',
+    );
+  }
+  String get errorSnapshot {
+    return Intl.message(
+      'placeholder',
+      name: 'errorSnapshot',  
+    );
+  }
+  String get noImagePath {
+    return Intl.message(
+      'placeholder',
+      name: 'noImagePath',  
+    );
+  }
+  String get trackName {
+    return Intl.message(
+      'placeholder',
+      name: 'trackName',  
+    );
+  }
+  String get trackArtist {
+    return Intl.message(
+      'placeholder',
+      name: 'trackArtist',  
+    );
+  }
+  String get albumName {
+    return Intl.message(
+      'placeholder',
+      name: 'albumName',  
+    );
+  }
+  String get albumArtist {
+    return Intl.message(
+      'placeholder',
+      name: 'albumArtist',  
+    );
+  }
+  String get trackDuration {
+    return Intl.message(
+      'placeholder',
+      name: 'trackDuration',  
+    );
+  }
+  String get bitrate {
+    return Intl.message(
+      'placeholder',
+      name: 'bitrate',  
+    );
+  }
+  String get mimeType {
+    return Intl.message(
+      'placeholder',
+      name: 'mimeType',  
+    );
+  }
+  String get year {
+    return Intl.message(
+      'placeholder',
+      name: 'year',  
+    );
+  }
+  String get genre {
+    return Intl.message(
+      'placeholder',
+      name: 'genre',  
+    );
+  }
+  String get trackNumber {
+    return Intl.message(
+      'placeholder',
+      name: 'trackNumber',  
+    );
+  }
+  String get discNumber {
+    return Intl.message(
+      'placeholder',
+      name: 'discNumber',  
+    );
+  }
+  String get authorName {
+    return Intl.message(
+      'placeholder',
+      name: 'authorName',  
+    );
+  }
+  String get writerName {
+    return Intl.message(
+      'placeholder',
+      name: 'writerName',  
+    );
+  }
+
+  String get metadataInformation {
+    return Intl.message(
+      'placeholder',
+      name: 'metadataInformation',  
+    );
+  }
+
+  String get playlists {
+    return Intl.message(
+      'placeholder',
+      name: 'playlists',  
+    );
+  }
+  String get sortByID {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByID',  
+    );
+  }
+  String get sortByTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByTitle',
+    );
+  }
+  String get sortByDuration {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByDuration',  
+    );
+  }
+  String get sortByNumberTracks {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByNumberTracks',  
+    );
+  }
+  String get noPlaylists {
+    return Intl.message(
+      'placeholder',
+      name: 'noPlaylists',  
+    );
+  }
+  String get clickToCreate {
+    return Intl.message(
+      'placeholder',
+      name: 'clickToCreate',  
+    );
+  }
+
+  String get queueEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'queueEmpty',  
+    );
+  }
+
+  String get searchPrompt {
+    return Intl.message(
+      'placeholder',
+      name: 'searchPrompt',  
+    );
+  }
+  String get songsDash {
+    return Intl.message(
+      'placeholder',
+      name: 'songsDash',
+    );
+  }
+  String get playlistsDash {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistsDash',
+    );
+  }
+  String get albumsDash {
+    return Intl.message(
+      'placeholder',
+      name: 'albumsDash',
+    );
+  }
+
+  String get playlistEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistEmpty',
+    );
+  }
+
+  String get songs {
+    return Intl.message(
+      'placeholder',
+      name: 'songs',
+    );
+  }
+  String get sortByArtist {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByArtist',
+    );
+  }
+  String get sortByAlbum {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByAlbum',
+    );
+  }
+	
+  String get watchDirectories {
+    return Intl.message(
+      'placeholder',
+      name: 'watchDirectories',
+    );
+  }
+  String get watchDirectoriesChecked {
+    return Intl.message(
+      'placeholder',
+      name: 'watchDirectoriesChecked',
+    );
+  }
+
+  String get couldNotLoadImage {
+    return Intl.message(
+      'placeholder',
+      name: 'couldNotLoadImage',  
+    );
+  }
+
+  String get nullSong {
+    return Intl.message(
+      'placeholder',
+      name: 'null',  
+    );
+  }
+
+  String get settings {
+    return Intl.message(
+      'placeholder',
+      name: 'settings',  
+    );
+  }
+  String get general {
+    return Intl.message(
+      'placeholder',
+      name: 'general',  
+    );
+  }
+  String get addMusic {
+    return Intl.message(
+      'placeholder',
+      name: 'addMusic',  
+    );
+  }
+  String get refreshMetadata {
+    return Intl.message(
+      'placeholder',
+      name: 'refreshMetadata',  
+    );
+  }
+  String get backupDatabase {
+    return Intl.message(
+      'placeholder',
+      name: 'backupDatabase',  
+    );
+  }
+  String get syncFirebase {
+    return Intl.message(
+      'placeholder',
+      name: 'syncFirebase',  
+    );
+  }
+  String get login {
+    return Intl.message(
+      'placeholder',
+      name: 'login',  
+    );
+  }
+  String get createAccount {
+    return Intl.message(
+      'placeholder',
+      name: 'createAccount',  
+    );
+  }
+  String get uploadToCloud {
+    return Intl.message(
+      'placeholder',
+      name: 'uploadToCloud',  
+    );
+  }
+  String get downloadFromCloud {
+    return Intl.message(
+      'placeholder',
+      name: 'downloadFromCloud',  
+    );
+  }
+  String get logOut {
+    return Intl.message(
+      'placeholder',
+      name: 'logOut',  
+    );
+  }
+  String get appearance {
+    return Intl.message(
+      'placeholder',
+      name: 'appearance',  
+    );
+  }
+
+  String get darkMode {
+    return Intl.message(
+      'placeholder',
+      name: 'darkMode',  
+    );
+  }
+
+  String get songAddedToQueue {
+    return Intl.message(
+      'placeholder',
+      name: 'songAddedToQueue',  
+    );
+  }
+
 }

@@ -22,79 +22,220 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "addFiles": MessageLookupByLibrary.simpleMessage("Agregar Archivos"),
-        "addFolder": MessageLookupByLibrary.simpleMessage("Agregar Carpeta"),
-        "addToQueue": MessageLookupByLibrary.simpleMessage("Agrega a Cola"),
+        "addFiles": MessageLookupByLibrary.simpleMessage("Agregar archivos"),
+        "addFolder": MessageLookupByLibrary.simpleMessage("Agregar carpeta"),
+        "addToPlaylist": MessageLookupByLibrary.simpleMessage(
+            "AGREGAR A LA LISTA DE REPRODUCCIÓN"),
+        "addToQueue": MessageLookupByLibrary.simpleMessage("Agregar a la cola"),
+        "albums": MessageLookupByLibrary.simpleMessage("Álbumes"),
+        "albumsAppear": MessageLookupByLibrary.simpleMessage(
+            "¡Los álbumes aparecerán a medida que importes música!"),
         "allSongsDownloaded": MessageLookupByLibrary.simpleMessage(
             "Todas las canciones descargadas"),
         "artist": MessageLookupByLibrary.simpleMessage("Artista"),
         "blacklistPageHelperText": MessageLookupByLibrary.simpleMessage(
-            "Los Archivos Qué Importación Está Bloqueada Aparecerán Aquí.\nPuede agregarlos o eliminarlos usando los botones en la parte superior."),
+            "Los archivos bloqueados para importar aparecerán aquí.\nPuedes agregarlos o eliminarlos usando los botones en la parte superior."),
         "blacklistPageTitle":
-            MessageLookupByLibrary.simpleMessage("Archivos en la Lista Negra"),
+            MessageLookupByLibrary.simpleMessage("Archivos en lista negra"),
+        "block": MessageLookupByLibrary.simpleMessage("Bloquear"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "cannotAccessDirectory1":
+            MessageLookupByLibrary.simpleMessage("No se puede acceder a"),
+        "cannotAccessDirectory2":
+            MessageLookupByLibrary.simpleMessage("!! Sin permisos."),
+        "cannotCreateDownloadsFolder": MessageLookupByLibrary.simpleMessage(
+            "No se puede crear la carpeta de descargas"),
+        "cannotEditPlaylist": MessageLookupByLibrary.simpleMessage(
+            "No se puede editar la lista de reproducción con un nombre vacío o que no existe."),
+        "cannotImportSongDoesNotExist": MessageLookupByLibrary.simpleMessage(
+            "No se puede importar la canción porque el archivo no existe."),
+        "cannotPlayAudio": MessageLookupByLibrary.simpleMessage(
+            "No se puede reproducir audio."),
+        "cannotPlaySongFile1":
+            MessageLookupByLibrary.simpleMessage("No se puede reproducir"),
+        "cannotPlaySongFile2":
+            MessageLookupByLibrary.simpleMessage("porque no existe."),
+        "checkingDirectories1":
+            MessageLookupByLibrary.simpleMessage("Comprobando"),
+        "checkingDirectories2": MessageLookupByLibrary.simpleMessage(
+            "directorios de observación..."),
         "close": MessageLookupByLibrary.simpleMessage("Cerrar"),
-        "createdPlaylist":
-            MessageLookupByLibrary.simpleMessage("Crear Lista de Reproducción"),
+        "confirmBlockSong": MessageLookupByLibrary.simpleMessage(
+            "¿Estás seguro de que quieres bloquear esta canción de la aplicación? Se omitirá al importar nuevamente. Puedes permitirlo nuevamente desde la lista negra en la configuración."),
+        "confirmPlaylistDelete": MessageLookupByLibrary.simpleMessage(
+            "¿Estás seguro de que quieres eliminar esta lista de reproducción?"),
+        "confirmRemoveFromBlacklist": MessageLookupByLibrary.simpleMessage(
+            "¿Estás seguro de que quieres eliminar estos archivos de la lista negra?"),
+        "confirmRemoveSong": MessageLookupByLibrary.simpleMessage(
+            "¿Estás seguro de que quieres eliminar esta canción de la aplicación?"),
+        "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
+            "No se pudo escribir en las metadatos JSON de las canciones."),
+        "createPlaylist":
+            MessageLookupByLibrary.simpleMessage("Crear lista de reproducción"),
+        "createdPlaylist": MessageLookupByLibrary.simpleMessage(
+            "Lista de reproducción creada"),
+        "currentPlaybackSpeed": MessageLookupByLibrary.simpleMessage(
+            "La velocidad de reproducción actual es"),
+        "currentlyPlaying":
+            MessageLookupByLibrary.simpleMessage("Reproduciendo actualmente"),
+        "deletePlaylist": MessageLookupByLibrary.simpleMessage(
+            "Eliminar lista de reproducción"),
+        "downloadingSongs":
+            MessageLookupByLibrary.simpleMessage("Descargando canciones..."),
         "editMetadata":
-            MessageLookupByLibrary.simpleMessage("Editar Metadatos"),
-        "editPlaylist":
-            MessageLookupByLibrary.simpleMessage("Lista De Reproducción"),
-        "email": MessageLookupByLibrary.simpleMessage("Correo Electrónico"),
+            MessageLookupByLibrary.simpleMessage("Editar metadatos"),
+        "editPlaylist": MessageLookupByLibrary.simpleMessage(
+            "Editar lista de reproducción"),
+        "email": MessageLookupByLibrary.simpleMessage("Correo electrónico"),
         "emailEmpty": MessageLookupByLibrary.simpleMessage(
-            "El Correo Electrónico no Puede Estar Vacío"),
+            "El correo electrónico no puede estar vacío."),
+        "emailNotFound": MessageLookupByLibrary.simpleMessage(
+            "Correo electrónico no encontrado. Por favor, verifica tu dirección de correo electrónico."),
+        "emptyName": MessageLookupByLibrary.simpleMessage(
+            "No se puede crear una lista de reproducción con un nombre vacío."),
         "emptyTitleError": MessageLookupByLibrary.simpleMessage(
-            "El Título no Puede Estar Vacío!"),
+            "El título no puede estar vacío."),
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
-            "Por Favor Introduzca una dirección de correo electrónico válida."),
-        "error": MessageLookupByLibrary.simpleMessage("Algo Fue Mal!"),
-        "increment": MessageLookupByLibrary.simpleMessage("Incremento"),
+            "Por favor, introduce una dirección de correo electrónico válida."),
+        "error": MessageLookupByLibrary.simpleMessage("¡Algo salió mal!"),
+        "externalFolderNull": MessageLookupByLibrary.simpleMessage(
+            "La carpeta de almacenamiento externo es nula."),
+        "filterName":
+            MessageLookupByLibrary.simpleMessage("Nombre del filtro..."),
+        "firstReleaseDate": MessageLookupByLibrary.simpleMessage(
+            "Primera fecha de lanzamiento"),
+        "gotSongs": MessageLookupByLibrary.simpleMessage(
+            "Canciones obtenidas del selector:"),
+        "iD": MessageLookupByLibrary.simpleMessage("ID"),
+        "importingSongs1": MessageLookupByLibrary.simpleMessage("Importando"),
+        "importingSongs2": MessageLookupByLibrary.simpleMessage("canciones..."),
+        "incorrectPassword": MessageLookupByLibrary.simpleMessage(
+            "Contraseña incorrecta. Inténtalo de nuevo."),
+        "increment": MessageLookupByLibrary.simpleMessage("Incrementar"),
+        "keep": MessageLookupByLibrary.simpleMessage("Guardar"),
+        "length": MessageLookupByLibrary.simpleMessage("Duración"),
         "lookupMetadata":
-            MessageLookupByLibrary.simpleMessage("Buscar Metadatos"),
+            MessageLookupByLibrary.simpleMessage("Buscar metadatos"),
+        "metadataLookup":
+            MessageLookupByLibrary.simpleMessage("Búsqueda de metadatos"),
         "minPasswordLen": MessageLookupByLibrary.simpleMessage(
-            "La contraseña Debe Tener al Menos 6 Caracteres."),
+            "La contraseña debe tener al menos 6 caracteres."),
+        "nA": MessageLookupByLibrary.simpleMessage("N/D"),
         "noAlbums": MessageLookupByLibrary.simpleMessage(
-            "Aquí no Hay Nada!\nEmpuja el + En la Parte Superior Derecha Para Crear un Álbum."),
+            "¡No hay nada aquí!\nPresiona el + en la esquina superior derecha para crear un álbum."),
+        "noFilesInFolder": MessageLookupByLibrary.simpleMessage(
+            "No se encontraron archivos en esta carpeta."),
+        "noImagePath": MessageLookupByLibrary.simpleMessage(
+            "No se encontró la ruta de la imagen."),
+        "noPermissionInDirectory": MessageLookupByLibrary.simpleMessage(
+            "No hay permisos para listar archivos en este directorio."),
         "noSearchResults": MessageLookupByLibrary.simpleMessage(
-            "No Hay Resultados Para Esta Búsqueda! :("),
+            "No hay resultados para esta búsqueda. :("),
         "noSongs": MessageLookupByLibrary.simpleMessage(
-            "Aquí no Hay Nada!\nEmpuja el + en la parte superior derecha para importar música."),
+            "¡No hay nada aquí!\nPresiona el + en la esquina superior derecha para importar música."),
+        "noSongsToUpload": MessageLookupByLibrary.simpleMessage(
+            "No hay canciones para cargar."),
+        "noStorage": MessageLookupByLibrary.simpleMessage(
+            "No se puede encontrar almacenamiento."),
+        "noTemporaryDirectory": MessageLookupByLibrary.simpleMessage(
+            "No se pudo obtener un directorio temporal."),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+        "packagingID": MessageLookupByLibrary.simpleMessage("ID de empaque"),
         "password": MessageLookupByLibrary.simpleMessage("Contraseña"),
         "passwordEmpty": MessageLookupByLibrary.simpleMessage(
-            "La Contraseña no Puede Estar Vacía"),
-        "pickSongs": MessageLookupByLibrary.simpleMessage("Escoge Canciones"),
-        "playNow": MessageLookupByLibrary.simpleMessage("Juega Ahora"),
+            "La contraseña no puede estar vacía."),
+        "passwordLength": MessageLookupByLibrary.simpleMessage(
+            "La contraseña debe tener al menos 6 caracteres."),
+        "pickFiles":
+            MessageLookupByLibrary.simpleMessage("Seleccionar archivos"),
+        "pickSongs": MessageLookupByLibrary.simpleMessage("Elegir canciones"),
+        "playNow": MessageLookupByLibrary.simpleMessage("Reproducir ahora"),
         "playbackSpeed":
             MessageLookupByLibrary.simpleMessage("Velocidad de reproducción"),
+        "playlistRemoved1":
+            MessageLookupByLibrary.simpleMessage("La lista de reproducción"),
+        "playlistRemoved2": MessageLookupByLibrary.simpleMessage(
+            "se ha eliminado de la aplicación."),
         "playlistTitle": MessageLookupByLibrary.simpleMessage(
-            "Título De La Lista De Reproducción"),
+            "Título de la lista de reproducción"),
+        "playlistsUploaded": MessageLookupByLibrary.simpleMessage(
+            "Todas las listas de reproducción cargadas."),
         "property": MessageLookupByLibrary.simpleMessage("Propiedad"),
-        "queueAll": MessageLookupByLibrary.simpleMessage("Cola Todo"),
+        "queueAll":
+            MessageLookupByLibrary.simpleMessage("Colocar todo en la cola"),
         "recordings": MessageLookupByLibrary.simpleMessage("Grabaciones"),
-        "register": MessageLookupByLibrary.simpleMessage("Registro"),
+        "register": MessageLookupByLibrary.simpleMessage("Registrarse"),
+        "registrationFailed": MessageLookupByLibrary.simpleMessage(
+            "Error en el registro. Error:"),
+        "registrationSuccessful":
+            MessageLookupByLibrary.simpleMessage("Registro exitoso"),
+        "releaseCountry":
+            MessageLookupByLibrary.simpleMessage("País de lanzamiento"),
+        "releaseDate":
+            MessageLookupByLibrary.simpleMessage("Fecha de lanzamiento"),
+        "releaseGroup":
+            MessageLookupByLibrary.simpleMessage("Grupo de lanzamiento"),
+        "releaseStatus":
+            MessageLookupByLibrary.simpleMessage("Estado de lanzamiento"),
         "releaseTitle":
-            MessageLookupByLibrary.simpleMessage(" Lanzamiento de Título"),
+            MessageLookupByLibrary.simpleMessage("Título del lanzamiento"),
         "releases": MessageLookupByLibrary.simpleMessage("Lanzamientos"),
+        "remove": MessageLookupByLibrary.simpleMessage("Eliminar"),
+        "removeAndBlock": MessageLookupByLibrary.simpleMessage(
+            "Eliminar y bloquear para la reinserción"),
+        "removeSong": MessageLookupByLibrary.simpleMessage("Eliminar canción"),
+        "removeThem": MessageLookupByLibrary.simpleMessage("Eliminarlos"),
         "search": MessageLookupByLibrary.simpleMessage("Buscar"),
         "searchEmpty": MessageLookupByLibrary.simpleMessage(
-            "La Búsqueda No Puede Estar Vacía!"),
-        "searchError": MessageLookupByLibrary.simpleMessage(
-            "Error al obtener resultados de búsqueda"),
+            "La búsqueda no puede estar vacía."),
+        "searchError":
+            MessageLookupByLibrary.simpleMessage("Error al buscar resultados"),
         "searchResult":
-            MessageLookupByLibrary.simpleMessage("Resultado de la Búsqueda"),
+            MessageLookupByLibrary.simpleMessage("Resultado de la búsqueda"),
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
-            "Usa el + En la Parte Superior Derecha Para Agregar Canciones"),
-        "signIn": MessageLookupByLibrary.simpleMessage("Inicia sesión"),
+            "Usa el + en la esquina superior derecha para agregar canciones"),
+        "shareAllSongs": MessageLookupByLibrary.simpleMessage(
+            "Compartir todos los títulos de las canciones"),
+        "sharePicture":
+            MessageLookupByLibrary.simpleMessage("Compartir imagen"),
+        "shareTitle": MessageLookupByLibrary.simpleMessage("Compartir título"),
+        "shareTitlePlus":
+            MessageLookupByLibrary.simpleMessage("compartir título + más"),
+        "signIn": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
+        "signInError":
+            MessageLookupByLibrary.simpleMessage("Error al iniciar sesión:"),
         "songImported":
-            MessageLookupByLibrary.simpleMessage("Cancion Importado"),
+            MessageLookupByLibrary.simpleMessage("Canción importada"),
+        "songPathDoesNotExist1":
+            MessageLookupByLibrary.simpleMessage("La canción"),
+        "songPathDoesNotExist2": MessageLookupByLibrary.simpleMessage(
+            "no existe, se eliminará de la aplicación."),
+        "songRemoved1": MessageLookupByLibrary.simpleMessage("La canción"),
+        "songRemoved2": MessageLookupByLibrary.simpleMessage(
+            "se ha eliminado de la aplicación."),
+        "songsUploaded": MessageLookupByLibrary.simpleMessage(
+            "Todas las canciones cargadas."),
+        "statusID": MessageLookupByLibrary.simpleMessage("ID de estado"),
         "tag": MessageLookupByLibrary.simpleMessage("Etiqueta"),
+        "title": MessageLookupByLibrary.simpleMessage("Título"),
+        "titleAddedToQueue":
+            MessageLookupByLibrary.simpleMessage("se ha agregado a la cola"),
         "titleMaxLengthError": MessageLookupByLibrary.simpleMessage(
-            "El Título Debe Ser Más Corto"),
+            "El título debe tener menos de"),
+        "trackCount":
+            MessageLookupByLibrary.simpleMessage("Cantidad de pistas"),
         "updatedPlaylist": MessageLookupByLibrary.simpleMessage(
-            "Actualizada Lista de Reproducción"),
+            "Lista de reproducción actualizada"),
+        "uploadingPlaylists": MessageLookupByLibrary.simpleMessage(
+            "Cargando listas de reproducción..."),
+        "uploadingSongs":
+            MessageLookupByLibrary.simpleMessage("Cargando canciones..."),
         "use": MessageLookupByLibrary.simpleMessage("Usar"),
+        "userNotFound":
+            MessageLookupByLibrary.simpleMessage("usuario-no-encontrado"),
         "value": MessageLookupByLibrary.simpleMessage("Valor"),
-        "viewDetails": MessageLookupByLibrary.simpleMessage("Mira Detalles")
+        "viewDetails": MessageLookupByLibrary.simpleMessage("Ver detalles"),
+        "wrongPassword":
+            MessageLookupByLibrary.simpleMessage("contraseña-incorrecta")
       };
 }
