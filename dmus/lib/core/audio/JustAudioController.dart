@@ -328,6 +328,8 @@ final class JustAudioController extends BaseAudioHandler {
     if(fillQ) {
 
       switch(SettingsHandler.queueFillMode) {
+        case QueueFillMode.neverGenerate:
+          break;
         case QueueFillMode.fillWithRandom:
           checkForFillQueueWith(null);
           break;
@@ -494,6 +496,11 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
   void checkForFillQueueWith(Song? s) {
+
+    if(SettingsHandler.queueFillMode == QueueFillMode.neverGenerate) {
+      logging.info("Refusing to fill the queue because of user settings!");
+      return;
+    }
 
     if(_playQueue.currentPosition + _autoFillQueueWhen > _playQueue.length) {
       if(s == null) {

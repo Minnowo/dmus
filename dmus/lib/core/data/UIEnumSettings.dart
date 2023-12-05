@@ -19,6 +19,7 @@ enum CurrentlyPlayingBarSwipe {
 enum QueueFillMode{
   fillWithRandom,
   fillWithRandomPrioritySameArtist,
+  neverGenerate,
 }
 
 

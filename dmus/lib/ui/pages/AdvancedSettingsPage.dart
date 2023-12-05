@@ -121,6 +121,10 @@ class AdvancedSettingsPage extends StatelessWidget {
                     value: QueueFillMode.fillWithRandomPrioritySameArtist,
                     child: Text('Fill With Random Priority Same Artist'),
                   ),
+                  const PopupMenuItem(
+                    value: QueueFillMode.neverGenerate,
+                    child: Text('Never Fill Queue'),
+                  ),
                 ];
               },
             ),
