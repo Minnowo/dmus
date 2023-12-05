@@ -75,7 +75,7 @@ class PlayQueuePage extends StatelessWidget {
         selected: currentSong,
         confirmDismiss: (d) => songDismiss(d, index),
         onTap: () => songTap(index),
-        onLongPress: () => SongContextDialog.showAsDialog(context, song, SongContextMode.queueMode, index),
+        onLongPress: () => SongContextDialog.showAsDialog(context, song, SongContextMode.queueMode, currentSongIndex: index),
         background: iconDismissibleBackgroundContainer(Colors.red, Icons.delete),
     );
   }

@@ -25,6 +25,7 @@ enum SongSort {
   byArtist,
   byAlbum,
   byDuration,
+  byRandom,
 }
 
 

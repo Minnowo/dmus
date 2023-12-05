@@ -53,7 +53,7 @@ class SongListWidget extends StatelessWidget {
           title: Text(song.title, maxLines: 1, overflow: TextOverflow.ellipsis),
           trailing: InkWell(
             borderRadius: BorderRadius.circular(50),
-            onTap: () => SongContextDialog.showAsDialog(context, song, SongContextMode.normalMode, null),
+            onTap: () => SongContextDialog.showAsDialog(context, song, SongContextMode.normalMode),
             child: getTrailWith(context),
           ),
           subtitle: Text(subtitleFromMetadata(song.metadata), maxLines: 1, overflow: TextOverflow.ellipsis),
@@ -75,7 +75,7 @@ class SongListWidget extends StatelessWidget {
             height: THUMB_SIZE,
             width: THUMB_SIZE / 1.5,
             child: InkWell(
-              onTap: () => SongContextDialog.showAsDialog(context, song, SongContextMode.normalMode, null),
+              onTap: () => SongContextDialog.showAsDialog(context, song, SongContextMode.normalMode),
               child: const Icon(Icons.more_vert),
             )
         );

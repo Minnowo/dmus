@@ -157,7 +157,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           confirmDismiss: (d) => addToQueueSongDismiss(d, s),
                           background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
                           onTap: () => playSong(playlistContext, i) ,
-                          onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode, null),
+                          onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode),
                           leadWith: playlistContext.entityType ==
                               EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
                           trailWith: SongListWidgetTrail.trailWithDuration,

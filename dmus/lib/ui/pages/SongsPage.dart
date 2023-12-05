@@ -36,6 +36,10 @@ class SongsPage extends  StatelessNavigationPage {
               // Define the items in the menu
               return <PopupMenuEntry<SongSort>>[
                 const PopupMenuItem(
+                  value: SongSort.byRandom,
+                  child: Text('Sort by Random'),
+                ),
+                const PopupMenuItem(
                   value: SongSort.byId,
                   child: Text('Sort by ID'),
                 ),
@@ -90,7 +94,7 @@ class SongsPage extends  StatelessNavigationPage {
                               trailWith: SettingsHandler.songPageTileTrailWith,
                               confirmDismiss: (d) => addToQueueSongDismiss(d, i),
                               onTap: () => playSong(i),
-                              onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode, null),
+                              onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode),
                               selected: false,
                               background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
                             )

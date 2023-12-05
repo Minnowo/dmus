@@ -66,7 +66,7 @@ class SongContextDialog extends StatelessWidget {
     );
   }
 
-  static Future<T?> showAsDialog<T>(BuildContext context, Song song, SongContextMode mode, int? currentSongIndex) async {
+  static Future<T?> showAsDialog<T>(BuildContext context, Song song, SongContextMode mode, {int? currentSongIndex} ) async {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) =>

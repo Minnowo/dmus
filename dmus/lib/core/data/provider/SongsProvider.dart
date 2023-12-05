@@ -1,6 +1,7 @@
 
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,9 @@ class SongsProvider extends ChangeNotifier {
   void sortSongsBy(SongSort sort){
 
     switch(sort) {
+      case SongSort.byRandom:
+        songs.shuffle();
+        break;
       case SongSort.byId:
         songs.sort((a, b) => a.id.compareTo(b.id));
         break;
