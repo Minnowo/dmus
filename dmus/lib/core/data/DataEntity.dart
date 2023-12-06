@@ -223,15 +223,37 @@ class Playlist extends DataEntity {
     super.duration = songs.map((e) => e.duration).reduce(sumDuration);
   }
 
-  @override
-  Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
-
-    if(this.pictureCacheKey != null) {
+  Future<void> updatePicture() async {
+    if(songs.isEmpty) {
+      super._pictureCacheKey = null;
+      artPath = null;
       return;
     }
 
+    for(final i in songs) {
+
+      if(i.pictureCacheKey != null && pictureCacheKey != i.pictureCacheKey) {
+        artPath = null;
+        super._pictureCacheKey = null;
+        await super.setPictureCacheKey(i.pictureCacheKey);
+        return;
+      }
+    }
+
+    super._pictureCacheKey = null;
+    artPath = null;
+  }
+
+  @override
+  Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
+
     if(pictureCacheKey != null) {
       await super.setPictureCacheKey(pictureCacheKey);
+      return;
+    }
+
+    if(this.pictureCacheKey != null) {
+      await updatePicture();
       return;
     }
 

@@ -37,6 +37,7 @@ Future<void> createPlaylistFrom(BuildContext context, List<Song> s) async {
     return;
   }
 
+  await p.setPictureCacheKey(null);
   await ImportController.createPlaylist(result.title, result.songs);
 }
 

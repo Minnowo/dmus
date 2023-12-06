@@ -351,7 +351,7 @@ final class ImportController {
     }
 
     Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
-    p.setPictureCacheKey(null);
+    await p.setPictureCacheKey(null);
     _playlistCreatedController.add(p);
   }
 
@@ -374,7 +374,7 @@ final class ImportController {
     }
 
     Playlist p = Playlist.withSongs(id: playlistId, title: title, songs: songs);
-    p.setPictureCacheKey(null);
+    await p.setPictureCacheKey(null);
 
     _playlistUpdatedController.add(p);
   }
@@ -393,6 +393,7 @@ final class ImportController {
       return pl;
     }
 
+    await pl.updatePicture();
     _playlistUpdatedController.add(pl);
 
     return pl;
