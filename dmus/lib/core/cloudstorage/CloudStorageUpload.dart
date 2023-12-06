@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -33,16 +34,16 @@ final class CloudStorageUploadHelper {
       final allSongs = result?.songs;
 
       if(allSongs!.isEmpty) {
-        MessagePublisher.publishSnackbar(const SnackBarData(text: "There are no songs to upload!", duration: Duration(seconds: 2)));
+        MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.noSongsToUpload, duration: const Duration(seconds: 2)));
         return;
       }
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "Uploading songs...", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.uploadingSongs, duration: const Duration(seconds: 2)));
 
 
       final List<Map<String, dynamic>> allSongsDetails = [];
 
-      /// create the upload tasks for each of the sonsg
+      /// create the upload tasks for each of the songs
       final uploadTasks = allSongs.map((song) async {
         final file = song.file;
         final remotePath = 'users/$userID/songs/${file.uri.pathSegments.last}';
@@ -90,7 +91,7 @@ final class CloudStorageUploadHelper {
         logging.finer('Error during JSON file upload: $error');
       });
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "All songs uploaded!", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.songsUploaded, duration: const Duration(seconds: 2)));
 
       logging.info('All songs and JSON file uploaded to Firebase Cloud Storage.');
 
@@ -112,7 +113,7 @@ final class CloudStorageUploadHelper {
     try {
       final allPlaylists = await TablePlaylist.selectAll();
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "Uploading playlists!", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.uploadingPlaylists, duration: const Duration(seconds: 2)));
 
       for (final playlist in allPlaylists) {
         // Create a folder for each playlist with the playlist's title
@@ -135,7 +136,7 @@ final class CloudStorageUploadHelper {
         }
       }
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "All playlists uploaded!", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.playlistsUploaded, duration: const Duration(seconds: 2)));
 
       logging.info('All playlists Firebase Cloud Storage.');
 
