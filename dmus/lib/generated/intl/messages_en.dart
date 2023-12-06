@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current playback speed is"),
         "currentlyPlaying":
             MessageLookupByLibrary.simpleMessage("Currently Playing"),
+        "dbError": MessageLookupByLibrary.simpleMessage(
+            "Cannot import song event though it was just imported!"),
         "deletePlaylist":
             MessageLookupByLibrary.simpleMessage("Delete Playlist"),
         "downloadingSongs":

@@ -78,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "La velocidad de reproducción actual es"),
         "currentlyPlaying":
             MessageLookupByLibrary.simpleMessage("Reproduciendo actualmente"),
+        "dbError": MessageLookupByLibrary.simpleMessage(
+            "No se puede importar la canción aunque acaba de ser importada."),
         "deletePlaylist": MessageLookupByLibrary.simpleMessage(
             "Eliminar lista de reproducción"),
         "downloadingSongs":
