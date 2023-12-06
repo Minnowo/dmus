@@ -2,6 +2,8 @@
 
 import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
+import 'package:dmus/ui/Settings.dart';
+import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -150,6 +152,17 @@ class AdvancedSettingsPage extends StatelessWidget {
               leading: const Icon(Icons.backup),
               title: const Text("Backup Database"),
               onTap: () => backupDatabase(context),
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.notification_add),
+              title: const Text("Show SnackBar"),
+              onTap: () => showSnackBarWithDuration(context, "This is a snackbar", longSnackBarDuration),
+            ),
+            ListTile(
+              leading: const Icon(Icons.notification_add),
+              title: const Text("Show Error SnackBar"),
+              onTap: () => showSnackBarWithDuration(context, "This is an error", longSnackBarDuration, color: RED),
             ),
           ],
         ),

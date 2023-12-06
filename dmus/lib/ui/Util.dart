@@ -3,7 +3,10 @@
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/ui/Settings.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../core/Util.dart';
 import '../core/audio/JustAudioController.dart';
@@ -22,54 +25,31 @@ void popNavigatorSafeWithArgs<T extends Object>(BuildContext context, [T? result
 }
 
 
-SnackBar createSimpleSnackBar(String text) {
+void showSnackBarWithDuration(BuildContext context, String text, Duration duration, {Color? color}) {
 
-  final snackBar = SnackBar( content: Text(text),);
+  color ??= Theme.of(context).snackBarTheme.backgroundColor ?? Colors.white12;
 
-  return snackBar;
-}
-
-
-SnackBar createTopSnackbar(BuildContext context){
-
-  final snackBar = SnackBar(
-    showCloseIcon: true,
-    closeIconColor: Colors.white,
-    content: Text('your text', textAlign: TextAlign.center),
-    dismissDirection: DismissDirection.up,
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.0),
+  showTopSnackBar(
+    Overlay.of(context),
+    CustomSnackBar.info(
+      icon: const Icon(Icons.info, color: Color.fromARGB(0, 0, 0, 0),),
+      backgroundColor: color,
+      textStyle: TextStyle(
+        color: Theme.of(context).colorScheme.onPrimary,
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+      ),
+      message: text,
+      maxLines: 3,
     ),
-    margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 70, left: 10, right: 10),
+    animationDuration: const Duration(milliseconds: 100),
+    reverseAnimationDuration : const Duration(milliseconds: 100),
+    displayDuration: duration,
+    dismissType: DismissType.onSwipe,
+    dismissDirection: [DismissDirection.up, DismissDirection.horizontal],
+    curve: Curves.linear,
   );
-
-  return snackBar;
 }
-
-SnackBar createSimpleSnackBarWithDuration(String text, Duration d) {
-
-  final snackBar = SnackBar(
-    content: Text(text),
-    duration: d,
-  );
-
-  return snackBar;
-}
-
-
-SnackBar createSnackBar(SnackBarData data) {
-
-  final snackBar = SnackBar(
-    content: Text(data.text),
-    duration: data.duration ?? const Duration(seconds: 4),
-    backgroundColor: data.color,
-  );
-
-  return snackBar;
-}
-
 
 Widget getRoundedCornerContainerImage(BuildContext context, DataEntity entity, double size) {
 

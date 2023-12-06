@@ -43,7 +43,7 @@ class PlayQueuePage extends StatelessWidget {
                 )
             )
         ),
-        title: Consumer<QueueChanged>(builder: (context, queueChanged, child) => Text("${queueChanged.length} Songs")),
+        title: Consumer2<QueueChanged, QueueShuffle>(builder: (context, queueChanged, _, child) => Text("${JustAudioController.instance.queueSize} Songs")),
         actions: [
           IconButton(
               onPressed: JustAudioController.instance.shuffleQueue,

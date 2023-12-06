@@ -3,6 +3,8 @@ import 'package:dmus/ui/Util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../Settings.dart';
+
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key}) : super(key: key);
 
@@ -82,12 +84,7 @@ class _SignInWidgetState extends State<SignInWidget> {
   }
 
   void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor,
-      ),
-    );
+    showSnackBarWithDuration(context, message, longSnackBarDuration);
   }
 
   void _togglePasswordVisibility() {

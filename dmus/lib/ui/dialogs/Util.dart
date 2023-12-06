@@ -5,6 +5,7 @@
 
 import 'dart:io';
 
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
@@ -195,7 +196,7 @@ Future<void> backupDatabase(BuildContext context) async {
       logging.warning("Cannot save file because it already exists");
 
       if(context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("The path $databaseExport already exists"));
+        showSnackBarWithDuration(context, "The path $databaseExport already exists", longSnackBarDuration);
       }
       return;
     }
@@ -203,7 +204,7 @@ Future<void> backupDatabase(BuildContext context) async {
     if(await DatabaseController.backupDatabase(databaseExport)) {
 
       if(context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBar("Exported database to $databaseExport"));
+        showSnackBarWithDuration(context, "Exported Database to $databaseExport", longSnackBarDuration);
       }
 
     }

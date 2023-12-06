@@ -1,5 +1,6 @@
 import 'package:dmus/core/cloudstorage/CloudStorageDownload.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AdvancedSettingsPage.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
@@ -198,12 +199,7 @@ class SettingsDrawer extends StatelessWidget {
 
     if(context.mounted) {
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('User logged out successfully'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      showSnackBarWithDuration(context, "User logged out successfully", mediumSnackBarDuration);
     }
   }
 

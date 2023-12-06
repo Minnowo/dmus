@@ -1,5 +1,6 @@
 
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,12 +22,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
   Color _snackBarColor = Colors.red;
 
   void _showSnackBar(String message, Color backgroundColor) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor,
-      ),
-    );
+    showSnackBarWithDuration(context, message, longSnackBarDuration, color: backgroundColor);
   }
 
   bool _validateEmail(String email) {

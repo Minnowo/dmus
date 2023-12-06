@@ -14,6 +14,7 @@ import 'package:dmus/generated/l10n.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/lookfeel/DarkTheme.dart';
 import 'package:dmus/ui/lookfeel/LightTheme.dart';
 import 'package:dmus/ui/pages/AlbumsPage.dart';
@@ -30,6 +31,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 import 'package:logging/logging.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import 'core/Util.dart';
 import 'core/audio/PlayQueue.dart';
@@ -250,31 +253,34 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   void _onPlaylistUpdated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration));
+    showSnackBarWithDuration(context, "${LocalizationMapper.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration);
+    // ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration(, mediumSnackBarDuration));
   }
 
   void _onPlaylistCreated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration));
+    showSnackBarWithDuration(context, "${LocalizationMapper.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration);
   }
 
   void _onSongImported(Song s) {
     if(ImportController.reduceSnackBars) return;
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration));
+    showSnackBarWithDuration(context, "${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration);
   }
 
   void _onSomethingWentWrong(String s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration("${LocalizationMapper.current.error} $s", longSnackBarDuration));
+    showSnackBarWithDuration(context, "${LocalizationMapper.current.error} $s", longSnackBarDuration);
   }
 
   void _onShowSnackBar(SnackBarData s) {
-    ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));
+    // ScaffoldMessenger.of(context).showSnackBar(createSnackBar(s));
+    showSnackBarWithDuration(context, s.text, s.duration ?? mediumSnackBarDuration);
   }
 
   void _onRawException(Exception e) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(createSnackBar(
-        SnackBarData(text: "${e.runtimeType}: $e}", color: Colors.red)));
+    showSnackBarWithDuration(context, "${e.runtimeType}: $e", longSnackBarDuration, color: RED);
+    // ScaffoldMessenger.of(context)
+    //     .showSnackBar(createSnackBar(
+    //     SnackBarData(text: "${e.runtimeType}: $e}", color: Colors.red)));
   }
 
   void navigatePage(int page) {
