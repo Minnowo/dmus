@@ -109,7 +109,7 @@ final class ImportController {
       logging.warning("No external storage permission! Trying to check watch dirs anyway!");
     }
 
-    MessagePublisher.publishSnackbar(SnackBarData(text: "Checking ${watchDirs.length} watch directories..."));
+    MessagePublisher.publishSnackbar(SnackBarData(text: "${LocalizationMapper.current.checkingDirectories1} ${watchDirs.length} ${LocalizationMapper.current.checkingDirectories2}"));
 
     for(final d in watchDirs) {
 
@@ -139,7 +139,7 @@ final class ImportController {
       final filePath = File(path);
 
       if(!await filePath.exists()) {
-        MessagePublisher.publishSnackbar(SnackBarData(text: "Song $path does not exist, it will be removed from the app."));
+        MessagePublisher.publishSnackbar(SnackBarData(text: "${LocalizationMapper.current.songPathDoesNotExist1} $path ${LocalizationMapper.current.songPathDoesNotExist2}"));
         await TableSong.deleteSongById(id);
         _songDeletedIdController.add(id);
         continue;
@@ -212,7 +212,7 @@ final class ImportController {
       logging.warning("Cannot import $path because it does not exist");
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            "Cannot import song because the file does not exist!");
+            LocalizationMapper.current.cannotImportSongDoesNotExist);
       }
       return;
     }
@@ -220,10 +220,10 @@ final class ImportController {
     Song? s = await TableSong.selectFromId(songId);
 
     if(s == null) {
-      logging.warning("Could not get song with id $songId, even though it was just imported???!?!");
+      logging.warning("Could not get song with id $songId, even though it was just imported!");
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            "Cannot import song event though it was just imported!?!??!");
+            LocalizationMapper.current.dbError);
       }
       return;
     }
@@ -293,7 +293,7 @@ final class ImportController {
 
       if(files.isEmpty) {
         if(!_silencePubs) {
-          MessagePublisher.publishSnackbar(const SnackBarData(text: "No files found in this folder!"));
+          MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.noFilesInFolder));
         }
         return;
       }
@@ -308,7 +308,7 @@ final class ImportController {
 
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            "No permission to list files in this directory!");
+            LocalizationMapper.current.noPermissionInDirectory);
       }
     }
     on Exception catch(e) {
@@ -346,7 +346,7 @@ final class ImportController {
 
     if(playlistId == null) {
       logging.info("Could not create playlist");
-      MessagePublisher.publishSomethingWentWrong("Cannot create playlist with an empty name!");
+      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.emptyName);
       return;
     }
 
@@ -369,7 +369,7 @@ final class ImportController {
 
     if(playlistId0 == null) {
       logging.info("Could not edit playlist");
-      MessagePublisher.publishSomethingWentWrong("Cannot edit playlist with an empty name or which does not exist!");
+      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.cannotEditPlaylist);
       return;
     }
 
@@ -389,7 +389,7 @@ final class ImportController {
 
     if(playlistId0 == null) {
       logging.info("Could not edit playlist");
-      MessagePublisher.publishSomethingWentWrong("Cannot edit playlist with an empty name or which does not exist!");
+      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.cannotEditPlaylist);
       return pl;
     }
 

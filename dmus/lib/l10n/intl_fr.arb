@@ -64,6 +64,7 @@
 	"songPathDoesNotExist1": "La chanson",
 	"songPathDoesNotExist2": "n'existe pas, elle sera supprimée de l'application.",
 	"cannotImportSongDoesNotExist": "Impossible d'importer la chanson car le fichier n'existe pas",
+	"dbError": "Impossible d'importer la chanson même si elle vient d'être importée !",
 	"importingSongs1": "Importation de",
 	"importingSongs2": "chansons...",
 	"noFilesInFolder": "Aucun fichier trouvé dans ce dossier !",

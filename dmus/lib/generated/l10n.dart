@@ -700,6 +700,16 @@ class S {
     );
   }
 
+  /// `Cannot import song event though it was just imported!`
+  String get dbError {
+    return Intl.message(
+      'Cannot import song event though it was just imported!',
+      name: 'dbError',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Importing`
   String get importingSongs1 {
     return Intl.message(

@@ -64,6 +64,7 @@
 	"songPathDoesNotExist1": "Song",
 	"songPathDoesNotExist2": "does not exist, it will be removed from the app.",
 	"cannotImportSongDoesNotExist": "Cannot import song because the file does not exist",
+	"dbError": "Cannot import song event though it was just imported!",
 	"importingSongs1": "Importing",
 	"importingSongs2": "songs...",
 	"noFilesInFolder": "No files found in this folder!",

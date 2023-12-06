@@ -572,7 +572,13 @@ class LocalizationMapper {
       'placeholder',
       name: 'cannotImportSongDoesNotExist',  
     );
-  }  
+  }
+  String get dbError {
+    return Intl.message(
+      'placeholder',
+      name: 'dbError',  
+    );
+  }
   String get cannotImportSongJustImported {
     return Intl.message(
       'placeholder',
