@@ -1,5 +1,7 @@
 
 
+import 'dart:math';
+
 import 'package:dmus/core/audio/PlayQueue.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 
@@ -11,9 +13,11 @@ final class QueueGeneration {
 
   static Iterable<Song> getRandomOrdering(List<Song> s, int n ) {
 
-    List<int> i = List.generate(s.length, (index) => index, growable: false)..shuffle()..sublist(0, n < s.length ? n : s.length);
+    List<int> i = List.generate(s.length, (index) => index, growable: false)
+      ..shuffle();
 
-    return i.map((e) => s[e]);
+    return i.sublist(0, min(n, s.length))
+        .map((e) => s[e]);
   }
 
   static void fillRandomN(PlayQueue q, int n) {
