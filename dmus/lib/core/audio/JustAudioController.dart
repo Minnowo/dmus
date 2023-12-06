@@ -12,6 +12,7 @@ import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/data/QueueGeneration.dart';
 import 'package:dmus/core/data/UIEnumSettings.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 
 import '../Util.dart';
@@ -396,7 +397,7 @@ final class JustAudioController extends BaseAudioHandler {
     if(!_isInit || _isDisposed) return;
 
     if(!await song.file.exists()) {
-      return MessagePublisher.publishSomethingWentWrong("Cannot play ${song.file} because it does not exist!");
+      return MessagePublisher.publishSomethingWentWrong("${LocalizationMapper.current.cannotPlaySongFile1} ${song.file} ${LocalizationMapper.current.cannotPlaySongFile2}");
     }
 
     if(await _audioSession.setActive(true)) {
@@ -405,7 +406,7 @@ final class JustAudioController extends BaseAudioHandler {
       await _player.setAudioSource(ja.AudioSource.file(song.file.path));
       await play();
     } else {
-      MessagePublisher.publishSomethingWentWrong("Cannot play audio!");
+      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.cannotPlayAudio);
     }
   }
 

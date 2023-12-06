@@ -28,7 +28,7 @@ final class CloudStorageDownloadHelper {
 
       if (downloadsPath == null) {
         logging.warning( 'External storage directory is null. Make sure external storage access is granted.');
-        MessagePublisher.publishSomethingWentWrong("External storage folder is null!");
+        MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.externalFolderNull);
         return;
       }
 
@@ -38,13 +38,13 @@ final class CloudStorageDownloadHelper {
 
       if(!await downloadsDirectory.exists()) {
         logging.warning( 'Cannot create downloads folder!! $downloadsDirectory');
-        MessagePublisher.publishSomethingWentWrong("Cannot create downloads folder $downloadsDirectory");
+        MessagePublisher.publishSomethingWentWrong("${LocalizationMapper.current.cannotCreateDownloadsFolder} $downloadsDirectory");
         return;
       }
 
       logging.info("Downloads directory is $downloadsDirectory ==============================");
 
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "Downloading songs...", duration: Duration(seconds: 2)));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.downloadingSongs, duration: const Duration(seconds: 2)));
 
       final ref = FirebaseStorage.instance.ref('users/$userID/songs/');
       final ListResult result = await ref.list();
@@ -60,7 +60,7 @@ final class CloudStorageDownloadHelper {
         }
         on Exception catch(e) {
           logging.warning("Could not delete songs json! $e");
-          MessagePublisher.publishSomethingWentWrong("Could not write to songs json metadata!");
+          MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.couldNotWriteSongs);
           return;
         }
       }
