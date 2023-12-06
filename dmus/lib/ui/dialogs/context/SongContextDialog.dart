@@ -32,7 +32,7 @@ class SongContextDialog extends StatelessWidget {
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.queue),
-            title: const Text("Add to Queue"),
+            title: Text(LocalizationMapper.current.addToQueue),
             onTap: () => addQueue(songContext, context),
           ),
 
@@ -45,21 +45,21 @@ class SongContextDialog extends StatelessWidget {
         if(mode == SongContextMode.queueMode && currentSongQueueIndex != null)
           ListTile(
             leading: const Icon(Icons.block),
-            title: const Text("Remove From Queue"),
+            title: Text(LocalizationMapper.current.removeQueue),
             onTap: () => removeQueueAt(currentSongQueueIndex!, context),
           ),
 
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.block),
-            title: const Text("Remove Song"),
+            title: Text(LocalizationMapper.current.removeSong),
             onTap: () => deleteSong(songContext, context),
           ),
 
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.block),
-          title: const Text("Remove and block from reimport"),
+          title: Text(LocalizationMapper.current.removeAndBlock),
           onTap: () => removeAndBlock(songContext, context),
         ),
       ],
@@ -90,7 +90,7 @@ class SongContextDialog extends StatelessWidget {
     JustAudioController.instance.addNextToQueue(s);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "${s.title} has been added to the queue"),
+      SnackBarData(text: "${s.title} ${LocalizationMapper.current.titleAddedToQueue}"),
     );
 
     popNavigatorSafe(context);
@@ -101,11 +101,11 @@ class SongContextDialog extends StatelessWidget {
 
     bool? result = await showDialog(
       context: context,
-      builder: (ctx) => const ConfirmDestructiveAction(
+      builder: (ctx) => ConfirmDestructiveAction(
         promptText:
-        "Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.",
-        yesText: "Block",
-        noText: "Keep",
+        LocalizationMapper.current.confirmBlockSong,
+        yesText: LocalizationMapper.current.block,
+        noText: LocalizationMapper.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),
@@ -123,10 +123,10 @@ class SongContextDialog extends StatelessWidget {
 
     bool? result = await showDialog(
       context: context,
-      builder: (ctx) => const ConfirmDestructiveAction(
-        promptText: "Are you sure you want to remove this song from the app?",
-        yesText: "Remove",
-        noText: "Keep",
+      builder: (ctx) => ConfirmDestructiveAction(
+        promptText: LocalizationMapper.current.confirmRemoveSong,
+        yesText: LocalizationMapper.current.remove,
+        noText: LocalizationMapper.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),
@@ -139,7 +139,7 @@ class SongContextDialog extends StatelessWidget {
     await ImportController.deleteSong(s);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "Song ${s.title} has been removed from the app")
+      SnackBarData(text: "${LocalizationMapper.current.songRemoved1} ${s.title} ${LocalizationMapper.current.songRemoved2}")
     );
   }
 }

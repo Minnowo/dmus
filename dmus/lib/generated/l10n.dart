@@ -810,6 +810,16 @@ class S {
     );
   }
 
+  /// `Share File`
+  String get shareFile {
+    return Intl.message(
+      'Share File',
+      name: 'shareFile',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Share Title`
   String get shareTitle {
     return Intl.message(
@@ -820,10 +830,10 @@ class S {
     );
   }
 
-  /// `share Title + More`
+  /// `Share Title + More`
   String get shareTitlePlus {
     return Intl.message(
-      'share Title + More',
+      'Share Title + More',
       name: 'shareTitlePlus',
       desc: '',
       args: [],
@@ -845,6 +855,26 @@ class S {
     return Intl.message(
       'Share All Song Titles',
       name: 'shareAllSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share All Song Titles + More`
+  String get shareAllMore {
+    return Intl.message(
+      'Share All Song Titles + More',
+      name: 'shareAllMore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove From Queue`
+  String get removeQueue {
+    return Intl.message(
+      'Remove From Queue',
+      name: 'removeQueue',
       desc: '',
       args: [],
     );

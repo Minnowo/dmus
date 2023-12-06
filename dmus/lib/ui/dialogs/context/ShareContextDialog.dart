@@ -32,23 +32,23 @@ class ShareContextDialog extends StatelessWidget {
       children: <Widget>[
 
         ListTile(
-          title: const Text("Share File"),
+          title: Text(LocalizationMapper.current.shareFile),
           onTap: () => shareFile(context),
         ),
 
         ListTile(
-          title: const Text("Share Title"),
+          title: Text(LocalizationMapper.current.shareTitle),
           onTap: () => shareTitle(context),
         ),
 
         ListTile(
-          title: const Text("Share Title + More"),
+          title: Text(LocalizationMapper.current.shareTitlePlus),
           onTap: () => shareSongTitleAndMore(context),
         ),
 
         if(dataEntity.artPath != null)
           ListTile(
-            title: const Text("Share Picture"),
+            title: Text(LocalizationMapper.current.sharePicture),
             onTap: () => shareArtwork(context),
           ),
 
@@ -62,23 +62,23 @@ class ShareContextDialog extends StatelessWidget {
       children: <Widget>[
 
         ListTile(
-          title: const Text("Share Title"),
+          title: Text(LocalizationMapper.current.shareTitle),
           onTap: () => shareTitle(context),
         ),
 
         ListTile(
-          title: const Text("Share All Song Titles"),
+          title: Text(LocalizationMapper.current.shareAllSongs),
           onTap: () => sharePlaylistSongs(context),
         ),
 
         ListTile(
-          title: const Text("Share All Song Titles + More"),
+          title: Text(LocalizationMapper.current.shareAllMore),
           onTap: () => sharePlaylistSongsAndMore(context),
         ),
 
         if(dataEntity.artPath != null)
           ListTile(
-            title: const Text("Share Picture"),
+            title: Text(LocalizationMapper.current.sharePicture),
             onTap: () => shareArtwork(context),
           ),
 

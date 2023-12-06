@@ -173,6 +173,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "remove": MessageLookupByLibrary.simpleMessage("Remove"),
         "removeAndBlock": MessageLookupByLibrary.simpleMessage(
             "Remove and block from reimport"),
+        "removeQueue":
+            MessageLookupByLibrary.simpleMessage("Remove From Queue"),
         "removeSong": MessageLookupByLibrary.simpleMessage("Remove Song"),
         "removeThem": MessageLookupByLibrary.simpleMessage("Remove them"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
@@ -183,12 +185,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchResult": MessageLookupByLibrary.simpleMessage("Search Result"),
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Use the + in the top right to add songs"),
+        "shareAllMore": MessageLookupByLibrary.simpleMessage(
+            "Share All Song Titles + More"),
         "shareAllSongs":
             MessageLookupByLibrary.simpleMessage("Share All Song Titles"),
+        "shareFile": MessageLookupByLibrary.simpleMessage("Share File"),
         "sharePicture": MessageLookupByLibrary.simpleMessage("Share Picture"),
         "shareTitle": MessageLookupByLibrary.simpleMessage("Share Title"),
         "shareTitlePlus":
-            MessageLookupByLibrary.simpleMessage("share Title + More"),
+            MessageLookupByLibrary.simpleMessage("Share Title + More"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signInError": MessageLookupByLibrary.simpleMessage("Sign-In Error:"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),

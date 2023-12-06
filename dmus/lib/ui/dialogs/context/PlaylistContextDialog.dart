@@ -47,7 +47,7 @@ class PlaylistContextDialog extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.delete_forever),
-          title: const Text("Delete Playlist"),
+          title: Text(LocalizationMapper.current.deletePlaylist),
           onTap: () => _deletePlaylist(context, playlistContext),
         ),
       ],
@@ -89,12 +89,12 @@ class PlaylistContextDialog extends StatelessWidget {
 
     bool? result = await showDialog(
       context: context,
-      builder: (ctx) => const ConfirmDestructiveAction(
+      builder: (ctx) => ConfirmDestructiveAction(
         promptText:
-        "Are you sure you want to delete this playlist?",
-        yesText: "Delete Playlist",
+        LocalizationMapper.current.confirmPlaylistDelete,
+        yesText: LocalizationMapper.current.deletePlaylist,
         yesTextColor: Colors.red,
-        noText: "Cancel",
+        noText: LocalizationMapper.current.cancel,
         noTextColor: null,
       ),
     );
@@ -106,7 +106,7 @@ class PlaylistContextDialog extends StatelessWidget {
     await ImportController.deletePlaylist(p);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "Playlist ${p.title} has been removed from the app"),
+      SnackBarData(text: "${LocalizationMapper.current.playlistRemoved1} ${p.title} ${LocalizationMapper.current.playlistRemoved2}"),
     );
   }
 }

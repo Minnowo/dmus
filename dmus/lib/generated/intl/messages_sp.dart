@@ -185,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "remove": MessageLookupByLibrary.simpleMessage("Eliminar"),
         "removeAndBlock": MessageLookupByLibrary.simpleMessage(
             "Eliminar y bloquear para la reinserción"),
+        "removeQueue":
+            MessageLookupByLibrary.simpleMessage("Eliminar de la cola"),
         "removeSong": MessageLookupByLibrary.simpleMessage("Eliminar canción"),
         "removeThem": MessageLookupByLibrary.simpleMessage("Eliminarlos"),
         "search": MessageLookupByLibrary.simpleMessage("Buscar"),
@@ -196,13 +198,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Resultado de la búsqueda"),
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Usa el + en la esquina superior derecha para agregar canciones"),
+        "shareAllMore": MessageLookupByLibrary.simpleMessage(
+            "Compartir todos los títulos de canciones + Más"),
         "shareAllSongs": MessageLookupByLibrary.simpleMessage(
             "Compartir todos los títulos de las canciones"),
+        "shareFile": MessageLookupByLibrary.simpleMessage("Compartir archivo"),
         "sharePicture":
             MessageLookupByLibrary.simpleMessage("Compartir imagen"),
         "shareTitle": MessageLookupByLibrary.simpleMessage("Compartir título"),
         "shareTitlePlus":
-            MessageLookupByLibrary.simpleMessage("compartir título + más"),
+            MessageLookupByLibrary.simpleMessage("Compartir título + más"),
         "signIn": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "signInError":
             MessageLookupByLibrary.simpleMessage("Error al iniciar sesión:"),

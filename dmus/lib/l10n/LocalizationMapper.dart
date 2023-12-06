@@ -647,6 +647,12 @@ class LocalizationMapper {
     );
   }	
 
+  String get shareFile {
+    return Intl.message(
+      'placeholder',
+      name: 'shareFile',  
+    );
+  }  
   String get shareTitle {
     return Intl.message(
       'placeholder',
@@ -659,10 +665,23 @@ class LocalizationMapper {
       name: 'shareTitlePlus',  
     );
   }  
+  String get shareAllMore {
+    return Intl.message(
+      'placeholder',
+      name: 'shareAllMore',  
+    );
+  }  
   String get sharePicture {
     return Intl.message(
       'placeholder',
       name: 'sharePicture',  
+    );
+  }
+
+  String get removeQueue {
+    return Intl.message(
+      'placeholder',
+      name: 'removeQueue',  
     );
   }  
   String get shareAllSongs {
@@ -720,10 +739,16 @@ class LocalizationMapper {
       name: 'remove',  
     );
   }  
-  String get songRemoved {
+  String get songRemoved1 {
     return Intl.message(
       'placeholder',
-      name: 'songRemoved',  
+      name: 'songRemoved1',  
+    );
+  }
+    String get songRemoved2 {
+    return Intl.message(
+      'placeholder',
+      name: 'songRemoved2',  
     );
   }
 

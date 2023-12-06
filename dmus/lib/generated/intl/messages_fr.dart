@@ -189,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "remove": MessageLookupByLibrary.simpleMessage("Supprimer"),
         "removeAndBlock": MessageLookupByLibrary.simpleMessage(
             "Supprimer et bloquer pour la réimportation"),
+        "removeQueue": MessageLookupByLibrary.simpleMessage(
+            "Retirer de la file d\'\'attente"),
         "removeSong":
             MessageLookupByLibrary.simpleMessage("Supprimer la chanson"),
         "removeThem": MessageLookupByLibrary.simpleMessage("Les supprimer"),
@@ -201,13 +203,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Résultat de la recherche"),
         "selectedSongsIsEmpty": MessageLookupByLibrary.simpleMessage(
             "Utilisez le + en haut à droite pour ajouter des chansons"),
+        "shareAllMore": MessageLookupByLibrary.simpleMessage(
+            "Partager tous les titres de chansons + Plus"),
         "shareAllSongs": MessageLookupByLibrary.simpleMessage(
             "Partager tous les titres de chansons"),
+        "shareFile":
+            MessageLookupByLibrary.simpleMessage("Partager le fichier"),
         "sharePicture":
             MessageLookupByLibrary.simpleMessage("Partager l\'\'image"),
         "shareTitle": MessageLookupByLibrary.simpleMessage("Partager le titre"),
         "shareTitlePlus":
-            MessageLookupByLibrary.simpleMessage("partager le titre + plus"),
+            MessageLookupByLibrary.simpleMessage("Partager le titre + plus"),
         "signIn": MessageLookupByLibrary.simpleMessage("Se connecter"),
         "signInError":
             MessageLookupByLibrary.simpleMessage("Erreur de connexion :"),
