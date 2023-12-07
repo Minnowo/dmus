@@ -2,6 +2,7 @@
 
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -44,7 +45,6 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
   List<Song> selectedSongs = [];
 
   late final String title;
-  static const double pad = 15.0;
   static const int maxTitleLength = 512;
 
   @override
@@ -109,7 +109,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
           child: Column(
             children: [
               Padding(
-                  padding: const EdgeInsets.all(pad),
+                  padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
                   child: TextFormField(
                       decoration: InputDecoration(labelText: LocalizationMapper.current.playlistTitle),
                       controller: _playlistTitleTextController,
@@ -126,12 +126,15 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
 
               if(selectedSongs.isEmpty)
                 Expanded(
-                    child:
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(LocalizationMapper.current.selectedSongsIsEmpty),
-                      ],
+                    child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING, ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            Text(LocalizationMapper.current.selectedSongsIsEmpty),
+                          ],
+                        )
                     )
                 )
 

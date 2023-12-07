@@ -1,6 +1,7 @@
 
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,35 +73,38 @@ class PlaylistsPage extends StatelessNavigationPage{
                 }
 
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        LocalizationMapper.current.noPlaylists,
-                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        LocalizationMapper.current.clickToCreate,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(height: 20),
-                      InkWell(
-                        onTap: () => createPlaylist(context),
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.purple,
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          LocalizationMapper.current.noPlaylists,
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          LocalizationMapper.current.clickToCreate,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 20),
+                        InkWell(
+                          onTap: () => createPlaylist(context),
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.purple,
+                            ),
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  )
                 );
               })
         ],

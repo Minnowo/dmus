@@ -4,6 +4,7 @@ import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/widgets/SettingsDrawer.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
@@ -78,9 +79,12 @@ class SongsPage extends  StatelessNavigationPage {
 
                   if(songsProvider.songs.isEmpty) {
                     return Center(
-                      child: Text(LocalizationMapper.current.noSongs,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+                        child: Text(LocalizationMapper.current.noSongs,
                           textAlign: TextAlign.center
                       ),
+                      )
                     );
                   }
 
