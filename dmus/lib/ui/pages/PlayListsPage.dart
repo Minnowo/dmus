@@ -1,6 +1,4 @@
 
-import 'dart:js_interop';
-
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
