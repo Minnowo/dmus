@@ -1467,12 +1467,6 @@ String get writerName {
       name: 'backupDatabase',  
     );
   }
-  String get syncFirebase {
-    return Intl.message(
-      'placeholder',
-      name: 'syncFirebase',  
-    );
-  }
   String get login {
     return Intl.message(
       'placeholder',
@@ -1503,6 +1497,14 @@ String get writerName {
       name: 'logOut',  
     );
   }
+  String get userLoggedOut {
+    return Intl.message(
+      'placeholder',
+      name: 'userLoggedOut',  
+    );
+  }
+
+
   String get appearance {
     return Intl.message(
       'placeholder',
@@ -1608,5 +1610,27 @@ String get writerName {
     );
   }
 
+
+  //SettingsDrawer.dart
+  String get blacklistSetting{
+    return Intl.message(
+      'placeholder',
+      name: 'blacklistSetting',
+    );
+  }
+
+  String get syncWithFirebase {
+    return Intl.message(
+      'placeholder',
+      name: 'syncWithFirebase',
+    );
+  }
+
+  String get other {
+    return Intl.message(
+      'placeholder',
+      name: 'other',
+    );
+  }
 
 }

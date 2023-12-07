@@ -2,6 +2,7 @@
 
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ Future<bool> addToQueueSongDismiss(DismissDirection direction, Song song) async
 
   MessagePublisher.publishSnackbar(
       SnackBarData(
-          text: '${song.title} added to the queue',
+          text: '${song.title} ${LocalizationMapper.current.songAddedToQueue}',
           duration: fastSnackBarDuration
       )
   );
