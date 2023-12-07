@@ -300,6 +300,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cantidad de pistas"),
         "trackDuration":
             MessageLookupByLibrary.simpleMessage("Duración de la pista"),
+        "trackName": MessageLookupByLibrary.simpleMessage("Nombre de la pista"),
         "trackNumber": MessageLookupByLibrary.simpleMessage("Número de pista"),
         "trailDuration":
             MessageLookupByLibrary.simpleMessage("Rastro con duración"),

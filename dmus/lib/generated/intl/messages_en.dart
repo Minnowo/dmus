@@ -275,6 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Track Artist Names"),
         "trackCount": MessageLookupByLibrary.simpleMessage("Track Count"),
         "trackDuration": MessageLookupByLibrary.simpleMessage("Track Duration"),
+        "trackName": MessageLookupByLibrary.simpleMessage("Track Name"),
         "trackNumber": MessageLookupByLibrary.simpleMessage("Track Number"),
         "trailDuration":
             MessageLookupByLibrary.simpleMessage("Trail With Duration"),

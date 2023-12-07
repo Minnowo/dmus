@@ -33,6 +33,7 @@
 	"property": "Property",
 	"value": "Value",
 
+	"trackName": "Track Name",
 	"trackArtistNames": "Track Artist Names",
 	"albumName": "Album Name",
 	"albumArtistName": "Album Artist Name",

@@ -380,6 +380,16 @@ class S {
     );
   }
 
+  /// `Track Name`
+  String get trackName {
+    return Intl.message(
+      'Track Name',
+      name: 'trackName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Track Artist Names`
   String get trackArtistNames {
     return Intl.message(
