@@ -19,7 +19,7 @@ class MetadataSearchPage extends StatefulWidget {
 
 class _MetadataSearchPageState extends State<MetadataSearchPage>
 {
-  static const String title = "Metadata Lookup";
+  static String title = LocalizationMapper.current.metadataLookup;
 
   final _formKey = GlobalKey<FormState>();
   final _searchTextController = TextEditingController();
@@ -62,24 +62,24 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
 
   Widget buildInkWellForSearch(SearchResult dataRaw) {
 
-    String subtitle = "N/A";
+    String subtitle = LocalizationMapper.current.nA;
 
     switch(dataRaw.searchResultType) {
 
       case SearchResultType.release:
-        subtitle = (dataRaw as ReleaseSearchResult).artistCredit?.join(", ") ?? "N/A";
+        subtitle = (dataRaw as ReleaseSearchResult).artistCredit?.join(", ") ?? LocalizationMapper.current.nA;
         break;
 
       case SearchResultType.recording:
-        subtitle = (dataRaw as RecordingSearchResponse).artistCredit?.join(", ") ?? "N/A";
+        subtitle = (dataRaw as RecordingSearchResponse).artistCredit?.join(", ") ?? LocalizationMapper.current.nA;
         break;
     }
 
     return InkWell(
       child: ListTile(
-              title: Text(dataRaw.title ?? "N/A"),
+              title: Text(dataRaw.title ?? LocalizationMapper.current.nA),
               subtitle: Text(subtitle),
-              trailing: Text(dataRaw.score?.toString() ?? "N/A"),
+              trailing: Text(dataRaw.score?.toString() ?? LocalizationMapper.current.nA),
             ),
       onTap: () {
 
@@ -101,7 +101,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text(title),
+          title: Text(title),
           centerTitle: true,
           actions: [
             IconButton(
@@ -168,7 +168,7 @@ class _MetadataSearchPageState extends State<MetadataSearchPage>
                 Padding(
                     padding: const EdgeInsets.all(16),
                     child: TextFormField(
-                        decoration: const InputDecoration(labelText: 'Playlist Title'),
+                        decoration: InputDecoration(labelText: LocalizationMapper.current.playlistTitle),
                         controller: _searchTextController,
                         validator: validateSearch
                     )),

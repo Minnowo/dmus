@@ -36,8 +36,6 @@ class LocalizationMapper {
     return Intl.message(
       'placeholder',
       name: 'title',
-      desc: 'Title for the DMUS application',
-      
     );
   }
   String get songImported {
@@ -234,6 +232,59 @@ class LocalizationMapper {
     );
   }
 
+  //DataEntityPicker.dart
+  String get confirmSelection {
+    return Intl.message(
+      'placeholder',
+      name: 'confirmSelection',      
+    );
+  }
+  String get filterSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'filterSongs',      
+    );
+  }
+  String get filterPlaylists {
+    return Intl.message(
+      'placeholder',
+      name: 'filterPlaylists',      
+    );
+  }
+  String get pickPlaylists {
+    return Intl.message(
+      'placeholder',
+      name: 'pickPlaylists',      
+    );
+  }
+
+  //FilePicker.dart
+  String get pickFiles {
+    return Intl.message(
+      'placeholder',
+      name: 'pickFiles',      
+    );
+  }
+  String get filterFilename {
+    return Intl.message(
+      'placeholder',
+      name: 'filterFilename',      
+    );
+  }
+  String get cannotAccessDirectory1 {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotAccessDirectory1',      
+    );
+  }
+  String get cannotAccessDirectory2 {
+    return Intl.message(
+      'placeholder',
+      name: 'cannotAccessDirectory2',      
+    );
+  }
+
+
   //ImportDialogue.dart
   String get addFiles {
     return Intl.message(
@@ -313,14 +364,34 @@ class LocalizationMapper {
       
     );
   }
+  String get firstReleaseDate {
+    return Intl.message(
+      'placeholder',
+      name: 'firstReleaseDate',      
+    );
+  }
+
 
   //SongPicker.dart
   String get pickSongs {
     return Intl.message(
       'placeholder',
       name: 'pickSongs',
-      desc: 'Pick Songs button',
-      
+      desc: 'Pick Songs button',  
+    );
+  }
+  String get savePlaylist {
+    return Intl.message(
+      'placeholder',
+      name: 'savePlaylist',      
+    );
+  }
+
+  //songUploadForm.dart
+    String get uploadSongs {
+    return Intl.message(
+      'placeholder',
+      name: 'uploadSongs',      
     );
   }
   
@@ -330,7 +401,6 @@ class LocalizationMapper {
       'placeholder',
       name: 'playbackSpeed',
       desc: 'Playback Speed text form label',
-      
     );
   }
   String get ok {
@@ -338,17 +408,43 @@ class LocalizationMapper {
       'placeholder',
       name: 'ok',
       desc: 'Ok button',
-      
     );
   }
+
+  //Util.dart
+  String get metadataRefreshConfirm {
+    return Intl.message(
+      'placeholder',
+      name: 'metadataRefreshConfirm',      
+    );
+  }
+  String get pathAlreadyExists1 {
+    return Intl.message(
+      'placeholder',
+      name: 'pathAlreadyExists1',      
+    );
+  }
+  String get pathAlreadyExists2 {
+    return Intl.message(
+      'placeholder',
+      name: 'pathAlreadyExists2',      
+    );
+  }
+  String get exportedDatabase {
+    return Intl.message(
+      'placeholder',
+      name: 'exportedDatabase',      
+    );
+  }
+  
+  
   
   //registerPage.dart
   String get enterValidEmail {
     return Intl.message(
       'placeholder',
       name: 'enterValidEmail',
-      desc: 'Enter valid email label on registration or login page',
-      
+      desc: 'Enter valid email label on registration or login page', 
     );
   }
   String get minPasswordLen {
@@ -790,12 +886,6 @@ class LocalizationMapper {
       name: 'pickFile',  
     );
   }  
-  String get cannotAccessDirectory {
-    return Intl.message(
-      'placeholder',
-      name: 'cannotAccessDirectory',  
-    );
-  }
 
   String get releaseGroup {
     return Intl.message(
@@ -883,6 +973,12 @@ class LocalizationMapper {
       name: 'registration',
     );
   }
+  String get signedIn {
+    return Intl.message(
+      'placeholder',
+      name: 'signedIn',
+    );
+  }
 
   String get incorrectPassword {
     return Intl.message(
@@ -914,6 +1010,117 @@ class LocalizationMapper {
       name: 'userNotFound',
     );
   }
+
+  //AdvancedSettingsPage.dart
+  String get advancedSettings {
+    return Intl.message(
+      'placeholder',
+      name: 'advancedSettings',
+    );
+  }
+  String get songsPageLITrail {
+    return Intl.message(
+      'placeholder',
+      name: 'songsPageLITrail',
+    );
+  }
+  String get trailMenu {
+    return Intl.message(
+      'placeholder',
+      name: 'trailMenu',
+    );
+  }
+  String get trailDuration {
+    return Intl.message(
+      'placeholder',
+      name: 'trailDuration',
+    );
+  }
+  String get random {
+    return Intl.message(
+      'placeholder',
+      name: 'random',
+    );
+  }
+  String get playBarSwipeMode {
+    return Intl.message(
+      'placeholder',
+      name: 'playBarSwipeMode',
+    );
+  }
+  String get swipeStop {
+    return Intl.message(
+      'placeholder',
+      name: 'swipeStop',
+    );
+  }
+  String get swipeNext {
+    return Intl.message(
+      'placeholder',
+      name: 'swipeNext',
+    );
+  }
+  String get queueMode {
+    return Intl.message(
+      'placeholder',
+      name: 'queueMode',
+    );
+  }
+  String get fillRandom {
+    return Intl.message(
+      'placeholder',
+      name: 'fillRandom',
+    );
+  }
+  String get fillRandomArtistPriority {
+    return Intl.message(
+      'placeholder',
+      name: 'fillRandomArtistPriority',
+    );
+  }
+  String get neverFillQueue {
+    return Intl.message(
+      'placeholder',
+      name: 'neverFillQueue',
+    );
+  }
+  String get developer {
+    return Intl.message(
+      'placeholder',
+      name: 'developer',
+    );
+  }
+  String get showSnackBar {
+    return Intl.message(
+      'placeholder',
+      name: 'showSnackBar',
+    );
+  }
+  String get snackBarTest {
+    return Intl.message(
+      'placeholder',
+      name: 'snackBarTest',
+    );
+  }
+  String get showErrorSnackBar {
+    return Intl.message(
+      'placeholder',
+      name: 'showErrorSnackBar',
+    );
+  }
+  String get errorSnackBarTest {
+    return Intl.message(
+      'placeholder',
+      name: 'errorSnackBarTest',
+    );
+  }
+
+
+
+
+
+
+
 
   String get albums {
     return Intl.message(

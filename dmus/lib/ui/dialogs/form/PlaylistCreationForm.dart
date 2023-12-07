@@ -52,12 +52,12 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     super.initState();
 
     if (widget.editing != null) {
-      title = "Edit Playlist";
+      title = LocalizationMapper.current.editPlaylist;
       _playlistTitleTextController.text = widget.editing!.title;
 
       selectedSongs.addAll(widget.editing!.songs);
     } else {
-      title = "Create Playlist";
+      title = LocalizationMapper.current.createPlaylist;
     }
   }
 
@@ -189,14 +189,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            tooltip: "Pick Songs",
+            tooltip: LocalizationMapper.current.pickSongs,
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: null,
-            tooltip: "Save the Playlist",
+            tooltip: LocalizationMapper.current.savePlaylist,
             onPressed: finishPlaylist,
             child: const Icon(Icons.save),
           ),

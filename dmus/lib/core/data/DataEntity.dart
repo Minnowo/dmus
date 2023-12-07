@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
 
@@ -153,11 +154,11 @@ class Song extends DataEntity {
 
 
   String songArtist() {
-    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? "N/A";
+    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? LocalizationMapper.current.nA;
   }
 
   String songAlbum() {
-    return metadata.albumName ?? "N/A";
+    return metadata.albumName ?? LocalizationMapper.current.nA;
   }
 
   String artistAlbumText() {

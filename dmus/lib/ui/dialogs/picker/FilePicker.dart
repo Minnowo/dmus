@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
 import 'package:external_path/external_path.dart';
@@ -55,7 +56,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
       }
 
       if(_externalStorageRoots.isEmpty) {
-        MessagePublisher.publishSomethingWentWrong("Cannot find any storage!");
+        MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.noStorage);
         popNavigatorSafe(context);
         return;
       }
@@ -90,7 +91,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
       onWillPop: willPop,
       child: Scaffold(
           appBar: AppBar(
-            title: const Text("Pick Files"),
+            title: Text(LocalizationMapper.current.pickFiles),
             actions: [
               IconButton(
                   onPressed: toggleSelectAll,
@@ -140,7 +141,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
                       controller: _filterController,
                       onChanged: filterDataEntities,
                       decoration: InputDecoration(
-                        hintText: "Filter Filename",
+                        hintText: LocalizationMapper.current.filterFilename,
                         suffixIcon: IconButton(
                           onPressed: clearFilter,
                           icon: const Icon(Icons.clear),
@@ -155,7 +156,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
           child: FloatingActionButton(
-            tooltip: "Confirm Selection",
+            tooltip: LocalizationMapper.current.confirmSelection,
             onPressed: () => finishSelection(context),
             child: const Icon(Icons.save),
           ),
@@ -311,7 +312,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
     }
     catch(e) {
       logging.warning("Cannot access $_currentDirectory, $e");
-      MessagePublisher.publishSomethingWentWrong("Cannot access $_currentDirectory!! No permissions.");
+      MessagePublisher.publishSomethingWentWrong("${LocalizationMapper.current.cannotAccessDirectory1} $_currentDirectory${LocalizationMapper.current.cannotAccessDirectory2}");
       gotoParent();
     }
 

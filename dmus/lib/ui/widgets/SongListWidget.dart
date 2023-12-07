@@ -2,6 +2,7 @@
 
 
 
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
@@ -90,7 +91,7 @@ class SongListWidget extends StatelessWidget {
           child: ArtDisplay(dataEntity: song),
         );
       case SongListWidgetLead.leadWithTrackNumber:
-        return Text(song.metadata.trackNumber?.toString() ?? "N/A");
+        return Text(song.metadata.trackNumber?.toString() ?? LocalizationMapper.current.nA);
     }
   }
 }

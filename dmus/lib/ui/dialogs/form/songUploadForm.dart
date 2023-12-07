@@ -34,7 +34,7 @@ class _SongUploadFormState extends State<SongUploadForm> {
   int _stupidUniqueKeyForDismissible = minInteger;
   List<Song> selectedSongs = [];
 
-  static const String title = "Upload Songs";
+  static String title = LocalizationMapper.current.uploadSongs;
   static const double pad = 15.0;
   static const int maxTitleLength = 512;
 
@@ -78,7 +78,7 @@ class _SongUploadFormState extends State<SongUploadForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(title),
+        title: Text(title),
         actions: [
           IconButton(
             onPressed: addSongsPicker,

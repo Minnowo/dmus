@@ -2,6 +2,7 @@
 
 import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class AdvancedSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Advanced Settings'),
+        title: Text(LocalizationMapper.current.advancedSettings),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,10 +28,10 @@ class AdvancedSettingsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                'Appearance',
+                LocalizationMapper.current.appearance,
                 style: TEXT_HEADER,
               ),
             ),
@@ -39,7 +40,7 @@ class AdvancedSettingsPage extends StatelessWidget {
 
             StatefulBuilder(builder: (context, setState)
             => SwitchListTile(
-              title: const Text("Dark Mode"),
+              title: Text(LocalizationMapper.current.darkMode),
               onChanged: (c) => setState(() => context.read<ThemeProvider>().setTheme(c)),
               value: context.read<ThemeProvider>().isDarkModeEnabled,
             )
@@ -52,19 +53,19 @@ class AdvancedSettingsPage extends StatelessWidget {
                 context.read<ThemeProvider>().notify();
               }) ,
               child: ListTile(
-                title: const Text("Songs Page List Item Trails With"),
+                title: Text(LocalizationMapper.current.songsPageLITrail),
                 trailing: Text("${songListWidgetTrailToInt(SettingsHandler.songPageTileTrailWith)}"),
               ),
               itemBuilder: (BuildContext context) {
                 // Define the items in the menu
                 return <PopupMenuEntry<SongListWidgetTrail>>[
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: SongListWidgetTrail.trailWithMenu,
-                    child: Text('Trail With Menu'),
+                    child: Text(LocalizationMapper.current.trailMenu),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: SongListWidgetTrail.trailWithDuration,
-                    child: Text('Trail With Duration'),
+                    child: Text(LocalizationMapper.current.trailDuration),
                   ),
                 ];
               },
@@ -72,10 +73,10 @@ class AdvancedSettingsPage extends StatelessWidget {
             ),
 
 
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                'Random',
+                LocalizationMapper.current.random,
                 style: TEXT_HEADER,
               ),
             ),
@@ -85,19 +86,19 @@ class AdvancedSettingsPage extends StatelessWidget {
             => PopupMenuButton<CurrentlyPlayingBarSwipe>(
               onSelected: (c) => setState(() => SettingsHandler.setCurrentlyPlayingSwipeMode(c)) ,
               child: ListTile(
-                title: const Text("Currently Playing Bar Swipe Mode"),
+                title: Text(LocalizationMapper.current.playBarSwipeMode),
                 trailing: Text("${currentlyPlayingBarSwipeToInt(SettingsHandler.currentlyPlayingSwipeMode)}"),
               ),
               itemBuilder: (BuildContext context) {
                 // Define the items in the menu
                 return <PopupMenuEntry<CurrentlyPlayingBarSwipe>>[
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: CurrentlyPlayingBarSwipe.swipeToCancel,
-                    child: Text('Swipe to Stop'),
+                    child: Text(LocalizationMapper.current.swipeStop),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: CurrentlyPlayingBarSwipe.swipeToNextPrevious,
-                    child: Text('Swipe for Next / Previous'),
+                    child: Text(LocalizationMapper.current.swipeNext),
                   ),
                 ];
               },
@@ -109,23 +110,23 @@ class AdvancedSettingsPage extends StatelessWidget {
             => PopupMenuButton<QueueFillMode>(
               onSelected: (c) => setState(() => SettingsHandler.setQueueFillMode(c)) ,
               child: ListTile(
-                title: const Text("Queue Fill Mode"),
+                title: Text(LocalizationMapper.current.queueMode),
                 trailing: Text("${queueFillModeToInt(SettingsHandler.queueFillMode)}"),
               ),
               itemBuilder: (BuildContext context) {
                 // Define the items in the menu
                 return <PopupMenuEntry<QueueFillMode>>[
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: QueueFillMode.fillWithRandom,
-                    child: Text('Fill With Random'),
+                    child: Text(LocalizationMapper.current.fillRandom),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: QueueFillMode.fillWithRandomPrioritySameArtist,
-                    child: Text('Fill With Random Priority Same Artist'),
+                    child: Text(LocalizationMapper.current.fillRandomArtistPriority),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: QueueFillMode.neverGenerate,
-                    child: Text('Never Fill Queue'),
+                    child: Text(LocalizationMapper.current.neverFillQueue),
                   ),
                 ];
               },
@@ -133,10 +134,10 @@ class AdvancedSettingsPage extends StatelessWidget {
             ),
 
 
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                'Developer',
+                LocalizationMapper.current.developer,
                 style: TEXT_HEADER,
               ),
             ),
@@ -144,25 +145,25 @@ class AdvancedSettingsPage extends StatelessWidget {
 
             ListTile(
               leading: const Icon(Icons.refresh),
-              title: const Text("Refresh Metadata"),
+              title: Text(LocalizationMapper.current.refreshMetadata),
               onTap: () => refreshMetadata(context),
             ),
 
             ListTile(
               leading: const Icon(Icons.backup),
-              title: const Text("Backup Database"),
+              title: Text(LocalizationMapper.current.backupDatabase),
               onTap: () => backupDatabase(context),
             ),
 
             ListTile(
               leading: const Icon(Icons.notification_add),
-              title: const Text("Show SnackBar"),
-              onTap: () => showSnackBarWithDuration(context, "This is a snackbar", longSnackBarDuration),
+              title: Text(LocalizationMapper.current.showSnackBar),
+              onTap: () => showSnackBarWithDuration(context, LocalizationMapper.current.snackBarTest, longSnackBarDuration),
             ),
             ListTile(
               leading: const Icon(Icons.notification_add),
-              title: const Text("Show Error SnackBar"),
-              onTap: () => showSnackBarWithDuration(context, "This is an error", longSnackBarDuration, color: RED),
+              title: Text(LocalizationMapper.current.showErrorSnackBar),
+              onTap: () => showSnackBarWithDuration(context, LocalizationMapper.current.errorSnackBarTest, longSnackBarDuration, color: RED),
             ),
           ],
         ),

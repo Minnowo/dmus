@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,19 +157,19 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Track Duration')),
-                    DataCell(Text(trackDuration == null ? "N/A" : formatDuration(Duration(milliseconds: trackDuration)))),
+                    DataCell(Text(trackDuration == null ? LocalizationMapper.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Bitrate (bits/sec)')),
-                    DataCell(Text(bitrate?.toString() ?? "N/A")),
+                    DataCell(Text(bitrate?.toString() ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Mime Type')),
-                    DataCell(Text(mimeType ?? "N/A")),
+                    DataCell(Text(mimeType ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Year')),
-                    DataCell(Text(year == null ? "N/A" : year.toString())),
+                    DataCell(Text(year == null ? LocalizationMapper.current.nA : year.toString())),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Genre')),

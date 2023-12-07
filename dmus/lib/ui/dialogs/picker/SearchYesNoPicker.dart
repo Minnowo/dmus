@@ -45,23 +45,23 @@ class SearchYesNoPicker extends StatelessWidget {
         ...dataRowsForArtist(context, releaseSearch.artistCredit!),
 
       DataRow(cells: [
-        const DataCell(Text('Release Group')),
+        DataCell(Text(LocalizationMapper.current.releaseGroup)),
         DataCell(Text(releaseSearch.releaseGroup?.toString() ?? 'N/A')),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Release Date')),
+        DataCell(Text(LocalizationMapper.current.releaseDate)),
         DataCell(Text(releaseSearch.date ?? 'N/A')),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Track Count')),
+        DataCell(Text(LocalizationMapper.current.trackCount)),
         DataCell(Text(releaseSearch.trackCount?.toString() ?? 'N/A')),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Release Country')),
+        DataCell(Text(LocalizationMapper.current.releaseCountry)),
         DataCell(Text(releaseSearch.country ?? 'N/A')),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Release Status')),
+        DataCell(Text(LocalizationMapper.current.releaseStatus)),
         DataCell(Text(releaseSearch.status ?? 'N/A')),
       ]),
 
@@ -69,16 +69,16 @@ class SearchYesNoPicker extends StatelessWidget {
         ...dataRowsForTags(context, releaseSearch.tags!),
 
       DataRow(cells: [
-        const DataCell(Text('ID')),
-        DataCell(Text(search.id ?? 'N/A')),
+        DataCell(Text(LocalizationMapper.current.iD)),
+        DataCell(Text(search.id ?? LocalizationMapper.current.nA)),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Status ID')),
-        DataCell(Text(releaseSearch.statusId ?? 'N/A')),
+        DataCell(Text(LocalizationMapper.current.statusID)),
+        DataCell(Text(releaseSearch.statusId ?? LocalizationMapper.current.nA)),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Packaging ID')),
-        DataCell(Text(releaseSearch.packagingId ?? 'N/A')),
+        DataCell(Text(LocalizationMapper.current.packagingID)),
+        DataCell(Text(releaseSearch.packagingId ?? LocalizationMapper.current.nA)),
       ]),
     ];
   }
@@ -87,16 +87,16 @@ class SearchYesNoPicker extends StatelessWidget {
   List<DataRow> dataRowsForRecording(BuildContext context, RecordingSearchResponse recordingsSearch) {
     return [
       DataRow(cells: [
-        const DataCell(Text('Title')),
-        DataCell(Text(recordingsSearch.title ?? 'N/A')),
+        DataCell(Text(LocalizationMapper.current.title)),
+        DataCell(Text(recordingsSearch.title ?? LocalizationMapper.current.nA)),
       ]),
       DataRow(cells: [
-        const DataCell(Text('First Release Date')),
-        DataCell(Text(recordingsSearch.firstReleaseDate ?? 'N/A')),
+        DataCell(Text(LocalizationMapper.current.firstReleaseDate)),
+        DataCell(Text(recordingsSearch.firstReleaseDate ?? LocalizationMapper.current.nA)),
       ]),
       DataRow(cells: [
-        const DataCell(Text('Length')),
-        DataCell(Text(recordingsSearch.length == null ? "N/A" : formatDuration(Duration(milliseconds: recordingsSearch.length!)))),
+        DataCell(Text(LocalizationMapper.current.length)),
+        DataCell(Text(recordingsSearch.length == null ? LocalizationMapper.current.nA : formatDuration(Duration(milliseconds: recordingsSearch.length!)))),
       ]),
 
       if(recordingsSearch.artistCredit != null)
