@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a sp locale. All the
+// This is a library that provides messages for a es locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,7 +18,7 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'sp';
+  String get localeName => 'es';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "authorName": MessageLookupByLibrary.simpleMessage("Nombre del autor"),
         "backupDatabase": MessageLookupByLibrary.simpleMessage(
             "Copia de seguridad de la base de datos"),
+        "basicInfoTextWithSep":
+            MessageLookupByLibrary.simpleMessage("canciones"),
         "bitrate":
             MessageLookupByLibrary.simpleMessage("Tasa de bits (bits/seg)"),
         "bitrateShort": MessageLookupByLibrary.simpleMessage("Tasa de bits"),
@@ -89,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "¿Estás seguro de que quieres eliminar esta canción de la aplicación?"),
         "confirmSelection":
             MessageLookupByLibrary.simpleMessage("Confirmar selección"),
+        "convertingAudio":
+            MessageLookupByLibrary.simpleMessage("Convirtiendo audio..."),
         "couldNotLoadImage404": MessageLookupByLibrary.simpleMessage(
             "No se pudo cargar la imagen 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
@@ -99,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "createdPlaylist":
             MessageLookupByLibrary.simpleMessage("Playlist creada"),
         "currentlyPlaying":
-            MessageLookupByLibrary.simpleMessage("Reproduciendo actualmente"),
+            MessageLookupByLibrary.simpleMessage("Jugando ahora"),
         "darkMode": MessageLookupByLibrary.simpleMessage("Modo oscuro"),
         "dbError": MessageLookupByLibrary.simpleMessage(
             "No se puede importar la canción aunque acaba de ser importada."),
@@ -108,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("Desarrollador"),
         "diskNumber": MessageLookupByLibrary.simpleMessage("Número de disco"),
         "dl": MessageLookupByLibrary.simpleMessage("DD"),
+        "download": MessageLookupByLibrary.simpleMessage("Descargar"),
         "downloadError": MessageLookupByLibrary.simpleMessage(
             "Error al descargar el flujo:"),
         "downloadFromCloud":
@@ -129,11 +134,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "El título no puede estar vacío."),
         "encodingError": MessageLookupByLibrary.simpleMessage(
             "¡Hubo un error al codificar el flujo!"),
-        "enterURLHere":
-            MessageLookupByLibrary.simpleMessage("Ingrese la URL aquí"),
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Por favor, introduce una dirección de correo electrónico válida."),
         "error": MessageLookupByLibrary.simpleMessage("¡Algo salió mal!"),
+        "errorFetchingVideo": MessageLookupByLibrary.simpleMessage(
+            "Error al recuperar el video !"),
         "errorShort": MessageLookupByLibrary.simpleMessage("Error:"),
         "errorSnackBarTest":
             MessageLookupByLibrary.simpleMessage("Esto es un error"),
@@ -141,6 +146,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Base de datos exportada a"),
         "externalFolderNull": MessageLookupByLibrary.simpleMessage(
             "La carpeta de almacenamiento externo es nula."),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favoritos"),
+        "fetchingVideoInformation": MessageLookupByLibrary.simpleMessage(
+            "Recuperando información del video..."),
         "filePath": MessageLookupByLibrary.simpleMessage("Ruta del archivo"),
         "fillRandom":
             MessageLookupByLibrary.simpleMessage("Llenar con aleatorio"),
@@ -218,7 +226,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickFiles":
             MessageLookupByLibrary.simpleMessage("Seleccionar archivos"),
         "pickPlaylists":
-            MessageLookupByLibrary.simpleMessage("Seleccionar playlists"),
+            MessageLookupByLibrary.simpleMessage("Elegir playlists"),
         "pickSongs": MessageLookupByLibrary.simpleMessage("Elegir canciones"),
         "playBarSwipeMode": MessageLookupByLibrary.simpleMessage(
             "Modo de deslizamiento de la barra de reproducción actual"),
@@ -381,6 +389,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("contraseña-incorrecta"),
         "year": MessageLookupByLibrary.simpleMessage("Año"),
         "youtubeDownload":
-            MessageLookupByLibrary.simpleMessage("Descarga de YouTube")
+            MessageLookupByLibrary.simpleMessage("Descarga de YouTube"),
+        "youtubeURL": MessageLookupByLibrary.simpleMessage("URL de YouTube")
       };
 }

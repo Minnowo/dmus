@@ -192,14 +192,16 @@
 
 
 	"songs": "Songs",
+	"basicInfoTextWithSep": "songs",
+	"favorites": "Favorites",
 	"queueEmpty": "The queue is empty!",
 
 	"watchDirectories": "Watch Directories",
 	"watchDirectoriesEmpty": "Watch directories will be checked when the app starts and automatically import music.",
 
 
-	"youtubeDownload": "Youtube Download",
-	"enterURLHere": "Enter URL Here",
+	"youtubeDownload": "YouTube Download",
+	"youtubeURL": "YouTube URL",
 	"couldNotLoadImage404": "Could not load image 404",
 	"author": "Author",
 	"duration": "Duration",
@@ -210,6 +212,12 @@
 	"downloadError": "Error while downloading stream:",
 	"encodingError": "There was an error encoding the stream!",
 	"noThumbnail": "Could not find thumbnail for stream",
+	"errorFetchingVideo": "Error while fetching video!",
+
+	"fetchingVideoInformation": "Fetching Video Information...",
+	"download": "Download",
+	"convertingAudio": "Converting Audio...",
+	
 
 	"general": "General",
 	"addMusic": "Add Music",

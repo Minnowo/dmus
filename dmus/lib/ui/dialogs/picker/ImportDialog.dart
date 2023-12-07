@@ -68,7 +68,7 @@ class ImportDialog extends StatelessWidget {
             ),
             TextButton(
               onPressed: () => youtubeImport(context),
-              child: Text("Youtube"),
+              child: Text("YouTube"),
             ),
             TextButton(
               onPressed: () {

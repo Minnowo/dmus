@@ -55,7 +55,7 @@
 	"pickSongs": "Elegir canciones",
 	"filterSongs": "Filtrar canciones...",
 	"filterPlaylists": "Filtrar playlists...",
-	"pickPlaylists": "Seleccionar playlists",
+	"pickPlaylists": "Elegir playlists",
 	"savePlaylist": "Guardar la playlist",
 
 	"uploadSongs": "Subir canciones",
@@ -189,19 +189,21 @@
 	"albumsAppear": "¡Los álbumes aparecerán a medida que importes música!",
 	"confirmRemoveFromBlacklist": "¿Estás seguro de que quieres eliminar estos archivos de la lista negra?",
 	"removeThem": "Eliminarlos",
-	"currentlyPlaying": "Reproduciendo actualmente",
+	"currentlyPlaying": "Jugando ahora",
 	"addToPlaylist": "AGREGAR A LA PLAYLIST",
 	"noImagePath": "No se encontró la ruta de la imagen.",
 
 
 	"songs": "Canciones",
+	"basicInfoTextWithSep": "canciones",
+	"favorites": "Favoritos",
 	"queueEmpty": "La file d''attente est vide !",
 
 	"watchDirectories": "Directorios de vigilancia",
 	"watchDirectoriesEmpty": "Los directorios de vigilancia se verificarán al iniciar la aplicación y se importará música automáticamente.",
 
 	"youtubeDownload": "Descarga de YouTube",
-	"enterURLHere": "Ingrese la URL aquí",
+	"youtubeURL": "URL de YouTube",
 	"couldNotLoadImage404": "No se pudo cargar la imagen 404",
 	"author": "Autor",
 	"duration": "Duración",
@@ -212,6 +214,11 @@
 	"downloadError": "Error al descargar el flujo:",
 	"encodingError": "¡Hubo un error al codificar el flujo!",
 	"noThumbnail": "No se pudo encontrar una miniatura para el flujo",
+	"errorFetchingVideo": "Error al recuperar el video !",
+	"fetchingVideoInformation": "Recuperando información del video...",
+	"download": "Descargar",
+	"convertingAudio": "Convirtiendo audio...",
+
 
 	"general": "General",
 	"addMusic": "Agregar música",

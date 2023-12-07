@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "authorName": MessageLookupByLibrary.simpleMessage("Author Name"),
         "backupDatabase":
             MessageLookupByLibrary.simpleMessage("Backup Database"),
+        "basicInfoTextWithSep": MessageLookupByLibrary.simpleMessage("songs"),
         "bitrate": MessageLookupByLibrary.simpleMessage("Bitrate (bits/sec)"),
         "bitrateShort": MessageLookupByLibrary.simpleMessage("Bitrate"),
         "blacklistPageHelperText": MessageLookupByLibrary.simpleMessage(
@@ -88,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to remove this song from the app?"),
         "confirmSelection":
             MessageLookupByLibrary.simpleMessage("Confirm Selection"),
+        "convertingAudio":
+            MessageLookupByLibrary.simpleMessage("Converting Audio..."),
         "couldNotLoadImage404":
             MessageLookupByLibrary.simpleMessage("Could not load image 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
@@ -107,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("Developer"),
         "diskNumber": MessageLookupByLibrary.simpleMessage("Disk Number"),
         "dl": MessageLookupByLibrary.simpleMessage("DL"),
+        "download": MessageLookupByLibrary.simpleMessage("Download"),
         "downloadError": MessageLookupByLibrary.simpleMessage(
             "Error while downloading stream:"),
         "downloadFromCloud":
@@ -127,10 +131,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("title cannot be empty!"),
         "encodingError": MessageLookupByLibrary.simpleMessage(
             "There was an error encoding the stream!"),
-        "enterURLHere": MessageLookupByLibrary.simpleMessage("Enter URL Here"),
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid email address."),
         "error": MessageLookupByLibrary.simpleMessage("Something went wrong!"),
+        "errorFetchingVideo":
+            MessageLookupByLibrary.simpleMessage("Error while fetching video!"),
         "errorShort": MessageLookupByLibrary.simpleMessage("Error:"),
         "errorSnackBarTest":
             MessageLookupByLibrary.simpleMessage("This is an error"),
@@ -138,6 +143,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Exported Database to"),
         "externalFolderNull": MessageLookupByLibrary.simpleMessage(
             "External storage folder is null!"),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favorites"),
+        "fetchingVideoInformation": MessageLookupByLibrary.simpleMessage(
+            "Fetching Video Information..."),
         "filePath": MessageLookupByLibrary.simpleMessage("File Path"),
         "fillRandom": MessageLookupByLibrary.simpleMessage("Fill With Random"),
         "fillRandomArtistPriority": MessageLookupByLibrary.simpleMessage(
@@ -351,6 +359,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wrongPassword": MessageLookupByLibrary.simpleMessage("wrong-password"),
         "year": MessageLookupByLibrary.simpleMessage("Year"),
         "youtubeDownload":
-            MessageLookupByLibrary.simpleMessage("Youtube Download")
+            MessageLookupByLibrary.simpleMessage("YouTube Download"),
+        "youtubeURL": MessageLookupByLibrary.simpleMessage("YouTube URL")
       };
 }

@@ -47,6 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "authorName": MessageLookupByLibrary.simpleMessage("Nom de l\'auteur"),
         "backupDatabase": MessageLookupByLibrary.simpleMessage(
             "Sauvegarder la base de données"),
+        "basicInfoTextWithSep":
+            MessageLookupByLibrary.simpleMessage("chansons"),
         "bitrate":
             MessageLookupByLibrary.simpleMessage("Débit binaire (bits/sec)"),
         "bitrateShort": MessageLookupByLibrary.simpleMessage("Débit binaire"),
@@ -92,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Êtes-vous sûr de vouloir supprimer cette chanson de l\'application ?"),
         "confirmSelection":
             MessageLookupByLibrary.simpleMessage("Confirmer la sélection"),
+        "convertingAudio":
+            MessageLookupByLibrary.simpleMessage("Conversion audio..."),
         "couldNotLoadImage404": MessageLookupByLibrary.simpleMessage(
             "Impossible de charger l\'image 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
@@ -112,6 +116,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "developer": MessageLookupByLibrary.simpleMessage("Développeur"),
         "diskNumber": MessageLookupByLibrary.simpleMessage("Numéro de disque"),
         "dl": MessageLookupByLibrary.simpleMessage("DL"),
+        "download": MessageLookupByLibrary.simpleMessage("Télécharger"),
         "downloadError": MessageLookupByLibrary.simpleMessage(
             "Erreur lors du téléchargement du flux :"),
         "downloadFromCloud":
@@ -134,12 +139,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Le titre ne peut pas être vide !"),
         "encodingError": MessageLookupByLibrary.simpleMessage(
             "Une erreur s\'est produite lors de l\'encodage du flux !"),
-        "enterURLHere":
-            MessageLookupByLibrary.simpleMessage("Entrez l\'URL ici"),
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Veuillez saisir une adresse e-mail valide."),
         "error": MessageLookupByLibrary.simpleMessage(
             "Quelque chose s\'est mal passé !"),
+        "errorFetchingVideo": MessageLookupByLibrary.simpleMessage(
+            "Erreur lors de la récupération de la vidéo !"),
         "errorShort": MessageLookupByLibrary.simpleMessage("Erreur :"),
         "errorSnackBarTest":
             MessageLookupByLibrary.simpleMessage("Ceci est une erreur"),
@@ -147,6 +152,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Base de données exportée vers"),
         "externalFolderNull": MessageLookupByLibrary.simpleMessage(
             "Le dossier de stockage externe est nul !"),
+        "favorites": MessageLookupByLibrary.simpleMessage("Favoris"),
+        "fetchingVideoInformation": MessageLookupByLibrary.simpleMessage(
+            "Récupération des informations sur la vidéo..."),
         "filePath": MessageLookupByLibrary.simpleMessage("Chemin du fichier"),
         "fillRandom":
             MessageLookupByLibrary.simpleMessage("Remplir avec aléatoire"),
@@ -225,9 +233,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pickFiles":
             MessageLookupByLibrary.simpleMessage("Choisir des fichiers"),
         "pickPlaylists":
-            MessageLookupByLibrary.simpleMessage("Choisir des playlists"),
-        "pickSongs":
-            MessageLookupByLibrary.simpleMessage("Choisir des chansons"),
+            MessageLookupByLibrary.simpleMessage("Choisir playlists"),
+        "pickSongs": MessageLookupByLibrary.simpleMessage("Choisir chansons"),
         "playBarSwipeMode": MessageLookupByLibrary.simpleMessage(
             "Mode de balayage de la barre de lecture en cours"),
         "playNow": MessageLookupByLibrary.simpleMessage("Jouer maintenant"),
@@ -389,6 +396,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("mauvais-mot-de-passe"),
         "year": MessageLookupByLibrary.simpleMessage("Année"),
         "youtubeDownload":
-            MessageLookupByLibrary.simpleMessage("Téléchargement YouTube")
+            MessageLookupByLibrary.simpleMessage("Téléchargement YouTube"),
+        "youtubeURL": MessageLookupByLibrary.simpleMessage("URL YouTube")
       };
 }

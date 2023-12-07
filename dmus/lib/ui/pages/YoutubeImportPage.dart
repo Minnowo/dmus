@@ -61,8 +61,8 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
             child: TextField(
               decoration: InputDecoration(
-                labelText: "Youtube URL",
-                hintText: "Youtube URL",
+                labelText: LocalizationMapper.current.youtubeURL,
+                hintText: LocalizationMapper.current.youtubeURL,
                 suffixIcon: IconButton(
                   onPressed: () => getYtVideo(_controller.text),
                   icon: const Icon(Icons.search),
@@ -80,10 +80,10 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
               if(snapshot.data == null || snapshot.data == false) {
                 return Container();
               }
-              return const Column(
+              return Column(
                 children: [
-                  Text("Fetching Video Information..."),
-                  CircularProgressIndicator()
+                  Text(LocalizationMapper.current.fetchingVideoInformation),
+                  const CircularProgressIndicator()
                 ],
               ) ;
             },
@@ -109,7 +109,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
 
               return Column(
                 children: [
-                  Text("Download ${progress.toStringAsFixed(2)}%"),
+                  Text("${LocalizationMapper.current.download} ${progress.toStringAsFixed(2)}%"),
                   LinearProgressIndicator(value: progress)
                 ],
               );
@@ -123,10 +123,10 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
               if(snapshot.data == null || snapshot.data == false) {
                 return Container();
               }
-              return const Column(
+              return Column(
                 children: [
-                  Text("Converting Audio..."),
-                  CircularProgressIndicator()
+                  Text(LocalizationMapper.current.convertingAudio),
+                  const CircularProgressIndicator()
                 ],
               ) ;
             },
@@ -211,9 +211,11 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
       videoManifest = await yt.videos.streamsClient.getManifest(url);
     } catch(e){
       logging.warning("Could not get youtube video: $e");
-      MessagePublisher.publishSomethingWentWrong("Error while fetching video!");
+      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.errorFetchingVideo);
     } finally {
       _showLoadingProgress.add(false);
+      //Hide keyboard
+      FocusScope.of(context).unfocus();
     }
 
     logging.info("Got video $video");

@@ -151,7 +151,7 @@ class DMUSApp extends StatelessWidget {
           supportedLocales: const [
             Locale('en', ''),
             Locale('fr', ''),
-            Locale('sp', ''),
+            Locale('es', ''),
           ],
           home: const RootPage(title: title),
         );
@@ -179,7 +179,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     SongsPage(),
     PlaylistsPage(),
     AlbumsPage(),
-    const SearchPage(),
+    SearchPage(),
   ];
 
   int _currentPage = 0;

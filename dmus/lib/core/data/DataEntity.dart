@@ -274,7 +274,7 @@ class Playlist extends DataEntity {
   String basicInfoTextWithSep(String sep){
     return [
       formatDuration(duration),
-      "${songs.length} songs",
+      "${songs.length} ${LocalizationMapper.current.basicInfoTextWithSep}",
     ].join(sep);
   }
 

@@ -3,6 +3,7 @@ import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import '../../Util.dart';
 import '../../data/DataEntity.dart';
 import 'TableFMetadata.dart';
@@ -24,7 +25,7 @@ final class TablePlaylist {
   static const String titleCol = "title";
 
   static const int likedPlaylistId = -1;
-  static const String likedPlaylistName = "Favorites";
+  static String likedPlaylistName = LocalizationMapper.current.favorites;
 
 
   /// Creates the favorites playlist or does nothing

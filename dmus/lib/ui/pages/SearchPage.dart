@@ -19,7 +19,7 @@ import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 
 class SearchPage extends StatefulNavigationPage {
-  const SearchPage({super.key}) : super(icon: Icons.search, title: "Search");
+  SearchPage({super.key}) : super(icon: Icons.search, title: LocalizationMapper.current.search);
 
   @override
   State<SearchPage> createState() => _SearchPageState();

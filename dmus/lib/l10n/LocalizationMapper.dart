@@ -1403,6 +1403,18 @@ String get writerName {
       name: 'songs',
     );
   }
+  String get favorites {
+    return Intl.message(
+      'placeholder',
+      name: 'favorites',
+    );
+  }
+  String get basicInfoTextWithSep {
+    return Intl.message(
+      'placeholder',
+      name: 'basicInfoTextWithSep',
+    );
+  }
   String get sortByArtist {
     return Intl.message(
       'placeholder',
@@ -1526,6 +1538,7 @@ String get writerName {
     );
   }
 
+  //YoutubeImportPage.dart
   String get youtubeDownload {
     return Intl.message(
       'placeholder',
@@ -1533,10 +1546,10 @@ String get writerName {
     );
   }
 
-  String get enterURLHere {
+  String get youtubeURL {
     return Intl.message(
       'placeholder',
-      name: 'enterURLHere',
+      name: 'youtubeURL',
     );
   }
 
@@ -1607,6 +1620,30 @@ String get writerName {
     return Intl.message(
       'placeholder',
       name: 'noThumbnail',
+    );
+  }
+  String get errorFetchingVideo {
+    return Intl.message(
+      'placeholder',
+      name: 'errorFetchingVideo',
+    );
+  }
+  String get fetchingVideoInformation {
+    return Intl.message(
+      'placeholder',
+      name: 'fetchingVideoInformation',
+    );
+  }
+  String get download {
+    return Intl.message(
+      'placeholder',
+      name: 'download',
+    );
+  } 
+  String get convertingAudio {
+    return Intl.message(
+      'placeholder',
+      name: 'convertingAudio',
     );
   }
 

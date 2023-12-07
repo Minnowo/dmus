@@ -52,10 +52,10 @@
 
 	"use": "Utiliser",
 	"cancel": "Annuler",
-	"pickSongs": "Choisir des chansons",
+	"pickSongs": "Choisir chansons",
 	"filterSongs": "Filtrer les chansons...",
 	"filterPlaylists": "Filtrer les playlists...",
-	"pickPlaylists": "Choisir des playlists",
+	"pickPlaylists": "Choisir playlists",
 	"savePlaylist": "Enregistrer la playlist",
 
 	"uploadSongs": "Télécharger des chansons",
@@ -194,13 +194,15 @@
 
 
 	"songs": "Chansons",
+	"basicInfoTextWithSep": "chansons",
+	"favorites": "Favoris",
 	"queueEmpty": "La file d'attente est vide !",
 
 	"watchDirectories": "Répertoires de surveillance",
 	"watchDirectoriesEmpty": "Les répertoires de surveillance seront vérifiés au démarrage de l'application et la musique sera importée automatiquement.",
 
 	"youtubeDownload": "Téléchargement YouTube",
-	"enterURLHere": "Entrez l'URL ici",
+	"youtubeURL": "URL YouTube",
 	"couldNotLoadImage404": "Impossible de charger l'image 404",
 	"author": "Auteur",
 	"duration": "Durée",
@@ -211,6 +213,12 @@
 	"downloadError": "Erreur lors du téléchargement du flux :",
 	"encodingError": "Une erreur s'est produite lors de l'encodage du flux !",
 	"noThumbnail": "Impossible de trouver une vignette pour le flux",
+	"errorFetchingVideo": "Erreur lors de la récupération de la vidéo !",
+	"fetchingVideoInformation": "Récupération des informations sur la vidéo...",
+	"download": "Télécharger",
+	"convertingAudio": "Conversion audio...",
+
+
 
 	"general": "Général",
 	"addMusic": "Ajouter de la musique",

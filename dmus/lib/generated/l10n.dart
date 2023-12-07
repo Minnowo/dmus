@@ -1870,6 +1870,26 @@ class S {
     );
   }
 
+  /// `songs`
+  String get basicInfoTextWithSep {
+    return Intl.message(
+      'songs',
+      name: 'basicInfoTextWithSep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favorites {
+    return Intl.message(
+      'Favorites',
+      name: 'favorites',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The queue is empty!`
   String get queueEmpty {
     return Intl.message(
@@ -1900,21 +1920,21 @@ class S {
     );
   }
 
-  /// `Youtube Download`
+  /// `YouTube Download`
   String get youtubeDownload {
     return Intl.message(
-      'Youtube Download',
+      'YouTube Download',
       name: 'youtubeDownload',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter URL Here`
-  String get enterURLHere {
+  /// `YouTube URL`
+  String get youtubeURL {
     return Intl.message(
-      'Enter URL Here',
-      name: 'enterURLHere',
+      'YouTube URL',
+      name: 'youtubeURL',
       desc: '',
       args: [],
     );
@@ -2015,6 +2035,46 @@ class S {
     return Intl.message(
       'Could not find thumbnail for stream',
       name: 'noThumbnail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error while fetching video!`
+  String get errorFetchingVideo {
+    return Intl.message(
+      'Error while fetching video!',
+      name: 'errorFetchingVideo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fetching Video Information...`
+  String get fetchingVideoInformation {
+    return Intl.message(
+      'Fetching Video Information...',
+      name: 'fetchingVideoInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download`
+  String get download {
+    return Intl.message(
+      'Download',
+      name: 'download',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Converting Audio...`
+  String get convertingAudio {
+    return Intl.message(
+      'Converting Audio...',
+      name: 'convertingAudio',
       desc: '',
       args: [],
     );
@@ -2257,8 +2317,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'es'),
       Locale.fromSubtags(languageCode: 'fr'),
-      Locale.fromSubtags(languageCode: 'sp'),
     ];
   }
 
