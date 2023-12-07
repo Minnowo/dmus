@@ -262,7 +262,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   void _onSongImported(Song s) {
     if(ImportController.reduceSnackBars) return;
-    showSnackBarWithDuration(context, "${LocalizationMapper.current.songImported}: ${s.title}", veryFastSnackBarDuration);
+    showSnackBarWithDuration(context, "${LocalizationMapper.current.songImported}: ${s.title}", mediumSnackBarDuration);
   }
 
   void _onSomethingWentWrong(String s) {

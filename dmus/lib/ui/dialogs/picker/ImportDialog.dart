@@ -15,39 +15,37 @@ class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 
 
-  void pickFilesAndImport(BuildContext context) {
+  Future<void> pickFilesAndImport(BuildContext context) async {
 
     popNavigatorSafe(context);
 
-    animateOpenFromBottom<List<File>?>(context, const FilePicker(showFileFilter: hasMusicFileExtension,))
-        .then((value) async {
+    final value = await animateOpenFromBottom<List<File>?>(context, const FilePicker(showFileFilter: hasMusicFileExtension,));
 
-          if(value == null) return;
+    if(value == null) return;
 
-          await ImportController.importSongs(value);
-    });
+    await ImportController.importSongs(value);
   }
 
-  void pickFolderAndImport(BuildContext context) {
+  Future<void> pickFolderAndImport(BuildContext context) async {
 
-    pickDirectory()
-        .then((value) async {
-
-          if(value == null) return;
-
-          Directory d = Directory(value);
-
-          logging.info("About to import files from $d");
-
-          await ImportController.importSongFromDirectory(d, true, true);
-    });
-
-    // (not an error) Pop as soon as we open the above dialog
     popNavigatorSafe(context);
+
+    final value = await pickDirectory();
+
+    if(value == null) return;
+
+    Directory d = Directory(value);
+
+    logging.info("About to import files from $d");
+
+    await ImportController.importSongFromDirectory(d, true, true);
   }
 
   Future<void> youtubeImport(BuildContext context) async {
-    await animateOpenFromBottom(context, YoutubeImportPage());
+
+    popNavigatorSafe(context);
+
+    await animateOpenFromBottom(context, const YoutubeImportPage());
   }
 
   @override

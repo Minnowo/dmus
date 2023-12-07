@@ -7,6 +7,7 @@ import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
                 Container(
                   color: Theme.of(context).colorScheme.background,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(HORIZONTAL_PADDING),
                     child: TextField(
                       controller: _filterController,
                       onChanged: filterDataEntities,
