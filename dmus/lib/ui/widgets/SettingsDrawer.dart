@@ -36,7 +36,7 @@ class SettingsDrawer extends StatelessWidget {
             height: 128,
             child: DrawerHeader(
               child: Text(
-                'dmus v0.1',
+                'dmus v1.0',
                 style: TEXT_HEADER,
               ),
             ),

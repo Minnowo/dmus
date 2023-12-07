@@ -118,12 +118,12 @@ class CurrentlyPlayingBar extends  StatelessWidget {
 
 
   Future<bool?> handleSwipe(DismissDirection dir) async {
-      _keyValue++;
 
       switch(SettingsHandler.currentlyPlayingSwipeMode) {
 
         case CurrentlyPlayingBarSwipe.swipeToCancel:
           await JustAudioController.instance.stopAndEmptyQueue();
+          _keyValue++;
           return true;
 
         case CurrentlyPlayingBarSwipe.swipeToNextPrevious:

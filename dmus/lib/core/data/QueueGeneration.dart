@@ -29,7 +29,7 @@ final class QueueGeneration {
 
     List<Song> s = SongsProvider.instance!.songs;
 
-    if(s.isEmpty) {
+    if(s.isEmpty || s.length == 1) {
       logging.warning("Cannot access generate queue because there is no songs!");
       return;
     }
