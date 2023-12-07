@@ -189,6 +189,40 @@
 	"removeThem": "Les supprimer",
 	"currentlyPlaying": "En cours de lecture",
 	"addToPlaylist": "AJOUTER À LA LISTE DE LECTURE",
-	"noImagePath": "Aucun chemin d''image trouvé."
+	"noImagePath": "Aucun chemin d''image trouvé.",
 
+
+	"songs": "Chansons",
+	"queueEmpty": "La file d''attente est vide !",
+
+	"watchDirectories": "Répertoires de surveillance",
+	"watchDirectoriesEmpty": "Les répertoires de surveillance seront vérifiés au démarrage de l''application et la musique sera importée automatiquement.",
+
+	"youtubeDownload": "Téléchargement YouTube",
+	"enterURLHere": "Entrez l''URL ici",
+	"couldNotLoadImage404": "Impossible de charger l''image 404",
+	"author": "Auteur",
+	"duration": "Durée",
+	"dl": "DL",
+	"codec": "Codec",
+	"size": "Taille",
+	"bitrateShort": "Débit binaire",
+	"downloadError": "Erreur lors du téléchargement du flux :",
+	"encodingError": "Une erreur s'est produite lors de l'encodage du flux !",
+	"noThumbnail": "Impossible de trouver une vignette pour le flux",
+
+
+
+	"playlist": "Liste de lecture",
+	"playlists": "Listes de lecture",
+	"playlistEmpty": "La liste de lecture est vide",
+	"sortByID": "Trier par ID",
+	"sortByTitle": "Trier par titre",
+	"sortByDuration": "Trier par durée",
+	"sortByNumberOfTracks": "Trier par nombre de pistes",
+	"sortByRandom": "Trier par hasard",
+	"sortByArtist": "Trier par artiste",
+	"sortByAlbum": "Trier par album",
+	"noPlaylists": "Aucune liste de lecture",
+	"clickToCreate": "Cliquez pour créer"
 }

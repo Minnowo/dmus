@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/FFmpegHandler.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as Path;
@@ -39,12 +40,12 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Youtube Download"),
+        title: Text(LocalizationMapper.current.youtubeDownload),
         centerTitle: true,
       ),
       body: ListView(
         children: [
-          const Text("Enter URL Here"),
+          Text(LocalizationMapper.current.enterURLHere),
           TextField(
             controller: _controller,
             onSubmitted: getYtVideo,
@@ -54,7 +55,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
             Image.network(video!.thumbnails.mediumResUrl,
                 errorBuilder: (ctx, obj, stck) => Image.network(
                     video!.thumbnails.lowResUrl,
-                    errorBuilder: (ctx, obj, stck) => const Text("Could not load image 404")
+                    errorBuilder: (ctx, obj, stck) => Text(LocalizationMapper.current.couldNotLoadImage404)
                 )
             ),
 
@@ -74,11 +75,11 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-            columns: const [
-              DataColumn(label: Text('DL')),
-              DataColumn(label: Text('Codec')),
-              DataColumn(label: Text('Size')),
-              DataColumn(label: Text('Bitrate')),
+            columns: [
+              DataColumn(label: Text(LocalizationMapper.current.dl)),
+              DataColumn(label: Text(LocalizationMapper.current.codec)),
+              DataColumn(label: Text(LocalizationMapper.current.size)),
+              DataColumn(label: Text(LocalizationMapper.current.bitrateShort)),
             ],
             rows: [
               for(final i in man.audioOnly)
@@ -101,25 +102,25 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
-              columns: const [
-                DataColumn(label: Text('Property')),
-                DataColumn(label: Text('Value')),
+              columns: [
+                DataColumn(label: Text(LocalizationMapper.current.property)),
+                DataColumn(label: Text(LocalizationMapper.current.value)),
               ],
               rows: [
                   DataRow(cells: [
-                    const DataCell(Text("ID")),
+                    DataCell(Text(LocalizationMapper.current.iD)),
                     DataCell(Text(v.id.toString())),
                   ]),
                 DataRow(cells: [
-                  const DataCell(Text("Title")),
+                  DataCell(Text(LocalizationMapper.current.title)),
                   DataCell(Text(v.title)),
                 ]),
                 DataRow(cells: [
-                  const DataCell(Text("Author")),
+                  DataCell(Text(LocalizationMapper.current.author)),
                   DataCell(Text(v.author)),
                 ]),
                 DataRow(cells: [
-                  const DataCell(Text("Duration")),
+                  DataCell(Text(LocalizationMapper.current.duration)),
                   DataCell(Text(formatDuration(v.duration ?? Duration.zero))),
                 ]),
               ]))
@@ -182,7 +183,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     }
     catch(e) {
       logging.warning(e);
-      MessagePublisher.publishSomethingWentWrong("Error while downloading stream: $e");
+      MessagePublisher.publishSomethingWentWrong("${LocalizationMapper.current.downloadError} $e");
       return;
     }
 
@@ -202,7 +203,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     if(ffmpegGood) {
       await ImportController.importSong(finalPath);
     } else {
-      MessagePublisher.publishSnackbar(const SnackBarData(text: "There was an error encoding the stream!"));
+      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.encodingError));
     }
 
     try{
@@ -241,7 +242,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
       }
     }
 
-    MessagePublisher.publishSnackbar(const SnackBarData(text: "Could not find thumbnail for stream"));
+    MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.noThumbnail));
 
     return false;
   }

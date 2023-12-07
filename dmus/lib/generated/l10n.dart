@@ -1849,6 +1849,286 @@ class S {
       args: [],
     );
   }
+
+  /// `Songs`
+  String get songs {
+    return Intl.message(
+      'Songs',
+      name: 'songs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The queue is empty!`
+  String get queueEmpty {
+    return Intl.message(
+      'The queue is empty!',
+      name: 'queueEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch Directories`
+  String get watchDirectories {
+    return Intl.message(
+      'Watch Directories',
+      name: 'watchDirectories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Watch directories will be checked when the app starts and automatically import music.`
+  String get watchDirectoriesEmpty {
+    return Intl.message(
+      'Watch directories will be checked when the app starts and automatically import music.',
+      name: 'watchDirectoriesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Youtube Download`
+  String get youtubeDownload {
+    return Intl.message(
+      'Youtube Download',
+      name: 'youtubeDownload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter URL Here`
+  String get enterURLHere {
+    return Intl.message(
+      'Enter URL Here',
+      name: 'enterURLHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not load image 404`
+  String get couldNotLoadImage404 {
+    return Intl.message(
+      'Could not load image 404',
+      name: 'couldNotLoadImage404',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author`
+  String get author {
+    return Intl.message(
+      'Author',
+      name: 'author',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duration`
+  String get duration {
+    return Intl.message(
+      'Duration',
+      name: 'duration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DL`
+  String get dl {
+    return Intl.message(
+      'DL',
+      name: 'dl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Codec`
+  String get codec {
+    return Intl.message(
+      'Codec',
+      name: 'codec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Size`
+  String get size {
+    return Intl.message(
+      'Size',
+      name: 'size',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bitrate`
+  String get bitrateShort {
+    return Intl.message(
+      'Bitrate',
+      name: 'bitrateShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error while downloading stream:`
+  String get downloadError {
+    return Intl.message(
+      'Error while downloading stream:',
+      name: 'downloadError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There was an error encoding the stream!`
+  String get encodingError {
+    return Intl.message(
+      'There was an error encoding the stream!',
+      name: 'encodingError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could not find thumbnail for stream`
+  String get noThumbnail {
+    return Intl.message(
+      'Could not find thumbnail for stream',
+      name: 'noThumbnail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlist`
+  String get playlist {
+    return Intl.message(
+      'Playlist',
+      name: 'playlist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlists`
+  String get playlists {
+    return Intl.message(
+      'Playlists',
+      name: 'playlists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Playlist is empty`
+  String get playlistEmpty {
+    return Intl.message(
+      'Playlist is empty',
+      name: 'playlistEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by ID`
+  String get sortByID {
+    return Intl.message(
+      'Sort by ID',
+      name: 'sortByID',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Title`
+  String get sortByTitle {
+    return Intl.message(
+      'Sort by Title',
+      name: 'sortByTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Duration`
+  String get sortByDuration {
+    return Intl.message(
+      'Sort by Duration',
+      name: 'sortByDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Number of Tracks`
+  String get sortByNumberOfTracks {
+    return Intl.message(
+      'Sort by Number of Tracks',
+      name: 'sortByNumberOfTracks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Random`
+  String get sortByRandom {
+    return Intl.message(
+      'Sort by Random',
+      name: 'sortByRandom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Artist`
+  String get sortByArtist {
+    return Intl.message(
+      'Sort by Artist',
+      name: 'sortByArtist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort by Album`
+  String get sortByAlbum {
+    return Intl.message(
+      'Sort by Album',
+      name: 'sortByAlbum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No playlists`
+  String get noPlaylists {
+    return Intl.message(
+      'No playlists',
+      name: 'noPlaylists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Click to create`
+  String get clickToCreate {
+    return Intl.message(
+      'Click to create',
+      name: 'clickToCreate',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

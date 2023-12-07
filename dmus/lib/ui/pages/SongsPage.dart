@@ -19,7 +19,7 @@ import 'NavigationPage.dart';
 
 class SongsPage extends  StatelessNavigationPage {
 
-  const SongsPage({super.key}) : super(icon: Icons.music_note, title: "Songs");
+  SongsPage({super.key}) : super(icon: Icons.music_note, title: LocalizationMapper.current.songs);
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +35,29 @@ class SongsPage extends  StatelessNavigationPage {
             itemBuilder: (BuildContext context) {
               // Define the items in the menu
               return <PopupMenuEntry<SongSort>>[
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byRandom,
-                  child: Text('Sort by Random'),
+                  child: Text(LocalizationMapper.current.sortByRandom),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byId,
-                  child: Text('Sort by ID'),
+                  child: Text(LocalizationMapper.current.sortByID),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byTitle,
-                  child: Text('Sort by Title'),
+                  child: Text(LocalizationMapper.current.sortByTitle),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byArtist,
-                  child: Text('Sort by Artist'),
+                  child: Text(LocalizationMapper.current.sortByArtist),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byAlbum,
-                  child: Text('Sort by Album'),
+                  child: Text(LocalizationMapper.current.sortByAlbum),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: SongSort.byDuration,
-                  child: Text('Sort by Duration'),
+                  child: Text(LocalizationMapper.current.sortByDuration),
                 ),
               ];
             },

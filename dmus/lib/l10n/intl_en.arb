@@ -187,7 +187,40 @@
 	"removeThem": "Remove them",
 	"currentlyPlaying": "Currently Playing",
 	"addToPlaylist": "ADD TO PLAYLIST",
-	"noImagePath": "No image path found."
+	"noImagePath": "No image path found.",
 
 
+	"songs": "Songs",
+	"queueEmpty": "The queue is empty!",
+
+	"watchDirectories": "Watch Directories",
+	"watchDirectoriesEmpty": "Watch directories will be checked when the app starts and automatically import music.",
+
+
+	"youtubeDownload": "Youtube Download",
+	"enterURLHere": "Enter URL Here",
+	"couldNotLoadImage404": "Could not load image 404",
+	"author": "Author",
+	"duration": "Duration",
+	"dl": "DL",
+	"codec": "Codec",
+	"size": "Size",
+	"bitrateShort": "Bitrate",
+	"downloadError": "Error while downloading stream:",
+	"encodingError": "There was an error encoding the stream!",
+	"noThumbnail": "Could not find thumbnail for stream",
+
+
+	"playlist": "Playlist",
+	"playlists": "Playlists",
+	"playlistEmpty": "Playlist is empty",
+	"sortByID": "Sort by ID",
+	"sortByTitle": "Sort by Title",
+	"sortByDuration": "Sort by Duration",
+	"sortByNumberOfTracks": "Sort by Number of Tracks",
+	"sortByRandom": "Sort by Random",
+	"sortByArtist": "Sort by Artist",
+	"sortByAlbum": "Sort by Album",
+	"noPlaylists": "No playlists",
+	"clickToCreate": "Click to create"
 }

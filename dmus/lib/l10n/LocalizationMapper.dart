@@ -443,7 +443,76 @@ String get writerName {
   );
 }
 
-  
+  //PlayListsPage.dart
+  String get playlists {
+    return Intl.message(
+      'placeholder',
+      name: 'playlists',
+    );
+  }
+
+  //SelectedPlaylistPage.dart
+  String get playlist {
+    return Intl.message(
+      'placeholder',
+      name: 'playlist',
+    );
+  }
+  String get playlistEmpty {
+    return Intl.message(
+      'placeholder',
+      name: 'playlistEmpty',
+    );
+  }
+
+  String get sortByID {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByID',
+    );
+  }
+
+  String get sortByTitle {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByTitle',
+    );
+  }
+
+  String get sortByDuration {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByDuration',
+    );
+  }
+
+  String get sortByNumberOfTracks {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByNumberOfTracks',
+    );
+  }
+  String get sortByRandom {
+    return Intl.message(
+      'placeholder',
+      name: 'sortByRandom',
+    );
+  }
+
+
+  String get noPlaylists {
+    return Intl.message(
+      'placeholder',
+      name: 'noPlaylists',
+    );
+  }
+
+  String get clickToCreate {
+    return Intl.message(
+      'placeholder',
+      name: 'clickToCreate',
+    );
+  }
 
   String get use {
     return Intl.message(
@@ -1296,49 +1365,6 @@ String get writerName {
     );
   }
 
-  String get playlists {
-    return Intl.message(
-      'placeholder',
-      name: 'playlists',  
-    );
-  }
-  String get sortByID {
-    return Intl.message(
-      'placeholder',
-      name: 'sortByID',  
-    );
-  }
-  String get sortByTitle {
-    return Intl.message(
-      'placeholder',
-      name: 'sortByTitle',
-    );
-  }
-  String get sortByDuration {
-    return Intl.message(
-      'placeholder',
-      name: 'sortByDuration',  
-    );
-  }
-  String get sortByNumberTracks {
-    return Intl.message(
-      'placeholder',
-      name: 'sortByNumberTracks',  
-    );
-  }
-  String get noPlaylists {
-    return Intl.message(
-      'placeholder',
-      name: 'noPlaylists',  
-    );
-  }
-  String get clickToCreate {
-    return Intl.message(
-      'placeholder',
-      name: 'clickToCreate',  
-    );
-  }
-
   String get queueEmpty {
     return Intl.message(
       'placeholder',
@@ -1371,13 +1397,6 @@ String get writerName {
     );
   }
 
-  String get playlistEmpty {
-    return Intl.message(
-      'placeholder',
-      name: 'playlistEmpty',
-    );
-  }
-
   String get songs {
     return Intl.message(
       'placeholder',
@@ -1403,19 +1422,13 @@ String get writerName {
       name: 'watchDirectories',
     );
   }
-  String get watchDirectoriesChecked {
+  String get watchDirectoriesEmpty {
     return Intl.message(
       'placeholder',
-      name: 'watchDirectoriesChecked',
+      name: 'watchDirectoriesEmpty',
     );
   }
 
-  String get couldNotLoadImage {
-    return Intl.message(
-      'placeholder',
-      name: 'couldNotLoadImage',  
-    );
-  }
 
   String get nullSong {
     return Intl.message(
@@ -1510,5 +1523,90 @@ String get writerName {
       name: 'songAddedToQueue',  
     );
   }
+
+  String get youtubeDownload {
+    return Intl.message(
+      'placeholder',
+      name: 'youtubeDownload',
+    );
+  }
+
+  String get enterURLHere {
+    return Intl.message(
+      'placeholder',
+      name: 'enterURLHere',
+    );
+  }
+
+  String get couldNotLoadImage404 {
+    return Intl.message(
+      'placeholder',
+      name: 'couldNotLoadImage404',
+    );
+  }
+
+
+  String get author {
+    return Intl.message(
+      'placeholder',
+      name: 'author',
+    );
+  }
+
+  String get duration {
+    return Intl.message(
+      'placeholder',
+      name: 'duration',
+    );
+  }
+
+  String get dl {
+    return Intl.message(
+      'placeholder',
+      name: 'dl',
+    );
+  }
+
+  String get codec {
+    return Intl.message(
+      'placeholder',
+      name: 'codec',
+    );
+  }
+
+  String get size {
+    return Intl.message(
+      'placeholder',
+      name: 'size',
+    );
+  }
+  String get bitrateShort{
+    return Intl.message(
+      'placeholder',
+      name: 'bitrateShort',
+    );
+  }
+
+  String get downloadError {
+    return Intl.message(
+      'placeholder',
+      name: 'downloadError',
+    );
+  }
+
+  String get encodingError {
+    return Intl.message(
+      'placeholder',
+      name: 'encodingError',
+    );
+  }
+
+  String get noThumbnail {
+    return Intl.message(
+      'placeholder',
+      name: 'noThumbnail',
+    );
+  }
+
 
 }

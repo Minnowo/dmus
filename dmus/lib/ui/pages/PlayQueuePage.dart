@@ -5,6 +5,7 @@ import 'dart:collection';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
@@ -20,7 +21,7 @@ import '../lookfeel/CommonTheme.dart';
 
 class PlayQueuePage extends StatelessWidget {
 
-  static const String QUEUE_EMPTY_TEXT = "The queue is empty!";
+  static String QUEUE_EMPTY_TEXT = LocalizationMapper.current.queueEmpty;
 
   const PlayQueuePage({super.key});
 
@@ -43,7 +44,7 @@ class PlayQueuePage extends StatelessWidget {
                 )
             )
         ),
-        title: Consumer2<QueueChanged, QueueShuffle>(builder: (context, queueChanged, _, child) => Text("${JustAudioController.instance.queueSize} Songs")),
+        title: Consumer2<QueueChanged, QueueShuffle>(builder: (context, queueChanged, _, child) => Text("${JustAudioController.instance.queueSize} ${LocalizationMapper.current.songs}")),
         actions: [
           IconButton(
               onPressed: JustAudioController.instance.shuffleQueue,
@@ -90,7 +91,7 @@ class PlayQueuePage extends StatelessWidget {
           UnmodifiableListView<Song> queue = JustAudioController.instance.queueView;
 
           if (queue.isEmpty) {
-            return const Center(
+            return Center(
               child: Text(
                 PlayQueuePage.QUEUE_EMPTY_TEXT,
                 textAlign: TextAlign.center,

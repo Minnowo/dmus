@@ -178,8 +178,8 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   late final List<StreamSubscription> _subscriptions;
 
   final List<NavigationPage> _pages = [
-    const SongsPage(),
-    const PlaylistsPage(),
+    SongsPage(),
+    PlaylistsPage(),
     AlbumsPage(),
     const SearchPage(),
   ];

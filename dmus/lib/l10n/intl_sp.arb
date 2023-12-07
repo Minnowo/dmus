@@ -190,5 +190,40 @@
 	"removeThem": "Eliminarlos",
 	"currentlyPlaying": "Reproduciendo actualmente",
 	"addToPlaylist": "AGREGAR A LA LISTA DE REPRODUCCIÓN",
-	"noImagePath": "No se encontró la ruta de la imagen."
+	"noImagePath": "No se encontró la ruta de la imagen.",
+
+
+	"songs": "Canciones",
+	"queueEmpty": "La file d''attente est vide !",
+
+	"watchDirectories": "Directorios de vigilancia",
+	"watchDirectoriesEmpty": "Los directorios de vigilancia se verificarán al iniciar la aplicación y se importará música automáticamente.",
+
+	"youtubeDownload": "Descarga de YouTube",
+	"enterURLHere": "Ingrese la URL aquí",
+	"couldNotLoadImage404": "No se pudo cargar la imagen 404",
+	"author": "Autor",
+	"duration": "Duración",
+	"dl": "DL",
+	"codec": "Códec",
+	"size": "Tamaño",
+	"bitrateShort": "Tasa de bits",
+	"downloadError": "Error al descargar el flujo:",
+	"encodingError": "¡Hubo un error al codificar el flujo!",
+	"noThumbnail": "No se pudo encontrar una miniatura para el flujo",
+
+
+	"playlist": "Lista de reproducción",
+	"playlists": "Listas de reproducción",
+	"playlistEmpty": "La lista de reproducción está vacía",
+	"sortByID": "Ordenar por ID",
+	"sortByTitle": "Ordenar por título",
+	"sortByDuration": "Ordenar por duración",
+	"sortByNumberOfTracks": "Ordenar por número de pistas",
+	"sortByRandom": "Ordenar al azar",
+	"sortByArtist": "Ordenar por artista",
+	"sortByAlbum": "Ordenar por álbum",
+	"noPlaylists": "No hay listas de reproducción",
+	"clickToCreate": "Haga clic para crear"
+
 }

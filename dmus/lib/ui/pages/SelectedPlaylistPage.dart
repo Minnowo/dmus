@@ -1,5 +1,6 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -15,7 +16,7 @@ import '../lookfeel/CommonTheme.dart';
 import '../widgets/CurrentlyPlayingBar.dart';
 
 class SelectedPlaylistPage extends StatelessWidget {
-  static const String title = "Playlist";
+  static String title = LocalizationMapper.current.playlist;
 
   final Playlist playlistContext;
 
@@ -185,9 +186,9 @@ class SelectedPlaylistPage extends StatelessWidget {
               child: ArtDisplay(dataEntity: playlistContext.songs.firstOrNull),
             ),
           const SizedBox(height: 16),
-          const Text(
-            'Playlist is empty',
-            style: TextStyle(fontSize: 20),
+          Text(
+            LocalizationMapper.current.playlistEmpty,
+            style: const TextStyle(fontSize: 20),
           ),
           const SizedBox(height: 16),
           IconButton(

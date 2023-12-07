@@ -39,10 +39,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("All songs downloaded"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
+        "author": MessageLookupByLibrary.simpleMessage("Author"),
         "authorName": MessageLookupByLibrary.simpleMessage("Author Name"),
         "backupDatabase":
             MessageLookupByLibrary.simpleMessage("Backup Database"),
         "bitrate": MessageLookupByLibrary.simpleMessage("Bitrate (bits/sec)"),
+        "bitrateShort": MessageLookupByLibrary.simpleMessage("Bitrate"),
         "blacklistPageHelperText": MessageLookupByLibrary.simpleMessage(
             "Files which are blocked from being imported will show up here.\nYou can add or delete them using the buttons in the top."),
         "blacklistPageTitle":
@@ -69,7 +71,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Checking"),
         "checkingDirectories2":
             MessageLookupByLibrary.simpleMessage("watch directories..."),
+        "clickToCreate":
+            MessageLookupByLibrary.simpleMessage("Click to create"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
+        "codec": MessageLookupByLibrary.simpleMessage("Codec"),
         "confirmBlockSong": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings."),
         "confirmPlaylistDelete": MessageLookupByLibrary.simpleMessage(
@@ -80,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to remove this song from the app?"),
         "confirmSelection":
             MessageLookupByLibrary.simpleMessage("Confirm Selection"),
+        "couldNotLoadImage404":
+            MessageLookupByLibrary.simpleMessage("Could not load image 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
             "Could not write to songs json metadata"),
         "createPlaylist":
@@ -95,8 +102,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Playlist"),
         "developer": MessageLookupByLibrary.simpleMessage("Developer"),
         "diskNumber": MessageLookupByLibrary.simpleMessage("Disk Number"),
+        "dl": MessageLookupByLibrary.simpleMessage("DL"),
+        "downloadError": MessageLookupByLibrary.simpleMessage(
+            "Error while downloading stream:"),
         "downloadingSongs":
             MessageLookupByLibrary.simpleMessage("Downloading songs..."),
+        "duration": MessageLookupByLibrary.simpleMessage("Duration"),
         "editMetadata": MessageLookupByLibrary.simpleMessage("Edit Metadata"),
         "editPlaylist": MessageLookupByLibrary.simpleMessage("Edit Playlist"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
@@ -108,6 +119,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Cannot create playlist with an empty name!"),
         "emptyTitleError":
             MessageLookupByLibrary.simpleMessage("title cannot be empty!"),
+        "encodingError": MessageLookupByLibrary.simpleMessage(
+            "There was an error encoding the stream!"),
+        "enterURLHere": MessageLookupByLibrary.simpleMessage("Enter URL Here"),
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Please enter a valid email address."),
         "error": MessageLookupByLibrary.simpleMessage("Something went wrong!"),
@@ -163,6 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No image path found."),
         "noPermissionInDirectory": MessageLookupByLibrary.simpleMessage(
             "No permission to list files in this directory!"),
+        "noPlaylists": MessageLookupByLibrary.simpleMessage("No playlists"),
         "noSearchResults": MessageLookupByLibrary.simpleMessage(
             "There are no results for this search! :("),
         "noSongs": MessageLookupByLibrary.simpleMessage(
@@ -173,6 +188,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cannot find any storage!"),
         "noTemporaryDirectory": MessageLookupByLibrary.simpleMessage(
             "Could not get a temporary directory!"),
+        "noThumbnail": MessageLookupByLibrary.simpleMessage(
+            "Could not find thumbnail for stream"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
         "packagingID": MessageLookupByLibrary.simpleMessage("Packaging ID"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -190,14 +207,20 @@ class MessageLookup extends MessageLookupByLibrary {
             "Currently Playing Bar Swipe Mode"),
         "playNow": MessageLookupByLibrary.simpleMessage("Play Now"),
         "playbackSpeed": MessageLookupByLibrary.simpleMessage("Playback Speed"),
+        "playlist": MessageLookupByLibrary.simpleMessage("Playlist"),
+        "playlistEmpty":
+            MessageLookupByLibrary.simpleMessage("Playlist is empty"),
         "playlistRemoved1": MessageLookupByLibrary.simpleMessage("Playlist"),
         "playlistRemoved2": MessageLookupByLibrary.simpleMessage(
             "has been removed from the app"),
         "playlistTitle": MessageLookupByLibrary.simpleMessage("Playlist Title"),
+        "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "playlistsUploaded":
             MessageLookupByLibrary.simpleMessage("All playlists uploaded!"),
         "property": MessageLookupByLibrary.simpleMessage("Property"),
         "queueAll": MessageLookupByLibrary.simpleMessage("Queue All"),
+        "queueEmpty":
+            MessageLookupByLibrary.simpleMessage("The queue is empty!"),
         "queueMode": MessageLookupByLibrary.simpleMessage("Queue Fill Mode"),
         "random": MessageLookupByLibrary.simpleMessage("Random"),
         "recordings": MessageLookupByLibrary.simpleMessage("Recordings"),
@@ -248,6 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In"),
         "signInError": MessageLookupByLibrary.simpleMessage("Sign-In Error:"),
         "signedIn": MessageLookupByLibrary.simpleMessage("Signed in:"),
+        "size": MessageLookupByLibrary.simpleMessage("Size"),
         "snackBarTest":
             MessageLookupByLibrary.simpleMessage("This is a snackbar"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),
@@ -257,10 +281,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "songRemoved1": MessageLookupByLibrary.simpleMessage("Song"),
         "songRemoved2": MessageLookupByLibrary.simpleMessage(
             "has been removed from the app"),
+        "songs": MessageLookupByLibrary.simpleMessage("Songs"),
         "songsPageLITrail": MessageLookupByLibrary.simpleMessage(
             "Songs Page List Item Trails With"),
         "songsUploaded":
             MessageLookupByLibrary.simpleMessage("All songs uploaded!"),
+        "sortByAlbum": MessageLookupByLibrary.simpleMessage("Sort by Album"),
+        "sortByArtist": MessageLookupByLibrary.simpleMessage("Sort by Artist"),
+        "sortByDuration":
+            MessageLookupByLibrary.simpleMessage("Sort by Duration"),
+        "sortByID": MessageLookupByLibrary.simpleMessage("Sort by ID"),
+        "sortByNumberOfTracks":
+            MessageLookupByLibrary.simpleMessage("Sort by Number of Tracks"),
+        "sortByRandom": MessageLookupByLibrary.simpleMessage("Sort by Random"),
+        "sortByTitle": MessageLookupByLibrary.simpleMessage("Sort by Title"),
         "statusID": MessageLookupByLibrary.simpleMessage("Status ID"),
         "swipeNext":
             MessageLookupByLibrary.simpleMessage("Swipe for Next / Previous"),
@@ -291,8 +325,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "userNotFound": MessageLookupByLibrary.simpleMessage("user-not-found"),
         "value": MessageLookupByLibrary.simpleMessage("Value"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),
+        "watchDirectories":
+            MessageLookupByLibrary.simpleMessage("Watch Directories"),
+        "watchDirectoriesEmpty": MessageLookupByLibrary.simpleMessage(
+            "Watch directories will be checked when the app starts and automatically import music."),
         "writerName": MessageLookupByLibrary.simpleMessage("Writer Name"),
         "wrongPassword": MessageLookupByLibrary.simpleMessage("wrong-password"),
-        "year": MessageLookupByLibrary.simpleMessage("Year")
+        "year": MessageLookupByLibrary.simpleMessage("Year"),
+        "youtubeDownload":
+            MessageLookupByLibrary.simpleMessage("Youtube Download")
       };
 }

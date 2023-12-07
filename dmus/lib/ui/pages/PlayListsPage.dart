@@ -1,5 +1,8 @@
 
+import 'dart:js_interop';
+
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +14,7 @@ import 'NavigationPage.dart';
 
 class PlaylistsPage extends StatelessNavigationPage{
 
-  const PlaylistsPage({super.key}) : super(icon: Icons.list, title: "Playlists");
+  PlaylistsPage({super.key}) : super(icon: Icons.list, title: LocalizationMapper.current.playlists);
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +29,21 @@ class PlaylistsPage extends StatelessNavigationPage{
             itemBuilder: (BuildContext context) {
               // Define the items in the menu
               return <PopupMenuEntry<PlaylistSort>>[
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: PlaylistSort.byId,
-                  child: Text('Sort by ID'),
+                  child: Text(LocalizationMapper.current.sortByID),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: PlaylistSort.byTitle,
-                  child: Text('Sort by Title'),
+                  child: Text(LocalizationMapper.current.sortByTitle),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: PlaylistSort.byDuration,
-                  child: Text('Sort by Duration'),
+                  child: Text(LocalizationMapper.current.sortByDuration),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: PlaylistSort.byNumberOfTracks,
-                  child: Text('Sort by Number of Tracks'),
+                  child: Text(LocalizationMapper.current.sortByNumberOfTracks),
                 ),
               ];
             },
@@ -74,14 +77,14 @@ class PlaylistsPage extends StatelessNavigationPage{
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        "No playlists",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      Text(
+                        LocalizationMapper.current.noPlaylists,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        "Click to create",
-                        style: TextStyle(fontSize: 16),
+                      Text(
+                        LocalizationMapper.current.clickToCreate,
+                        style: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 20),
                       InkWell(

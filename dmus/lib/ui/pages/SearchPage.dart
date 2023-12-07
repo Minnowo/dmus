@@ -2,6 +2,7 @@
 
 
 import 'package:dmus/core/localstorage/SearchHandler.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/widgets/BlueDivider.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -53,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
               controller: _searchController,
               onChanged: _performSearch,
               decoration: InputDecoration(
-                hintText: 'Search...',
+                hintText: '${LocalizationMapper.current.search}...',
                 suffixIcon: IconButton(
                   onPressed: _clearSearchbar,
                   icon: const Icon(Icons.clear),
@@ -77,11 +78,11 @@ class _SearchPageState extends State<SearchPage> {
     return [
       Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: const ListTile(
+        child: ListTile(
           title: Row(
             children: [
               Text(
-                "Songs",
+                LocalizationMapper.current.songs,
                 style: TEXT_BIG,
               ),
             ],
@@ -115,11 +116,11 @@ class _SearchPageState extends State<SearchPage> {
     return [
       Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: const ListTile(
+        child: ListTile(
           title: Row(
             children: [
               Text(
-                "Playlists",
+                LocalizationMapper.current.playlists,
                 style: TEXT_BIG,
               ),
             ],
@@ -144,11 +145,11 @@ class _SearchPageState extends State<SearchPage> {
     return [
       Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: const ListTile(
+        child: ListTile(
           title: Row(
             children: [
               Text(
-                "Albums",
+                LocalizationMapper.current.albums,
                 style: TEXT_BIG,
               ),
             ],

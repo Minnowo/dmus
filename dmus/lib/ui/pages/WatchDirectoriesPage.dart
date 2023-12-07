@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableWatchDirectory.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +90,7 @@ class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Watch Directories"),
+        title: Text(LocalizationMapper.current.watchDirectories),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -107,8 +108,8 @@ class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
           children: <Widget>[
 
             if(_directoryPaths.isEmpty)
-              const Center(
-                child: Text("Watch directories will be checked when the app starts and automatically import music.",
+              Center(
+                child: Text(LocalizationMapper.current.watchDirectoriesEmpty,
                     textAlign: TextAlign.center
                 ),
               )
