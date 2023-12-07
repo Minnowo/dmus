@@ -49,6 +49,16 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     )
                 )
             ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () => ShowShareDialog(context, songContext),
+            ),
+            IconButton(
+              icon: const Icon(Icons.queue_music),
+              onPressed: () => _openQueue(context),
+            ),
+          ],
         ),
         body: SafeArea(
           child: GestureDetector(
@@ -120,10 +130,10 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                       onPressed: () => selectPlaylistAndAddSong(context, songContext),
                     ),
 
-                    IconButton(
-                        icon: const Icon(Icons.share),
-                        onPressed: () => ShowShareDialog(context, songContext)
-                    ),
+                    // IconButton(
+                    //     icon: const Icon(Icons.share),
+                    //     onPressed: () => ShowShareDialog(context, songContext)
+                    // ),
                   ],
                 ),
 
