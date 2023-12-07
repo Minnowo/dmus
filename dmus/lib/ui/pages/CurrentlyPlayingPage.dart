@@ -1,5 +1,6 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Constants.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
@@ -18,7 +19,7 @@ import '../lookfeel/CommonTheme.dart';
 
 class CurrentlyPlayingPage extends  StatelessWidget {
 
-  static const String title = "Currently Playing";
+  static String title = LocalizationMapper.current.currentlyPlaying;
 
   const CurrentlyPlayingPage({super.key});
 
@@ -35,7 +36,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            title: const Text(title),
+            title: Text(title),
             centerTitle: true,
             leadingWidth: THUMB_SIZE,
             leading: Padding(
@@ -49,6 +50,16 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     )
                 )
             ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.share),
+              onPressed: () => ShowShareDialog(context, songContext),
+            ),
+            IconButton(
+              icon: const Icon(Icons.queue_music),
+              onPressed: () => _openQueue(context),
+            ),
+          ],
         ),
         body: SafeArea(
           child: GestureDetector(
@@ -120,10 +131,10 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                       onPressed: () => selectPlaylistAndAddSong(context, songContext),
                     ),
 
-                    IconButton(
-                        icon: const Icon(Icons.share),
-                        onPressed: () => ShowShareDialog(context, songContext)
-                    ),
+                    // IconButton(
+                    //     icon: const Icon(Icons.share),
+                    //     onPressed: () => ShowShareDialog(context, songContext)
+                    // ),
                   ],
                 ),
 

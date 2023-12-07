@@ -44,7 +44,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
         _snackBarColor = Colors.red;
         _isLoading = false;
       });
-      _showSnackBar('Please enter a valid email address.', _snackBarColor);
+      _showSnackBar(LocalizationMapper.current.enterValidEmail, _snackBarColor);
       return;
     } else {
       setState(() {
@@ -58,7 +58,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
         _snackBarColor = Colors.red;
         _isLoading = false;
       });
-      _showSnackBar('Password must be at least 6 characters long.', _snackBarColor);
+      _showSnackBar(LocalizationMapper.current.passwordLength, _snackBarColor);
       return;
     } else {
       setState(() {
@@ -74,11 +74,11 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
 
       if (userCredential.user != null) {
         _snackBarColor = Colors.green;
-        _showSnackBar('Registration successful', _snackBarColor);
+        _showSnackBar(LocalizationMapper.current.registrationSuccessful, _snackBarColor);
         popNavigatorSafe(context);
       }
     } on FirebaseAuthException catch (e) {
-      _showSnackBar('Registration failed. Error: ${e.message}', _snackBarColor);
+      _showSnackBar('${LocalizationMapper.current.registrationFailed} ${e.message}', _snackBarColor);
     } finally {
       setState(() {
         _isLoading = false;
@@ -90,7 +90,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registration'),
+        title: Text(LocalizationMapper.current.registration),
       ),
       body: Center(
         child: Padding(
@@ -101,7 +101,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: LocalizationMapper.current.email,
                   errorText: _isEmailValid ? null : LocalizationMapper.current.enterValidEmail,
                 ),
               ),
@@ -109,7 +109,7 @@ class _RegistrationWidgetState extends State<RegistrationWidget> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: LocalizationMapper.current.password,
                   errorText: _isPasswordValid ? null : LocalizationMapper.current.minPasswordLen,
                   suffixIcon: IconButton(
                     icon: Icon(

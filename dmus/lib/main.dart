@@ -180,7 +180,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
   final List<NavigationPage> _pages = [
     const SongsPage(),
     const PlaylistsPage(),
-    const AlbumsPage(),
+    AlbumsPage(),
     const SearchPage(),
   ];
 

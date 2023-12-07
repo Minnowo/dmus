@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -42,7 +43,7 @@ class MetadataPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Metadata Information'),
+          title: Text(LocalizationMapper.current.metadataInformation),
           // actions: [
           //   IconButton(
           //     icon: const Icon(Icons.more),
@@ -68,7 +69,7 @@ class MetadataPage extends StatelessWidget {
                   }
 
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Text('${LocalizationMapper.current.errorShort} ${snapshot.error}');
                   }
 
                   if(!snapshot.hasData) {
@@ -79,73 +80,73 @@ class MetadataPage extends StatelessWidget {
                     return Image.file(snapshot.data!, fit: BoxFit.cover, );
                   }
 
-                  return const Text('No image path found.');
+                  return Text(LocalizationMapper.current.noImagePath);
                 },
               ),
 
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('Property')),
-                  DataColumn(label: Text('Value')),
+                columns: [
+                  DataColumn(label: Text(LocalizationMapper.current.property)),
+                  DataColumn(label: Text(LocalizationMapper.current.value)),
                 ],
                 rows: [
                   DataRow(cells: [
-                    const DataCell(Text('Track Name')),
+                    DataCell(Text(LocalizationMapper.current.trackName)),
                     DataCell(Text(trackName)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Track Artist Names')),
-                    DataCell(Text(trackArtistNames?.join(', ') ?? 'N/A')),
+                    DataCell(Text(LocalizationMapper.current.trackArtistNames)),
+                    DataCell(Text(trackArtistNames?.join(', ') ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Album Name')),
-                    DataCell(Text(albumName ?? 'N/A')),
+                    DataCell(Text(LocalizationMapper.current.albumName)),
+                    DataCell(Text(albumName ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Album Artist Name')),
-                    DataCell(Text(albumArtistName ?? 'N/A')),
+                    DataCell(Text(LocalizationMapper.current.albumArtistName)),
+                    DataCell(Text(albumArtistName ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Track Duration')),
-                    DataCell(Text(trackDuration == null ? "N/A" : formatDuration(Duration(milliseconds: trackDuration)))),
+                    DataCell(Text(LocalizationMapper.current.trackDuration)),
+                    DataCell(Text(trackDuration == null ? LocalizationMapper.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Bitrate (bits/sec)')),
-                    DataCell(Text(bitrate?.toString() ?? "N/A")),
+                    DataCell(Text(LocalizationMapper.current.bitrate)),
+                    DataCell(Text(bitrate?.toString() ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Mime Type')),
-                    DataCell(Text(mimeType ?? "N/A")),
+                    DataCell(Text(LocalizationMapper.current.mimeType)),
+                    DataCell(Text(mimeType ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('File Path')),
+                    DataCell(Text(LocalizationMapper.current.filePath)),
                     DataCell(Text(song.file.path)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Year')),
-                    DataCell(Text(year == null ? "N/A" : year.toString())),
+                    DataCell(Text(LocalizationMapper.current.year)),
+                    DataCell(Text(year == null ? LocalizationMapper.current.nA : year.toString())),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Genre')),
-                    DataCell(Text(genre ?? "N/A")),
+                    DataCell(Text(LocalizationMapper.current.genre)),
+                    DataCell(Text(genre ?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Track Number')),
-                    DataCell(Text(trackNumber == null ? "N/A" : trackNumber.toString())),
+                    DataCell(Text(LocalizationMapper.current.trackNumber)),
+                    DataCell(Text(trackNumber == null ? LocalizationMapper.current.nA : trackNumber.toString())),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Disk Number')),
-                    DataCell(Text(discNumber == null ? "N/A" : discNumber.toString())),
+                    DataCell(Text(LocalizationMapper.current.diskNumber)),
+                    DataCell(Text(discNumber == null ? LocalizationMapper.current.nA : discNumber.toString())),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Author Name')),
-                    DataCell(Text(authorName?? 'N/A')),
+                    DataCell(Text(LocalizationMapper.current.authorName)),
+                    DataCell(Text(authorName?? LocalizationMapper.current.nA)),
                   ]),
                   DataRow(cells: [
-                    const DataCell(Text('Writer Name')),
-                    DataCell(Text(writerName ?? 'N/A')),
+                    DataCell(Text(LocalizationMapper.current.writerName)),
+                    DataCell(Text(writerName ?? LocalizationMapper.current.nA)),
                   ]),
                 ],
               ),

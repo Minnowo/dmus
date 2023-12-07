@@ -90,6 +90,26 @@ class S {
     );
   }
 
+  /// `Error:`
+  String get errorShort {
+    return Intl.message(
+      'Error:',
+      name: 'errorShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Metadata Information`
+  String get metadataInformation {
+    return Intl.message(
+      'Metadata Information',
+      name: 'metadataInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit Metadata`
   String get editMetadata {
     return Intl.message(
@@ -270,6 +290,16 @@ class S {
     );
   }
 
+  /// `Confirm Selection`
+  String get confirmSelection {
+    return Intl.message(
+      'Confirm Selection',
+      name: 'confirmSelection',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add Files`
   String get addFiles {
     return Intl.message(
@@ -350,6 +380,146 @@ class S {
     );
   }
 
+  /// `Track Name`
+  String get trackName {
+    return Intl.message(
+      'Track Name',
+      name: 'trackName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Artist Names`
+  String get trackArtistNames {
+    return Intl.message(
+      'Track Artist Names',
+      name: 'trackArtistNames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album Name`
+  String get albumName {
+    return Intl.message(
+      'Album Name',
+      name: 'albumName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album Artist Name`
+  String get albumArtistName {
+    return Intl.message(
+      'Album Artist Name',
+      name: 'albumArtistName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Duration`
+  String get trackDuration {
+    return Intl.message(
+      'Track Duration',
+      name: 'trackDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bitrate (bits/sec)`
+  String get bitrate {
+    return Intl.message(
+      'Bitrate (bits/sec)',
+      name: 'bitrate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mime Type`
+  String get mimeType {
+    return Intl.message(
+      'Mime Type',
+      name: 'mimeType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File Path`
+  String get filePath {
+    return Intl.message(
+      'File Path',
+      name: 'filePath',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year`
+  String get year {
+    return Intl.message(
+      'Year',
+      name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Genre`
+  String get genre {
+    return Intl.message(
+      'Genre',
+      name: 'genre',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Number`
+  String get trackNumber {
+    return Intl.message(
+      'Track Number',
+      name: 'trackNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disk Number`
+  String get diskNumber {
+    return Intl.message(
+      'Disk Number',
+      name: 'diskNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author Name`
+  String get authorName {
+    return Intl.message(
+      'Author Name',
+      name: 'authorName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Writer Name`
+  String get writerName {
+    return Intl.message(
+      'Writer Name',
+      name: 'writerName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Use`
   String get use {
     return Intl.message(
@@ -370,6 +540,16 @@ class S {
     );
   }
 
+  /// `Filter songs...`
+  String get filterSongs {
+    return Intl.message(
+      'Filter songs...',
+      name: 'filterSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Pick Songs`
   String get pickSongs {
     return Intl.message(
@@ -380,11 +560,101 @@ class S {
     );
   }
 
+  /// `Filter playlists...`
+  String get filterPlaylists {
+    return Intl.message(
+      'Filter playlists...',
+      name: 'filterPlaylists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Playlists`
+  String get pickPlaylists {
+    return Intl.message(
+      'Pick Playlists',
+      name: 'pickPlaylists',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save the Playlist`
+  String get savePlaylist {
+    return Intl.message(
+      'Save the Playlist',
+      name: 'savePlaylist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload Songs`
+  String get uploadSongs {
+    return Intl.message(
+      'Upload Songs',
+      name: 'uploadSongs',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Playback Speed`
   String get playbackSpeed {
     return Intl.message(
       'Playback Speed',
       name: 'playbackSpeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to do a full metadata refresh?`
+  String get metadataRefreshConfirm {
+    return Intl.message(
+      'Are you sure you want to do a full metadata refresh?',
+      name: 'metadataRefreshConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh Metadata`
+  String get refreshMetadata {
+    return Intl.message(
+      'Refresh Metadata',
+      name: 'refreshMetadata',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The path`
+  String get pathAlreadyExists1 {
+    return Intl.message(
+      'The path',
+      name: 'pathAlreadyExists1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `already exists`
+  String get pathAlreadyExists2 {
+    return Intl.message(
+      'already exists',
+      name: 'pathAlreadyExists2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exported Database to`
+  String get exportedDatabase {
+    return Intl.message(
+      'Exported Database to',
+      name: 'exportedDatabase',
       desc: '',
       args: [],
     );
@@ -1050,6 +1320,16 @@ class S {
     );
   }
 
+  /// `Filter Filename`
+  String get filterFilename {
+    return Intl.message(
+      'Filter Filename',
+      name: 'filterFilename',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cannot access`
   String get cannotAccessDirectory1 {
     return Intl.message(
@@ -1190,16 +1470,6 @@ class S {
     );
   }
 
-  /// `Current playback speed is`
-  String get currentPlaybackSpeed {
-    return Intl.message(
-      'Current playback speed is',
-      name: 'currentPlaybackSpeed',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Please enter a valid email address.`
   String get enterValidEmail {
     return Intl.message(
@@ -1235,6 +1505,226 @@ class S {
     return Intl.message(
       'Registration failed. Error:',
       name: 'registrationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration`
+  String get registration {
+    return Intl.message(
+      'Registration',
+      name: 'registration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signed in:`
+  String get signedIn {
+    return Intl.message(
+      'Signed in:',
+      name: 'signedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced Settings`
+  String get advancedSettings {
+    return Intl.message(
+      'Advanced Settings',
+      name: 'advancedSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appearance`
+  String get appearance {
+    return Intl.message(
+      'Appearance',
+      name: 'appearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark Mode`
+  String get darkMode {
+    return Intl.message(
+      'Dark Mode',
+      name: 'darkMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Songs Page List Item Trails With`
+  String get songsPageLITrail {
+    return Intl.message(
+      'Songs Page List Item Trails With',
+      name: 'songsPageLITrail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trail With Menu`
+  String get trailMenu {
+    return Intl.message(
+      'Trail With Menu',
+      name: 'trailMenu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trail With Duration`
+  String get trailDuration {
+    return Intl.message(
+      'Trail With Duration',
+      name: 'trailDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Random`
+  String get random {
+    return Intl.message(
+      'Random',
+      name: 'random',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currently Playing Bar Swipe Mode`
+  String get playBarSwipeMode {
+    return Intl.message(
+      'Currently Playing Bar Swipe Mode',
+      name: 'playBarSwipeMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe to Stop`
+  String get swipeStop {
+    return Intl.message(
+      'Swipe to Stop',
+      name: 'swipeStop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Swipe for Next / Previous`
+  String get swipeNext {
+    return Intl.message(
+      'Swipe for Next / Previous',
+      name: 'swipeNext',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Queue Fill Mode`
+  String get queueMode {
+    return Intl.message(
+      'Queue Fill Mode',
+      name: 'queueMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fill With Random`
+  String get fillRandom {
+    return Intl.message(
+      'Fill With Random',
+      name: 'fillRandom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fill With Random Priority Same Artist`
+  String get fillRandomArtistPriority {
+    return Intl.message(
+      'Fill With Random Priority Same Artist',
+      name: 'fillRandomArtistPriority',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never Fill Queue`
+  String get neverFillQueue {
+    return Intl.message(
+      'Never Fill Queue',
+      name: 'neverFillQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Developer`
+  String get developer {
+    return Intl.message(
+      'Developer',
+      name: 'developer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup Database`
+  String get backupDatabase {
+    return Intl.message(
+      'Backup Database',
+      name: 'backupDatabase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show SnackBar`
+  String get showSnackBar {
+    return Intl.message(
+      'Show SnackBar',
+      name: 'showSnackBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is a snackbar`
+  String get snackBarTest {
+    return Intl.message(
+      'This is a snackbar',
+      name: 'snackBarTest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show Error SnackBar`
+  String get showErrorSnackBar {
+    return Intl.message(
+      'Show Error SnackBar',
+      name: 'showErrorSnackBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is an error`
+  String get errorSnackBarTest {
+    return Intl.message(
+      'This is an error',
+      name: 'errorSnackBarTest',
       desc: '',
       args: [],
     );

@@ -64,17 +64,17 @@ class _SignInWidgetState extends State<SignInWidget> {
       );
 
       if (userCredential.user != null) {
-        _showSnackBar("Signed in: ${userCredential.user?.email}", Colors.green);
+        _showSnackBar("${LocalizationMapper.current.signedIn} ${userCredential.user?.email}", Colors.green);
 
         popNavigatorSafe(context);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password') {
-        _showSnackBar('Incorrect password. Please try again.', Colors.red);
+        _showSnackBar(LocalizationMapper.current.incorrectPassword, Colors.red);
       } else if (e.code == 'user-not-found') {
-        _showSnackBar('Email not found. Please check your email address.', Colors.red);
+        _showSnackBar(LocalizationMapper.current.emailNotFound, Colors.red);
       } else {
-        _showSnackBar('Sign-In Error: ${e.message}', Colors.red);
+        _showSnackBar('${LocalizationMapper.current.signInError} ${e.message}', Colors.red);
       }
     }
 

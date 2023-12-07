@@ -27,12 +27,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "addToPlaylist": MessageLookupByLibrary.simpleMessage(
             "AGREGAR A LA LISTA DE REPRODUCCIÓN"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Agregar a la cola"),
+        "advancedSettings":
+            MessageLookupByLibrary.simpleMessage("Configuración avanzada"),
+        "albumArtistName": MessageLookupByLibrary.simpleMessage(
+            "Nombre del artista del álbum"),
+        "albumName": MessageLookupByLibrary.simpleMessage("Nombre del álbum"),
         "albums": MessageLookupByLibrary.simpleMessage("Álbumes"),
         "albumsAppear": MessageLookupByLibrary.simpleMessage(
             "¡Los álbumes aparecerán a medida que importes música!"),
         "allSongsDownloaded": MessageLookupByLibrary.simpleMessage(
             "Todas las canciones descargadas"),
+        "appearance": MessageLookupByLibrary.simpleMessage("Apariencia"),
         "artist": MessageLookupByLibrary.simpleMessage("Artista"),
+        "authorName": MessageLookupByLibrary.simpleMessage("Nombre del autor"),
+        "backupDatabase": MessageLookupByLibrary.simpleMessage(
+            "Copia de seguridad de la base de datos"),
+        "bitrate":
+            MessageLookupByLibrary.simpleMessage("Tasa de bits (bits/seg)"),
         "blacklistPageHelperText": MessageLookupByLibrary.simpleMessage(
             "Los archivos bloqueados para importar aparecerán aquí.\nPuedes agregarlos o eliminarlos usando los botones en la parte superior."),
         "blacklistPageTitle":
@@ -68,20 +79,23 @@ class MessageLookup extends MessageLookupByLibrary {
             "¿Estás seguro de que quieres eliminar estos archivos de la lista negra?"),
         "confirmRemoveSong": MessageLookupByLibrary.simpleMessage(
             "¿Estás seguro de que quieres eliminar esta canción de la aplicación?"),
+        "confirmSelection":
+            MessageLookupByLibrary.simpleMessage("Confirmar selección"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
             "No se pudo escribir en las metadatos JSON de las canciones."),
         "createPlaylist":
             MessageLookupByLibrary.simpleMessage("Crear lista de reproducción"),
         "createdPlaylist": MessageLookupByLibrary.simpleMessage(
             "Lista de reproducción creada"),
-        "currentPlaybackSpeed": MessageLookupByLibrary.simpleMessage(
-            "La velocidad de reproducción actual es"),
         "currentlyPlaying":
             MessageLookupByLibrary.simpleMessage("Reproduciendo actualmente"),
+        "darkMode": MessageLookupByLibrary.simpleMessage("Modo oscuro"),
         "dbError": MessageLookupByLibrary.simpleMessage(
             "No se puede importar la canción aunque acaba de ser importada."),
         "deletePlaylist": MessageLookupByLibrary.simpleMessage(
             "Eliminar lista de reproducción"),
+        "developer": MessageLookupByLibrary.simpleMessage("Desarrollador"),
+        "diskNumber": MessageLookupByLibrary.simpleMessage("Número de disco"),
         "downloadingSongs":
             MessageLookupByLibrary.simpleMessage("Descargando canciones..."),
         "editMetadata":
@@ -100,12 +114,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterValidEmail": MessageLookupByLibrary.simpleMessage(
             "Por favor, introduce una dirección de correo electrónico válida."),
         "error": MessageLookupByLibrary.simpleMessage("¡Algo salió mal!"),
+        "errorShort": MessageLookupByLibrary.simpleMessage("Error:"),
+        "errorSnackBarTest":
+            MessageLookupByLibrary.simpleMessage("Esto es un error"),
+        "exportedDatabase":
+            MessageLookupByLibrary.simpleMessage("Base de datos exportada a"),
         "externalFolderNull": MessageLookupByLibrary.simpleMessage(
             "La carpeta de almacenamiento externo es nula."),
+        "filePath": MessageLookupByLibrary.simpleMessage("Ruta del archivo"),
+        "fillRandom":
+            MessageLookupByLibrary.simpleMessage("Llenar con aleatorio"),
+        "fillRandomArtistPriority": MessageLookupByLibrary.simpleMessage(
+            "Llenar con prioridad de artista aleatorio mismo"),
+        "filterFilename":
+            MessageLookupByLibrary.simpleMessage("Filtrar nombre de archivo"),
         "filterName":
             MessageLookupByLibrary.simpleMessage("Nombre del filtro..."),
+        "filterPlaylists": MessageLookupByLibrary.simpleMessage(
+            "Filtrar listas de reproducción..."),
+        "filterSongs":
+            MessageLookupByLibrary.simpleMessage("Filtrar canciones..."),
         "firstReleaseDate": MessageLookupByLibrary.simpleMessage(
             "Primera fecha de lanzamiento"),
+        "genre": MessageLookupByLibrary.simpleMessage("Género"),
         "gotSongs": MessageLookupByLibrary.simpleMessage(
             "Canciones obtenidas del selector:"),
         "iD": MessageLookupByLibrary.simpleMessage("ID"),
@@ -118,11 +149,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "length": MessageLookupByLibrary.simpleMessage("Duración"),
         "lookupMetadata":
             MessageLookupByLibrary.simpleMessage("Buscar metadatos"),
+        "metadataInformation":
+            MessageLookupByLibrary.simpleMessage("Información de metadatos"),
         "metadataLookup":
             MessageLookupByLibrary.simpleMessage("Búsqueda de metadatos"),
+        "metadataRefreshConfirm": MessageLookupByLibrary.simpleMessage(
+            "¿Estás seguro de que deseas hacer una actualización completa de metadatos?"),
+        "mimeType": MessageLookupByLibrary.simpleMessage("Tipo MIME"),
         "minPasswordLen": MessageLookupByLibrary.simpleMessage(
             "La contraseña debe tener al menos 6 caracteres."),
         "nA": MessageLookupByLibrary.simpleMessage("N/D"),
+        "neverFillQueue":
+            MessageLookupByLibrary.simpleMessage("Nunca llenar la cola"),
         "noAlbums": MessageLookupByLibrary.simpleMessage(
             "¡No hay nada aquí!\nPresiona el + en la esquina superior derecha para crear un álbum."),
         "noFilesInFolder": MessageLookupByLibrary.simpleMessage(
@@ -148,9 +186,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "La contraseña no puede estar vacía."),
         "passwordLength": MessageLookupByLibrary.simpleMessage(
             "La contraseña debe tener al menos 6 caracteres."),
+        "pathAlreadyExists1": MessageLookupByLibrary.simpleMessage("La ruta"),
+        "pathAlreadyExists2": MessageLookupByLibrary.simpleMessage("ya existe"),
         "pickFiles":
             MessageLookupByLibrary.simpleMessage("Seleccionar archivos"),
+        "pickPlaylists": MessageLookupByLibrary.simpleMessage(
+            "Seleccionar listas de reproducción"),
         "pickSongs": MessageLookupByLibrary.simpleMessage("Elegir canciones"),
+        "playBarSwipeMode": MessageLookupByLibrary.simpleMessage(
+            "Modo de deslizamiento de la barra de reproducción actual"),
         "playNow": MessageLookupByLibrary.simpleMessage("Reproducir ahora"),
         "playbackSpeed":
             MessageLookupByLibrary.simpleMessage("Velocidad de reproducción"),
@@ -165,8 +209,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "property": MessageLookupByLibrary.simpleMessage("Propiedad"),
         "queueAll":
             MessageLookupByLibrary.simpleMessage("Colocar todo en la cola"),
+        "queueMode":
+            MessageLookupByLibrary.simpleMessage("Modo de llenado de la cola"),
+        "random": MessageLookupByLibrary.simpleMessage("Aleatorio"),
         "recordings": MessageLookupByLibrary.simpleMessage("Grabaciones"),
+        "refreshMetadata":
+            MessageLookupByLibrary.simpleMessage("Actualizar metadatos"),
         "register": MessageLookupByLibrary.simpleMessage("Registrarse"),
+        "registration": MessageLookupByLibrary.simpleMessage("Registro"),
         "registrationFailed": MessageLookupByLibrary.simpleMessage(
             "Error en el registro. Error:"),
         "registrationSuccessful":
@@ -189,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Eliminar de la cola"),
         "removeSong": MessageLookupByLibrary.simpleMessage("Eliminar canción"),
         "removeThem": MessageLookupByLibrary.simpleMessage("Eliminarlos"),
+        "savePlaylist": MessageLookupByLibrary.simpleMessage(
+            "Guardar la lista de reproducción"),
         "search": MessageLookupByLibrary.simpleMessage("Buscar"),
         "searchEmpty": MessageLookupByLibrary.simpleMessage(
             "La búsqueda no puede estar vacía."),
@@ -208,9 +260,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareTitle": MessageLookupByLibrary.simpleMessage("Compartir título"),
         "shareTitlePlus":
             MessageLookupByLibrary.simpleMessage("Compartir título + más"),
+        "showErrorSnackBar": MessageLookupByLibrary.simpleMessage(
+            "Mostrar barra de notificación de error"),
+        "showSnackBar": MessageLookupByLibrary.simpleMessage(
+            "Mostrar barra de notificación"),
         "signIn": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
         "signInError":
             MessageLookupByLibrary.simpleMessage("Error al iniciar sesión:"),
+        "signedIn": MessageLookupByLibrary.simpleMessage("Iniciado sesión:"),
+        "snackBarTest": MessageLookupByLibrary.simpleMessage(
+            "Esto es una barra de notificación"),
         "songImported":
             MessageLookupByLibrary.simpleMessage("Canción importada"),
         "songPathDoesNotExist1":
@@ -220,19 +279,35 @@ class MessageLookup extends MessageLookupByLibrary {
         "songRemoved1": MessageLookupByLibrary.simpleMessage("La canción"),
         "songRemoved2": MessageLookupByLibrary.simpleMessage(
             "se ha eliminado de la aplicación."),
+        "songsPageLITrail": MessageLookupByLibrary.simpleMessage(
+            "Rastros de elementos de lista de la página de canciones con"),
         "songsUploaded": MessageLookupByLibrary.simpleMessage(
             "Todas las canciones cargadas."),
         "statusID": MessageLookupByLibrary.simpleMessage("ID de estado"),
+        "swipeNext": MessageLookupByLibrary.simpleMessage(
+            "Deslizar para siguiente / anterior"),
+        "swipeStop":
+            MessageLookupByLibrary.simpleMessage("Deslizar para detener"),
         "tag": MessageLookupByLibrary.simpleMessage("Etiqueta"),
         "title": MessageLookupByLibrary.simpleMessage("Título"),
         "titleAddedToQueue":
             MessageLookupByLibrary.simpleMessage("se ha agregado a la cola"),
         "titleMaxLengthError": MessageLookupByLibrary.simpleMessage(
             "El título debe tener menos de"),
+        "trackArtistNames": MessageLookupByLibrary.simpleMessage(
+            "Nombres de artistas de la pista"),
         "trackCount":
             MessageLookupByLibrary.simpleMessage("Cantidad de pistas"),
+        "trackDuration":
+            MessageLookupByLibrary.simpleMessage("Duración de la pista"),
+        "trackName": MessageLookupByLibrary.simpleMessage("Nombre de la pista"),
+        "trackNumber": MessageLookupByLibrary.simpleMessage("Número de pista"),
+        "trailDuration":
+            MessageLookupByLibrary.simpleMessage("Rastro con duración"),
+        "trailMenu": MessageLookupByLibrary.simpleMessage("Rastro con menú"),
         "updatedPlaylist": MessageLookupByLibrary.simpleMessage(
             "Lista de reproducción actualizada"),
+        "uploadSongs": MessageLookupByLibrary.simpleMessage("Subir canciones"),
         "uploadingPlaylists": MessageLookupByLibrary.simpleMessage(
             "Cargando listas de reproducción..."),
         "uploadingSongs":
@@ -242,7 +317,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("usuario-no-encontrado"),
         "value": MessageLookupByLibrary.simpleMessage("Valor"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("Ver detalles"),
+        "writerName":
+            MessageLookupByLibrary.simpleMessage("Nombre del escritor"),
         "wrongPassword":
-            MessageLookupByLibrary.simpleMessage("contraseña-incorrecta")
+            MessageLookupByLibrary.simpleMessage("contraseña-incorrecta"),
+        "year": MessageLookupByLibrary.simpleMessage("Año")
       };
 }

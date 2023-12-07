@@ -1,4 +1,6 @@
 
+import 'package:dmus/l10n/LocalizationMapper.dart';
+
 import '../../Util.dart';
 
 
@@ -175,7 +177,7 @@ class Artist {
 
   @override
   String toString() {
-    return sortName ?? name ?? "N/A";
+    return sortName ?? name ?? LocalizationMapper.current.nA;
   }
 }
 
@@ -206,7 +208,7 @@ class ReleaseGroup {
 
   @override
   String toString() {
-    return title ?? "N/A";
+    return title ?? LocalizationMapper.current.nA;
   }
 }
 
@@ -229,6 +231,6 @@ class Tag {
 
   @override
   String toString() {
-    return name ?? "N/A";
+    return name ?? LocalizationMapper.current.nA;
   }
 }

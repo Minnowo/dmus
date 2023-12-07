@@ -5,6 +5,7 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +78,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 24 + 16 * 2),
         child: FloatingActionButton(
-          tooltip: "Confirm Selection",
+          tooltip: LocalizationMapper.current.confirmSelection,
           onPressed: () => super.finishSelection(context),
           child: const Icon(Icons.save),
         ),
@@ -119,10 +120,10 @@ class SongPicker extends StatefulWidget {
 class _SongPickerState extends _DataEntityPickerState<Song> {
 
   @override
-  String get filterText => "Filter songs...";
+  String get filterText => LocalizationMapper.current.filterSongs;
 
   @override
-  String get title => "Pick Songs";
+  String get title => LocalizationMapper.current.pickSongs;
 
   @override
   void initState() {
@@ -165,10 +166,10 @@ class PlaylistPicker extends StatefulWidget {
 class _PlaylistPickerState extends _DataEntityPickerState<Playlist> {
 
   @override
-  String get filterText => "Filter playlists...";
+  String get filterText => LocalizationMapper.current.filterPlaylists;
 
   @override
-  String get title => "Pick Playlists";
+  String get title => LocalizationMapper.current.pickPlaylists;
 
   @override
   void initState() {

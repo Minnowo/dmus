@@ -5,6 +5,7 @@
 
 import 'dart:io';
 
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
@@ -165,10 +166,10 @@ Future<void> refreshMetadata(BuildContext context) async {
 
   final r = await showDialog(
       context: context,
-      builder: (ctx) => const ConfirmDestructiveAction(
-          promptText: "Are you sure you want to do a full metadata refresh?",
-          yesText: "Refresh Metadata",
-          noText: "Cancel",
+      builder: (ctx) => ConfirmDestructiveAction(
+          promptText: LocalizationMapper.current.metadataRefreshConfirm,
+          yesText: LocalizationMapper.current.refreshMetadata,
+          noText: LocalizationMapper.current.cancel,
           yesTextColor: RED,
           noTextColor:  null
       )
@@ -197,7 +198,7 @@ Future<void> backupDatabase(BuildContext context) async {
       logging.warning("Cannot save file because it already exists");
 
       if(context.mounted) {
-        showSnackBarWithDuration(context, "The path $databaseExport already exists", longSnackBarDuration);
+        showSnackBarWithDuration(context, "${LocalizationMapper.current.pathAlreadyExists1} $databaseExport ${LocalizationMapper.current.pathAlreadyExists2}", longSnackBarDuration);
       }
       return;
     }
@@ -205,7 +206,7 @@ Future<void> backupDatabase(BuildContext context) async {
     if(await DatabaseController.backupDatabase(databaseExport)) {
 
       if(context.mounted) {
-        showSnackBarWithDuration(context, "Exported Database to $databaseExport", longSnackBarDuration);
+        showSnackBarWithDuration(context, "${LocalizationMapper.current.exportedDatabase} $databaseExport", longSnackBarDuration);
       }
 
     }
