@@ -59,7 +59,7 @@ Widget getRoundedCornerContainerImage(BuildContext context, DataEntity entity, d
       height: size,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0),
-          image: getDataEntityImageAsDecoration(entity)
+          image: getDataEntityImageAsDecoration(entity),
       ),
     );
   }
@@ -115,6 +115,7 @@ DecorationImage? getDataEntityImageAsDecoration(DataEntity dataEntity) {
       });
 
   return DecorationImage(
-      image: i.image
+      image: i.image,
+      fit: BoxFit.cover
   );
 }
