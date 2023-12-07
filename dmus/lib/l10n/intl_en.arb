@@ -119,6 +119,7 @@
 	"removeSong": "Remove Song",
 	"removeAndBlock": "Remove and block from reimport",
 	"titleAddedToQueue": "has been added to the queue",
+	"songAddedToQueue": "added to the queue",
 	"confirmBlockSong": "Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.",
 	"block": "Block",
 	"keep": "Keep",
@@ -209,6 +210,18 @@
 	"downloadError": "Error while downloading stream:",
 	"encodingError": "There was an error encoding the stream!",
 	"noThumbnail": "Could not find thumbnail for stream",
+
+	"general": "General",
+	"addMusic": "Add Music",
+	"blacklistSetting": "Blacklist Page Title",
+	"syncWithFirebase": "Sync With Firebase",
+	"login": "Login",
+	"createAccount": "Create Account",
+	"uploadToCloud": "Upload to Cloud Storage",
+	"downloadFromCloud": "Download from Cloud",
+	"logOut": "Log Out",
+	"userLoggedOut": "User logged out successfully",
+	"other": "Other",
 
 
 	"playlist": "Playlist",

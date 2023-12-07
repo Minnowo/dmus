@@ -44,20 +44,20 @@ class SettingsDrawer extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-            child: Text("General",
+            child: Text(LocalizationMapper.current.general,
                 style:
                 TextStyle(fontSize: subheaderFontSize)),
           ),
 
           ListTile(
             leading: const Icon(Icons.add),
-            title: const Text("Add Music"),
+            title: Text(LocalizationMapper.current.addMusic),
             onTap: () => showImportDialog(context),
           ),
 
           ListTile(
             leading: const Icon(Icons.folder),
-            title: const Text("Watch Directories"),
+            title: Text(LocalizationMapper.current.watchDirectories),
             onTap: () => manageWatchDirectories(context),
           ),
 
@@ -71,7 +71,7 @@ class SettingsDrawer extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-            child: Text("Sync With Firebase",
+            child: Text(LocalizationMapper.current.syncWithFirebase,
                 style:
                 TextStyle(fontSize: subheaderFontSize)),
           ),
@@ -79,14 +79,14 @@ class SettingsDrawer extends StatelessWidget {
           if (user == null)
             ListTile(
               leading: const Icon(Icons.login),
-              title: const Text('Login'),
+              title: Text(LocalizationMapper.current.login),
               onTap: () => showSignInPage(context),
             ),
 
           if (user == null)
             ListTile(
               leading: const Icon(Icons.create),
-              title: const Text('Create Account'),
+              title: Text(LocalizationMapper.current.createAccount),
               onTap: () => showRegistrationPage(context),
             ),
 
@@ -96,19 +96,19 @@ class SettingsDrawer extends StatelessWidget {
 
                 ListTile(
                   leading: const Icon(Icons.cloud_upload),
-                  title: const Text('Upload to Cloud Storage'),
+                  title: Text(LocalizationMapper.current.uploadToCloud),
                   onTap: () => handleSongUpload(context),
                 ),
 
                 ListTile(
                   leading: const Icon(Icons.cloud_download),
-                  title: const Text('Download from Cloud'),
+                  title: Text(LocalizationMapper.current.downloadFromCloud),
                   onTap: () => handleSongDownload(context),
                 ),
 
                 ListTile(
                   leading: const Icon(Icons.logout),
-                  title: const Text('Log Out'),
+                  title: Text(LocalizationMapper.current.logOut),
                   onTap: () => handleLogout(context),
                 ),
 
@@ -119,12 +119,12 @@ class SettingsDrawer extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-            child: Text("Other", style: TextStyle(fontSize: subheaderFontSize)),
+            child: Text(LocalizationMapper.current.other, style: TextStyle(fontSize: subheaderFontSize)),
           ),
 
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text("Advanced Settings"),
+            title: Text(LocalizationMapper.current.advancedSettings),
             onTap: () => showAdvancedSettings(context),
           ),
         ],
@@ -199,7 +199,7 @@ class SettingsDrawer extends StatelessWidget {
 
     if(context.mounted) {
 
-      showSnackBarWithDuration(context, "User logged out successfully", mediumSnackBarDuration);
+      showSnackBarWithDuration(context, LocalizationMapper.current.userLoggedOut, mediumSnackBarDuration);
     }
   }
 

@@ -1180,6 +1180,16 @@ class S {
     );
   }
 
+  /// `added to the queue`
+  String get songAddedToQueue {
+    return Intl.message(
+      'added to the queue',
+      name: 'songAddedToQueue',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Are you sure you want to block this song from the app? It will be skipped when importing again. You can allow it again from the blacklist under settings.`
   String get confirmBlockSong {
     return Intl.message(
@@ -2005,6 +2015,116 @@ class S {
     return Intl.message(
       'Could not find thumbnail for stream',
       name: 'noThumbnail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General`
+  String get general {
+    return Intl.message(
+      'General',
+      name: 'general',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Music`
+  String get addMusic {
+    return Intl.message(
+      'Add Music',
+      name: 'addMusic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Blacklist Page Title`
+  String get blacklistSetting {
+    return Intl.message(
+      'Blacklist Page Title',
+      name: 'blacklistSetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync With Firebase`
+  String get syncWithFirebase {
+    return Intl.message(
+      'Sync With Firebase',
+      name: 'syncWithFirebase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get login {
+    return Intl.message(
+      'Login',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createAccount {
+    return Intl.message(
+      'Create Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload to Cloud Storage`
+  String get uploadToCloud {
+    return Intl.message(
+      'Upload to Cloud Storage',
+      name: 'uploadToCloud',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download from Cloud`
+  String get downloadFromCloud {
+    return Intl.message(
+      'Download from Cloud',
+      name: 'downloadFromCloud',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log Out`
+  String get logOut {
+    return Intl.message(
+      'Log Out',
+      name: 'logOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User logged out successfully`
+  String get userLoggedOut {
+    return Intl.message(
+      'User logged out successfully',
+      name: 'userLoggedOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get other {
+    return Intl.message(
+      'Other',
+      name: 'other',
       desc: '',
       args: [],
     );

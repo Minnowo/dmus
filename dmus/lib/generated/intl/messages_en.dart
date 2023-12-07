@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addFiles": MessageLookupByLibrary.simpleMessage("Add Files"),
         "addFolder": MessageLookupByLibrary.simpleMessage("Add Folder"),
+        "addMusic": MessageLookupByLibrary.simpleMessage("Add Music"),
         "addToPlaylist":
             MessageLookupByLibrary.simpleMessage("ADD TO PLAYLIST"),
         "addToQueue": MessageLookupByLibrary.simpleMessage("Add to Queue"),
@@ -49,6 +50,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Files which are blocked from being imported will show up here.\nYou can add or delete them using the buttons in the top."),
         "blacklistPageTitle":
             MessageLookupByLibrary.simpleMessage("Blacklisted Files"),
+        "blacklistSetting":
+            MessageLookupByLibrary.simpleMessage("Blacklist Page Title"),
         "block": MessageLookupByLibrary.simpleMessage("Block"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cannotAccessDirectory1":
@@ -89,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Could not load image 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
             "Could not write to songs json metadata"),
+        "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
         "createPlaylist":
             MessageLookupByLibrary.simpleMessage("Create Playlist"),
         "createdPlaylist":
@@ -105,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "dl": MessageLookupByLibrary.simpleMessage("DL"),
         "downloadError": MessageLookupByLibrary.simpleMessage(
             "Error while downloading stream:"),
+        "downloadFromCloud":
+            MessageLookupByLibrary.simpleMessage("Download from Cloud"),
         "downloadingSongs":
             MessageLookupByLibrary.simpleMessage("Downloading songs..."),
         "duration": MessageLookupByLibrary.simpleMessage("Duration"),
@@ -144,6 +150,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterSongs": MessageLookupByLibrary.simpleMessage("Filter songs..."),
         "firstReleaseDate":
             MessageLookupByLibrary.simpleMessage("First Release Date"),
+        "general": MessageLookupByLibrary.simpleMessage("General"),
         "genre": MessageLookupByLibrary.simpleMessage("Genre"),
         "gotSongs":
             MessageLookupByLibrary.simpleMessage("Got songs from picker:"),
@@ -155,6 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "increment": MessageLookupByLibrary.simpleMessage("Increment"),
         "keep": MessageLookupByLibrary.simpleMessage("Keep"),
         "length": MessageLookupByLibrary.simpleMessage("Length"),
+        "logOut": MessageLookupByLibrary.simpleMessage("Log Out"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "lookupMetadata":
             MessageLookupByLibrary.simpleMessage("Lookup Metadata"),
         "metadataInformation":
@@ -191,6 +200,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noThumbnail": MessageLookupByLibrary.simpleMessage(
             "Could not find thumbnail for stream"),
         "ok": MessageLookupByLibrary.simpleMessage("Ok"),
+        "other": MessageLookupByLibrary.simpleMessage("Other"),
         "packagingID": MessageLookupByLibrary.simpleMessage("Packaging ID"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "passwordEmpty":
@@ -274,6 +284,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "size": MessageLookupByLibrary.simpleMessage("Size"),
         "snackBarTest":
             MessageLookupByLibrary.simpleMessage("This is a snackbar"),
+        "songAddedToQueue":
+            MessageLookupByLibrary.simpleMessage("added to the queue"),
         "songImported": MessageLookupByLibrary.simpleMessage("Song Imported"),
         "songPathDoesNotExist1": MessageLookupByLibrary.simpleMessage("Song"),
         "songPathDoesNotExist2": MessageLookupByLibrary.simpleMessage(
@@ -299,6 +311,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "swipeNext":
             MessageLookupByLibrary.simpleMessage("Swipe for Next / Previous"),
         "swipeStop": MessageLookupByLibrary.simpleMessage("Swipe to Stop"),
+        "syncWithFirebase":
+            MessageLookupByLibrary.simpleMessage("Sync With Firebase"),
         "tag": MessageLookupByLibrary.simpleMessage("Tag"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "titleAddedToQueue":
@@ -317,11 +331,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "updatedPlaylist":
             MessageLookupByLibrary.simpleMessage("Updated playlist"),
         "uploadSongs": MessageLookupByLibrary.simpleMessage("Upload Songs"),
+        "uploadToCloud":
+            MessageLookupByLibrary.simpleMessage("Upload to Cloud Storage"),
         "uploadingPlaylists":
             MessageLookupByLibrary.simpleMessage("Uploading playlists!"),
         "uploadingSongs":
             MessageLookupByLibrary.simpleMessage("Uploading songs..."),
         "use": MessageLookupByLibrary.simpleMessage("Use"),
+        "userLoggedOut": MessageLookupByLibrary.simpleMessage(
+            "User logged out successfully"),
         "userNotFound": MessageLookupByLibrary.simpleMessage("user-not-found"),
         "value": MessageLookupByLibrary.simpleMessage("Value"),
         "viewDetails": MessageLookupByLibrary.simpleMessage("View Details"),

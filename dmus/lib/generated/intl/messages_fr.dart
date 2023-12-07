@@ -25,8 +25,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "addFiles":
             MessageLookupByLibrary.simpleMessage("Ajouter des fichiers"),
         "addFolder": MessageLookupByLibrary.simpleMessage("Ajouter un dossier"),
-        "addToPlaylist": MessageLookupByLibrary.simpleMessage(
-            "AJOUTER À LA LISTE DE LECTURE"),
+        "addMusic":
+            MessageLookupByLibrary.simpleMessage("Ajouter de la musique"),
+        "addToPlaylist":
+            MessageLookupByLibrary.simpleMessage("AJOUTER À LA PLAYLIST"),
         "addToQueue": MessageLookupByLibrary.simpleMessage(
             "Ajouter à la file d\'\'attente"),
         "advancedSettings":
@@ -53,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Les fichiers bloqués de l\'\'importation seront affichés ici.\nVous pouvez les ajouter ou les supprimer en utilisant les boutons en haut."),
         "blacklistPageTitle":
             MessageLookupByLibrary.simpleMessage("Fichiers en liste noire"),
+        "blacklistSetting": MessageLookupByLibrary.simpleMessage(
+            "Titre de la page de liste noire"),
         "block": MessageLookupByLibrary.simpleMessage("Bloquer"),
         "cancel": MessageLookupByLibrary.simpleMessage("Annuler"),
         "cannotAccessDirectory1":
@@ -62,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cannotCreateDownloadsFolder": MessageLookupByLibrary.simpleMessage(
             "Impossible de créer le dossier de téléchargement"),
         "cannotEditPlaylist": MessageLookupByLibrary.simpleMessage(
-            "Impossible de modifier une liste de lecture avec un nom vide ou qui n\'\'existe pas !"),
+            "Impossible de modifier une playlist avec un nom vide ou qui n\'\'existe pas !"),
         "cannotImportSongDoesNotExist": MessageLookupByLibrary.simpleMessage(
             "Impossible d\'importer la chanson car le fichier n\'existe pas"),
         "cannotPlayAudio": MessageLookupByLibrary.simpleMessage(
@@ -82,7 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmBlockSong": MessageLookupByLibrary.simpleMessage(
             "Êtes-vous sûr de vouloir bloquer cette chanson de l\'application ? Elle sera ignorée lors de la réimportation. Vous pouvez l\'autoriser à nouveau depuis la liste noire sous les paramètres."),
         "confirmPlaylistDelete": MessageLookupByLibrary.simpleMessage(
-            "Êtes-vous sûr de vouloir supprimer cette liste de lecture ?"),
+            "Êtes-vous sûr de vouloir supprimer cette playlist ?"),
         "confirmRemoveFromBlacklist": MessageLookupByLibrary.simpleMessage(
             "Êtes-vous sûr de vouloir supprimer ces fichiers de la liste noire ?"),
         "confirmRemoveSong": MessageLookupByLibrary.simpleMessage(
@@ -93,36 +97,40 @@ class MessageLookup extends MessageLookupByLibrary {
             "Impossible de charger l\'\'image 404"),
         "couldNotWriteSongs": MessageLookupByLibrary.simpleMessage(
             "Impossible d\'\'écrire les métadonnées JSON des chansons"),
+        "createAccount":
+            MessageLookupByLibrary.simpleMessage("Créer un compte"),
         "createPlaylist":
-            MessageLookupByLibrary.simpleMessage("Créer une liste de lecture"),
+            MessageLookupByLibrary.simpleMessage("Créer une playlist"),
         "createdPlaylist":
-            MessageLookupByLibrary.simpleMessage("Liste de lecture créée"),
+            MessageLookupByLibrary.simpleMessage("Playlist créée"),
         "currentlyPlaying":
             MessageLookupByLibrary.simpleMessage("En cours de lecture"),
         "darkMode": MessageLookupByLibrary.simpleMessage("Mode sombre"),
         "dbError": MessageLookupByLibrary.simpleMessage(
             "Impossible d\'importer la chanson même si elle vient d\'être importée !"),
-        "deletePlaylist": MessageLookupByLibrary.simpleMessage(
-            "Supprimer la liste de lecture"),
+        "deletePlaylist":
+            MessageLookupByLibrary.simpleMessage("Supprimer la playlist"),
         "developer": MessageLookupByLibrary.simpleMessage("Développeur"),
         "diskNumber": MessageLookupByLibrary.simpleMessage("Numéro de disque"),
         "dl": MessageLookupByLibrary.simpleMessage("DL"),
         "downloadError": MessageLookupByLibrary.simpleMessage(
             "Erreur lors du téléchargement du flux :"),
+        "downloadFromCloud":
+            MessageLookupByLibrary.simpleMessage("Télécharger depuis le Cloud"),
         "downloadingSongs": MessageLookupByLibrary.simpleMessage(
             "Téléchargement des chansons..."),
         "duration": MessageLookupByLibrary.simpleMessage("Durée"),
         "editMetadata":
             MessageLookupByLibrary.simpleMessage("Modifier les métadonnées"),
-        "editPlaylist": MessageLookupByLibrary.simpleMessage(
-            "Modifier la liste de lecture"),
+        "editPlaylist":
+            MessageLookupByLibrary.simpleMessage("Modifier la playlist"),
         "email": MessageLookupByLibrary.simpleMessage("E-mail"),
         "emailEmpty": MessageLookupByLibrary.simpleMessage(
             "L\'\'e-mail ne peut pas être vide"),
         "emailNotFound": MessageLookupByLibrary.simpleMessage(
             "E-mail introuvable. Veuillez vérifier votre adresse e-mail."),
         "emptyName": MessageLookupByLibrary.simpleMessage(
-            "Impossible de créer une liste de lecture avec un nom vide !"),
+            "Impossible de créer une playlist avec un nom vide !"),
         "emptyTitleError": MessageLookupByLibrary.simpleMessage(
             "Le titre ne peut pas être vide !"),
         "encodingError": MessageLookupByLibrary.simpleMessage(
@@ -148,12 +156,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "filterFilename":
             MessageLookupByLibrary.simpleMessage("Filtrer le nom de fichier"),
         "filterName": MessageLookupByLibrary.simpleMessage("Nom du fil..."),
-        "filterPlaylists": MessageLookupByLibrary.simpleMessage(
-            "Filtrer les listes de lecture..."),
+        "filterPlaylists":
+            MessageLookupByLibrary.simpleMessage("Filtrer les playlists..."),
         "filterSongs":
             MessageLookupByLibrary.simpleMessage("Filtrer les chansons..."),
         "firstReleaseDate":
             MessageLookupByLibrary.simpleMessage("Première date de sortie"),
+        "general": MessageLookupByLibrary.simpleMessage("Général"),
         "genre": MessageLookupByLibrary.simpleMessage("Genre"),
         "gotSongs": MessageLookupByLibrary.simpleMessage(
             "Chansons récupérées depuis le sélecteur :"),
@@ -166,6 +175,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "increment": MessageLookupByLibrary.simpleMessage("Incrémenter"),
         "keep": MessageLookupByLibrary.simpleMessage("Garder"),
         "length": MessageLookupByLibrary.simpleMessage("Longueur"),
+        "logOut": MessageLookupByLibrary.simpleMessage("Déconnexion"),
+        "login": MessageLookupByLibrary.simpleMessage("Connexion"),
         "lookupMetadata":
             MessageLookupByLibrary.simpleMessage("Rechercher les métadonnées"),
         "metadataInformation": MessageLookupByLibrary.simpleMessage(
@@ -188,8 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Aucun chemin d\'\'image trouvé."),
         "noPermissionInDirectory": MessageLookupByLibrary.simpleMessage(
             "Pas de permission pour lister les fichiers dans ce répertoire !"),
-        "noPlaylists":
-            MessageLookupByLibrary.simpleMessage("Aucune liste de lecture"),
+        "noPlaylists": MessageLookupByLibrary.simpleMessage("Aucune playlist"),
         "noSearchResults": MessageLookupByLibrary.simpleMessage(
             "Il n\'\'y a pas de résultats pour cette recherche ! :("),
         "noSongs": MessageLookupByLibrary.simpleMessage(
@@ -203,6 +213,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "noThumbnail": MessageLookupByLibrary.simpleMessage(
             "Impossible de trouver une vignette pour le flux"),
         "ok": MessageLookupByLibrary.simpleMessage("D\'\'accord"),
+        "other": MessageLookupByLibrary.simpleMessage("Autre"),
         "packagingID":
             MessageLookupByLibrary.simpleMessage("ID d\'\'emballage"),
         "password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
@@ -215,8 +226,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("existe déjà"),
         "pickFiles":
             MessageLookupByLibrary.simpleMessage("Choisir des fichiers"),
-        "pickPlaylists": MessageLookupByLibrary.simpleMessage(
-            "Choisir des listes de lecture"),
+        "pickPlaylists":
+            MessageLookupByLibrary.simpleMessage("Choisir des playlists"),
         "pickSongs":
             MessageLookupByLibrary.simpleMessage("Choisir des chansons"),
         "playBarSwipeMode": MessageLookupByLibrary.simpleMessage(
@@ -224,18 +235,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "playNow": MessageLookupByLibrary.simpleMessage("Jouer maintenant"),
         "playbackSpeed":
             MessageLookupByLibrary.simpleMessage("Vitesse de lecture"),
-        "playlist": MessageLookupByLibrary.simpleMessage("Liste de lecture"),
-        "playlistEmpty": MessageLookupByLibrary.simpleMessage(
-            "La liste de lecture est vide"),
-        "playlistRemoved1":
-            MessageLookupByLibrary.simpleMessage("La liste de lecture"),
+        "playlist": MessageLookupByLibrary.simpleMessage("Playlist"),
+        "playlistEmpty":
+            MessageLookupByLibrary.simpleMessage("La playlist est vide"),
+        "playlistRemoved1": MessageLookupByLibrary.simpleMessage("La playlist"),
         "playlistRemoved2": MessageLookupByLibrary.simpleMessage(
             "a été supprimée de l\'\'application"),
-        "playlistTitle": MessageLookupByLibrary.simpleMessage(
-            "Titre de la liste de lecture"),
-        "playlists": MessageLookupByLibrary.simpleMessage("Listes de lecture"),
+        "playlistTitle":
+            MessageLookupByLibrary.simpleMessage("Titre de la playlist"),
+        "playlists": MessageLookupByLibrary.simpleMessage("Playlists"),
         "playlistsUploaded": MessageLookupByLibrary.simpleMessage(
-            "Toutes les listes de lecture ont été téléchargées !"),
+            "Toutes les playlists ont été téléchargées !"),
         "property": MessageLookupByLibrary.simpleMessage("Propriété"),
         "queueAll": MessageLookupByLibrary.simpleMessage(
             "Ajouter tout à la file d\'\'attente"),
@@ -271,8 +281,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeSong":
             MessageLookupByLibrary.simpleMessage("Supprimer la chanson"),
         "removeThem": MessageLookupByLibrary.simpleMessage("Les supprimer"),
-        "savePlaylist": MessageLookupByLibrary.simpleMessage(
-            "Enregistrer la liste de lecture"),
+        "savePlaylist":
+            MessageLookupByLibrary.simpleMessage("Enregistrer la playlist"),
         "search": MessageLookupByLibrary.simpleMessage("Recherche"),
         "searchEmpty": MessageLookupByLibrary.simpleMessage(
             "La recherche ne peut pas être vide !"),
@@ -304,6 +314,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "size": MessageLookupByLibrary.simpleMessage("Taille"),
         "snackBarTest": MessageLookupByLibrary.simpleMessage(
             "Ceci est une barre de notification"),
+        "songAddedToQueue": MessageLookupByLibrary.simpleMessage(
+            "ajouté à la file d\'\'attente"),
         "songImported":
             MessageLookupByLibrary.simpleMessage("Chanson importée"),
         "songPathDoesNotExist1":
@@ -334,6 +346,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Balayer pour suivant / précédent"),
         "swipeStop":
             MessageLookupByLibrary.simpleMessage("Balayer pour arrêter"),
+        "syncWithFirebase":
+            MessageLookupByLibrary.simpleMessage("Synchroniser avec Firebase"),
         "tag": MessageLookupByLibrary.simpleMessage("Étiquette"),
         "title": MessageLookupByLibrary.simpleMessage("Titre"),
         "titleAddedToQueue": MessageLookupByLibrary.simpleMessage(
@@ -350,15 +364,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "trailDuration":
             MessageLookupByLibrary.simpleMessage("Chemin avec durée"),
         "trailMenu": MessageLookupByLibrary.simpleMessage("Chemin avec menu"),
-        "updatedPlaylist": MessageLookupByLibrary.simpleMessage(
-            "Liste de lecture mise à jour"),
+        "updatedPlaylist":
+            MessageLookupByLibrary.simpleMessage("Playlist mise à jour"),
         "uploadSongs":
             MessageLookupByLibrary.simpleMessage("Télécharger des chansons"),
+        "uploadToCloud": MessageLookupByLibrary.simpleMessage(
+            "Télécharger vers le stockage Cloud"),
         "uploadingPlaylists": MessageLookupByLibrary.simpleMessage(
-            "Téléchargement des listes de lecture !"),
+            "Téléchargement des playlists !"),
         "uploadingSongs": MessageLookupByLibrary.simpleMessage(
             "Téléchargement des chansons..."),
         "use": MessageLookupByLibrary.simpleMessage("Utiliser"),
+        "userLoggedOut": MessageLookupByLibrary.simpleMessage(
+            "Utilisateur déconnecté avec succès"),
         "userNotFound":
             MessageLookupByLibrary.simpleMessage("utilisateur-non-trouvé"),
         "value": MessageLookupByLibrary.simpleMessage("Valeur"),
