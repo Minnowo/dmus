@@ -127,7 +127,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               if(selectedSongs.isEmpty)
                 Expanded(
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING, ),
+                        padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING, ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

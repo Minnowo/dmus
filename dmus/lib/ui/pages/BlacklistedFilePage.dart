@@ -7,6 +7,7 @@ import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +60,7 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
             if(_blacklistedFiles.isEmpty)
               Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
                     child: Text(
                         LocalizationMapper.current.blacklistPageHelperText,
                         textAlign: TextAlign.center

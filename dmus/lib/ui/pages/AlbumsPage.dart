@@ -2,6 +2,7 @@
 import 'package:dmus/core/data/provider/AlbumProvider.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/widgets/AlbumTile.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,10 @@ class AlbumsPage extends StatelessNavigationPage {
 
                 if(albumProvider.albums.isEmpty) {
                   return Center(
-                      child: Text(onEmptyText, textAlign: TextAlign.center,)
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+                          child: Text(onEmptyText, textAlign: TextAlign.center,)
+                      )
                   );
                 }
 

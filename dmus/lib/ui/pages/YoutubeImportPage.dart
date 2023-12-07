@@ -42,6 +42,9 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
   void dispose() {
     super.dispose();
     yt.close();
+    _progressIndicator.close();
+    _showLoadingProgress .close();
+    _showffmpegProgress.close();
   }
 
   @override
