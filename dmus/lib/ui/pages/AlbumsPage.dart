@@ -1,6 +1,7 @@
 
 import 'package:dmus/core/data/provider/AlbumProvider.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
+import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/widgets/AlbumTile.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,9 @@ import '../widgets/SettingsDrawer.dart';
 
 class AlbumsPage extends StatelessNavigationPage {
 
-  const AlbumsPage({super.key}) : super(icon: Icons.album, title: "Albums");
+  AlbumsPage({super.key}) : super(icon: Icons.album, title: LocalizationMapper.current.albums);
 
-  static const String onEmptyText = "Albums will appear as you import music!";
+  static String onEmptyText = LocalizationMapper.current.albumsAppear;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class AlbumsPage extends StatelessNavigationPage {
               builder: (context, albumProvider, child) {
 
                 if(albumProvider.albums.isEmpty) {
-                  return const Center(
+                  return Center(
                       child: Text(onEmptyText, textAlign: TextAlign.center,)
                   );
                 }

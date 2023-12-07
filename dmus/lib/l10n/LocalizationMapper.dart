@@ -66,8 +66,14 @@ class LocalizationMapper {
     return Intl.message(
       'placeholder',
       name: 'error',
-      desc: 'Standard error message',
-      
+      desc: 'Standard error message', 
+    );
+  }
+  String get errorShort {
+    return Intl.message(
+      'placeholder',
+      name: 'errorShort',
+      desc: 'Standard short error message', 
     );
   }
 
@@ -345,9 +351,100 @@ class LocalizationMapper {
       'placeholder',
       name: 'value',
       desc: 'Value label',
-      
     );
   }
+  String get trackArtistNames {
+    return Intl.message(
+      'placeholder',
+      name: 'trackArtistNames',
+    );
+  }
+  String get trackName {
+  return Intl.message(
+    'placeholder',
+    name: 'trackName',
+  );
+}
+
+String get albumName {
+  return Intl.message(
+    'placeholder',
+    name: 'albumName',
+  );
+}
+
+String get albumArtistName {
+  return Intl.message(
+    'placeholder',
+    name: 'albumArtistName',
+  );
+}
+
+String get trackDuration {
+  return Intl.message(
+    'placeholder',
+    name: 'trackDuration',
+  );
+}
+
+String get bitrate {
+  return Intl.message(
+    'placeholder',
+    name: 'bitrate',
+  );
+}
+
+String get mimeType {
+  return Intl.message(
+    'placeholder',
+    name: 'mimeType',
+  );
+}
+
+String get year {
+  return Intl.message(
+    'placeholder',
+    name: 'year',
+  );
+}
+
+String get genre {
+  return Intl.message(
+    'placeholder',
+    name: 'genre',
+  );
+}
+
+String get trackNumber {
+  return Intl.message(
+    'placeholder',
+    name: 'trackNumber',
+  );
+}
+
+String get diskNumber {
+  return Intl.message(
+    'placeholder',
+    name: 'diskNumber',
+  );
+}
+
+String get authorName {
+  return Intl.message(
+    'placeholder',
+    name: 'authorName',
+  );
+}
+
+String get writerName {
+  return Intl.message(
+    'placeholder',
+    name: 'writerName',
+  );
+}
+
+  
+
   String get use {
     return Intl.message(
       'placeholder',
@@ -1116,12 +1213,22 @@ class LocalizationMapper {
   }
 
 
+  //Metadatapage.dart
+  String get metadataInformation {
+    return Intl.message(
+      'placeholder',
+      name: 'metadataInformation',
+    );
+  }
+  String get filePath {
+    return Intl.message(
+      'placeholder',
+      name: 'filePath',
+    );
+  }
 
 
-
-
-
-
+  //EditMetadataPage.dart
   String get albums {
     return Intl.message(
       'placeholder',
@@ -1134,7 +1241,6 @@ class LocalizationMapper {
       name: 'albumsAppear',
     );
   }
-
   String get confirmRemoveFromBlacklist {
     return Intl.message(
       'placeholder',
@@ -1147,7 +1253,6 @@ class LocalizationMapper {
       name: 'removeThem',
     );
   }
-
   String get currentlyPlaying {
     return Intl.message(
       'placeholder',
@@ -1172,22 +1277,10 @@ class LocalizationMapper {
       name: 'noImagePath',  
     );
   }
-  String get trackName {
-    return Intl.message(
-      'placeholder',
-      name: 'trackName',  
-    );
-  }
   String get trackArtist {
     return Intl.message(
       'placeholder',
       name: 'trackArtist',  
-    );
-  }
-  String get albumName {
-    return Intl.message(
-      'placeholder',
-      name: 'albumName',  
     );
   }
   String get albumArtist {
@@ -1196,65 +1289,10 @@ class LocalizationMapper {
       name: 'albumArtist',  
     );
   }
-  String get trackDuration {
-    return Intl.message(
-      'placeholder',
-      name: 'trackDuration',  
-    );
-  }
-  String get bitrate {
-    return Intl.message(
-      'placeholder',
-      name: 'bitrate',  
-    );
-  }
-  String get mimeType {
-    return Intl.message(
-      'placeholder',
-      name: 'mimeType',  
-    );
-  }
-  String get year {
-    return Intl.message(
-      'placeholder',
-      name: 'year',  
-    );
-  }
-  String get genre {
-    return Intl.message(
-      'placeholder',
-      name: 'genre',  
-    );
-  }
-  String get trackNumber {
-    return Intl.message(
-      'placeholder',
-      name: 'trackNumber',  
-    );
-  }
   String get discNumber {
     return Intl.message(
       'placeholder',
       name: 'discNumber',  
-    );
-  }
-  String get authorName {
-    return Intl.message(
-      'placeholder',
-      name: 'authorName',  
-    );
-  }
-  String get writerName {
-    return Intl.message(
-      'placeholder',
-      name: 'writerName',  
-    );
-  }
-
-  String get metadataInformation {
-    return Intl.message(
-      'placeholder',
-      name: 'metadataInformation',  
     );
   }
 

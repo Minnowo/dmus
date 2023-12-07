@@ -100,11 +100,11 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
 
     bool? result = await showDialog(
       context: context,
-      builder: (ctx) => const ConfirmDestructiveAction(
+      builder: (ctx) => ConfirmDestructiveAction(
         promptText:
-        "Are you sure you want to remove these files from the blacklist?",
-        yesText: "Remove them",
-        noText: "Keep",
+        LocalizationMapper.current.confirmRemoveFromBlacklist,
+        yesText: LocalizationMapper.current.removeThem,
+        noText: LocalizationMapper.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),

@@ -3,6 +3,8 @@
 	"createdPlaylist": "Liste de lecture créée",
 	"songImported": "Chanson importée",
 	"error": "Quelque chose s''est mal passé !",
+	"errorShort": "Erreur :",
+	"metadataInformation": "Informations sur les métadonnées",
 	"editMetadata": "Modifier les métadonnées",
 	"lookupMetadata": "Rechercher les métadonnées",
 	"addToQueue": "Ajouter à la file d''attente",
@@ -30,6 +32,23 @@
 	"searchResult": "Résultat de la recherche",
 	"property": "Propriété",
 	"value": "Valeur",
+
+	"trackArtistNames": "Noms des artistes de la piste",
+	"albumName": "Nom de l''album",
+	"albumArtistName": "Nom de l'artiste de l'album",
+	"trackDuration": "Durée de la piste",
+	"bitrate": "Débit binaire (bits/sec)",
+	"mimeType": "Type MIME",
+	"filePath": "Chemin du fichier",
+
+	"year": "Année",
+	"genre": "Genre",
+	"trackNumber": "Numéro de piste",
+	"diskNumber": "Numéro de disque",
+	"authorName": "Nom de l''auteur",
+	"writerName": "Nom de l''écrivain",
+
+
 	"use": "Utiliser",
 	"cancel": "Annuler",
 	"pickSongs": "Choisir des chansons",

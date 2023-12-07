@@ -3,6 +3,8 @@
 	"createdPlaylist": "Lista de reproducción creada",
 	"songImported": "Canción importada",
 	"error": "¡Algo salió mal!",
+	"errorShort": "Error:",
+	"metadataInformation": "Información de metadatos",
 	"editMetadata": "Editar metadatos",
 	"lookupMetadata": "Buscar metadatos",
 	"addToQueue": "Agregar a la cola",
@@ -30,6 +32,23 @@
 	"searchResult": "Resultado de la búsqueda",
 	"property": "Propiedad",
 	"value": "Valor",
+
+	"trackArtistNames": "Nombres de artistas de la pista",
+	"albumName": "Nombre del álbum",
+	"albumArtistName": "Nombre del artista del álbum",
+	"trackDuration": "Duración de la pista",
+	"bitrate": "Tasa de bits (bits/seg)",
+	"mimeType": "Tipo MIME",
+	"filePath": "Ruta del archivo",
+
+	"year": "Año",
+	"genre": "Género",
+	"trackNumber": "Número de pista",
+	"diskNumber": "Número de disco",
+	"authorName": "Nombre del autor",
+	"writerName": "Nombre del escritor",
+
+	
 	"use": "Usar",
 	"cancel": "Cancelar",
 	"pickSongs": "Elegir canciones",

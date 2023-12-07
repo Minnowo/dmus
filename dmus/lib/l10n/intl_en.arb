@@ -3,6 +3,8 @@
 	"createdPlaylist": "Created playlist",
 	"songImported": "Song Imported",
 	"error": "Something went wrong!",
+	"errorShort": "Error:",
+	"metadataInformation": "Metadata Information",
 	"editMetadata": "Edit Metadata",
 	"lookupMetadata": "Lookup Metadata",
 	"addToQueue": "Add to Queue",
@@ -30,6 +32,21 @@
 	"searchResult": "Search Result",
 	"property": "Property",
 	"value": "Value",
+
+	"trackArtistNames": "Track Artist Names",
+	"albumName": "Album Name",
+	"albumArtistName": "Album Artist Name",
+	"trackDuration": "Track Duration",
+	"bitrate": "Bitrate (bits/sec)",
+	"mimeType": "Mime Type",
+	"filePath": "File Path",
+	"year": "Year",
+	"genre": "Genre",
+	"trackNumber": "Track Number",
+	"diskNumber": "Disk Number",
+	"authorName": "Author Name",
+	"writerName": "Writer Name",
+
 	"use": "Use",
 	"cancel": "Cancel",
 	"filterSongs": "Filter songs...",
@@ -170,4 +187,6 @@
 	"currentlyPlaying": "Currently Playing",
 	"addToPlaylist": "ADD TO PLAYLIST",
 	"noImagePath": "No image path found."
+
+
 }

@@ -90,6 +90,26 @@ class S {
     );
   }
 
+  /// `Error:`
+  String get errorShort {
+    return Intl.message(
+      'Error:',
+      name: 'errorShort',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Metadata Information`
+  String get metadataInformation {
+    return Intl.message(
+      'Metadata Information',
+      name: 'metadataInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit Metadata`
   String get editMetadata {
     return Intl.message(
@@ -355,6 +375,136 @@ class S {
     return Intl.message(
       'Value',
       name: 'value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Artist Names`
+  String get trackArtistNames {
+    return Intl.message(
+      'Track Artist Names',
+      name: 'trackArtistNames',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album Name`
+  String get albumName {
+    return Intl.message(
+      'Album Name',
+      name: 'albumName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Album Artist Name`
+  String get albumArtistName {
+    return Intl.message(
+      'Album Artist Name',
+      name: 'albumArtistName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Duration`
+  String get trackDuration {
+    return Intl.message(
+      'Track Duration',
+      name: 'trackDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bitrate (bits/sec)`
+  String get bitrate {
+    return Intl.message(
+      'Bitrate (bits/sec)',
+      name: 'bitrate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mime Type`
+  String get mimeType {
+    return Intl.message(
+      'Mime Type',
+      name: 'mimeType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File Path`
+  String get filePath {
+    return Intl.message(
+      'File Path',
+      name: 'filePath',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year`
+  String get year {
+    return Intl.message(
+      'Year',
+      name: 'year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Genre`
+  String get genre {
+    return Intl.message(
+      'Genre',
+      name: 'genre',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Track Number`
+  String get trackNumber {
+    return Intl.message(
+      'Track Number',
+      name: 'trackNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disk Number`
+  String get diskNumber {
+    return Intl.message(
+      'Disk Number',
+      name: 'diskNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author Name`
+  String get authorName {
+    return Intl.message(
+      'Author Name',
+      name: 'authorName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Writer Name`
+  String get writerName {
+    return Intl.message(
+      'Writer Name',
+      name: 'writerName',
       desc: '',
       args: [],
     );
