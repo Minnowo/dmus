@@ -43,14 +43,14 @@ class MetadataPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Metadata Information'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more),
-              onPressed: () async {
-                await showDialog(context: context, builder: (ctx) => MetadataContextDialog(songContext: song));
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.more),
+          //     onPressed: () async {
+          //       await showDialog(context: context, builder: (ctx) => MetadataContextDialog(songContext: song));
+          //     },
+          //   ),
+          // ],
         ),
         body: ListView(
           children: [
