@@ -1,7 +1,7 @@
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
-import 'package:dmus/ui/Constants.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';

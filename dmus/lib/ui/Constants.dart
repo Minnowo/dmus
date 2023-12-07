@@ -1,5 +1,0 @@
-
-
-
-const int GESTURE_SWIPE_SENSITIVITY = 150;
-

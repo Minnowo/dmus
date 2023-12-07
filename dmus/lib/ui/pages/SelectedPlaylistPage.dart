@@ -1,7 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
-import 'package:dmus/ui/Constants.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';

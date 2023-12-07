@@ -1,7 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
-import 'package:dmus/ui/Constants.dart';
+import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/picker/SpeedModifierPicker.dart';
