@@ -55,7 +55,7 @@ final class TableAlbum {
             "FROM ${TableAlbum.name} a "
             "JOIN ${TableFMetadata.name} f ON a.${TableAlbum
             .titleCol} = f.${TableFMetadata.albumCol} "
-            "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
+            // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
             "ORDER BY f.${TableFMetadata.trackNumberCol};"
     );
   }
