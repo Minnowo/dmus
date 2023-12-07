@@ -241,7 +241,7 @@ final class ImportController {
   /// This sends out events accordingly
   static Future<void> importSongs(List<File> files) async {
 
-    if(files.length > 3) {
+    if(files.length > 1) {
       if(!_silencePubs) {
         MessagePublisher.publishSnackbar(
             SnackBarData(text: "${LocalizationMapper.current.importingSongs1} ${files.length} ${LocalizationMapper.current.importingSongs2}"));
