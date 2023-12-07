@@ -225,6 +225,10 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
 
   Future<void> doDownload(Video vid, StreamInfo stream) async {
 
+    if(downloading) {
+      return;
+    }
+
     try {
       downloading = true;
 

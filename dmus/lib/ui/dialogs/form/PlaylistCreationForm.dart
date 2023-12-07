@@ -132,7 +132,10 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
 
-                            Text(LocalizationMapper.current.selectedSongsIsEmpty),
+                            Text(
+                                LocalizationMapper.current.selectedSongsIsEmpty,
+                                textAlign: TextAlign.center
+                            ),
                           ],
                         )
                     )
