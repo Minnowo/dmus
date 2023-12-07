@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dmus/core/data/DataEntity.dart';
@@ -13,6 +14,8 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 import '../../core/Util.dart';
 import '../../core/data/MessagePublisher.dart';
+import '../lookfeel/CommonTheme.dart';
+
 
 class YoutubeImportPage extends StatefulWidget {
   const YoutubeImportPage({super.key});
@@ -27,8 +30,13 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
   final TextEditingController _controller = TextEditingController();
   final YoutubeExplode yt = YoutubeExplode();
 
+  bool downloading = false;
   StreamManifest? videoManifest;
   Video? video;
+
+  final _progressIndicator = StreamController<double>.broadcast();
+  final _showLoadingProgress = StreamController<bool>.broadcast();
+  final _showffmpegProgress = StreamController<bool>.broadcast();
 
   @override
   void dispose() {
@@ -45,10 +53,37 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
       ),
       body: ListView(
         children: [
-          Text(LocalizationMapper.current.enterURLHere),
-          TextField(
-            controller: _controller,
-            onSubmitted: getYtVideo,
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+            child: TextField(
+              decoration: InputDecoration(
+                labelText: "Youtube URL",
+                hintText: "Youtube URL",
+                suffixIcon: IconButton(
+                  onPressed: () => getYtVideo(_controller.text),
+                  icon: const Icon(Icons.search),
+                ),
+              ),
+              controller: _controller,
+              onSubmitted: getYtVideo,
+            ),
+          ),
+
+          StreamBuilder<bool>(
+            stream: _showLoadingProgress.stream,
+            builder: (context, snapshot) {
+
+              if(snapshot.data == null || snapshot.data == false) {
+                return Container();
+              }
+              return const Column(
+                children: [
+                  Text("Fetching Video Information..."),
+                  CircularProgressIndicator()
+                ],
+              ) ;
+            },
           ),
 
           if(video != null)
@@ -59,6 +94,41 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
                 )
             ),
 
+          StreamBuilder<double>(
+            stream: _progressIndicator.stream,
+            builder: (context, snapshot) {
+
+              if(snapshot.data == null) {
+                return Container();
+              }
+
+              double progress = snapshot.data!;
+
+              return Column(
+                children: [
+                  Text("Download ${progress.toStringAsFixed(2)}%"),
+                  LinearProgressIndicator(value: progress)
+                ],
+              );
+            },
+          ),
+
+          StreamBuilder<bool>(
+            stream: _showffmpegProgress.stream,
+            builder: (context, snapshot) {
+
+              if(snapshot.data == null || snapshot.data == false) {
+                return Container();
+              }
+              return const Column(
+                children: [
+                  Text("Converting Audio..."),
+                  CircularProgressIndicator()
+                ],
+              ) ;
+            },
+          ),
+
           if(video != null)
             buildVideoWidget(video!),
 
@@ -67,7 +137,6 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
 
         ],
       ),
-
     );
   }
 
@@ -87,7 +156,7 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
                   DataCell(
                       IconButton(
                         icon: const Icon(Icons.download),
-                        onPressed: () => doDownload(vid, i),
+                        onPressed: downloading ? null : () => doDownload(vid, i),
                       )
                   ),
                   DataCell(Text(i.audioCodec)),
@@ -129,8 +198,20 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
 
 
   Future<void> getYtVideo(String url) async {
-    video = await yt.videos.get(url);
-    videoManifest = await yt.videos.streamsClient.getManifest(url);
+
+    _showLoadingProgress.add(true);
+    video = null;
+    videoManifest = null;
+
+    try {
+      video = await yt.videos.get(url);
+      videoManifest = await yt.videos.streamsClient.getManifest(url);
+    } catch(e){
+      logging.warning("Could not get youtube video: $e");
+      MessagePublisher.publishSomethingWentWrong("Error while fetching video!");
+    } finally {
+      _showLoadingProgress.add(false);
+    }
 
     logging.info("Got video $video");
     logging.info("Got streams $videoManifest");
@@ -140,6 +221,19 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
   }
 
   Future<void> doDownload(Video vid, StreamInfo stream) async {
+
+    try {
+      downloading = true;
+
+      await _doDownload(vid, stream);
+    }
+    finally {
+      downloading = false;
+    }
+  }
+
+
+  Future<void> _doDownload(Video vid, StreamInfo stream) async {
 
     bool _ = await getExternalStoragePermission();
 
@@ -177,7 +271,21 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     try {
       final vstream = yt.videos.streamsClient.get(stream);
       final fileStream = savePath.openWrite();
-      await vstream.pipe(fileStream);
+
+      final len = stream.size.totalBytes;
+      var count = 0;
+
+      await for (final data in vstream) {
+
+        count += data.length;
+
+        double progress = ((count / len) * 100).clamp(0, 100);
+
+        _progressIndicator.add(progress);
+
+        fileStream.add(data);
+      }
+
       await fileStream.flush();
       await fileStream.close();
     }
@@ -190,20 +298,26 @@ class _YoutubeImportPageState extends State<YoutubeImportPage> {
     bool useThumb = await downloadThumbToPath(vid.thumbnails, thumbPath);
 
     logging.info("About to convert $savePath to $finalPath with ffmpeg");
+    _showffmpegProgress.add(true);
 
-    bool ffmpegGood = await FFmpegHandler.encodeVideoAudioToFileAsMp3(
-        savePath,
-        finalPath,
-        vid.title,
-        vid.author,
-        vid.description,
-        thumb: useThumb ? thumbPath : null
-    );
+    try {
+      bool ffmpegGood = await FFmpegHandler.encodeVideoAudioToFileAsMp3(
+          savePath,
+          finalPath,
+          vid.title,
+          vid.author,
+          vid.description,
+          thumb: useThumb ? thumbPath : null
+      );
 
-    if(ffmpegGood) {
-      await ImportController.importSong(finalPath);
-    } else {
-      MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.encodingError));
+      if(ffmpegGood) {
+        await ImportController.importSong(finalPath);
+      } else {
+        MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.encodingError));
+      }
+    }
+    finally {
+      _showffmpegProgress.add(false);
     }
 
     try{
