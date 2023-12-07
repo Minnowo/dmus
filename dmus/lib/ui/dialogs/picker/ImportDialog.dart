@@ -5,6 +5,7 @@ import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
+import 'package:dmus/ui/pages/YoutubeImportPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
@@ -45,6 +46,10 @@ class ImportDialog extends StatelessWidget {
     popNavigatorSafe(context);
   }
 
+  Future<void> youtubeImport(BuildContext context) async {
+    await animateOpenFromBottom(context, YoutubeImportPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -62,6 +67,10 @@ class ImportDialog extends StatelessWidget {
             TextButton(
               onPressed: () => pickFolderAndImport(context) ,
               child: Text(LocalizationMapper.current.addFolder),
+            ),
+            TextButton(
+              onPressed: () => youtubeImport(context),
+              child: Text("Youtube"),
             ),
             TextButton(
               onPressed: () {

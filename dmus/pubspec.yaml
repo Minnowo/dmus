@@ -59,6 +59,7 @@ dependencies:
 
   crypto: ^3.0.3
   http: ^1.1.0
+  youtube_explode_dart: ^2.0.2
 
   # accessing media metadata
   flutter_media_metadata: ^1.0.0
