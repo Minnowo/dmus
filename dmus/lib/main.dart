@@ -24,7 +24,6 @@ import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SearchPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -46,12 +45,9 @@ Future<void> main() async {
 
   await SettingsHandler.load();
 
-  await Firebase.initializeApp();
-  
   final Locale myLocale = Locale(Platform.localeName);
   await LocalizationMapper.load(myLocale);
 
-  //runApp(const DMUSApp());
   runApp(
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(), // Add ThemeProvider to the root of your widget tree

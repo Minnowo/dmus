@@ -2,7 +2,6 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -50,7 +49,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        multiDexEnabled true
+        multiDexEnabled false
     }
 
     buildTypes {
@@ -74,13 +73,7 @@ flutter {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation 'com.google.firebase:firebase-auth-ktx'
-    implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.3.1"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.arthenica:ffmpeg-kit-audio:6.0-3-LTS'
-//    implementation 'com.arthenica:ffmpeg-kit-full:6.0-2'
-
 }
