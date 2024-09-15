@@ -2240,6 +2240,16 @@ class S {
     );
   }
 
+  /// `Sort by ID Reverse`
+  String get sortByIDReverse {
+    return Intl.message(
+      'Sort by ID Reverse',
+      name: 'sortByIDReverse',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sort by Title`
   String get sortByTitle {
     return Intl.message(

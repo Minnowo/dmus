@@ -237,6 +237,7 @@
 	"playlists": "Playlists",
 	"playlistEmpty": "Playlist is empty",
 	"sortByID": "Sort by ID",
+	"sortByIDReverse": "Sort by ID Reverse",
 	"sortByTitle": "Sort by Title",
 	"sortByDuration": "Sort by Duration",
 	"sortByNumberOfTracks": "Sort by Number of Tracks",

@@ -15,12 +15,12 @@ final class TableHistory {
   static const String watchedAtCol= "watched_at";
 
 
-  static Future<void> addToHistory(int songId) async {
-
-    final db = await DatabaseController.database;
-
-    await db.insert(name, {
-      songIdCol: songId
-    });
-  }
+  // static Future<void> addToHistory(int songId) async {
+  //
+  //   final db = await DatabaseController.database;
+  //
+  //   await db.insert(name, {
+  //     songIdCol: songId
+  //   });
+  // }
 }

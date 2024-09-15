@@ -22,6 +22,7 @@ enum EntityType {
 /// Song sorts orders
 enum SongSort {
   byId,
+  byIdReverse,
   byTitle,
   byArtist,
   byAlbum,

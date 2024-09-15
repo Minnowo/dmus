@@ -313,6 +313,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sortByDuration":
             MessageLookupByLibrary.simpleMessage("Sort by Duration"),
         "sortByID": MessageLookupByLibrary.simpleMessage("Sort by ID"),
+        "sortByIDReverse":
+            MessageLookupByLibrary.simpleMessage("Sort by ID Reverse"),
         "sortByNumberOfTracks":
             MessageLookupByLibrary.simpleMessage("Sort by Number of Tracks"),
         "sortByRandom": MessageLookupByLibrary.simpleMessage("Sort by Random"),

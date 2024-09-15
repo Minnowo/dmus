@@ -107,6 +107,9 @@ class SongsProvider extends ChangeNotifier {
       case SongSort.byId:
         songs.sort((a, b) => a.id.compareTo(b.id));
         break;
+      case SongSort.byIdReverse:
+        songs.sort((a, b) => b.id.compareTo(a.id));
+        break;
       case SongSort.byTitle:
         songs.sort((a, b) => compareNatural(a.title, b.title));
         break;

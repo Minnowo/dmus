@@ -45,6 +45,10 @@ class SongsPage extends  StatelessNavigationPage {
                   child: Text(S.current.sortByID),
                 ),
                 PopupMenuItem(
+                  value: SongSort.byIdReverse,
+                  child: Text(S.current.sortByIDReverse),
+                ),
+                PopupMenuItem(
                   value: SongSort.byTitle,
                   child: Text(S.current.sortByTitle),
                 ),
