@@ -1,9 +1,9 @@
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as Path;
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -24,7 +24,7 @@ const List<String> musicFileExtensions = ['flac', 'mp3', 'ogg', 'opus', 'wav','m
 const List<String> imageFileExtensions = ['webp', 'png', 'jpeg', 'jpg', 'jfif','jpe', 'tiff', 'bmp'];
 
 /// Lowercase filenames without the extensions for common album cover art which is placed in the same directory of the files
-const List<String> albumArtFilenames   = ['cover', 'album', 'folder'];
+const List<String> albumArtFilenames   = ['cover', 'album', 'folder', 'albumart'];
 
 
 
@@ -147,21 +147,15 @@ String formatDuration(Duration d) {
 /// The format is '{ALBUM_NAME | ALBUM_ARTIST_NAME} - {AUTHOR_NAME | TRACK_ARTIST_NAMES}'
 ///
 /// If none of the information exists it returns an empty string
-String subtitleFromMetadata(Metadata m) {
+String subtitleFromMetadata(AudioMetadata m) {
 
   return [
 
-  if(m.albumName != null)
-    m.albumName!,
+  if(m.album != null)
+    m.album!,
 
-  if(m.albumName == null && m.albumArtistName != null)
-    m.albumArtistName!,
-
-  if(m.authorName != null)
-    m.authorName!,
-
-  if(m.authorName == null && m.trackArtistNames != null)
-    m.trackArtistNames!.join(", "),
+  if(m.album == null && m.artist != null)
+    m.artist!,
 
   ].join(" - ");
 }
@@ -177,11 +171,8 @@ String currentlyPlayingTextFromMetadata(Song s) {
 
   return [
 
-  if(m.authorName != null)
-    m.authorName!,
-
-  if(m.authorName == null && m.trackArtistNames != null)
-    m.trackArtistNames!.join(", "),
+  if(m.artist != null)
+    m.artist!,
 
     s.title,
 

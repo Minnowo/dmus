@@ -2,10 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import '/generated/l10n.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
 
 
@@ -109,7 +109,7 @@ class Song extends DataEntity {
   File file;
 
   /// The metadata embedded inside the file
-  Metadata metadata;
+  AudioMetadata metadata;
 
   /// If the song is liked
   bool liked = false;
@@ -147,37 +147,30 @@ class Song extends DataEntity {
         id: file.path,
         title: title,
       duration: duration,
-      artist: metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? metadata.albumArtistName,
-      album: metadata.albumName,
+      artist: metadata.artist,
+      album: metadata.album,
       artUri: artPath != null ? Uri.file(artPath!.path) : null,
     );
   }
 
 
   String songArtist() {
-    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? S.current.nA;
+    return metadata.artist ?? S.current.nA;
   }
 
   String songAlbum() {
-    return metadata.albumName ?? S.current.nA;
+    return metadata.album ?? S.current.nA;
   }
 
   String artistAlbumText() {
 
     List<String> a = [];
 
-    if(metadata.albumName != null) {
-      a.add(metadata.albumName!);
+    if(metadata.album != null) {
+      a.add(metadata.album!);
     }
-    else if(metadata.albumArtistName != null) {
-      a.add(metadata.albumArtistName!);
-    }
-
-    if(metadata.authorName != null) {
-      a.add(metadata.authorName!);
-    }
-    else if(metadata.trackArtistNames != null) {
-      a.add(metadata.trackArtistNames!.join(", "));
+    else if(metadata.artist != null) {
+      a.add(metadata.artist!);
     }
 
     return a.join(" - ");

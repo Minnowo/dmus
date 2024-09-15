@@ -17,20 +17,20 @@ class MetadataContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return const AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          ListTile(
-            title: Text(S.current.editMetadata),
-            onTap: () {
-
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => EditMetadataPage(entity: songContext)))
-                  .then((value) {
-                logging.info("=wuu================== $value ${value.runtimeType}");
-              });
-            },
-          ),
+          // ListTile(
+          //   title: Text(S.current.editMetadata),
+          //   onTap: () {
+          //
+          //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => EditMetadataPage(entity: songContext)))
+          //         .then((value) {
+          //       logging.info("=wuu================== $value ${value.runtimeType}");
+          //     });
+          //   },
+          // ),
           // Add more options as needed
         ],
       ),

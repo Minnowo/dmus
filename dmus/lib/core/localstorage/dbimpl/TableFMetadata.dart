@@ -1,9 +1,9 @@
 
 import 'dart:io';
+import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
 import '../../Util.dart';
@@ -14,6 +14,8 @@ import '../../Util.dart';
 ///
 /// Contains methods for reading and writing from this table, as well as column information
 final class TableFMetadata {
+
+  static const String GENRE_JOIN = "`&\$";
 
   final int id;
   final String? title;
@@ -68,12 +70,12 @@ final class TableFMetadata {
 
     logging.info("Updating metadata for $file with id $songId");
 
-    Metadata m = await MetadataRetriever.fromFile(file);
+    AudioMetadata m = await readMetadata(file, getImage: true);
 
     Digest? cacheKey;
 
-    if(m.albumArt != null) {
-      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    if(m.pictures.isNotEmpty) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.pictures.first.bytes!);
     } else {
       cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
     }
@@ -81,17 +83,17 @@ final class TableFMetadata {
     try{
 
       await db.update(name, {
-        titleCol: m.trackName ?? Path.basename(file.path),
-        albumCol: m.albumName,
-        albumArtistCol: m.albumArtistName,
-        trackArtistCol: m.trackArtistNames?.join(trackArtistJoinValue),
-        genreCol: m.genre,
-        mimetypeCol: m.mimeType,
+        titleCol: m.title ?? Path.basename(file.path),
+        albumCol: m.album,
+        albumArtistCol: m.artist,
+        trackArtistCol: "",
+        genreCol: m.genres.join(GENRE_JOIN),
+        mimetypeCol: "",
         bitrateCol: m.bitrate,
         trackNumberCol: m.trackNumber,
         discNumberCol: m.discNumber,
-        yearCol: m.year,
-        durationMsCol: m.trackDuration,
+        yearCol: m.year?.year ?? 0,
+        durationMsCol: m.duration?.inMilliseconds ?? 0,
         artCacheKeyCol: cacheKey?.bytes
       },
           where: "$idCol = ?",
@@ -116,12 +118,12 @@ final class TableFMetadata {
 
     logging.info("Inserting metadata for $file with id $songId");
 
-    Metadata m = await MetadataRetriever.fromFile(file);
+    AudioMetadata m = await readMetadata(file, getImage: true);
 
     Digest? cacheKey;
 
-    if(m.albumArt != null) {
-      cacheKey = await ImageCacheController.cacheMemoryImage(m.albumArt!);
+    if(m.pictures.isNotEmpty) {
+      cacheKey = await ImageCacheController.cacheMemoryImage(m.pictures.first.bytes);
     } else {
       cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
     }
@@ -132,17 +134,17 @@ final class TableFMetadata {
 
       await db.insert(name,{
         idCol: songId,
-        titleCol: m.trackName ?? Path.basename(file.path),
-        albumCol: m.albumName,
-        albumArtistCol: m.albumArtistName,
-        trackArtistCol: m.trackArtistNames?.join(trackArtistJoinValue),
-        genreCol: m.genre,
-        mimetypeCol: m.mimeType,
+        titleCol: m.title ?? Path.basename(file.path),
+        albumCol: m.album,
+        albumArtistCol: m.artist,
+        trackArtistCol: "",
+        genreCol: m.genres.join(GENRE_JOIN),
+        mimetypeCol: "",
         bitrateCol: m.bitrate,
         trackNumberCol: m.trackNumber,
         discNumberCol: m.discNumber,
-        yearCol: m.year,
-        durationMsCol: m.trackDuration,
+        yearCol: m.year?.year ?? 0,
+        durationMsCol: m.duration?.inMilliseconds ?? 0,
         artCacheKeyCol: cacheKey?.bytes
       });
       return true;
@@ -158,20 +160,26 @@ final class TableFMetadata {
   /// Returns a Metadata object from a map going from column names to their datatype
   ///
   /// This does not include the artCacheKeyCol column
-  static Metadata fromMap(Map<String, Object?> e) {
+  static AudioMetadata fromMap(Map<String, Object?> e) {
 
-    return Metadata(
-        trackName: e[titleCol] as String?,
-        albumName: e[albumCol] as String?,
-        albumArtistName: e[albumArtistCol] as String?,
-        trackArtistNames: (e[trackArtistCol] as String?)?.split(trackArtistJoinValue),
-        genre: e[genreCol] as String?,
-        mimeType: e[mimetypeCol] as String?,
+    var a = AudioMetadata(
+      file: File("NULL"),
+        title: e[titleCol] as String?,
+        album: e[albumCol] as String?,
+        artist: e[albumArtistCol] as String?,
         bitrate: e[bitrateCol] as int?,
         trackNumber: e[trackNumberCol] as int?,
         discNumber: e[discNumberCol] as int?,
-        year: e[yearCol] as int?,
-        trackDuration: e[durationMsCol] as int?
+        year: DateTime(e[yearCol] as int? ?? 0),
+        duration:Duration(milliseconds: e[durationMsCol] as int? ?? 0)
     );
+
+    if(e.containsKey(genreCol)){
+
+      List<String> g = (e[genreCol] as String?)?.split(GENRE_JOIN) ?? [];
+
+      a.genres.addAll(g);
+    }
+    return a;
   }
 }

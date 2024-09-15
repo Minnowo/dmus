@@ -46,7 +46,6 @@ Future<void> main() async {
 
   final Locale myLocale = Locale(Platform.localeName);
   await S.load(myLocale);
-  await S.load(myLocale);
 
   runApp(
     ChangeNotifierProvider(

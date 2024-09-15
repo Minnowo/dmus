@@ -1,11 +1,11 @@
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
-import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import 'package:path/path.dart' as Path;
 import 'package:sqflite/sqflite.dart';
 import '../../Util.dart';
@@ -162,23 +162,23 @@ final class TableSong {
   /// Does not check for keys to exist, only use this if you know your map is good
   static Future<Song> fromMappedObjects(Map<String, Object?> e) async {
 
-    Metadata m = TableFMetadata.fromMap(e);
+    AudioMetadata m = TableFMetadata.fromMap(e);
 
     String path = e[TableSong.songPathCol] as String;
     String title = Path.basename(path);
-    int duration = 0;
+    Duration duration = Duration.zero;
 
-    if(m.trackName != null) {
-      title = m.trackName!;
+    if(m.title != null) {
+      title = m.title!;
     }
 
-    if(m.trackDuration != null) {
-      duration = m.trackDuration!;
+    if(m.duration != null) {
+      duration = m.duration!;
     }
 
     int id = e[TableSong.idCol] as int;
 
-    Song s = Song.withDuration(id: id, title: title, duration: Duration(milliseconds: duration), file: File(path), metadata: m);
+    Song s = Song.withDuration(id: id, title: title, duration: duration, file: File(path), metadata: m);
 
     await s.setPictureCacheKey(e[TableFMetadata.artCacheKeyCol] as Uint8List?);
 
