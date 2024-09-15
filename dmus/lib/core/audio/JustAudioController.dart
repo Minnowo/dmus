@@ -518,6 +518,12 @@ final class JustAudioController extends BaseAudioHandler {
     _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
   }
 
+  void queuePlaylistNext(Playlist p) {
+    logging.finest("playing playlist ${p.toStringWithSongs()}");
+    _playQueue.addAllToQueueNext(p.songs);
+    _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+  }
+
   void removeQueueAt(int index) {
 
     if(index < 0 || index >= _playQueue.length) return;

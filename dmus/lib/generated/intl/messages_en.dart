@@ -239,6 +239,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("All playlists uploaded!"),
         "property": MessageLookupByLibrary.simpleMessage("Property"),
         "queueAll": MessageLookupByLibrary.simpleMessage("Queue All"),
+        "queueAllNext": MessageLookupByLibrary.simpleMessage("Queue All Next"),
         "queueEmpty":
             MessageLookupByLibrary.simpleMessage("The queue is empty!"),
         "queueMode": MessageLookupByLibrary.simpleMessage("Queue Fill Mode"),

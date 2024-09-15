@@ -33,12 +33,17 @@ class PlaylistContextDialog extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.play_arrow),
           title: Text(S.current.playNow),
-          onTap: () => _playPlaylist(context, playlistContext),
+          onTap: () => popNavigatorPlayPlaylist(context, playlistContext),
         ),
         ListTile(
           leading: const Icon(Icons.queue),
           title: Text(S.current.queueAll),
-          onTap: () => _queuePlaylist(context, playlistContext),
+          onTap: () => popNavigatorQueuePlaylist(context, playlistContext),
+        ),
+        ListTile(
+          leading: const Icon(Icons.queue),
+          title: Text(S.current.queueAllNext),
+          onTap: () => popNavigatorQueuePlaylistNext(context, playlistContext),
         ),
         ListTile(
           leading: const Icon(Icons.edit),
@@ -60,17 +65,6 @@ class PlaylistContextDialog extends StatelessWidget {
       builder: (BuildContext context) =>
           PlaylistContextDialog(playlistContext: p),
     );
-  }
-
-  Future<void> _playPlaylist(BuildContext context, Playlist p) async {
-    popNavigatorSafe(context);
-    JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
-    await JustAudioController.instance.playPlaylist(p);
-  }
-
-  void _queuePlaylist(BuildContext context, Playlist p) {
-    popNavigatorSafe(context);
-    JustAudioController.instance.queuePlaylist(p);
   }
 
   void _editPlaylist(BuildContext context, Playlist p) {

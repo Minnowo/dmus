@@ -170,6 +170,16 @@ class S {
     );
   }
 
+  /// `Queue All Next`
+  String get queueAllNext {
+    return Intl.message(
+      'Queue All Next',
+      name: 'queueAllNext',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit Playlist`
   String get editPlaylist {
     return Intl.message(

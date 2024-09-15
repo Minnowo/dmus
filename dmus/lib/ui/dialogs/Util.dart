@@ -5,6 +5,8 @@
 
 import 'dart:io';
 
+import 'package:dmus/core/data/UIEnumSettings.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
@@ -106,6 +108,18 @@ Future<Playlist?> updateExistingPlaylist(BuildContext context, Playlist playlist
 Future<void> popNavigatorPlayPlaylist(BuildContext context, Playlist p) async {
 
   popNavigatorSafe(context);
+
+  switch(SettingsHandler.playlistQueueFillMode){
+
+    case PlaylistQueueFillMode.neverFill:
+      JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
+      break;
+
+    case PlaylistQueueFillMode.fillWithRandom:
+      JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_WHEN);
+      break;
+  }
+
   await JustAudioController.instance.playPlaylist(p);
 }
 
@@ -115,6 +129,12 @@ void popNavigatorQueuePlaylist(BuildContext context, Playlist p) {
 
   popNavigatorSafe(context);
   JustAudioController.instance.queuePlaylist(p);
+}
+
+void popNavigatorQueuePlaylistNext(BuildContext context, Playlist p) {
+
+  popNavigatorSafe(context);
+  JustAudioController.instance.queuePlaylistNext(p);
 }
 
 

@@ -11,6 +11,7 @@
 	"viewDetails": "View Details",
 	"playNow": "Play Now",
 	"queueAll": "Queue All",
+	"queueAllNext": "Queue All Next",
 	"editPlaylist": "Edit Playlist",
 	"close": "Close",
 	"searchEmpty": "Search cannot be empty!",

@@ -1,13 +1,9 @@
-
-
-
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math';
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
-
 
 /// What state the queue is in
 enum QueueState {
@@ -18,12 +14,10 @@ enum QueueState {
   end,
 }
 
-
 /// The play queue
 ///
 /// Handles songs, what is up next, what was played and where the player is at
 class PlayQueue {
-
   PlayQueue();
 
   final _queueChangedStream = StreamController<void>.broadcast();
@@ -46,7 +40,6 @@ class PlayQueue {
     return UnmodifiableListView(_queue);
   }
 
-
   /// The private queue
   final List<Song> _queue = [];
 
@@ -56,12 +49,9 @@ class PlayQueue {
   /// The private state
   QueueState _queueState = QueueState.empty;
 
-
-
   /// Moves to the previous item position in the queue and returns the song
   Song? advancePrevious() {
-
-    if(_queueState == QueueState.start || _queueState == QueueState.single) {
+    if (_queueState == QueueState.start || _queueState == QueueState.single) {
       return null;
     }
 
@@ -70,11 +60,9 @@ class PlayQueue {
     return _queue[_currentPosition];
   }
 
-
   /// Moves to the next item position in the queue and returns the song
   Song? advanceNext() {
-
-    if(_queueState == QueueState.end || _queueState == QueueState.single) {
+    if (_queueState == QueueState.end || _queueState == QueueState.single) {
       return null;
     }
 
@@ -83,15 +71,13 @@ class PlayQueue {
     return _queue[_currentPosition];
   }
 
-
   /// Moves to a random item position in the queue and returns the song
   Song? advanceRandom() {
-
-    if(_queue.isEmpty) {
+    if (_queue.isEmpty) {
       return null;
     }
 
-    if(_queue.length == 1) {
+    if (_queue.length == 1) {
       return _queue.firstOrNull;
     }
 
@@ -99,43 +85,39 @@ class PlayQueue {
 
     do {
       setPosition(Random().nextInt(_queue.length));
-    } while(_currentPosition == pos);
+    } while (_currentPosition == pos);
 
     return _queue[_currentPosition];
   }
 
-
   /// Gets the current song
   Song? current() {
-
-    if(_queue.isEmpty) {
+    if (_queue.isEmpty) {
       return null;
     }
 
     return _queue[_currentPosition];
   }
 
-
   /// Set the current position in the queue
   ///
   /// If the given index is out of range, it sets the position to the start or end of the queue
   void setPosition(int index) {
-
-    if(_queue.length == 1) {
+    if (_queue.length == 1) {
       _currentPosition = 0;
       _queueState = QueueState.single;
       _fireChanged();
       return;
     }
 
-    if(index <= 0)   {
+    if (index <= 0) {
       _currentPosition = 0;
       _queueState = QueueState.start;
       _fireChanged();
       return;
     }
 
-    if(index >= _queue.length - 1) {
+    if (index >= _queue.length - 1) {
       _currentPosition = _queue.length - 1;
       _queueState = QueueState.end;
       _fireChanged();
@@ -147,19 +129,16 @@ class PlayQueue {
     _fireChanged();
   }
 
-
   /// Jumps the position to the given index
   ///
   /// If the index is invalid do nothing
   void jumpToIndex(int index) {
-
-    if(!canJump(index)) {
+    if (!canJump(index)) {
       return;
     }
 
     setPosition(index);
   }
-
 
   /// Jumps the position to the current song
   ///
@@ -169,20 +148,19 @@ class PlayQueue {
   ///
   /// If the song is not in the queue add it next and jump
   void jumpTo(Song s) {
-
-    if(_queue.isEmpty) {
+    if (_queue.isEmpty) {
       return queueAdvanceNext(s);
     }
 
-    for(int i = _currentPosition; i < _queue.length; i++) {
-      if(_queue[i] == s) {
+    for (int i = _currentPosition; i < _queue.length; i++) {
+      if (_queue[i] == s) {
         setPosition(i);
         return;
       }
     }
 
-    for(int i = _currentPosition; i > -1; i--) {
-      if(_queue[i] == s) {
+    for (int i = _currentPosition; i > -1; i--) {
+      if (_queue[i] == s) {
         setPosition(i);
         return;
       }
@@ -191,12 +169,10 @@ class PlayQueue {
     queueAdvanceNext(s);
   }
 
-
   /// Returns true if the index is valid for jumping
   bool canJump(int index) {
     return _queue.isNotEmpty && index >= 0 && index < _queue.length;
   }
-
 
   /// Add the song to the next position in the queue and move the position forward
   void queueAdvanceNext(Song s) {
@@ -204,13 +180,11 @@ class PlayQueue {
     setPosition(_currentPosition + 1);
   }
 
-
   /// Add the song to the next position in the queue
   void queueNext(Song s) {
     _queue.insert(_currentPosition + 1, s);
     setPosition(_currentPosition);
   }
-
 
   /// Append the song to the queue
   void addToQueue(Song s) {
@@ -218,14 +192,13 @@ class PlayQueue {
     setPosition(_currentPosition);
   }
 
-
   /// Removes the queue at the given index
   Song? removeAt(int i) {
-    if(i < 0 || i > _queue.length) return null;
+    if (i < 0 || i > _queue.length) return null;
 
     Song? s;
 
-    if(_queue.length == 1) {
+    if (_queue.length == 1) {
       s = current();
       clear();
       return s;
@@ -238,21 +211,29 @@ class PlayQueue {
     return s;
   }
 
-
   /// Append the list of songs to the queue
   void addAllToQueue(Iterable<Song> s) {
     _queue.addAll(s);
     setPosition(_currentPosition);
   }
 
+  void addAllToQueueNext(Iterable<Song> s) {
+    if (_currentPosition + 1 >= _queue.length) {
+      _queue.addAll(s);
+    } else {
+      _queue.insertAll(_currentPosition + 1, s);
+    }
+
+    setPosition(_currentPosition);
+  }
 
   /// Shuffles the queue
   void shuffleQueue() {
-    if(_queue.isEmpty) return;
+    if (_queue.isEmpty) return;
 
     Song? s = current();
 
-    if(s == null) return;
+    if (s == null) return;
 
     logging.info("Shuffle queue ------------------------");
     _queue.shuffle();
@@ -260,7 +241,6 @@ class PlayQueue {
 
     _fireChanged();
   }
-
 
   /// Replace the queue contents with the given iterable
   ///
@@ -272,7 +252,6 @@ class PlayQueue {
     _supressUpdate = false;
   }
 
-
   /// Empty the queue
   void clear() {
     _queue.clear();
@@ -281,9 +260,8 @@ class PlayQueue {
     _fireChanged();
   }
 
-
   void _fireChanged() {
-    if(!_supressUpdate) {
+    if (!_supressUpdate) {
       _queueChangedStream.add(null);
     }
   }

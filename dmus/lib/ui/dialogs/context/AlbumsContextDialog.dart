@@ -38,6 +38,11 @@ class AlbumsContextDialog extends StatelessWidget {
           title: Text(S.current.queueAll),
           onTap: () => popNavigatorQueuePlaylist(context, playlistContext),
         ),
+        ListTile(
+          leading: const Icon(Icons.queue),
+          title: Text(S.current.queueAllNext),
+          onTap: () => popNavigatorQueuePlaylistNext(context, playlistContext),
+        ),
       ],
     );
   }
