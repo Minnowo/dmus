@@ -1,11 +1,9 @@
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/l10n/LocalizationMapper.dart';
-import 'package:dmus/ui/dialogs/form/MetadataSearchForm.dart';
 import 'package:dmus/ui/pages/EditMetadataPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
-import '../../Util.dart';
 
 class MetadataContextDialog extends StatelessWidget {
 
@@ -29,16 +27,6 @@ class MetadataContextDialog extends StatelessWidget {
 
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => EditMetadataPage(entity: songContext)))
                   .then((value) {
-                logging.info("=wuu================== $value ${value.runtimeType}");
-              });
-            },
-          ),
-          ListTile(
-            title: Text(LocalizationMapper.current.lookupMetadata),
-            onTap: () {
-
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => const MetadataSearchPage()))
-              .then((value) {
                 logging.info("=wuu================== $value ${value.runtimeType}");
               });
             },
