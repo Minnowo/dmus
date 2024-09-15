@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
@@ -39,7 +39,7 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocalizationMapper.current.blacklistPageTitle),
+        title: Text(S.current.blacklistPageTitle),
         centerTitle: true,
         actions: [
           IconButton(
@@ -62,7 +62,7 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
                     child: Text(
-                        LocalizationMapper.current.blacklistPageHelperText,
+                        S.current.blacklistPageHelperText,
                         textAlign: TextAlign.center
                     ),
 
@@ -103,9 +103,9 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
       context: context,
       builder: (ctx) => ConfirmDestructiveAction(
         promptText:
-        LocalizationMapper.current.confirmRemoveFromBlacklist,
-        yesText: LocalizationMapper.current.removeThem,
-        noText: LocalizationMapper.current.keep,
+        S.current.confirmRemoveFromBlacklist,
+        yesText: S.current.removeThem,
+        noText: S.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),

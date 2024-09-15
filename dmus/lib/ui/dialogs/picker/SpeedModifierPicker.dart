@@ -2,12 +2,12 @@
 
 
 import 'package:dmus/core/audio/JustAudioController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../core/Util.dart';
+import '../../../generated/l10n.dart';
 
 class SpeedModifierPicker extends StatefulWidget {
 
@@ -71,8 +71,8 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
                   FilteringTextInputFormatter.allow(decimalMatch),
                 ],
                 decoration: InputDecoration(
-                    labelText: LocalizationMapper.current.playbackSpeed,
-                    hintText: LocalizationMapper.current.playbackSpeed,
+                    labelText: S.current.playbackSpeed,
+                    hintText: S.current.playbackSpeed,
                     icon: const Icon(Icons.speed)
                 )
             ),
@@ -88,11 +88,11 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
               },
             ),
             ListTile(
-              title: Text(LocalizationMapper.current.ok, textAlign: TextAlign.center,),
+              title: Text(S.current.ok, textAlign: TextAlign.center,),
               onTap: changePlaybackSpeedSubmit,
             ),
             ListTile(
-              title: Text(LocalizationMapper.current.cancel, textAlign: TextAlign.center,),
+              title: Text(S.current.cancel, textAlign: TextAlign.center,),
               onTap: cancel,
             ),
           ]

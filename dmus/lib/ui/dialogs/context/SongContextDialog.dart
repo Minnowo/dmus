@@ -1,4 +1,4 @@
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/widgets/EntityInfoTile.dart';
 import 'package:flutter/material.dart';
 
@@ -32,34 +32,34 @@ class SongContextDialog extends StatelessWidget {
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.queue),
-            title: Text(LocalizationMapper.current.addToQueue),
+            title: Text(S.current.addToQueue),
             onTap: () => addQueue(songContext, context),
           ),
 
         ListTile(
           leading: const Icon(Icons.details),
-          title: Text(LocalizationMapper.current.viewDetails),
+          title: Text(S.current.viewDetails),
           onTap: () => showMetadataPage(context),
         ),
 
         if(mode == SongContextMode.queueMode && currentSongQueueIndex != null)
           ListTile(
             leading: const Icon(Icons.block),
-            title: Text(LocalizationMapper.current.removeQueue),
+            title: Text(S.current.removeQueue),
             onTap: () => removeQueueAt(currentSongQueueIndex!, context),
           ),
 
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.block),
-            title: Text(LocalizationMapper.current.removeSong),
+            title: Text(S.current.removeSong),
             onTap: () => deleteSong(songContext, context),
           ),
 
         if(mode == SongContextMode.normalMode)
           ListTile(
             leading: const Icon(Icons.block),
-          title: Text(LocalizationMapper.current.removeAndBlock),
+          title: Text(S.current.removeAndBlock),
           onTap: () => removeAndBlock(songContext, context),
         ),
       ],
@@ -90,7 +90,7 @@ class SongContextDialog extends StatelessWidget {
     JustAudioController.instance.addNextToQueue(s);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "${s.title} ${LocalizationMapper.current.titleAddedToQueue}"),
+      SnackBarData(text: "${s.title} ${S.current.titleAddedToQueue}"),
     );
 
     popNavigatorSafe(context);
@@ -103,9 +103,9 @@ class SongContextDialog extends StatelessWidget {
       context: context,
       builder: (ctx) => ConfirmDestructiveAction(
         promptText:
-        LocalizationMapper.current.confirmBlockSong,
-        yesText: LocalizationMapper.current.block,
-        noText: LocalizationMapper.current.keep,
+        S.current.confirmBlockSong,
+        yesText: S.current.block,
+        noText: S.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),
@@ -124,9 +124,9 @@ class SongContextDialog extends StatelessWidget {
     bool? result = await showDialog(
       context: context,
       builder: (ctx) => ConfirmDestructiveAction(
-        promptText: LocalizationMapper.current.confirmRemoveSong,
-        yesText: LocalizationMapper.current.remove,
-        noText: LocalizationMapper.current.keep,
+        promptText: S.current.confirmRemoveSong,
+        yesText: S.current.remove,
+        noText: S.current.keep,
         yesTextColor: Colors.red,
         noTextColor: null,
       ),
@@ -139,7 +139,7 @@ class SongContextDialog extends StatelessWidget {
     await ImportController.deleteSong(s);
 
     MessagePublisher.publishSnackbar(
-      SnackBarData(text: "${LocalizationMapper.current.songRemoved1} ${s.title} ${LocalizationMapper.current.songRemoved2}")
+      SnackBarData(text: "${S.current.songRemoved1} ${s.title} ${S.current.songRemoved2}")
     );
   }
 }

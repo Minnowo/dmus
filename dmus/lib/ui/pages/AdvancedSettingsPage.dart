@@ -2,13 +2,13 @@
 
 import 'package:dmus/core/data/provider/ThemeProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/data/UIEnumSettings.dart';
+import '../../generated/l10n.dart';
 import '../dialogs/Util.dart';
 import '../lookfeel/CommonTheme.dart';
 import '../widgets/BlueDivider.dart';
@@ -20,7 +20,7 @@ class AdvancedSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocalizationMapper.current.advancedSettings),
+        title: Text(S.current.advancedSettings),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -31,7 +31,7 @@ class AdvancedSettingsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                LocalizationMapper.current.appearance,
+                S.current.appearance,
                 style: TEXT_HEADER,
               ),
             ),
@@ -40,7 +40,7 @@ class AdvancedSettingsPage extends StatelessWidget {
 
             StatefulBuilder(builder: (context, setState)
             => SwitchListTile(
-              title: Text(LocalizationMapper.current.darkMode),
+              title: Text(S.current.darkMode),
               onChanged: (c) => setState(() => context.read<ThemeProvider>().setTheme(c)),
               value: context.read<ThemeProvider>().isDarkModeEnabled,
             )
@@ -53,7 +53,7 @@ class AdvancedSettingsPage extends StatelessWidget {
                 context.read<ThemeProvider>().notify();
               }) ,
               child: ListTile(
-                title: Text(LocalizationMapper.current.songsPageLITrail),
+                title: Text(S.current.songsPageLITrail),
                 trailing: Text("${songListWidgetTrailToInt(SettingsHandler.songPageTileTrailWith)}"),
               ),
               itemBuilder: (BuildContext context) {
@@ -61,11 +61,11 @@ class AdvancedSettingsPage extends StatelessWidget {
                 return <PopupMenuEntry<SongListWidgetTrail>>[
                   PopupMenuItem(
                     value: SongListWidgetTrail.trailWithMenu,
-                    child: Text(LocalizationMapper.current.trailMenu),
+                    child: Text(S.current.trailMenu),
                   ),
                   PopupMenuItem(
                     value: SongListWidgetTrail.trailWithDuration,
-                    child: Text(LocalizationMapper.current.trailDuration),
+                    child: Text(S.current.trailDuration),
                   ),
                 ];
               },
@@ -76,7 +76,7 @@ class AdvancedSettingsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                LocalizationMapper.current.random,
+                S.current.random,
                 style: TEXT_HEADER,
               ),
             ),
@@ -86,7 +86,7 @@ class AdvancedSettingsPage extends StatelessWidget {
             => PopupMenuButton<CurrentlyPlayingBarSwipe>(
               onSelected: (c) => setState(() => SettingsHandler.setCurrentlyPlayingSwipeMode(c)) ,
               child: ListTile(
-                title: Text(LocalizationMapper.current.playBarSwipeMode),
+                title: Text(S.current.playBarSwipeMode),
                 trailing: Text("${currentlyPlayingBarSwipeToInt(SettingsHandler.currentlyPlayingSwipeMode)}"),
               ),
               itemBuilder: (BuildContext context) {
@@ -94,11 +94,11 @@ class AdvancedSettingsPage extends StatelessWidget {
                 return <PopupMenuEntry<CurrentlyPlayingBarSwipe>>[
                   PopupMenuItem(
                     value: CurrentlyPlayingBarSwipe.swipeToCancel,
-                    child: Text(LocalizationMapper.current.swipeStop),
+                    child: Text(S.current.swipeStop),
                   ),
                   PopupMenuItem(
                     value: CurrentlyPlayingBarSwipe.swipeToNextPrevious,
-                    child: Text(LocalizationMapper.current.swipeNext),
+                    child: Text(S.current.swipeNext),
                   ),
                 ];
               },
@@ -110,7 +110,7 @@ class AdvancedSettingsPage extends StatelessWidget {
             => PopupMenuButton<QueueFillMode>(
               onSelected: (c) => setState(() => SettingsHandler.setQueueFillMode(c)) ,
               child: ListTile(
-                title: Text(LocalizationMapper.current.queueMode),
+                title: Text(S.current.queueMode),
                 trailing: Text("${queueFillModeToInt(SettingsHandler.queueFillMode)}"),
               ),
               itemBuilder: (BuildContext context) {
@@ -118,15 +118,38 @@ class AdvancedSettingsPage extends StatelessWidget {
                 return <PopupMenuEntry<QueueFillMode>>[
                   PopupMenuItem(
                     value: QueueFillMode.fillWithRandom,
-                    child: Text(LocalizationMapper.current.fillRandom),
+                    child: Text(S.current.fillRandom),
                   ),
                   PopupMenuItem(
                     value: QueueFillMode.fillWithRandomPrioritySameArtist,
-                    child: Text(LocalizationMapper.current.fillRandomArtistPriority),
+                    child: Text(S.current.fillRandomArtistPriority),
                   ),
                   PopupMenuItem(
                     value: QueueFillMode.neverGenerate,
-                    child: Text(LocalizationMapper.current.neverFillQueue),
+                    child: Text(S.current.neverFillQueue),
+                  ),
+                ];
+              },
+            ),
+            ),
+
+            StatefulBuilder(builder: (context, setState)
+            => PopupMenuButton<PlaylistQueueFillMode>(
+              onSelected: (c) => setState(() => SettingsHandler.setPlaylistQueueFillMode(c)) ,
+              child: ListTile(
+                title: Text(S.current.playlistQueueMode),
+                trailing: Text("${playlistQueueFillModeToInt(SettingsHandler.playlistQueueFillMode)}"),
+              ),
+              itemBuilder: (BuildContext context) {
+                // Define the items in the menu
+                return <PopupMenuEntry<PlaylistQueueFillMode>>[
+                  PopupMenuItem(
+                    value: PlaylistQueueFillMode.neverFill,
+                    child: Text(S.current.neverFillQueue),
+                  ),
+                  PopupMenuItem(
+                    value: PlaylistQueueFillMode.fillWithRandom,
+                    child: Text(S.current.fillRandom),
                   ),
                 ];
               },
@@ -137,7 +160,7 @@ class AdvancedSettingsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child:  Text(
-                LocalizationMapper.current.developer,
+                S.current.developer,
                 style: TEXT_HEADER,
               ),
             ),
@@ -145,25 +168,25 @@ class AdvancedSettingsPage extends StatelessWidget {
 
             ListTile(
               leading: const Icon(Icons.refresh),
-              title: Text(LocalizationMapper.current.refreshMetadata),
+              title: Text(S.current.refreshMetadata),
               onTap: () => refreshMetadata(context),
             ),
 
             ListTile(
               leading: const Icon(Icons.backup),
-              title: Text(LocalizationMapper.current.backupDatabase),
+              title: Text(S.current.backupDatabase),
               onTap: () => backupDatabase(context),
             ),
 
             ListTile(
               leading: const Icon(Icons.notification_add),
-              title: Text(LocalizationMapper.current.showSnackBar),
-              onTap: () => showSnackBarWithDuration(context, LocalizationMapper.current.snackBarTest, longSnackBarDuration),
+              title: Text(S.current.showSnackBar),
+              onTap: () => showSnackBarWithDuration(context, S.current.snackBarTest, longSnackBarDuration),
             ),
             ListTile(
               leading: const Icon(Icons.notification_add),
-              title: Text(LocalizationMapper.current.showErrorSnackBar),
-              onTap: () => showSnackBarWithDuration(context, LocalizationMapper.current.errorSnackBarTest, longSnackBarDuration, color: RED),
+              title: Text(S.current.showErrorSnackBar),
+              onTap: () => showSnackBarWithDuration(context, S.current.errorSnackBarTest, longSnackBarDuration, color: RED),
             ),
           ],
         ),

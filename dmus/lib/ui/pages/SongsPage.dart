@@ -1,6 +1,6 @@
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
@@ -20,7 +20,7 @@ import 'NavigationPage.dart';
 
 class SongsPage extends  StatelessNavigationPage {
 
-  SongsPage({super.key}) : super(icon: Icons.music_note, title: LocalizationMapper.current.songs);
+  SongsPage({super.key}) : super(icon: Icons.music_note, title: S.current.songs);
 
   @override
   Widget build(BuildContext context) {
@@ -38,27 +38,27 @@ class SongsPage extends  StatelessNavigationPage {
               return <PopupMenuEntry<SongSort>>[
                 PopupMenuItem(
                   value: SongSort.byRandom,
-                  child: Text(LocalizationMapper.current.sortByRandom),
+                  child: Text(S.current.sortByRandom),
                 ),
                 PopupMenuItem(
                   value: SongSort.byId,
-                  child: Text(LocalizationMapper.current.sortByID),
+                  child: Text(S.current.sortByID),
                 ),
                 PopupMenuItem(
                   value: SongSort.byTitle,
-                  child: Text(LocalizationMapper.current.sortByTitle),
+                  child: Text(S.current.sortByTitle),
                 ),
                 PopupMenuItem(
                   value: SongSort.byArtist,
-                  child: Text(LocalizationMapper.current.sortByArtist),
+                  child: Text(S.current.sortByArtist),
                 ),
                 PopupMenuItem(
                   value: SongSort.byAlbum,
-                  child: Text(LocalizationMapper.current.sortByAlbum),
+                  child: Text(S.current.sortByAlbum),
                 ),
                 PopupMenuItem(
                   value: SongSort.byDuration,
-                  child: Text(LocalizationMapper.current.sortByDuration),
+                  child: Text(S.current.sortByDuration),
                 ),
               ];
             },
@@ -81,7 +81,7 @@ class SongsPage extends  StatelessNavigationPage {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-                        child: Text(LocalizationMapper.current.noSongs,
+                        child: Text(S.current.noSongs,
                           textAlign: TextAlign.center
                       ),
                       )
@@ -100,7 +100,7 @@ class SongsPage extends  StatelessNavigationPage {
                               onTap: () => playSong(i),
                               onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode),
                               selected: false,
-                              background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
+                              background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.surface, Icons.queue),
                             )
                         ],
                       )

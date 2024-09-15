@@ -12,7 +12,6 @@ import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
 import 'package:dmus/generated/l10n.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
@@ -46,7 +45,8 @@ Future<void> main() async {
   await SettingsHandler.load();
 
   final Locale myLocale = Locale(Platform.localeName);
-  await LocalizationMapper.load(myLocale);
+  await S.load(myLocale);
+  await S.load(myLocale);
 
   runApp(
     ChangeNotifierProvider(
@@ -146,8 +146,6 @@ class DMUSApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('en', ''),
-            Locale('fr', ''),
-            Locale('es', ''),
           ],
           home: const RootPage(title: title),
         );
@@ -247,22 +245,22 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
 
   void _onPlaylistUpdated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    showSnackBarWithDuration(context, "${LocalizationMapper.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration);
+    showSnackBarWithDuration(context, "${S.current.updatedPlaylist}: ${playlist.title}", mediumSnackBarDuration);
     // ScaffoldMessenger.of(context).showSnackBar(createSimpleSnackBarWithDuration(, mediumSnackBarDuration));
   }
 
   void _onPlaylistCreated(Playlist playlist) {
     if(ImportController.reduceSnackBars) return;
-    showSnackBarWithDuration(context, "${LocalizationMapper.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration);
+    showSnackBarWithDuration(context, "${S.current.createdPlaylist}: ${playlist.title}", mediumSnackBarDuration);
   }
 
   void _onSongImported(Song s) {
     if(ImportController.reduceSnackBars) return;
-    showSnackBarWithDuration(context, "${LocalizationMapper.current.songImported}: ${s.title}", mediumSnackBarDuration);
+    showSnackBarWithDuration(context, "${S.current.songImported}: ${s.title}", mediumSnackBarDuration);
   }
 
   void _onSomethingWentWrong(String s) {
-    showSnackBarWithDuration(context, "${LocalizationMapper.current.error} $s", longSnackBarDuration);
+    showSnackBarWithDuration(context, "${S.current.error} $s", longSnackBarDuration);
   }
 
   void _onShowSnackBar(SnackBarData s) {

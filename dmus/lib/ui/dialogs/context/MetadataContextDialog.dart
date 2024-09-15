@@ -1,5 +1,5 @@
 import 'package:dmus/core/Util.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/pages/EditMetadataPage.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class MetadataContextDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTile(
-            title: Text(LocalizationMapper.current.editMetadata),
+            title: Text(S.current.editMetadata),
             onTap: () {
 
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) => EditMetadataPage(entity: songContext)))

@@ -167,6 +167,7 @@
 	"swipeStop": "Swipe to Stop",
 	"swipeNext": "Swipe for Next / Previous",
 	"queueMode": "Queue Fill Mode",
+	"playlistQueueMode": "Playlist Queue Fill Mode",
 	"fillRandom": "Fill With Random",
 	"fillRandomArtistPriority": "Fill With Random Priority Same Artist",
 	"neverFillQueue": "Never Fill Queue",

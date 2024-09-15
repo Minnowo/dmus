@@ -5,7 +5,7 @@ import 'dart:collection';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:dmus/ui/dialogs/context/SongContextDialog.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingControlBar.dart';
@@ -21,7 +21,7 @@ import '../lookfeel/CommonTheme.dart';
 
 class PlayQueuePage extends StatelessWidget {
 
-  static String QUEUE_EMPTY_TEXT = LocalizationMapper.current.queueEmpty;
+  static String QUEUE_EMPTY_TEXT = S.current.queueEmpty;
 
   const PlayQueuePage({super.key});
 
@@ -44,7 +44,7 @@ class PlayQueuePage extends StatelessWidget {
                 )
             )
         ),
-        title: Consumer2<QueueChanged, QueueShuffle>(builder: (context, queueChanged, _, child) => Text("${JustAudioController.instance.queueSize} ${LocalizationMapper.current.songs}")),
+        title: Consumer2<QueueChanged, QueueShuffle>(builder: (context, queueChanged, _, child) => Text("${JustAudioController.instance.queueSize} ${S.current.songs}")),
         actions: [
           IconButton(
               onPressed: JustAudioController.instance.shuffleQueue,

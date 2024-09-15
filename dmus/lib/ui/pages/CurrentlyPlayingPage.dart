@@ -1,6 +1,6 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
@@ -19,7 +19,7 @@ import '../lookfeel/CommonTheme.dart';
 
 class CurrentlyPlayingPage extends  StatelessWidget {
 
-  static String title = LocalizationMapper.current.currentlyPlaying;
+  static String title = S.current.currentlyPlaying;
 
   const CurrentlyPlayingPage({super.key});
 

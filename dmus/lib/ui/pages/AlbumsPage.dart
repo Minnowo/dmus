@@ -1,7 +1,7 @@
 
 import 'package:dmus/core/data/provider/AlbumProvider.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/widgets/AlbumTile.dart';
@@ -12,9 +12,9 @@ import '../widgets/SettingsDrawer.dart';
 
 class AlbumsPage extends StatelessNavigationPage {
 
-  AlbumsPage({super.key}) : super(icon: Icons.album, title: LocalizationMapper.current.albums);
+  AlbumsPage({super.key}) : super(icon: Icons.album, title: S.current.albums);
 
-  static String onEmptyText = LocalizationMapper.current.albumsAppear;
+  static String onEmptyText = S.current.albumsAppear;
 
   @override
   Widget build(BuildContext context) {

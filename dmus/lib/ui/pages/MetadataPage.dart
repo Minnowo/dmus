@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
@@ -43,7 +43,7 @@ class MetadataPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(LocalizationMapper.current.metadataInformation),
+          title: Text(S.current.metadataInformation),
           // actions: [
           //   IconButton(
           //     icon: const Icon(Icons.more),
@@ -69,7 +69,7 @@ class MetadataPage extends StatelessWidget {
                   }
 
                   if (snapshot.hasError) {
-                    return Text('${LocalizationMapper.current.errorShort} ${snapshot.error}');
+                    return Text('${S.current.errorShort} ${snapshot.error}');
                   }
 
                   if(!snapshot.hasData) {
@@ -80,7 +80,7 @@ class MetadataPage extends StatelessWidget {
                     return Image.file(snapshot.data!, fit: BoxFit.cover, );
                   }
 
-                  return Text(LocalizationMapper.current.noImagePath);
+                  return Text(S.current.noImagePath);
                 },
               ),
 
@@ -88,65 +88,65 @@ class MetadataPage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columns: [
-                  DataColumn(label: Text(LocalizationMapper.current.property)),
-                  DataColumn(label: Text(LocalizationMapper.current.value)),
+                  DataColumn(label: Text(S.current.property)),
+                  DataColumn(label: Text(S.current.value)),
                 ],
                 rows: [
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackName)),
+                    DataCell(Text(S.current.trackName)),
                     DataCell(Text(trackName)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackArtistNames)),
-                    DataCell(Text(trackArtistNames?.join(', ') ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.trackArtistNames)),
+                    DataCell(Text(trackArtistNames?.join(', ') ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.albumName)),
-                    DataCell(Text(albumName ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.albumName)),
+                    DataCell(Text(albumName ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.albumArtistName)),
-                    DataCell(Text(albumArtistName ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.albumArtistName)),
+                    DataCell(Text(albumArtistName ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackDuration)),
-                    DataCell(Text(trackDuration == null ? LocalizationMapper.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
+                    DataCell(Text(S.current.trackDuration)),
+                    DataCell(Text(trackDuration == null ? S.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.bitrate)),
-                    DataCell(Text(bitrate?.toString() ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.bitrate)),
+                    DataCell(Text(bitrate?.toString() ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.mimeType)),
-                    DataCell(Text(mimeType ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.mimeType)),
+                    DataCell(Text(mimeType ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.filePath)),
+                    DataCell(Text(S.current.filePath)),
                     DataCell(Text(song.file.path)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.year)),
-                    DataCell(Text(year == null ? LocalizationMapper.current.nA : year.toString())),
+                    DataCell(Text(S.current.year)),
+                    DataCell(Text(year == null ? S.current.nA : year.toString())),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.genre)),
-                    DataCell(Text(genre ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.genre)),
+                    DataCell(Text(genre ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackNumber)),
-                    DataCell(Text(trackNumber == null ? LocalizationMapper.current.nA : trackNumber.toString())),
+                    DataCell(Text(S.current.trackNumber)),
+                    DataCell(Text(trackNumber == null ? S.current.nA : trackNumber.toString())),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.diskNumber)),
-                    DataCell(Text(discNumber == null ? LocalizationMapper.current.nA : discNumber.toString())),
+                    DataCell(Text(S.current.diskNumber)),
+                    DataCell(Text(discNumber == null ? S.current.nA : discNumber.toString())),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.authorName)),
-                    DataCell(Text(authorName?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.authorName)),
+                    DataCell(Text(authorName?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.writerName)),
-                    DataCell(Text(writerName ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.writerName)),
+                    DataCell(Text(writerName ?? S.current.nA)),
                   ]),
                 ],
               ),

@@ -2,7 +2,7 @@
 
 
 import 'package:dmus/core/localstorage/SearchHandler.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/widgets/BlueDivider.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -19,7 +19,7 @@ import '../widgets/SettingsDrawer.dart';
 import 'NavigationPage.dart';
 
 class SearchPage extends StatefulNavigationPage {
-  SearchPage({super.key}) : super(icon: Icons.search, title: LocalizationMapper.current.search);
+  SearchPage({super.key}) : super(icon: Icons.search, title: S.current.search);
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -55,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
               // onChange_performSearchd: _performSearch,
               onSubmitted: _performSearch,
               decoration: InputDecoration(
-                hintText: '${LocalizationMapper.current.search}...',
+                hintText: '${S.current.search}...',
                 suffixIcon: IconButton(
                   onPressed: _clearSearchbar,
                   icon: const Icon(Icons.clear),
@@ -83,7 +83,7 @@ class _SearchPageState extends State<SearchPage> {
           title: Row(
             children: [
               Text(
-                LocalizationMapper.current.songs,
+                S.current.songs,
                 style: TEXT_BIG,
               ),
             ],
@@ -121,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
           title: Row(
             children: [
               Text(
-                LocalizationMapper.current.playlists,
+                S.current.playlists,
                 style: TEXT_BIG,
               ),
             ],
@@ -150,7 +150,7 @@ class _SearchPageState extends State<SearchPage> {
           title: Row(
             children: [
               Text(
-                LocalizationMapper.current.albums,
+                S.current.albums,
                 style: TEXT_BIG,
               ),
             ],

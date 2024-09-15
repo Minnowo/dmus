@@ -228,6 +228,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "playlist": MessageLookupByLibrary.simpleMessage("Playlist"),
         "playlistEmpty":
             MessageLookupByLibrary.simpleMessage("Playlist is empty"),
+        "playlistQueueMode":
+            MessageLookupByLibrary.simpleMessage("Playlist Queue Fill Mode"),
         "playlistRemoved1": MessageLookupByLibrary.simpleMessage("Playlist"),
         "playlistRemoved2": MessageLookupByLibrary.simpleMessage(
             "has been removed from the app"),

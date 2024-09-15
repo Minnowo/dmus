@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableWatchDirectory.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -90,7 +90,7 @@ class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(LocalizationMapper.current.watchDirectories),
+        title: Text(S.current.watchDirectories),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -109,7 +109,7 @@ class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
 
             if(_directoryPaths.isEmpty)
               Center(
-                child: Text(LocalizationMapper.current.watchDirectoriesEmpty,
+                child: Text(S.current.watchDirectoriesEmpty,
                     textAlign: TextAlign.center
                 ),
               )

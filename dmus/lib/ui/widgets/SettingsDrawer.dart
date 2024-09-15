@@ -1,4 +1,4 @@
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/pages/AdvancedSettingsPage.dart';
 import 'package:dmus/ui/pages/BlacklistedFilePage.dart';
@@ -34,26 +34,26 @@ class SettingsDrawer extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-            child: Text(LocalizationMapper.current.general,
+            child: Text(S.current.general,
                 style:
                 TextStyle(fontSize: subheaderFontSize)),
           ),
 
           ListTile(
             leading: const Icon(Icons.add),
-            title: Text(LocalizationMapper.current.addMusic),
+            title: Text(S.current.addMusic),
             onTap: () => showImportDialog(context),
           ),
 
           ListTile(
             leading: const Icon(Icons.folder),
-            title: Text(LocalizationMapper.current.watchDirectories),
+            title: Text(S.current.watchDirectories),
             onTap: () => manageWatchDirectories(context),
           ),
 
           ListTile(
             leading: const Icon(Icons.block),
-            title: Text(LocalizationMapper.current.blacklistPageTitle),
+            title: Text(S.current.blacklistPageTitle),
             onTap: () => showBlacklistedFiles(context),
           ),
 
@@ -61,12 +61,12 @@ class SettingsDrawer extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-            child: Text(LocalizationMapper.current.other, style: TextStyle(fontSize: subheaderFontSize)),
+            child: Text(S.current.other, style: TextStyle(fontSize: subheaderFontSize)),
           ),
 
           ListTile(
             leading: const Icon(Icons.settings),
-            title: Text(LocalizationMapper.current.advancedSettings),
+            title: Text(S.current.advancedSettings),
             onTap: () => showAdvancedSettings(context),
           ),
         ],

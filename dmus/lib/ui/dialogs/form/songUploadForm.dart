@@ -1,11 +1,11 @@
 
 
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
 import '../../../core/data/DataEntity.dart';
+import '../../../generated/l10n.dart';
 import '../picker/DataEntityPicker.dart';
 
 
@@ -34,7 +34,7 @@ class _SongUploadFormState extends State<SongUploadForm> {
   int _stupidUniqueKeyForDismissible = minInteger;
   List<Song> selectedSongs = [];
 
-  static String title = LocalizationMapper.current.uploadSongs;
+  static String title = S.current.uploadSongs;
   static const double pad = 15.0;
   static const int maxTitleLength = 512;
 
@@ -95,7 +95,7 @@ class _SongUploadFormState extends State<SongUploadForm> {
               Expanded(
                 child: Center(
                   child: Text(
-                    LocalizationMapper.current.selectedSongsIsEmpty,
+                    S.current.selectedSongsIsEmpty,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -153,14 +153,14 @@ class _SongUploadFormState extends State<SongUploadForm> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.increment,
+            tooltip: S.current.increment,
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.increment,
+            tooltip: S.current.increment,
             onPressed: finishSongUpload,
             child: const Icon(Icons.save),
           ),

@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:flutter_media_metadata/flutter_media_metadata.dart';
 import '../Util.dart';
 
@@ -154,11 +154,11 @@ class Song extends DataEntity {
 
 
   String songArtist() {
-    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? LocalizationMapper.current.nA;
+    return metadata.authorName ?? metadata.trackArtistNames?.join(", ") ?? S.current.nA;
   }
 
   String songAlbum() {
-    return metadata.albumName ?? LocalizationMapper.current.nA;
+    return metadata.albumName ?? S.current.nA;
   }
 
   String artistAlbumText() {
@@ -274,7 +274,7 @@ class Playlist extends DataEntity {
   String basicInfoTextWithSep(String sep){
     return [
       formatDuration(duration),
-      "${songs.length} ${LocalizationMapper.current.basicInfoTextWithSep}",
+      "${songs.length} ${S.current.basicInfoTextWithSep}",
     ].join(sep);
   }
 

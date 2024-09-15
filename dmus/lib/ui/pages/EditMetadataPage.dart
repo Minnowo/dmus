@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -82,7 +82,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(LocalizationMapper.current.editMetadata),
+          title: Text(S.current.editMetadata),
         ),
         body: ListView(
           children: [
@@ -100,7 +100,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                   }
 
                   if (snapshot.hasError) {
-                    return Text('${LocalizationMapper.current.errorShort} ${snapshot.error}');
+                    return Text('${S.current.errorShort} ${snapshot.error}');
                   }
 
                   if(!snapshot.hasData) {
@@ -111,7 +111,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     return Image.file(snapshot.data!, fit: BoxFit.cover, );
                   }
 
-                  return Text(LocalizationMapper.current.noImagePath);
+                  return Text(S.current.noImagePath);
                 },
               ),
 
@@ -119,12 +119,12 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
               scrollDirection: Axis.horizontal,
               child: DataTable(
                 columns: [
-                  DataColumn(label: Text(LocalizationMapper.current.property)),
-                  DataColumn(label: Text(LocalizationMapper.current.value)),
+                  DataColumn(label: Text(S.current.property)),
+                  DataColumn(label: Text(S.current.value)),
                 ],
                 rows: [
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackName)),
+                    DataCell(Text(S.current.trackName)),
                     DataCell(
                       TextField(
                         controller: _trackNameController,
@@ -132,7 +132,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackArtistNames)),
+                    DataCell(Text(S.current.trackArtistNames)),
                     DataCell(
                       TextField(
                         controller: _trackArtistNameController,
@@ -140,7 +140,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.albumName)),
+                    DataCell(Text(S.current.albumName)),
                     DataCell(
                       TextField(
                         controller: _albumNameController,
@@ -148,7 +148,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.albumArtistName)),
+                    DataCell(Text(S.current.albumArtistName)),
                     DataCell(
                       TextField(
                         controller: _albumArtistNameController,
@@ -156,23 +156,23 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackDuration)),
-                    DataCell(Text(trackDuration == null ? LocalizationMapper.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
+                    DataCell(Text(S.current.trackDuration)),
+                    DataCell(Text(trackDuration == null ? S.current.nA : formatDuration(Duration(milliseconds: trackDuration)))),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.bitrate)),
-                    DataCell(Text(bitrate?.toString() ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.bitrate)),
+                    DataCell(Text(bitrate?.toString() ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.mimeType)),
-                    DataCell(Text(mimeType ?? LocalizationMapper.current.nA)),
+                    DataCell(Text(S.current.mimeType)),
+                    DataCell(Text(mimeType ?? S.current.nA)),
                   ]),
                   DataRow(cells: [
                     const DataCell(Text('Year')),
-                    DataCell(Text(year == null ? LocalizationMapper.current.nA : year.toString())),
+                    DataCell(Text(year == null ? S.current.nA : year.toString())),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.genre)),
+                    DataCell(Text(S.current.genre)),
                     DataCell(
                       TextField(
                         controller: _genreController,
@@ -180,7 +180,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.trackNumber)),
+                    DataCell(Text(S.current.trackNumber)),
                     DataCell(
                       TextFormField(
                           controller: _trackNumberController,
@@ -192,7 +192,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.diskNumber)),
+                    DataCell(Text(S.current.diskNumber)),
                     DataCell(
                       TextFormField(
                         controller: _diskNumberController,
@@ -204,7 +204,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.authorName)),
+                    DataCell(Text(S.current.authorName)),
                     DataCell(
                       TextField(
                         controller: _authorNameController,
@@ -212,7 +212,7 @@ class _EditMetadataPageState extends  State<EditMetadataPage> {
                     ),
                   ]),
                   DataRow(cells: [
-                    DataCell(Text(LocalizationMapper.current.writerName)),
+                    DataCell(Text(S.current.writerName)),
                     DataCell(
                       TextField(
                         controller: _writerNameController,

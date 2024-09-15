@@ -1,6 +1,7 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/data/DataEntity.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/widgets/ArtDisplay.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
@@ -16,7 +17,7 @@ import '../lookfeel/CommonTheme.dart';
 import '../widgets/CurrentlyPlayingBar.dart';
 
 class SelectedPlaylistPage extends StatelessWidget {
-  static String title = LocalizationMapper.current.playlist;
+  static String title = S.current.playlist;
 
   final Playlist playlistContext;
 
@@ -48,7 +49,7 @@ class SelectedPlaylistPage extends StatelessWidget {
 
             Container(
               height: THUMB_SIZE * 2,
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,7 +75,7 @@ class SelectedPlaylistPage extends StatelessWidget {
             ),
 
             Container(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -156,7 +157,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           selected: (JustAudioController.instance.lastPlaylistInQueue == playlistContext.songsHashCode() && s.id == playerSong.song?.id && i == playerSong.index) ||
                                     (JustAudioController.instance.lastPlaylistInQueue != playlistContext.songsHashCode() && s.id == playerSong.song?.id),
                           confirmDismiss: (d) => addToQueueSongDismiss(d, s),
-                          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
+                          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.surface, Icons.queue),
                           onTap: () => playSong(playlistContext, i) ,
                           onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode),
                           leadWith: playlistContext.entityType ==
@@ -187,7 +188,7 @@ class SelectedPlaylistPage extends StatelessWidget {
             ),
           const SizedBox(height: 16),
           Text(
-            LocalizationMapper.current.playlistEmpty,
+            S.current.playlistEmpty,
             style: const TextStyle(fontSize: 20),
           ),
           const SizedBox(height: 16),
@@ -216,7 +217,17 @@ class SelectedPlaylistPage extends StatelessWidget {
 
 
   Future<void> playSong(Playlist p, int i) async {
-    JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
+
+    switch(SettingsHandler.playlistQueueFillMode){
+
+      case PlaylistQueueFillMode.neverFill:
+        JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_NEVER);
+        break;
+
+      case PlaylistQueueFillMode.fillWithRandom:
+        JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_WHEN);
+        break;
+    }
     await JustAudioController.instance.playPlaylistStartingFrom(playlistContext, i);
   }
 }

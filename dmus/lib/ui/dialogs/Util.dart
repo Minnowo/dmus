@@ -5,7 +5,6 @@
 
 import 'dart:io';
 
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
@@ -23,6 +22,7 @@ import '../Util.dart';
 import '../lookfeel/Animations.dart';
 import '../lookfeel/CommonTheme.dart';
 import '../pages/SelectedPlaylistPage.dart';
+import '../../../generated/l10n.dart';
 import 'context/AlbumsContextDialog.dart';
 import 'context/PlaylistContextDialog.dart';
 import 'form/PlaylistCreationForm.dart';
@@ -167,9 +167,9 @@ Future<void> refreshMetadata(BuildContext context) async {
   final r = await showDialog(
       context: context,
       builder: (ctx) => ConfirmDestructiveAction(
-          promptText: LocalizationMapper.current.metadataRefreshConfirm,
-          yesText: LocalizationMapper.current.refreshMetadata,
-          noText: LocalizationMapper.current.cancel,
+          promptText: S.current.metadataRefreshConfirm,
+          yesText: S.current.refreshMetadata,
+          noText: S.current.cancel,
           yesTextColor: RED,
           noTextColor:  null
       )
@@ -198,7 +198,7 @@ Future<void> backupDatabase(BuildContext context) async {
       logging.warning("Cannot save file because it already exists");
 
       if(context.mounted) {
-        showSnackBarWithDuration(context, "${LocalizationMapper.current.pathAlreadyExists1} $databaseExport ${LocalizationMapper.current.pathAlreadyExists2}", longSnackBarDuration);
+        showSnackBarWithDuration(context, "${S.current.pathAlreadyExists1} $databaseExport ${S.current.pathAlreadyExists2}", longSnackBarDuration);
       }
       return;
     }
@@ -206,7 +206,7 @@ Future<void> backupDatabase(BuildContext context) async {
     if(await DatabaseController.backupDatabase(databaseExport)) {
 
       if(context.mounted) {
-        showSnackBarWithDuration(context, "${LocalizationMapper.current.exportedDatabase} $databaseExport", longSnackBarDuration);
+        showSnackBarWithDuration(context, "${S.current.exportedDatabase} $databaseExport", longSnackBarDuration);
       }
 
     }

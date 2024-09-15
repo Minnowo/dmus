@@ -1,12 +1,12 @@
 
 
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
 import '../../../core/data/DataEntity.dart';
+import '../../../generated/l10n.dart';
 import '../picker/DataEntityPicker.dart';
 
 
@@ -52,12 +52,12 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
     super.initState();
 
     if (widget.editing != null) {
-      title = LocalizationMapper.current.editPlaylist;
+      title = S.current.editPlaylist;
       _playlistTitleTextController.text = widget.editing!.title;
 
       selectedSongs.addAll(widget.editing!.songs);
     } else {
-      title = LocalizationMapper.current.createPlaylist;
+      title = S.current.createPlaylist;
     }
   }
 
@@ -111,14 +111,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
                   child: TextFormField(
-                      decoration: InputDecoration(labelText: LocalizationMapper.current.playlistTitle),
+                      decoration: InputDecoration(labelText: S.current.playlistTitle),
                       controller: _playlistTitleTextController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return LocalizationMapper.current.emptyTitleError;
+                          return S.current.emptyTitleError;
                         }
                         if (value.length > maxTitleLength) {
-                          return "${LocalizationMapper.current.titleMaxLengthError} $maxTitleLength";
+                          return "${S.current.titleMaxLengthError} $maxTitleLength";
                         }
                         return null;
                       }
@@ -133,7 +133,7 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
                           children: [
 
                             Text(
-                                LocalizationMapper.current.selectedSongsIsEmpty,
+                                S.current.selectedSongsIsEmpty,
                                 textAlign: TextAlign.center
                             ),
                           ],
@@ -195,14 +195,14 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         children: [
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.pickSongs,
+            tooltip: S.current.pickSongs,
             onPressed: addSongsPicker,
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: null,
-            tooltip: LocalizationMapper.current.savePlaylist,
+            tooltip: S.current.savePlaylist,
             onPressed: finishPlaylist,
             child: const Icon(Icons.save),
           ),

@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
 import '../../Util.dart';
+import '../../../generated/l10n.dart';
 
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
@@ -52,17 +52,17 @@ class ImportDialog extends StatelessWidget {
           children: <Widget>[
             TextButton(
               onPressed: () => pickFilesAndImport(context),
-              child: Text(LocalizationMapper.current.addFiles)
+              child: Text(S.current.addFiles)
             ),
             TextButton(
               onPressed: () => pickFolderAndImport(context) ,
-              child: Text(LocalizationMapper.current.addFolder),
+              child: Text(S.current.addFolder),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(LocalizationMapper.current.close),
+              child: Text(S.current.close),
             ),
           ],
         ),

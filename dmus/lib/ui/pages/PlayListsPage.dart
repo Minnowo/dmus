@@ -1,6 +1,6 @@
 
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'NavigationPage.dart';
 
 class PlaylistsPage extends StatelessNavigationPage{
 
-  PlaylistsPage({super.key}) : super(icon: Icons.list, title: LocalizationMapper.current.playlists);
+  PlaylistsPage({super.key}) : super(icon: Icons.list, title: S.current.playlists);
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +30,19 @@ class PlaylistsPage extends StatelessNavigationPage{
               return <PopupMenuEntry<PlaylistSort>>[
                 PopupMenuItem(
                   value: PlaylistSort.byId,
-                  child: Text(LocalizationMapper.current.sortByID),
+                  child: Text(S.current.sortByID),
                 ),
                 PopupMenuItem(
                   value: PlaylistSort.byTitle,
-                  child: Text(LocalizationMapper.current.sortByTitle),
+                  child: Text(S.current.sortByTitle),
                 ),
                 PopupMenuItem(
                   value: PlaylistSort.byDuration,
-                  child: Text(LocalizationMapper.current.sortByDuration),
+                  child: Text(S.current.sortByDuration),
                 ),
                 PopupMenuItem(
                   value: PlaylistSort.byNumberOfTracks,
-                  child: Text(LocalizationMapper.current.sortByNumberOfTracks),
+                  child: Text(S.current.sortByNumberOfTracks),
                 ),
               ];
             },
@@ -79,13 +79,13 @@ class PlaylistsPage extends StatelessNavigationPage{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            LocalizationMapper.current.noPlaylists,
+                            S.current.noPlaylists,
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            LocalizationMapper.current.clickToCreate,
+                            S.current.clickToCreate,
                             style: const TextStyle(fontSize: 16),
                             textAlign: TextAlign.center,
                           ),

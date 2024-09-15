@@ -6,7 +6,7 @@ import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 
 import '../Util.dart';
 import '../data/DataEntity.dart';
@@ -109,7 +109,7 @@ final class ImportController {
       logging.warning("No external storage permission! Trying to check watch dirs anyway!");
     }
 
-    MessagePublisher.publishSnackbar(SnackBarData(text: "${LocalizationMapper.current.checkingDirectories1} ${watchDirs.length} ${LocalizationMapper.current.checkingDirectories2}"));
+    MessagePublisher.publishSnackbar(SnackBarData(text: "${S.current.checkingDirectories1} ${watchDirs.length} ${S.current.checkingDirectories2}"));
 
     for(final d in watchDirs) {
 
@@ -139,7 +139,7 @@ final class ImportController {
       final filePath = File(path);
 
       if(!await filePath.exists()) {
-        MessagePublisher.publishSnackbar(SnackBarData(text: "${LocalizationMapper.current.songPathDoesNotExist1} $path ${LocalizationMapper.current.songPathDoesNotExist2}"));
+        MessagePublisher.publishSnackbar(SnackBarData(text: "${S.current.songPathDoesNotExist1} $path ${S.current.songPathDoesNotExist2}"));
         await TableSong.deleteSongById(id);
         _songDeletedIdController.add(id);
         continue;
@@ -212,7 +212,7 @@ final class ImportController {
       logging.warning("Cannot import $path because it does not exist");
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            LocalizationMapper.current.cannotImportSongDoesNotExist);
+            S.current.cannotImportSongDoesNotExist);
       }
       return;
     }
@@ -223,7 +223,7 @@ final class ImportController {
       logging.warning("Could not get song with id $songId, even though it was just imported!");
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            LocalizationMapper.current.dbError);
+            S.current.dbError);
       }
       return;
     }
@@ -244,7 +244,7 @@ final class ImportController {
     if(files.length > 1) {
       if(!_silencePubs) {
         MessagePublisher.publishSnackbar(
-            SnackBarData(text: "${LocalizationMapper.current.importingSongs1} ${files.length} ${LocalizationMapper.current.importingSongs2}"));
+            SnackBarData(text: "${S.current.importingSongs1} ${files.length} ${S.current.importingSongs2}"));
       }
       _supressSnackBars = true;
     }
@@ -293,7 +293,7 @@ final class ImportController {
 
       if(files.isEmpty) {
         if(!_silencePubs) {
-          MessagePublisher.publishSnackbar(SnackBarData(text: LocalizationMapper.current.noFilesInFolder));
+          MessagePublisher.publishSnackbar(SnackBarData(text: S.current.noFilesInFolder));
         }
         return;
       }
@@ -308,7 +308,7 @@ final class ImportController {
 
       if(!_silencePubs) {
         MessagePublisher.publishSomethingWentWrong(
-            LocalizationMapper.current.noPermissionInDirectory);
+            S.current.noPermissionInDirectory);
       }
     }
     on Exception catch(e) {
@@ -346,7 +346,7 @@ final class ImportController {
 
     if(playlistId == null) {
       logging.info("Could not create playlist");
-      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.emptyName);
+      MessagePublisher.publishSomethingWentWrong(S.current.emptyName);
       return;
     }
 
@@ -369,7 +369,7 @@ final class ImportController {
 
     if(playlistId0 == null) {
       logging.info("Could not edit playlist");
-      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.cannotEditPlaylist);
+      MessagePublisher.publishSomethingWentWrong(S.current.cannotEditPlaylist);
       return;
     }
 
@@ -389,7 +389,7 @@ final class ImportController {
 
     if(playlistId0 == null) {
       logging.info("Could not edit playlist");
-      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.cannotEditPlaylist);
+      MessagePublisher.publishSomethingWentWrong(S.current.cannotEditPlaylist);
       return pl;
     }
 

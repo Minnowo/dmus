@@ -1650,6 +1650,16 @@ class S {
     );
   }
 
+  /// `Playlist Queue Fill Mode`
+  String get playlistQueueMode {
+    return Intl.message(
+      'Playlist Queue Fill Mode',
+      name: 'playlistQueueMode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Fill With Random`
   String get fillRandom {
     return Intl.message(

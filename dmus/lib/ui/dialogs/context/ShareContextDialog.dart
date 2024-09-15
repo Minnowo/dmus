@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -32,23 +32,23 @@ class ShareContextDialog extends StatelessWidget {
       children: <Widget>[
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareFile),
+          title: Text(S.current.shareFile),
           onTap: () => shareFile(context),
         ),
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareTitle),
+          title: Text(S.current.shareTitle),
           onTap: () => shareTitle(context),
         ),
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareTitlePlus),
+          title: Text(S.current.shareTitlePlus),
           onTap: () => shareSongTitleAndMore(context),
         ),
 
         if(dataEntity.artPath != null)
           ListTile(
-            title: Text(LocalizationMapper.current.sharePicture),
+            title: Text(S.current.sharePicture),
             onTap: () => shareArtwork(context),
           ),
 
@@ -62,23 +62,23 @@ class ShareContextDialog extends StatelessWidget {
       children: <Widget>[
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareTitle),
+          title: Text(S.current.shareTitle),
           onTap: () => shareTitle(context),
         ),
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareAllSongs),
+          title: Text(S.current.shareAllSongs),
           onTap: () => sharePlaylistSongs(context),
         ),
 
         ListTile(
-          title: Text(LocalizationMapper.current.shareAllMore),
+          title: Text(S.current.shareAllMore),
           onTap: () => sharePlaylistSongsAndMore(context),
         ),
 
         if(dataEntity.artPath != null)
           ListTile(
-            title: Text(LocalizationMapper.current.sharePicture),
+            title: Text(S.current.sharePicture),
             onTap: () => shareArtwork(context),
           ),
 

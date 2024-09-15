@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
-import 'package:dmus/l10n/LocalizationMapper.dart';
+import '/generated/l10n.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as Path;
 import '../Util.dart';
@@ -173,7 +173,7 @@ abstract class ImageCacheController {
     }
     on MissingPlatformDirectoryException catch(e){
       logging.warning("Could not get temp directory!; $e");
-      MessagePublisher.publishSomethingWentWrong(LocalizationMapper.current.noTemporaryDirectory);
+      MessagePublisher.publishSomethingWentWrong(S.current.noTemporaryDirectory);
     }
     on IOException catch(e) {
       logging.warning("Could not copy file to temp; $e");
