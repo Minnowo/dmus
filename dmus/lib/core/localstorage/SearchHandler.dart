@@ -1,5 +1,6 @@
 
 
+import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -14,9 +15,11 @@ final class SearchHandler {
 
 
   /// Search for albums which match the given text
-  static Future<List<Album>> searchForAlbums(String text) async {
+  static Future<List<Album>> searchForAlbums(List<String> search) async {
 
-    List<String> search = text.split("\s+");
+    if(search.isEmpty) {
+      return [];
+    }
 
     List<Album> result = await TableAlbum.albumsWhichMatch(search);
 
@@ -25,9 +28,11 @@ final class SearchHandler {
 
 
   /// Search for playlists which match the given text
-  static Future<List<Playlist>> searchForPlaylists(String text) async {
+  static Future<List<Playlist>> searchForPlaylists(List<String> search) async {
 
-    List<String> search = text.split("\s+");
+    if(search.isEmpty) {
+      return [];
+    }
 
     List<Playlist> result = await TablePlaylist.playlistsWhichMatch(search);
 
@@ -36,9 +41,11 @@ final class SearchHandler {
 
 
   /// Search for songs which match the given text
-  static Future<List<Song>> searchForSongs(String text) async {
+  static Future<List<Song>> searchForSongs(List<String> search) async {
 
-    List<String> search = text.split("\s+");
+    if(search.isEmpty) {
+      return [];
+    }
 
     List<Song> result = await TableSong.songsWhichMatch(search);
 
@@ -51,10 +58,12 @@ final class SearchHandler {
   /// This is a more advanced search than some of the individual functions above, as it also searching for playlists which contain matching songs
   static Future<List<DataEntity>> searchForText(String search) async {
 
-    List<Song> s = await searchForSongs(search);
-    List<Playlist> p1 = await searchForPlaylists(search);
+    List<String> terms = search.split("\s+").where((x) => x.isNotEmpty).toList();
+
+    List<Song> s = await searchForSongs(terms);
+    List<Playlist> p1 = await searchForPlaylists(terms);
     List<Playlist> p2 = await TablePlaylist.playlistsWithSongs(s);
-    List<Album> a1 = await searchForAlbums(search);
+    List<Album> a1 = await searchForAlbums(terms);
     List<Album> a2 = await TableAlbum.albumsWithSongs(s);
 
     if(p1.isNotEmpty && p2.isNotEmpty) {

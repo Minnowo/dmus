@@ -29,9 +29,9 @@ class _SearchPageState extends State<SearchPage> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  List<Song> _songResults = [];
-  List<Album> _albumResults = [];
-  List<Playlist> _playlistResults = [];
+  final  List<Song> _songResults = [];
+  final  List<Album> _albumResults = [];
+  final  List<Playlist> _playlistResults = [];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,8 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              onChanged: _performSearch,
+              // onChanged: _performSearch,
+              onSubmitted: _performSearch,
               decoration: InputDecoration(
                 hintText: '${LocalizationMapper.current.search}...',
                 suffixIcon: IconButton(
@@ -102,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
           onTap: () => JustAudioController.instance.playSong(i),
           onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode),
           confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.background, Icons.queue),
+          background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.surface, Icons.queue),
         ),
     ];
   }
@@ -188,7 +189,9 @@ class _SearchPageState extends State<SearchPage> {
       _albumResults.clear();
 
       for(final i in value){
-        logging.info(i);
+
+        // logging.info(i);
+
         switch(i.entityType) {
 
           case EntityType.song:
