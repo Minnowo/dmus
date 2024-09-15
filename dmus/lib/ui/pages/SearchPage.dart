@@ -52,7 +52,7 @@ class _SearchPageState extends State<SearchPage> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               controller: _searchController,
-              // onChanged: _performSearch,
+              // onChange_performSearchd: _performSearch,
               onSubmitted: _performSearch,
               decoration: InputDecoration(
                 hintText: '${LocalizationMapper.current.search}...',

@@ -18,7 +18,7 @@ abstract class ImageCacheController {
 
   ImageCacheController._();
 
-  static Map<String, Pair<Digest?, bool>> _dirCoverCache = {};
+  static final Map<String, Pair<Digest?, bool>> _dirCoverCache = {};
 
   /// The cache folder, which will exist inside the
   /// program document directory
@@ -27,16 +27,18 @@ abstract class ImageCacheController {
   /// folders to split up where cached files are put
   static const String imageCacheDir = "images";
 
+  static Directory? appDir;
+
 
   /// Converts the given SHA256 hash hex-string to a file location
   /// in the cache, which the contents should be saved
   static Future<File> hexToPath(String hex) async {
 
-    Directory appDir = await getApplicationDocumentsDirectory();
+    appDir ??= await getApplicationDocumentsDirectory();
 
-    logging.finest("Getting cached path from $hex");
+    // logging.finest("Getting cached path from $hex");
 
-    return File(Path.join(appDir.path, imageCacheDir, "${hex[0]}${hex[1]}", hex));
+    return File(Path.join(appDir?.path ?? "", imageCacheDir, "${hex[0]}${hex[1]}", hex));
   }
 
 
@@ -115,13 +117,13 @@ abstract class ImageCacheController {
     final File path = await digestToPath(hash);
 
     if(await path.exists()) {
-      logging.info("Cache hit for key $hash");
+      // logging.info("Cache hit for key $hash");
       return hash;
     }
 
     await path.parent.create(recursive: true);
 
-    logging.info("Caching image to $path with key $hash");
+    // logging.info("Caching image to $path with key $hash");
 
     await path.writeAsBytes(image);
 
@@ -194,7 +196,7 @@ abstract class ImageCacheController {
 
     if(p != null) {
 
-      logging.info("Cache hit with directory cover art!!!");
+      // logging.info("Cache hit with directory cover art!!!");
 
       if(p.itemB) {
         return p.itemA;
