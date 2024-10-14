@@ -83,7 +83,7 @@ final class JustAudioController extends BaseAudioHandler {
     await AudioService.init(
       builder: () => instance,
       config: const AudioServiceConfig(
-        androidNotificationChannelId: 'com.example.dmus.channel.audio',
+        androidNotificationChannelId: 'cc.headpats.dmus.channel.audio',
         androidNotificationChannelName: 'Music playback',
         androidNotificationOngoing: true
       ),

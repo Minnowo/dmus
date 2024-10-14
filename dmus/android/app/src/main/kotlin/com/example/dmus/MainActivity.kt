@@ -1,4 +1,4 @@
-package com.example.dmus
+package cc.headpats.dmus
 
 import io.flutter.embedding.android.FlutterActivity
 

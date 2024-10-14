@@ -27,6 +27,7 @@ class SearchPage extends StatefulNavigationPage {
 
 class _SearchPageState extends State<SearchPage> {
 
+  final String title = "Search";
   final TextEditingController _searchController = TextEditingController();
 
   final  List<Song> _songResults = [];
@@ -37,6 +38,10 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Expanded(
