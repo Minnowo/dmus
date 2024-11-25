@@ -1,11 +1,13 @@
 
 import 'dart:io';
+
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as Path;
+import 'package:sqflite/sqflite.dart';
+
 import '../../Util.dart';
 
 
@@ -70,7 +72,12 @@ final class TableFMetadata {
 
     logging.info("Updating metadata for $file with id $songId");
 
-    AudioMetadata m = await readMetadata(file, getImage: true);
+    AudioMetadata m;
+    try {
+      m = readMetadata(file, getImage: true);
+    } on MetadataParserException {
+      m = AudioMetadata(file: file, title: Path.basename(file.path));
+    }
 
     Digest? cacheKey;
 
@@ -118,7 +125,12 @@ final class TableFMetadata {
 
     logging.info("Inserting metadata for $file with id $songId");
 
-    AudioMetadata m = await readMetadata(file, getImage: true);
+    AudioMetadata m;
+    try {
+      m = readMetadata(file, getImage: true);
+    } on MetadataParserException {
+      m = AudioMetadata(file: file, title: Path.basename(file.path));
+    }
 
     Digest? cacheKey;
 
