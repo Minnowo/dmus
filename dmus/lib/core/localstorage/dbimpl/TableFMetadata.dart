@@ -75,7 +75,7 @@ final class TableFMetadata {
     AudioMetadata m;
     try {
       m = readMetadata(file, getImage: true);
-    } on MetadataParserException {
+    } on (MetadataParserException, NoMetadataParserException) {
       m = AudioMetadata(file: file, title: Path.basename(file.path));
     }
 
@@ -128,7 +128,7 @@ final class TableFMetadata {
     AudioMetadata m;
     try {
       m = readMetadata(file, getImage: true);
-    } on MetadataParserException {
+    } on (MetadataParserException, NoMetadataParserException) {
       m = AudioMetadata(file: file, title: Path.basename(file.path));
     }
 
