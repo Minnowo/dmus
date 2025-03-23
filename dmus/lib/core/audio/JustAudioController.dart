@@ -263,7 +263,7 @@ final class JustAudioController extends BaseAudioHandler {
   Future<void> skipToQueueItem(int i) async {
     if (!_isInit || _isDisposed) return;
     _playQueue.jumpToIndex(i);
-    await playSong(_playQueue.current());
+    await playSong(_playQueue.current(), fillQ: true, jumpQ: false);
   }
 
   @override
@@ -280,7 +280,7 @@ final class JustAudioController extends BaseAudioHandler {
     }
 
     if (s != null) {
-      await _setAudioSource(s);
+      await playSong(s, fillQ: true, jumpQ: false);
     }
   }
 
@@ -308,18 +308,20 @@ final class JustAudioController extends BaseAudioHandler {
     Song? s = _playQueue.advanceRandom();
 
     if (s != null) {
-      await _setAudioSource(s);
+      await playSong(s, fillQ: true, jumpQ: false);
     }
   }
 
-  Future<void> playSong(Song? song, {bool fillQ = false}) async {
+  Future<void> playSong(Song? song, {bool fillQ = false, bool jumpQ=true}) async {
     if (!_isInit || _isDisposed) return;
 
     if (song == null) return await stop();
 
     final before = _playQueue.length;
 
-    _playQueue.jumpTo(song);
+    if(jumpQ) {
+      _playQueue.jumpTo(song);
+    }
 
     if (fillQ) {
       switch (SettingsHandler.queueFillMode) {
@@ -492,6 +494,8 @@ final class JustAudioController extends BaseAudioHandler {
       logging.info("Refusing to fill the queue because of user settings!");
       return;
     }
+
+    logging.info("filling queue");
 
     if (_playQueue.currentPosition + _autoFillQueueWhen > _playQueue.length) {
       if (s == null) {
