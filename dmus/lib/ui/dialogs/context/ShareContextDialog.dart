@@ -25,7 +25,8 @@ class ShareContextDialog extends StatelessWidget {
   }
 
   Widget buildSong(BuildContext context) {
-    return Wrap(
+    return SafeArea(
+        child: Wrap(
       children: <Widget>[
         ListTile(
           title: Text(S.current.shareFile),
@@ -45,11 +46,12 @@ class ShareContextDialog extends StatelessWidget {
             onTap: () => shareArtwork(context),
           ),
       ],
-    );
+    ));
   }
 
   Widget buildPlaylist(BuildContext context) {
-    return Wrap(
+    return SafeArea(
+        child: Wrap(
       children: <Widget>[
         ListTile(
           title: Text(S.current.shareTitle),
@@ -69,7 +71,7 @@ class ShareContextDialog extends StatelessWidget {
             onTap: () => shareArtwork(context),
           ),
       ],
-    );
+    ));
   }
 
   static Future<T?> showAsDialog<T>(BuildContext context, DataEntity entity) async {

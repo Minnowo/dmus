@@ -15,7 +15,8 @@ class AlbumsContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
+    return SafeArea(
+        child: Wrap(
       children: <Widget>[
         EntityInfoTile(entity: playlistContext),
         ListTile(
@@ -38,7 +39,7 @@ class AlbumsContextDialog extends StatelessWidget {
           onTap: () => popNavigatorQueuePlaylistNext(context, playlistContext),
         ),
       ],
-    );
+    ));
   }
 
   static Future<T?> showAsDialog<T>(BuildContext context, Album album) async {

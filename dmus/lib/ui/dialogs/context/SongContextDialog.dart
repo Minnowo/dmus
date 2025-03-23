@@ -24,7 +24,8 @@ class SongContextDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
+    return SafeArea(
+        child: Wrap(
       children: <Widget>[
         EntityInfoTile(entity: songContext),
         if (mode == SongContextMode.normalMode)
@@ -57,7 +58,7 @@ class SongContextDialog extends StatelessWidget {
             onTap: () => removeAndBlock(songContext, context),
           ),
       ],
-    );
+    ));
   }
 
   static Future<T?> showAsDialog<T>(BuildContext context, Song song, SongContextMode mode,

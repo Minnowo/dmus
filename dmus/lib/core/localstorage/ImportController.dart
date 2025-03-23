@@ -172,6 +172,7 @@ final class ImportController {
     _songDeletedController.add(s);
 
     await rebuildAlbums();
+    await rebuildArtists();
   }
 
   /// Adds the song path to the blacklist and deletes it from the database

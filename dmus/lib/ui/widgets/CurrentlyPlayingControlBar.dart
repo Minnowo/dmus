@@ -13,100 +13,101 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).colorScheme.background,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return SafeArea(
+        child: Container(
+            color: Theme.of(context).colorScheme.background,
+            child: Column(
               children: [
-                IconButton(
-                  icon: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.skip_previous,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  onPressed: JustAudioController.instance.skipToPrevious,
-                ),
-                Consumer<PlayerStateExtended>(builder: (context, playerState, child) {
-                  return IconButton(
-                    icon: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          playerState.playing && !playerState.paused ? Icons.pause : Icons.play_arrow,
-                          size: 30,
-                          color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.skip_previous,
+                            size: 30,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
+                      onPressed: JustAudioController.instance.skipToPrevious,
                     ),
-                    onPressed: () async {
-                      if (playerState.playing && !playerState.paused) {
-                        await JustAudioController.instance.pause();
-                      } else {
-                        await JustAudioController.instance.play();
-                      }
-                    },
-                  );
-                }),
-                IconButton(
-                  icon: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.stop,
-                        size: 30,
-                        color: Colors.white,
+                    Consumer<PlayerStateExtended>(builder: (context, playerState, child) {
+                      return IconButton(
+                        icon: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              playerState.playing && !playerState.paused ? Icons.pause : Icons.play_arrow,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (playerState.playing && !playerState.paused) {
+                            await JustAudioController.instance.pause();
+                          } else {
+                            await JustAudioController.instance.play();
+                          }
+                        },
+                      );
+                    }),
+                    IconButton(
+                      icon: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.stop,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
+                      onPressed: JustAudioController.instance.stop,
                     ),
-                  ),
-                  onPressed: JustAudioController.instance.stop,
+                    IconButton(
+                      icon: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.skip_next,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      onPressed: JustAudioController.instance.skipToNext,
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black,
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.skip_next,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  onPressed: JustAudioController.instance.skipToNext,
+                Consumer<PlayerPosition>(
+                  builder: (context, playerPosition, child) => TimeSlider(
+                      songDuration: playerPosition.duration ?? Duration.zero, songPosition: playerPosition.position),
                 ),
               ],
-            ),
-            Consumer<PlayerPosition>(
-              builder: (context, playerPosition, child) => TimeSlider(
-                  songDuration: playerPosition.duration ?? Duration.zero, songPosition: playerPosition.position),
-            ),
-          ],
-        ));
+            )));
   }
 }

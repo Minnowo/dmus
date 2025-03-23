@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -51,6 +53,10 @@ final class TableBlacklist {
   }
 
   /// Adds the path to the blacklist
+  static Future<void> addFileToBlacklist(File path) async {
+    addToBlacklist(path.absolute.path);
+  }
+
   static Future<void> addToBlacklist(String path) async {
     final db = await DatabaseController.database;
 

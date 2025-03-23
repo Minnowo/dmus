@@ -113,7 +113,8 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
               if (_currentDirectory != null) ...buildFileList(),
             ]),
           ),
-          Container(
+          SafeArea(
+              child: Container(
             color: Theme.of(context).colorScheme.background,
             child: Padding(
               padding: const EdgeInsets.all(HORIZONTAL_PADDING),
@@ -129,7 +130,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
                 ),
               ),
             ),
-          )
+          ))
         ]),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Padding(

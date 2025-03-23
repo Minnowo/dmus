@@ -46,7 +46,8 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
               ],
             ),
           ),
-          Container(
+          SafeArea(
+              child: Container(
             color: Theme.of(context).colorScheme.background,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -62,7 +63,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
                 ),
               ),
             ),
-          )
+          ))
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
