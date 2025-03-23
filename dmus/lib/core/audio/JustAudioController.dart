@@ -312,14 +312,14 @@ final class JustAudioController extends BaseAudioHandler {
     }
   }
 
-  Future<void> playSong(Song? song, {bool fillQ = false, bool jumpQ=true}) async {
+  Future<void> playSong(Song? song, {bool fillQ = false, bool jumpQ = true}) async {
     if (!_isInit || _isDisposed) return;
 
     if (song == null) return await stop();
 
     final before = _playQueue.length;
 
-    if(jumpQ) {
+    if (jumpQ) {
       _playQueue.jumpTo(song);
     }
 

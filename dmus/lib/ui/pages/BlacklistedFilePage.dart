@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dmus/core/Util.dart';
+import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
 import 'package:dmus/ui/dialogs/picker/FilePicker.dart';
@@ -149,10 +150,14 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
       return;
     }
 
+    MessagePublisher.publishSnackbar(SnackBarData(text: S.current.blockingSongs));
+
     for (final i in songs) {
       await ImportController.blockSong(i);
       _blacklistedFiles.add(SelectableDataItem(i.file.absolute.path, false, true));
     }
+
+    MessagePublisher.publishSnackbar(SnackBarData(text: S.current.blockingSongsFinished));
 
     setState(() {});
   }

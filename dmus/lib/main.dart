@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
@@ -27,6 +26,7 @@ import 'package:dmus/ui/pages/SongsPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 import 'package:logging/logging.dart';
@@ -45,8 +45,7 @@ Future<void> main() async {
 
   await SettingsHandler.load();
 
-  final Locale myLocale = Locale(Platform.localeName);
-  await S.load(myLocale);
+  await S.init();
 
   runApp(
     ChangeNotifierProvider(
@@ -118,12 +117,14 @@ class DMUSApp extends StatelessWidget {
             title: title,
             theme: themeProvider.isDarkModeEnabled ? darkTheme() : lightTheme(),
             localizationsDelegates: const [
-              S.delegate,
-              ...GlobalMaterialLocalizations.delegates,
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: const [
-              Locale('en', ''),
+              Locale('en'),
+              Locale('en', 'US'),
             ],
             home: const RootPage(title: title),
           );

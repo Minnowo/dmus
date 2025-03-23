@@ -18,9 +18,9 @@ class PlaylistCreationFormResult {
 class PlaylistCreationForm extends StatefulWidget {
   final Playlist? editing;
 
-  const PlaylistCreationForm({Key? key, this.editing}) : super(key: key);
+  const PlaylistCreationForm({super.key, this.editing});
 
-  const PlaylistCreationForm.editExisting({Key? key, required this.editing}) : super(key: key);
+  const PlaylistCreationForm.editExisting({super.key, required this.editing});
 
   @override
   State<PlaylistCreationForm> createState() => _PlaylistCreationFormState();
@@ -90,81 +90,82 @@ class _PlaylistCreationFormState extends State<PlaylistCreationForm> {
         centerTitle: true,
         actions: [IconButton(onPressed: addSongsPicker, icon: const Icon(Icons.add))],
       ),
-      body: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-                  child: TextFormField(
-                      decoration: InputDecoration(labelText: S.current.playlistTitle),
-                      controller: _playlistTitleTextController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return S.current.emptyTitleError;
-                        }
-                        if (value.length > maxTitleLength) {
-                          return "${S.current.titleMaxLengthError} $maxTitleLength";
-                        }
-                        return null;
-                      })),
-              if (selectedSongs.isEmpty)
-                Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: HORIZONTAL_PADDING,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(S.current.selectedSongsIsEmpty, textAlign: TextAlign.center),
-                          ],
-                        )))
-              else
-                Expanded(
-                    child: ReorderableListView.builder(
-                  itemCount: selectedSongs.length,
-                  itemBuilder: (context, index) {
-                    var song = selectedSongs[index];
+      body: SafeArea(
+          child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+                      child: TextFormField(
+                          decoration: InputDecoration(labelText: S.current.playlistTitle),
+                          controller: _playlistTitleTextController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return S.current.emptyTitleError;
+                            }
+                            if (value.length > maxTitleLength) {
+                              return "${S.current.titleMaxLengthError} $maxTitleLength";
+                            }
+                            return null;
+                          })),
+                  if (selectedSongs.isEmpty)
+                    Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: HORIZONTAL_PADDING,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(S.current.selectedSongsIsEmpty, textAlign: TextAlign.center),
+                              ],
+                            )))
+                  else
+                    Expanded(
+                        child: ReorderableListView.builder(
+                      itemCount: selectedSongs.length,
+                      itemBuilder: (context, index) {
+                        var song = selectedSongs[index];
 
-                    return Dismissible(
-                      key: ValueKey(_stupidUniqueKeyForDismissible + index + 1),
-                      onDismissed: (_) {
+                        return Dismissible(
+                          key: ValueKey(_stupidUniqueKeyForDismissible + index + 1),
+                          onDismissed: (_) {
+                            setState(() {
+                              _stupidUniqueKeyForDismissible += selectedSongs.length;
+                              selectedSongs.removeAt(index);
+                            });
+                          },
+                          child: InkWell(
+                            child: ListTile(
+                              title: Text(song.title),
+                              // subtitle: Text(subtitleFromMetadata(song.metadata)),
+                              trailing: Text(formatDuration(song.duration)),
+
+                              leading: ReorderableDragStartListener(
+                                key: ValueKey(index),
+                                index: index,
+                                child: const Icon(Icons.drag_handle),
+                              ),
+                            ),
+                            onTap: () {},
+                          ),
+                        );
+                      },
+                      onReorder: (int oldIndex, int newIndex) {
+                        if (newIndex > selectedSongs.length) {
+                          newIndex = selectedSongs.length;
+                        }
+                        if (oldIndex < newIndex) newIndex--;
+
                         setState(() {
-                          _stupidUniqueKeyForDismissible += selectedSongs.length;
-                          selectedSongs.removeAt(index);
+                          final Song item = selectedSongs.removeAt(oldIndex);
+                          selectedSongs.insert(newIndex, item);
                         });
                       },
-                      child: InkWell(
-                        child: ListTile(
-                          title: Text(song.title),
-                          // subtitle: Text(subtitleFromMetadata(song.metadata)),
-                          trailing: Text(formatDuration(song.duration)),
-
-                          leading: ReorderableDragStartListener(
-                            key: ValueKey(index),
-                            index: index,
-                            child: const Icon(Icons.drag_handle),
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
-                    );
-                  },
-                  onReorder: (int oldIndex, int newIndex) {
-                    if (newIndex > selectedSongs.length) {
-                      newIndex = selectedSongs.length;
-                    }
-                    if (oldIndex < newIndex) newIndex--;
-
-                    setState(() {
-                      final Song item = selectedSongs.removeAt(oldIndex);
-                      selectedSongs.insert(newIndex, item);
-                    });
-                  },
-                ))
-            ],
-          )),
+                    ))
+                ],
+              ))),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

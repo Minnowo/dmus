@@ -1,16 +1,61 @@
 # dmus
 
-A new Flutter project.
+# Development
 
-## Getting Started
+Run the app:
+```sh
+flutter run
 
-This project is a starting point for a Flutter application.
+# press r in terminal to hotreload
+```
 
-A few resources to get you started if this is your first Flutter project:
+Build the app:
+```sh
+flutter build apk
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Generate localization:
+```sh
+flutter gen-l10n
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Debugging on a real phone
+
+Connect to a device / emulator using [ADB](https://developer.android.com/tools/adb) ([Arch Linux Package](https://archlinux.org/packages/extra/x86_64/android-tools/))
+
+## Enable Wireless Debugging
+
+Under developer settings, which for me was under, `Settings` > `System` > `Developer Options`.
+
+Look for `Wireless debugging`, enable it, and then click on it.
+
+## Pair Your Device
+
+In the wireless debugging options, there is a `Pair device with pairing code` button. Click this to get a code and ip / port.
+
+Once you've been given the code, in your terminal you can pair the device using `adb pair <ip>:<port> <code>`.
+
+An example looks something like:
+```
+$ adb pair 192.168.1.61:42009 302457
+Successfully paired to 192.168.1.32:44091 [guid=adb-43122FDF6104FU-hvguED]
+```
+
+You will get a message like the above, and you should see a device appear on your phone.
+
+## Connect Your Device
+
+Once you have paired the device, you need to actually connect to it.
+
+In the wireless debugging options, it will say `IP address & Port` and list off these values.
+
+In your terminal, you can connect to the device using `adb connect <ip>:<port>`.
+
+An example looks something like:
+```
+$ adb connect 192.168.1.32:42359
+connected to 192.168.1.32:42359
+```
+
+You should see a notification appear on your phone.
+
