@@ -7,31 +7,32 @@ import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/Util.dart';
-import '../../Util.dart';
 import '../../../generated/l10n.dart';
+import '../../Util.dart';
 
 class ImportDialog extends StatelessWidget {
   const ImportDialog({super.key});
 
-
   Future<void> pickFilesAndImport(BuildContext context) async {
-
     popNavigatorSafe(context);
 
-    final value = await animateOpenFromBottom<List<File>?>(context, const FilePicker(showFileFilter: hasMusicFileExtension,));
+    final value = await animateOpenFromBottom<List<File>?>(
+        context,
+        const FilePicker(
+          showFileFilter: hasMusicFileExtension,
+        ));
 
-    if(value == null) return;
+    if (value == null) return;
 
     await ImportController.importSongs(value);
   }
 
   Future<void> pickFolderAndImport(BuildContext context) async {
-
     popNavigatorSafe(context);
 
     final value = await pickDirectory();
 
-    if(value == null) return;
+    if (value == null) return;
 
     Directory d = Directory(value);
 
@@ -50,12 +51,9 @@ class ImportDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton(onPressed: () => pickFilesAndImport(context), child: Text(S.current.addFiles)),
             TextButton(
-              onPressed: () => pickFilesAndImport(context),
-              child: Text(S.current.addFiles)
-            ),
-            TextButton(
-              onPressed: () => pickFolderAndImport(context) ,
+              onPressed: () => pickFolderAndImport(context),
               child: Text(S.current.addFolder),
             ),
             TextButton(

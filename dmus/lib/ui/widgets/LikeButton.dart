@@ -1,25 +1,20 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/data/DataEntity.dart';
 import '../../core/localstorage/dbimpl/TableLikes.dart';
 
 class LikeButton extends StatefulWidget {
-
   final Song songContext;
 
   const LikeButton({super.key, required this.songContext});
 
   @override
-  State<StatefulWidget> createState () => _LikeButtonState();
+  State<StatefulWidget> createState() => _LikeButtonState();
 }
 
 class _LikeButtonState extends State<LikeButton> {
   @override
   Widget build(BuildContext context) {
-
     Song songContext = widget.songContext;
 
     return IconButton(
@@ -28,7 +23,6 @@ class _LikeButtonState extends State<LikeButton> {
         color: songContext.liked ? Colors.red : null,
       ),
       onPressed: () async {
-
         songContext.liked = !songContext.liked;
 
         if (songContext.liked) {
@@ -37,7 +31,7 @@ class _LikeButtonState extends State<LikeButton> {
           TableLikes.markSongNotLiked(songContext);
         }
 
-        setState(() { });
+        setState(() {});
       },
     );
   }

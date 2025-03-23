@@ -1,6 +1,5 @@
 import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
-import '/generated/l10n.dart';
 import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/Util.dart';
@@ -14,21 +13,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+import '/generated/l10n.dart';
 import '../../core/data/DataEntity.dart';
 import '../lookfeel/CommonTheme.dart';
 
-class CurrentlyPlayingPage extends  StatelessWidget {
-
+class CurrentlyPlayingPage extends StatelessWidget {
   static String title = S.current.currentlyPlaying;
 
   const CurrentlyPlayingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     PlayerSong playerSong = context.watch<PlayerSong>();
 
-    if(playerSong.song == null) {
+    if (playerSong.song == null) {
       return const CircularProgressIndicator();
     }
 
@@ -36,20 +34,19 @@ class CurrentlyPlayingPage extends  StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(title),
-            centerTitle: true,
-            leadingWidth: THUMB_SIZE,
-            leading: Padding(
-                padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
-                child: SizedBox(
-                    width: THUMB_SIZE,
-                    child: Center(child:  IconButton(
+          title: Text(title),
+          centerTitle: true,
+          leadingWidth: THUMB_SIZE,
+          leading: Padding(
+              padding: const EdgeInsets.only(left: HORIZONTAL_PADDING),
+              child: SizedBox(
+                  width: THUMB_SIZE,
+                  child: Center(
+                    child: IconButton(
                       icon: const Icon(Icons.expand_more_rounded),
                       onPressed: () => _close(context),
                     ),
-                    )
-                )
-            ),
+                  ))),
           actions: [
             IconButton(
               icon: const Icon(Icons.queue_music),
@@ -59,7 +56,7 @@ class CurrentlyPlayingPage extends  StatelessWidget {
         ),
         body: SafeArea(
           child: GestureDetector(
-            onVerticalDragEnd: (detail){
+            onVerticalDragEnd: (detail) {
               if (detail.primaryVelocity! < -GESTURE_SWIPE_SENSITIVITY) {
                 _openQueue(context);
               } else if (detail.primaryVelocity! > GESTURE_SWIPE_SENSITIVITY) {
@@ -71,8 +68,10 @@ class CurrentlyPlayingPage extends  StatelessWidget {
               children: [
                 Expanded(
                     flex: 720,
-                    child: ArtDisplay(dataEntity: songContext, interactiveIcon: true,)
-                ),
+                    child: ArtDisplay(
+                      dataEntity: songContext,
+                      interactiveIcon: true,
+                    )),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: SizedBox(
@@ -95,7 +94,8 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                           fadeBorderVisibility: FadeBorderVisibility.auto,
                           intervalSpaces: 30,
                         ),
-                        TextScroll(songContext.artistAlbumText(),
+                        TextScroll(
+                          songContext.artistAlbumText(),
                           mode: TextScrollMode.endless,
                           velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
                           delayBefore: const Duration(milliseconds: 500),
@@ -112,38 +112,32 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     ),
                   ),
                 ),
-
-                const Spacer(flex: 20,),
-
-
+                const Spacer(
+                  flex: 20,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
                     LikeButton(songContext: songContext),
-
                     IconButton(
                       icon: const Icon(Icons.playlist_add),
                       onPressed: () => selectPlaylistAndAddSong(context, songContext),
                     ),
-
-                    IconButton(
-                        icon: const Icon(Icons.share),
-                        onPressed: () => ShowShareDialog(context, songContext)
-                    ),
+                    IconButton(icon: const Icon(Icons.share), onPressed: () => ShowShareDialog(context, songContext)),
                   ],
                 ),
-
-                CurrentlyPlayingControlBar(songContext: songContext,),
-
+                CurrentlyPlayingControlBar(
+                  songContext: songContext,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-
                     Consumer<PlayerShuffleOrder>(
                       builder: (context, shuffleOrder, child) {
                         return IconButton(
-                          icon:  shuffleOrder.after == ShuffleOrder.inOrder ? const Icon(Icons.shuffle) : const Icon(Icons.shuffle_on_outlined),
+                          icon: shuffleOrder.after == ShuffleOrder.inOrder
+                              ? const Icon(Icons.shuffle)
+                              : const Icon(Icons.shuffle_on_outlined),
                           onPressed: JustAudioController.instance.toggleShuffle,
                         );
                       },
@@ -162,36 +156,29 @@ class CurrentlyPlayingPage extends  StatelessWidget {
                     ),
                   ],
                 ),
-
                 Center(
                   child: SizedBox(
                       width: THUMB_SIZE * 3,
                       height: THUMB_SIZE / 1.5,
                       child: InkWell(
-                        onTap: ()=> _openQueue(context),
+                        onTap: () => _openQueue(context),
                         child: const Icon(
                           Icons.expand_less_rounded,
                         ),
-                    )
-                  ),
+                      )),
                 ),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 
-
   void _openQueue(BuildContext context) {
-
     animateOpenFromBottom(context, const PlayQueuePage());
   }
 
   void _close(BuildContext context) {
-
     JustAudioController.instance.clearQueueIfStopped();
     popNavigatorSafe(context);
   }
-
 }

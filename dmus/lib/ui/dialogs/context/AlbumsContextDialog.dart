@@ -1,17 +1,14 @@
-import 'package:dmus/core/audio/JustAudioController.dart';
-import '/generated/l10n.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
+import '/generated/l10n.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../pages/SelectedPlaylistPage.dart';
 import '../../widgets/EntityInfoTile.dart';
 import '../Util.dart';
-import 'ShareContextDialog.dart';
 
 class AlbumsContextDialog extends StatelessWidget {
-
   final Album playlistContext;
 
   const AlbumsContextDialog({super.key, required this.playlistContext});
@@ -20,9 +17,7 @@ class AlbumsContextDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
-
         EntityInfoTile(entity: playlistContext),
-
         ListTile(
           leading: const Icon(Icons.details),
           title: Text(S.current.viewDetails),
@@ -31,8 +26,7 @@ class AlbumsContextDialog extends StatelessWidget {
         ListTile(
             leading: const Icon(Icons.play_arrow),
             title: Text(S.current.playNow),
-            onTap: () => popNavigatorPlayPlaylist(context, playlistContext)
-        ),
+            onTap: () => popNavigatorPlayPlaylist(context, playlistContext)),
         ListTile(
           leading: const Icon(Icons.queue),
           title: Text(S.current.queueAll),
@@ -50,13 +44,11 @@ class AlbumsContextDialog extends StatelessWidget {
   static Future<T?> showAsDialog<T>(BuildContext context, Album album) async {
     return showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) =>
-          AlbumsContextDialog(playlistContext: album),
+      builder: (BuildContext context) => AlbumsContextDialog(playlistContext: album),
     );
   }
 
   void _showPlaylistDetails(BuildContext context) {
-
     popNavigatorSafe(context);
     animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlistContext));
   }

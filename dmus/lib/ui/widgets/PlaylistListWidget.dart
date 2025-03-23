@@ -30,8 +30,7 @@ class PlaylistListWidget extends StatelessWidget {
             child: InkWell(
               onTap: () => PlaylistContextDialog.showAsDialog(context, playlist),
               child: const Icon(Icons.more_vert),
-            )
-        ),
+            )),
         selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
       ),
     );

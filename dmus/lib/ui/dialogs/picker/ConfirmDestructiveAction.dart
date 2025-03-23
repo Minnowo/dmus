@@ -1,6 +1,5 @@
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmDestructiveAction extends StatelessWidget {
@@ -36,28 +35,25 @@ class ConfirmDestructiveAction extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-
               Text(
                 promptText,
                 textAlign: TextAlign.center,
                 style: TEXT_SUBTITLE,
               ),
-
               const SizedBox(height: 8),
-
               ListTile(
                 onTap: () => _onYesPressed(context),
-                title: Text(yesText,
+                title: Text(
+                  yesText,
                   style: TextStyle(color: yesTextColor),
                   textAlign: TextAlign.center,
                 ),
               ),
-
               const SizedBox(height: 8),
-
               ListTile(
                 onTap: () => _onNoPressed(context),
-                title: Text(noText,
+                title: Text(
+                  noText,
                   style: TextStyle(color: noTextColor),
                   textAlign: TextAlign.center,
                 ),

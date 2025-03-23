@@ -1,12 +1,10 @@
-
-
 import 'dart:convert';
 import 'dart:io';
 
 /// Used to write log files
 ///
 /// taken from https://github.com/SourceHorizon/logger/blob/main/lib/src/outputs/file_output.dart
-class FileOutput  {
+class FileOutput {
   final File file;
   final bool overrideExisting;
   final Encoding encoding;

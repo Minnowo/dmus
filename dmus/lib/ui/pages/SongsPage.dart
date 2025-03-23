@@ -1,7 +1,5 @@
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
-import '/generated/l10n.dart';
-import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/dialogs/picker/ImportDialog.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
@@ -10,21 +8,18 @@ import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/Util.dart';
+import '/generated/l10n.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
 import '../dialogs/context/SongContextDialog.dart';
 import 'NavigationPage.dart';
 
-
-class SongsPage extends  StatelessNavigationPage {
-
+class SongsPage extends StatelessNavigationPage {
   SongsPage({super.key}) : super(icon: Icons.music_note, title: S.current.songs);
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -73,53 +68,41 @@ class SongsPage extends  StatelessNavigationPage {
           ),
         ],
       ),
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        Consumer<SongsProvider>(builder: (context, songsProvider, child) {
+          if (songsProvider.songs.isEmpty) {
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
+              child: Text(S.current.noSongs, textAlign: TextAlign.center),
+            ));
+          }
 
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-            Consumer<SongsProvider>(
-                builder: (context, songsProvider, child) {
-
-                  if(songsProvider.songs.isEmpty) {
-                    return Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
-                        child: Text(S.current.noSongs,
-                          textAlign: TextAlign.center
-                      ),
-                      )
-                    );
-                  }
-
-                  return Expanded(
-                      child: ListView (
-                        children: [
-                          for(final i in songsProvider.songs)
-                            SongListWidget(
-                              song: i,
-                              leadWith: SongListWidgetLead.leadWithArtwork,
-                              trailWith: SettingsHandler.songPageTileTrailWith,
-                              confirmDismiss: (d) => addToQueueSongDismiss(d, i),
-                              onTap: () => playSong(i),
-                              onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode),
-                              selected: false,
-                              background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.surface, Icons.queue),
-                            )
-                        ],
-                      )
-                  );
-                })
-          ]
-      ),
+          return Expanded(
+              child: ListView(
+            children: [
+              for (final i in songsProvider.songs)
+                SongListWidget(
+                  song: i,
+                  leadWith: SongListWidgetLead.leadWithArtwork,
+                  trailWith: SettingsHandler.songPageTileTrailWith,
+                  confirmDismiss: (d) => addToQueueSongDismiss(d, i),
+                  onTap: () => playSong(i),
+                  onLongPress: () => SongContextDialog.showAsDialog(context, i, SongContextMode.normalMode),
+                  selected: false,
+                  background: iconDismissibleBackgroundContainer(Theme.of(context).colorScheme.surface, Icons.queue),
+                )
+            ],
+          ));
+        })
+      ]),
       endDrawerEnableOpenDragGesture: true,
       drawer: const SettingsDrawer(),
     );
   }
-  
-  Future<void> playSong(Song s ) async {
+
+  Future<void> playSong(Song s) async {
     JustAudioController.instance.setAutofillQueueWhen(FILL_QUEUE_WHEN);
     await JustAudioController.instance.playSong(s, fillQ: true);
   }
 }
-

@@ -1,22 +1,15 @@
-
-
-
 import 'package:dmus/core/audio/PlayQueue.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../data/DataEntity.dart';
 
-
 enum ShuffleOrder {
-
   inOrder,
   randomOrder,
   reverseOrder,
 }
 
-
 final class PlayerPosition {
-
   final Duration position;
   final Duration? duration;
 
@@ -24,7 +17,6 @@ final class PlayerPosition {
 }
 
 final class PlayerDuration {
-
   final Duration? duration;
   final Duration position;
 
@@ -32,7 +24,6 @@ final class PlayerDuration {
 }
 
 final class PlayerPlaying {
-
   final bool playing;
   final Song? song;
 
@@ -40,15 +31,12 @@ final class PlayerPlaying {
 }
 
 final class PlayerIndex {
-
   final int? index;
 
   const PlayerIndex({required this.index});
 }
 
-
 final class PlayerStateExtended extends PlayerState {
-
   final bool paused;
 
   PlayerStateExtended({required this.paused, required playing, required processingState})
@@ -56,27 +44,27 @@ final class PlayerStateExtended extends PlayerState {
 }
 
 final class PlayerSong {
-
   final int index;
   final Song? song;
   final PlayerStateExtended playerState;
   final Duration? duration;
   final Duration position;
 
-  PlayerSong({required this.song, required this.playerState, required this.duration, required this.position, required this.index});
+  PlayerSong(
+      {required this.song,
+      required this.playerState,
+      required this.duration,
+      required this.position,
+      required this.index});
 
   @override
   int get hashCode => Object.hash(index, song, playerState, duration, position);
 
   @override
-  bool operator ==(Object other) => identical(this, other) || (
-      other is PlayerSong &&
-          other.index == index &&
-          other.song == song &&
-          other.playerState == playerState
-  );
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PlayerSong && other.index == index && other.song == song && other.playerState == playerState);
 }
-
 
 final class PlayerShuffleOrder {
   final ShuffleOrder before;
@@ -87,9 +75,9 @@ final class PlayerShuffleOrder {
 
 final class PlayerRepeat {
   final bool repeat;
+
   const PlayerRepeat({required this.repeat});
 }
-
 
 final class QueueChanged {
   final int position;
@@ -97,7 +85,13 @@ final class QueueChanged {
   final QueueState state;
   final Song? song;
   final int lastPlaylistIsQueue;
-  const QueueChanged({required this.length, required this.position, required this.lastPlaylistIsQueue, required this.state, required this.song});
+
+  const QueueChanged(
+      {required this.length,
+      required this.position,
+      required this.lastPlaylistIsQueue,
+      required this.state,
+      required this.song});
 }
 
 final class QueueShuffle {

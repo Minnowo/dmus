@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 
 abstract class NavigationPage extends Widget {
@@ -9,7 +8,6 @@ abstract class NavigationPage extends Widget {
 }
 
 abstract class StatelessNavigationPage extends StatelessWidget implements NavigationPage {
-
   @override
   final String title;
   @override
@@ -18,9 +16,7 @@ abstract class StatelessNavigationPage extends StatelessWidget implements Naviga
   const StatelessNavigationPage({super.key, required this.title, required this.icon}) : super();
 }
 
-
 abstract class StatefulNavigationPage extends StatefulWidget implements NavigationPage {
-
   @override
   final String title;
   @override

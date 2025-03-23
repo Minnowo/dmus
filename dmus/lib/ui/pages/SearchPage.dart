@@ -1,14 +1,10 @@
-
-
-
 import 'package:dmus/core/localstorage/SearchHandler.dart';
-import '/generated/l10n.dart';
 import 'package:dmus/ui/widgets/BlueDivider.dart';
 import 'package:dmus/ui/widgets/PlaylistListWidget.dart';
 import 'package:dmus/ui/widgets/SongListWidget.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/Util.dart';
+import '/generated/l10n.dart';
 import '../../core/audio/JustAudioController.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';
@@ -26,17 +22,15 @@ class SearchPage extends StatefulNavigationPage {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   final String title = "Search";
   final TextEditingController _searchController = TextEditingController();
 
-  final  List<Song> _songResults = [];
-  final  List<Album> _albumResults = [];
-  final  List<Playlist> _playlistResults = [];
+  final List<Song> _songResults = [];
+  final List<Album> _albumResults = [];
+  final List<Playlist> _playlistResults = [];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -76,8 +70,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<Widget> buildSongDisplay(BuildContext context) {
-
-    if(_songResults.isEmpty) {
+    if (_songResults.isEmpty) {
       return [];
     }
 
@@ -96,10 +89,8 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-
       const BlueDivider(),
-
-      for(final i in _songResults)
+      for (final i in _songResults)
         SongListWidget(
           song: i,
           selected: false,
@@ -114,8 +105,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   List<Widget> buildPlaylistDisplay(BuildContext context) {
-
-    if(_playlistResults.isEmpty) {
+    if (_playlistResults.isEmpty) {
       return [];
     }
 
@@ -134,17 +124,13 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-
       const BlueDivider(),
-
-      for(final i in _playlistResults)
-        PlaylistListWidget(playlist: i),
+      for (final i in _playlistResults) PlaylistListWidget(playlist: i),
     ];
   }
 
   List<Widget> buildAlbumsDisplay(BuildContext context) {
-
-    if(_albumResults.isEmpty) {
+    if (_albumResults.isEmpty) {
       return [];
     }
 
@@ -163,42 +149,34 @@ class _SearchPageState extends State<SearchPage> {
           dense: true,
         ),
       ),
-
       const BlueDivider(),
-
-      for(final i in _albumResults)
-        PlaylistListWidget(playlist: i),
+      for (final i in _albumResults) PlaylistListWidget(playlist: i),
     ];
   }
 
-  void _clearSearchbar(){
-
+  void _clearSearchbar() {
     _searchController.clear();
     _performSearch("");
   }
 
   void _performSearch(String query) {
-
-    if(query.isEmpty) {
+    if (query.isEmpty) {
       _songResults.clear();
       _playlistResults.clear();
       _albumResults.clear();
-      setState(() { });
+      setState(() {});
       return;
     }
 
-    SearchHandler.searchForText(query).then((value){
-
+    SearchHandler.searchForText(query).then((value) {
       _songResults.clear();
       _playlistResults.clear();
       _albumResults.clear();
 
-      for(final i in value){
-
+      for (final i in value) {
         // logging.info(i);
 
-        switch(i.entityType) {
-
+        switch (i.entityType) {
           case EntityType.song:
             _songResults.add(i as Song);
           case EntityType.playlist:
@@ -208,7 +186,7 @@ class _SearchPageState extends State<SearchPage> {
         }
       }
 
-      setState(() { });
+      setState(() {});
     });
   }
 }

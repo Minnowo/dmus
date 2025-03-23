@@ -1,14 +1,10 @@
-
-
-
 import 'package:flutter/material.dart';
 
 import '../../core/Util.dart';
 import '../../core/audio/JustAudioController.dart';
 
 class TimeSlider extends StatefulWidget {
-
-  final Duration songDuration ;
+  final Duration songDuration;
 
   final Duration songPosition;
 
@@ -16,11 +12,9 @@ class TimeSlider extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => TimeSliderState();
-
 }
 
 class TimeSliderState extends State<TimeSlider> {
-
   double progress = 0;
 
   late Duration songPosition;
@@ -38,8 +32,7 @@ class TimeSliderState extends State<TimeSlider> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(!isDragging && widget.songDuration.inMilliseconds != 0) {
+    if (!isDragging && widget.songDuration.inMilliseconds != 0) {
       progress = (widget.songPosition.inMilliseconds.toDouble() / widget.songDuration.inMilliseconds).clamp(0, 1);
     }
 
@@ -65,7 +58,6 @@ class TimeSliderState extends State<TimeSlider> {
             await JustAudioController.instance.play();
           },
         ),
-
         Text(formatTimeDisplay(sp, widget.songDuration)),
       ],
     );

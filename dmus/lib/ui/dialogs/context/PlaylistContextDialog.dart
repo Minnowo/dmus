@@ -1,10 +1,9 @@
-import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
-import '/generated/l10n.dart';
 import 'package:dmus/ui/Util.dart';
 import 'package:dmus/ui/lookfeel/Animations.dart';
 import 'package:flutter/material.dart';
 
+import '/generated/l10n.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../../core/data/MessagePublisher.dart';
 import '../../pages/SelectedPlaylistPage.dart';
@@ -15,16 +14,13 @@ import '../picker/ConfirmDestructiveAction.dart';
 class PlaylistContextDialog extends StatelessWidget {
   final Playlist playlistContext;
 
-  const PlaylistContextDialog({Key? key, required this.playlistContext})
-      : super(key: key);
+  const PlaylistContextDialog({Key? key, required this.playlistContext}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
-
         EntityInfoTile(entity: playlistContext),
-
         ListTile(
           leading: const Icon(Icons.details),
           title: Text(S.current.viewDetails),
@@ -62,8 +58,7 @@ class PlaylistContextDialog extends StatelessWidget {
   static Future<T?> showAsDialog<T>(BuildContext context, Playlist p) {
     return showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) =>
-          PlaylistContextDialog(playlistContext: p),
+      builder: (BuildContext context) => PlaylistContextDialog(playlistContext: p),
     );
   }
 
@@ -74,8 +69,7 @@ class PlaylistContextDialog extends StatelessWidget {
 
   void _showPlaylistDetails(BuildContext context) {
     popNavigatorSafe(context);
-    animateOpenFromBottom(
-        context, SelectedPlaylistPage(playlistContext: playlistContext));
+    animateOpenFromBottom(context, SelectedPlaylistPage(playlistContext: playlistContext));
   }
 
   Future<void> _deletePlaylist(BuildContext context, Playlist p) async {
@@ -84,8 +78,7 @@ class PlaylistContextDialog extends StatelessWidget {
     bool? result = await showDialog(
       context: context,
       builder: (ctx) => ConfirmDestructiveAction(
-        promptText:
-        S.current.confirmPlaylistDelete,
+        promptText: S.current.confirmPlaylistDelete,
         yesText: S.current.deletePlaylist,
         yesTextColor: Colors.red,
         noText: S.current.cancel,

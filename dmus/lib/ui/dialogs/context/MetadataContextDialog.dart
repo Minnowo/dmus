@@ -1,19 +1,13 @@
-import 'package:dmus/core/Util.dart';
-import '/generated/l10n.dart';
-import 'package:dmus/ui/pages/EditMetadataPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/data/DataEntity.dart';
 
 class MetadataContextDialog extends StatelessWidget {
-
   final Song songContext;
 
   const MetadataContextDialog({required this.songContext, super.key});
 
-  void showPlaylistDetails(BuildContext context) {
-
-  }
+  void showPlaylistDetails(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {

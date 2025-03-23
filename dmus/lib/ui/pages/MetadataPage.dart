@@ -5,8 +5,9 @@ import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import '/generated/l10n.dart';
 import 'package:flutter/material.dart';
+
+import '/generated/l10n.dart';
 
 class MetadataPage extends StatelessWidget {
   final DataEntity entity;
@@ -51,8 +52,7 @@ class MetadataPage extends StatelessWidget {
             if (art != null) Image.memory(art),
             if (art == null && song.pictureCacheKey != null)
               FutureBuilder<File?>(
-                future: ImageCacheController.getImagePathFromRaw(
-                    song.pictureCacheKey!),
+                future: ImageCacheController.getImagePathFromRaw(song.pictureCacheKey!),
                 builder: (BuildContext context, AsyncSnapshot<File?> snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return const CircularProgressIndicator();
@@ -98,9 +98,7 @@ class MetadataPage extends StatelessWidget {
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.trackDuration)),
-                    DataCell(Text(trackDuration == null
-                        ? S.current.nA
-                        : formatDuration(trackDuration))),
+                    DataCell(Text(trackDuration == null ? S.current.nA : formatDuration(trackDuration))),
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.bitrate)),
@@ -112,8 +110,7 @@ class MetadataPage extends StatelessWidget {
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.year)),
-                    DataCell(
-                        Text(year == null ? S.current.nA : year.toString())),
+                    DataCell(Text(year == null ? S.current.nA : year.toString())),
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.genre)),
@@ -121,15 +118,11 @@ class MetadataPage extends StatelessWidget {
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.trackNumber)),
-                    DataCell(Text(trackNumber == null
-                        ? S.current.nA
-                        : trackNumber.toString())),
+                    DataCell(Text(trackNumber == null ? S.current.nA : trackNumber.toString())),
                   ]),
                   DataRow(cells: [
                     DataCell(Text(S.current.diskNumber)),
-                    DataCell(Text(discNumber == null
-                        ? S.current.nA
-                        : discNumber.toString())),
+                    DataCell(Text(discNumber == null ? S.current.nA : discNumber.toString())),
                   ]),
                 ],
               ),

@@ -1,31 +1,24 @@
-
-
 import 'dart:io';
 
 import 'package:dmus/core/data/FileDialog.dart';
 import 'package:dmus/core/localstorage/ImportController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableWatchDirectory.dart';
-import '/generated/l10n.dart';
-import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import '/generated/l10n.dart';
 
 class WatchDirectoriesModel extends ChangeNotifier {
-
   List<String> directoryPaths = [];
 
-  WatchDirectoriesModel(){
+  WatchDirectoriesModel() {
     update();
   }
 
-  void update(){
-
+  void update() {
     TableWatchDirectory.selectAll().then((value) {
-
       directoryPaths.clear();
 
-      for(var element in value)  {
+      for (var element in value) {
         directoryPaths.add(element.directoryPath);
       }
 
@@ -33,35 +26,27 @@ class WatchDirectoriesModel extends ChangeNotifier {
     });
   }
 
-
-  void addDirectory(String dir){
-    if(directoryPaths.contains(dir)) {
+  void addDirectory(String dir) {
+    if (directoryPaths.contains(dir)) {
       return;
     }
 
-    TableWatchDirectory.insertDirectory(File(dir), 0, true)
-        .then((value) {
-
+    TableWatchDirectory.insertDirectory(File(dir), 0, true).then((value) {
       directoryPaths.add(dir);
       notifyListeners();
     });
   }
 
-  void removeDirectory(String dir){
-
-    TableWatchDirectory.removeDirectory(File(dir))
-        .then((value) {
-
-      if(directoryPaths.remove(dir)) {
+  void removeDirectory(String dir) {
+    TableWatchDirectory.removeDirectory(File(dir)).then((value) {
+      if (directoryPaths.remove(dir)) {
         notifyListeners();
       }
     });
   }
 }
 
-
 class WatchDirectoriesPage extends StatefulWidget {
-
   const WatchDirectoriesPage({super.key});
 
   @override
@@ -69,25 +54,22 @@ class WatchDirectoriesPage extends StatefulWidget {
 }
 
 class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
-
   List<String> _directoryPaths = [];
 
   @override
   void initState() {
     super.initState();
-    
-    TableWatchDirectory.selectAll().then((value){
-      
+
+    TableWatchDirectory.selectAll().then((value) {
       _directoryPaths.clear();
       _directoryPaths.addAll(value.map((e) => e.directoryPath));
 
-      setState(() { });
+      setState(() {});
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(S.current.watchDirectories),
@@ -102,49 +84,35 @@ class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
           ),
         ],
       ),
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: <Widget>[
-
-            if(_directoryPaths.isEmpty)
-              Center(
-                child: Text(S.current.watchDirectoriesEmpty,
-                    textAlign: TextAlign.center
-                ),
-              )
-
-            else
-              Expanded(
-                  child: ListView (
-                    children: [
-                      for(final i in _directoryPaths)
-                        InkWell(
-                            child:ListTile(
-                              title: Text(i),
-                            )
-                        ),
-                    ],
-                  )
-              ),
-          ]
-      ),
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+        if (_directoryPaths.isEmpty)
+          Center(
+            child: Text(S.current.watchDirectoriesEmpty, textAlign: TextAlign.center),
+          )
+        else
+          Expanded(
+              child: ListView(
+            children: [
+              for (final i in _directoryPaths)
+                InkWell(
+                    child: ListTile(
+                  title: Text(i),
+                )),
+            ],
+          )),
+      ]),
     );
   }
 
-
   Future<void> pickAddDirectory() async {
-
     var dir = await pickDirectory();
 
-    if(dir == null) return;
+    if (dir == null) return;
 
-    TableWatchDirectory.insertDirectory(File(dir), 0, true)
-        .then((value) {
-
+    TableWatchDirectory.insertDirectory(File(dir), 0, true).then((value) {
       _directoryPaths.add(dir);
 
-      setState(() { });
+      setState(() {});
     });
   }
 }

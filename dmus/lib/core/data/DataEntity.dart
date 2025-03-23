@@ -5,19 +5,15 @@ import 'dart:ui';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+
 import '/generated/l10n.dart';
 import '../Util.dart';
-
 
 const String DEFAULT_SEP = "  ";
 
 /// Enum used to quickly determine which type of entity
 /// a given DataEntity is
-enum EntityType {
-  song,
-  playlist,
-  album
-}
+enum EntityType { song, playlist, album }
 
 /// Song sorts orders
 enum SongSort {
@@ -30,7 +26,6 @@ enum SongSort {
   byRandom,
 }
 
-
 /// Playlist sorts orders
 enum PlaylistSort {
   byId,
@@ -39,13 +34,11 @@ enum PlaylistSort {
   byNumberOfTracks,
 }
 
-
 /// The base DataEntity class
 ///
 /// A DataEntity is basically some type of media that will be
 /// stored in the database, and also shown the the user
 abstract class DataEntity {
-
   /// The id used in the database
   int id;
 
@@ -62,15 +55,12 @@ abstract class DataEntity {
 
   File? artPath;
 
-
   DataEntity({required this.id, required this.title});
 
   DataEntity.withDuration({required this.id, required this.title, required this.duration});
 
-
   /// Returns the EntityType enum for the given entity type
   EntityType get entityType;
-
 
   /// Sets the picture cache key of this item
   ///
@@ -78,8 +68,8 @@ abstract class DataEntity {
   Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
     _pictureCacheKey = pictureCacheKey;
 
-    if(pictureCacheKey != null) {
-      artPath =  await ImageCacheController.getImagePathFromRaw(pictureCacheKey);
+    if (pictureCacheKey != null) {
+      artPath = await ImageCacheController.getImagePathFromRaw(pictureCacheKey);
     }
   }
 
@@ -95,8 +85,6 @@ abstract class DataEntity {
   }
 }
 
-
-
 /// The Song DataEntity
 ///
 /// Extends the DataEntity class
@@ -104,7 +92,6 @@ abstract class DataEntity {
 /// Used to represent a song. Contains metadata and
 /// file information about the given song, as well as display information
 class Song extends DataEntity {
-
   /// The path to the audio file
   File file;
 
@@ -116,43 +103,35 @@ class Song extends DataEntity {
 
   Song({required super.id, required super.title, required this.file, required this.metadata});
 
-  Song.withDuration({required super.id, required super.title, required super.duration, required this.file, required this.metadata}) :
-        super.withDuration();
-
-
+  Song.withDuration(
+      {required super.id, required super.title, required super.duration, required this.file, required this.metadata})
+      : super.withDuration();
 
   @override
   EntityType get entityType => EntityType.song;
-
 
   @override
   String basicInfoTextWithSep(String sep) {
     return [
       formatDuration(duration),
-
-      if(metadata.discNumber != null)
-        "Disc ${metadata.discNumber}",
-
-      if(metadata.trackNumber != null)
-        "Track ${metadata.trackNumber}",
-
+      if (metadata.discNumber != null) "Disc ${metadata.discNumber}",
+      if (metadata.trackNumber != null) "Track ${metadata.trackNumber}",
     ].join(sep);
   }
 
   @override
   String basicInfoText() => basicInfoTextWithSep(DEFAULT_SEP);
 
-  MediaItem toMediaItem(){
+  MediaItem toMediaItem() {
     return MediaItem(
-        id: file.path,
-        title: title,
+      id: file.path,
+      title: title,
       duration: duration,
       artist: metadata.artist,
       album: metadata.album,
       artUri: artPath != null ? Uri.file(artPath!.path) : null,
     );
   }
-
 
   String songArtist() {
     return metadata.artist ?? S.current.nA;
@@ -163,13 +142,11 @@ class Song extends DataEntity {
   }
 
   String artistAlbumText() {
-
     List<String> a = [];
 
-    if(metadata.album != null) {
+    if (metadata.album != null) {
       a.add(metadata.album!);
-    }
-    else if(metadata.artist != null) {
+    } else if (metadata.artist != null) {
       a.add(metadata.artist!);
     }
 
@@ -185,8 +162,6 @@ class Song extends DataEntity {
   }
 }
 
-
-
 /// The Playlist DataEntity
 ///
 /// Extends the DataEntity class
@@ -194,24 +169,22 @@ class Song extends DataEntity {
 /// Used to represent a playlist. Contains 0 or more Song
 /// entities
 class Playlist extends DataEntity {
-
   /// The songs in this playlist
   List<Song> songs = [];
 
-
   Playlist({required super.id, required super.title});
 
-  Playlist.withSongs({required super.id, required super.title, required this.songs}) :
-    super.withDuration(duration: songs.isEmpty ? Duration.zero : songs.map((e) => e.duration).reduce((value, element) => value + element));
+  Playlist.withSongs({required super.id, required super.title, required this.songs})
+      : super.withDuration(
+            duration: songs.isEmpty
+                ? Duration.zero
+                : songs.map((e) => e.duration).reduce((value, element) => value + element));
 
-  Playlist.withDuration({required super.id, required super.title, required super.duration}) :
-      super.withDuration();
-
+  Playlist.withDuration({required super.id, required super.title, required super.duration}) : super.withDuration();
 
   /// Recalculates the duration of the playlist from the given songs
-  void updateDuration(){
-
-    if(songs.isEmpty) {
+  void updateDuration() {
+    if (songs.isEmpty) {
       super.duration = const Duration(milliseconds: 0);
       return;
     }
@@ -219,15 +192,14 @@ class Playlist extends DataEntity {
   }
 
   Future<void> updatePicture() async {
-    if(songs.isEmpty) {
+    if (songs.isEmpty) {
       super._pictureCacheKey = null;
       artPath = null;
       return;
     }
 
-    for(final i in songs) {
-
-      if(i.pictureCacheKey != null && pictureCacheKey != i.pictureCacheKey) {
+    for (final i in songs) {
+      if (i.pictureCacheKey != null && pictureCacheKey != i.pictureCacheKey) {
         artPath = null;
         super._pictureCacheKey = null;
         await super.setPictureCacheKey(i.pictureCacheKey);
@@ -241,20 +213,18 @@ class Playlist extends DataEntity {
 
   @override
   Future<void> setPictureCacheKey(Uint8List? pictureCacheKey) async {
-
-    if(pictureCacheKey != null) {
+    if (pictureCacheKey != null) {
       await super.setPictureCacheKey(pictureCacheKey);
       return;
     }
 
-    if(this.pictureCacheKey != null) {
+    if (this.pictureCacheKey != null) {
       await updatePicture();
       return;
     }
 
-    for(final i in songs) {
-
-      if(i.pictureCacheKey != null) {
+    for (final i in songs) {
+      if (i.pictureCacheKey != null) {
         await super.setPictureCacheKey(i.pictureCacheKey);
         return;
       }
@@ -265,7 +235,7 @@ class Playlist extends DataEntity {
   EntityType get entityType => EntityType.playlist;
 
   @override
-  String basicInfoTextWithSep(String sep){
+  String basicInfoTextWithSep(String sep) {
     return [
       formatDuration(duration),
       "${songs.length} ${S.current.basicInfoTextWithSep}",
@@ -286,11 +256,14 @@ class Playlist extends DataEntity {
   }
 
   void addSongs(Iterable<Song> s) {
-    songs.addAll(s.map((e) { duration += e.duration; return e;}));
+    songs.addAll(s.map((e) {
+      duration += e.duration;
+      return e;
+    }));
   }
 
   Song? removeSongAt(int i) {
-    if(i < 0 || i >= songs.length) return null;
+    if (i < 0 || i >= songs.length) return null;
     Song s = songs.removeAt(i);
     duration -= s.duration;
     return s;
@@ -302,7 +275,7 @@ class Playlist extends DataEntity {
   }
 
   void removeSong(Song s) {
-    if(songs.remove(s)) {
+    if (songs.remove(s)) {
       duration -= s.duration;
     }
   }
@@ -311,12 +284,10 @@ class Playlist extends DataEntity {
     return "<$runtimeType $id $title ${formatDuration(duration)} songs: $songs>";
   }
 
-  int songsHashCode(){
+  int songsHashCode() {
     return songs.hashCode;
   }
 }
-
-
 
 /// The Album DataEntity
 ///
@@ -325,35 +296,26 @@ class Playlist extends DataEntity {
 /// Used to represent an album. Contains 0 or more Song
 /// entities
 class Album extends Playlist {
-
   Album({required super.id, required super.title});
 
-  Album.withSongs({required super.id, required super.title, required super.songs}) :
-        super.withSongs();
+  Album.withSongs({required super.id, required super.title, required super.songs}) : super.withSongs();
 
-  Album.withDuration({required super.id, required super.title, required super.duration}) :
-        super.withDuration();
+  Album.withDuration({required super.id, required super.title, required super.duration}) : super.withDuration();
 
   @override
   EntityType get entityType => EntityType.album;
 }
 
-
-
 /// Pair generic
 class Pair<A, B> {
-
   final A itemA;
   final B itemB;
 
   Pair({required this.itemA, required this.itemB});
 }
 
-
-
 /// Marks some data as selected or not selected
 class SelectableDataItem<A> {
-
   final A item;
   bool isSelected;
   bool isVisible;
@@ -361,16 +323,13 @@ class SelectableDataItem<A> {
   SelectableDataItem(this.item, this.isSelected, this.isVisible);
 }
 
-
-
 /// Contains data for showing a snackbar
 class SnackBarData {
-
   final String text;
   final Duration? duration;
   final Color? color;
 
   static const Duration defaultDuration = Duration(milliseconds: 1500);
 
-  const SnackBarData({required this.text, this.duration=defaultDuration, this.color});
+  const SnackBarData({required this.text, this.duration = defaultDuration, this.color});
 }

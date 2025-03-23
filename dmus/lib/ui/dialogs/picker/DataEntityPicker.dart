@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:dmus/core/Util.dart';
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
@@ -12,9 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../../generated/l10n.dart';
 
-
 abstract class _DataEntityPickerState<T extends DataEntity> extends State<StatefulWidget> with SelectionListPicker<T> {
-
   final TextEditingController _filterController = TextEditingController();
 
   bool _selectAll = false;
@@ -48,16 +42,13 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
             child: ListView(
               children: [
                 for (final tuple in items)
-                  if (tuple.isVisible)
-                    this.buildListItem(tuple),
+                  if (tuple.isVisible) this.buildListItem(tuple),
               ],
             ),
           ),
-
           Container(
             color: Theme.of(context).colorScheme.background,
-            child:
-            Padding(
+            child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 controller: _filterController,
@@ -90,7 +81,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
   void clearFilter() {
     _filterController.text = "";
     super.clearFilter();
-    setState(() { });
+    setState(() {});
   }
 
   void toggleSelectAll() {
@@ -99,26 +90,21 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
     setState(() {});
   }
 
-
   void filterDataEntities(String text) {
-
     super.filterItems(text, dataEntityMatches);
 
-    setState(() { });
+    setState(() {});
   }
 }
-
-
 
 class SongPicker extends StatefulWidget {
   const SongPicker({super.key});
 
   @override
-  State<StatefulWidget> createState()  => _SongPickerState();
+  State<StatefulWidget> createState() => _SongPickerState();
 }
 
 class _SongPickerState extends _DataEntityPickerState<Song> {
-
   @override
   String get filterText => S.current.filterSongs;
 
@@ -129,9 +115,7 @@ class _SongPickerState extends _DataEntityPickerState<Song> {
   void initState() {
     super.initState();
 
-    items.addAll(
-        context.read<SongsProvider>().songs
-            .map((e) => SelectableDataItem(e, false, true)));
+    items.addAll(context.read<SongsProvider>().songs.map((e) => SelectableDataItem(e, false, true)));
   }
 
   @override
@@ -155,16 +139,14 @@ class _SongPickerState extends _DataEntityPickerState<Song> {
   }
 }
 
-
 class PlaylistPicker extends StatefulWidget {
   const PlaylistPicker({super.key});
 
   @override
-  State<StatefulWidget> createState()  => _PlaylistPickerState();
+  State<StatefulWidget> createState() => _PlaylistPickerState();
 }
 
 class _PlaylistPickerState extends _DataEntityPickerState<Playlist> {
-
   @override
   String get filterText => S.current.filterPlaylists;
 
@@ -175,9 +157,7 @@ class _PlaylistPickerState extends _DataEntityPickerState<Playlist> {
   void initState() {
     super.initState();
 
-    items.addAll(
-        context.read<PlaylistProvider>().playlists
-            .map((e) => SelectableDataItem(e, false, true)));
+    items.addAll(context.read<PlaylistProvider>().playlists.map((e) => SelectableDataItem(e, false, true)));
   }
 
   @override
@@ -199,4 +179,3 @@ class _PlaylistPickerState extends _DataEntityPickerState<Playlist> {
     );
   }
 }
-

@@ -1,52 +1,46 @@
-
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:flutter/widgets.dart';
-import 'package:path/path.dart' as Path;
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import 'data/DataEntity.dart';
 import 'data/FileOutput.dart';
-
 
 /// The global logger instance
 final logging = Logger('DMUS');
 
-const int maxInteger =  0x7FFFFFFFFFFFFFFF;
+const int maxInteger = 0x7FFFFFFFFFFFFFFF;
 const int minInteger = -0x8000000000000000;
 
 /// Lowercase music extensions without the dot
-const List<String> musicFileExtensions = ['flac', 'mp3', 'ogg', 'opus', 'wav','m4a'];
+const List<String> musicFileExtensions = ['flac', 'mp3', 'ogg', 'opus', 'wav', 'm4a'];
 
 /// Lowercase image extensions without the dot
-const List<String> imageFileExtensions = ['webp', 'png', 'jpeg', 'jpg', 'jfif','jpe', 'tiff', 'bmp'];
+const List<String> imageFileExtensions = ['webp', 'png', 'jpeg', 'jpg', 'jfif', 'jpe', 'tiff', 'bmp'];
 
 /// Lowercase filenames without the extensions for common album cover art which is placed in the same directory of the files
-const List<String> albumArtFilenames   = ['cover', 'album', 'folder', 'albumart'];
-
-
+const List<String> albumArtFilenames = ['cover', 'album', 'folder', 'albumart'];
 
 /// Setup logging
 Future<void> initLogging(Level l) async {
-
   final dir = await getExternalStorageDirectory();
 
   final logPath = Directory('${dir?.path}/logs/');
 
-  if(!await logPath.exists()) {
-
+  if (!await logPath.exists()) {
     try {
       await logPath.create(recursive: true);
-    }
-    on Exception catch(e) {
+    } on Exception catch (e) {
       debugPrint("Error creating log directory: $e");
     }
   }
 
   try {
-
     final date = DateTime.now();
 
     final logFile = File(Path.join(logPath.path, '${date.year}-${date.month}-${date.day}.log'));
@@ -69,28 +63,25 @@ Future<void> initLogging(Level l) async {
 
     logging.shout("Logging almost done");
 
-    if(await logFile.exists()) {
+    if (await logFile.exists()) {
       logging.shout("Logging setup! Logs should be written to $logFile");
     } else {
       logging.shout("Logging setup! Logs are supposed to be written to $logFile, but it does not exist!");
     }
-  }
-  on Exception catch(e) {
+  } on Exception catch (e) {
     debugPrint("Could not setup logging!");
   }
 }
 
-
 /// Returns true if the file path has a music file extension
-bool hasMusicFileExtension(String path){
+bool hasMusicFileExtension(String path) {
   return musicFileExtensions.contains(fileExtensionNoDot(path).toLowerCase());
 }
 
 /// File filter which allows all files
-bool alwaysTrueFilter(String path){
+bool alwaysTrueFilter(String path) {
   return true;
 }
-
 
 /// Formats the position time out of the duration time to display to the user
 ///
@@ -98,12 +89,10 @@ bool alwaysTrueFilter(String path){
 ///
 /// The format is MM:SS / MM:SS if duration is less than 1 hour
 String formatTimeDisplay(Duration sp, Duration sd) {
-
   String hoursSP = "";
   String hoursSD = "";
 
-  if(sd.inHours >= 1 ) {
-
+  if (sd.inHours >= 1) {
     hoursSP = '${(sp.inHours % 60).toString().padLeft(2, '0')}:';
     hoursSD = '${(sd.inHours % 60).toString().padLeft(2, '0')}:';
   }
@@ -116,10 +105,8 @@ String formatTimeDisplay(Duration sp, Duration sd) {
       '$hoursSD'
       '${(sd.inMinutes % 60).toString().padLeft(2, '0')}'
       ':'
-      '${(sd.inSeconds % 60).toString().padLeft(2, '0')}'
-  ;
+      '${(sd.inSeconds % 60).toString().padLeft(2, '0')}';
 }
-
 
 /// Format a duration to display to the user
 ///
@@ -127,20 +114,16 @@ String formatTimeDisplay(Duration sp, Duration sd) {
 ///
 /// The format is MM:SS / MM:SS if duration is less than 1 hour
 String formatDuration(Duration d) {
-
   String hours = "";
 
-  if(d.inHours >= 1 ) {
-
+  if (d.inHours >= 1) {
     hours = '${(d.inHours % 60).toString().padLeft(2, '0')}:';
   }
   return '$hours'
       '${(d.inMinutes % 60).toString().padLeft(2, '0')}'
       ':'
-      '${(d.inSeconds % 60).toString().padLeft(2, '0')}'
-  ;
+      '${(d.inSeconds % 60).toString().padLeft(2, '0')}';
 }
-
 
 /// Returns subtitles text for the given song metadata
 ///
@@ -148,41 +131,27 @@ String formatDuration(Duration d) {
 ///
 /// If none of the information exists it returns an empty string
 String subtitleFromMetadata(AudioMetadata m) {
-
   return [
-
-  if(m.album != null)
-    m.album!,
-
-  if(m.album == null && m.artist != null)
-    m.artist!,
-
+    if (m.album != null) m.album!,
+    if (m.album == null && m.artist != null) m.artist!,
   ].join(" - ");
 }
-
 
 /// Gets the text to show when a song is being played
 ///
 /// This information is from the songs metadata and the title,
 /// in the format of '{AUTHOR_NAME | TRACK_ARTIST_NAMES} --- {TITLE}'
 String currentlyPlayingTextFromMetadata(Song s) {
-
   var m = s.metadata;
 
   return [
-
-  if(m.artist != null)
-    m.artist!,
-
+    if (m.artist != null) m.artist!,
     s.title,
-
   ].join(" --- ");
 }
 
-
 /// Converts the given raw bytes to a hex string
 String bytesToHex(List<int> bytes) {
-
   const hexDigits = '0123456789abcdef';
   var charCodes = Uint8List(bytes.length * 2);
   for (var i = 0, j = 0; i < bytes.length; i++) {
@@ -193,39 +162,33 @@ String bytesToHex(List<int> bytes) {
   return String.fromCharCodes(charCodes);
 }
 
-
 /// Gets the file extension without the .
-String fileExtensionNoDot(String path){
-
+String fileExtensionNoDot(String path) {
   final p = Path.extension(path);
 
-  if(p.isEmpty) {
+  if (p.isEmpty) {
     return "";
   }
 
   return p.substring(1);
 }
-
 
 /// Gets the filename without the extension
-String filenameWithoutExtension(String path){
-
+String filenameWithoutExtension(String path) {
   final p = Path.basenameWithoutExtension(path);
 
-  if(p.isEmpty) {
+  if (p.isEmpty) {
     return "";
   }
 
   return p.substring(1);
 }
-
 
 /// Asks or gets permission to manage external storage
 Future<bool> getExternalStoragePermission() async {
-
   final b = await Permission.storage.isGranted;
 
-  if(!b) {
+  if (!b) {
     await Permission.storage.request();
 
     if (!await Permission.storage.isGranted) {
@@ -247,33 +210,27 @@ Future<bool> getExternalStoragePermission() async {
   return true;
 }
 
-
 Future<String?> getDownloadPath() async {
-
   try {
-
     if (Platform.isIOS) {
       return (await getApplicationDocumentsDirectory()).path;
     }
 
     final directory = Directory('/storage/emulated/0/Download');
 
-    if(!await directory.exists()) {
+    if (!await directory.exists()) {
       return (await getExternalStorageDirectory())?.path;
     }
 
     return directory.path;
-
   } catch (err) {
     logging.warning("Cannot get download folder path");
   }
   return null;
 }
 
-
 /// Tries to delete a file from external storage
 Future<void> deleteFileFromExternalStorage(String filePath) async {
-
   final downloadsDirectory = await getExternalStorageDirectory();
 
   if (downloadsDirectory == null) {
@@ -287,35 +244,26 @@ Future<void> deleteFileFromExternalStorage(String filePath) async {
     if (await file.exists() && file.parent.path == downloadsDirectory.path) {
       await file.delete();
       logging.info("Deleted $filePath from external storage");
-    }
-    else {
+    } else {
       logging.info("Could not delete $filePath from external storage");
     }
-  }
-  on Exception catch (e) {
+  } on Exception catch (e) {
     logging.warning("While trying to delete $filePath from external storage: $e");
   }
 }
 
-
-
 List<String> multiplyListTerms(List<String> terms, int n) {
   return [
     for (var term in terms)
-      for(int i = 0; i < n; i++)
-        term
+      for (int i = 0; i < n; i++) term
   ];
 }
 
-
-
 bool dataEntityMatches(String text, DataEntity di) {
-
-  switch(di.entityType) {
-
+  switch (di.entityType) {
     case EntityType.song:
       return di.title.toLowerCase().contains(text) ||
-             subtitleFromMetadata((di as Song).metadata).toLowerCase().contains(text);
+          subtitleFromMetadata((di as Song).metadata).toLowerCase().contains(text);
 
     case EntityType.album:
     case EntityType.playlist:

@@ -1,17 +1,3 @@
-
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:audio_metadata_reader/audio_metadata_reader.dart';
-import 'package:dmus/core/Util.dart';
-import 'package:dmus/core/data/DataEntity.dart';
-import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:dmus/ui/dialogs/context/MetadataContextDialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import '/generated/l10n.dart';
-
 // class EditMetadataPage extends StatefulWidget {
 //
 //   final DataEntity entity;
@@ -19,7 +5,7 @@ import '/generated/l10n.dart';
 //   const EditMetadataPage({super.key, required this.entity});
 //
 //   @override
-  // State<StatefulWidget> createState () => _EditMetadataPageState();
+// State<StatefulWidget> createState () => _EditMetadataPageState();
 //
 //
 // }

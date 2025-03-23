@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BlueDivider extends StatelessWidget {
@@ -14,5 +12,4 @@ class BlueDivider extends StatelessWidget {
       endIndent: 250,
     );
   }
-
 }

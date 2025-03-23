@@ -1,6 +1,3 @@
-
-
-
 enum SongListWidgetLead {
   leadWithArtwork,
   leadWithTrackNumber,
@@ -17,21 +14,21 @@ enum CurrentlyPlayingBarSwipe {
   swipeToNextPrevious,
 }
 
-enum QueueFillMode{
+enum QueueFillMode {
   fillWithRandom,
   fillWithRandomPrioritySameArtist,
   neverGenerate,
 }
 
-enum PlaylistQueueFillMode{
+enum PlaylistQueueFillMode {
   neverFill,
   fillWithRandom,
 }
 
-
 int songListWidgetTrailToInt(SongListWidgetTrail s) {
   return SongListWidgetTrail.values.indexOf(s);
 }
+
 SongListWidgetTrail songListWidgetTrailFromInt(int s) {
   return SongListWidgetTrail.values[s.clamp(0, SongListWidgetTrail.values.length - 1)];
 }
@@ -39,6 +36,7 @@ SongListWidgetTrail songListWidgetTrailFromInt(int s) {
 int currentlyPlayingBarSwipeToInt(CurrentlyPlayingBarSwipe s) {
   return CurrentlyPlayingBarSwipe.values.indexOf(s);
 }
+
 CurrentlyPlayingBarSwipe currentlyPlayingBarSwipeFromInt(int s) {
   return CurrentlyPlayingBarSwipe.values[s.clamp(0, CurrentlyPlayingBarSwipe.values.length - 1)];
 }
@@ -46,6 +44,7 @@ CurrentlyPlayingBarSwipe currentlyPlayingBarSwipeFromInt(int s) {
 int queueFillModeToInt(QueueFillMode s) {
   return QueueFillMode.values.indexOf(s);
 }
+
 QueueFillMode queueFillModeFromInt(int s) {
   return QueueFillMode.values[s.clamp(0, QueueFillMode.values.length - 1)];
 }
@@ -53,6 +52,7 @@ QueueFillMode queueFillModeFromInt(int s) {
 int playlistQueueFillModeToInt(PlaylistQueueFillMode s) {
   return PlaylistQueueFillMode.values.indexOf(s);
 }
+
 PlaylistQueueFillMode playlistQueueFillModeFromInt(int s) {
   return PlaylistQueueFillMode.values[s.clamp(0, PlaylistQueueFillMode.values.length - 1)];
 }

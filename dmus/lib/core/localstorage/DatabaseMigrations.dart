@@ -1,41 +1,30 @@
-
 import 'package:sqflite/sqflite.dart';
+
 import '../Util.dart';
-
-
 
 /// Handles all database migrations from older to newer versions
 ///
 /// Does not support downgrades, only upgrades
 final class DatabaseMigrations {
-
   DatabaseMigrations._();
 
   /// Maps the database version to the migration
-  static final Map<int, Function> _migrations = {
-    1 : _migration_1,
-    2 : _migration_2
-  };
-
-
+  static final Map<int, Function> _migrations = {1: _migration_1, 2: _migration_2};
 
   /// Runs the migrations to upgrade from the oldVersion to the newVersion
   ///
   /// Throws Exception if no migration exists for a version
   static Future<void> runMigrations(Database db, int oldVersion, int newVersion) async {
-
     logging.info("About to migrate database from version $oldVersion to $newVersion");
-    
+
     int currentVersion = oldVersion;
 
-    while(currentVersion < newVersion) {
-
+    while (currentVersion < newVersion) {
       currentVersion++;
 
       logging.info("Running migration $currentVersion");
 
-      if(!_migrations.containsKey(currentVersion)) {
-
+      if (!_migrations.containsKey(currentVersion)) {
         logging.severe("Cannot migrate database, no migration exists for version $currentVersion");
 
         throw Exception("Cannot migrate database, no migration exists for version $currentVersion");
@@ -47,28 +36,26 @@ final class DatabaseMigrations {
     }
   }
 
- static const String TBL_ARTIST = "tbl_artist";
- static const String TBL_ARTIST_SONG = "tbl_artist_song";
- static const String TBL_SONG = "tbl_song";
- static const String TBL_ALBUM = "tbl_album";
- static const String TBL_FMETADATA = "tbl_fmetadata";
- static const String TBL_PLAYLIST = "tbl_playlist";
- static const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
- static const String TBL_ALBUM_SONG = "tbl_album_song";
- static const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
- static const String TBL_LIKES = "tbl_likes";
- static const String TBL_HISTORY = "tbl_history";
- static const String TBL_BLACKLISTS = "tbl_blacklist";
- static const String TBL_SETTINGS = "tbl_settings";
- static const String SONG_ID = "song_id";
- static const String ALBUM_ID = "album_id";
- static const String PLAYLIST_ID = "playlist_id";
- static const String ARTIST_ID = "artist_id";
+  static const String TBL_ARTIST = "tbl_artist";
+  static const String TBL_ARTIST_SONG = "tbl_artist_song";
+  static const String TBL_SONG = "tbl_song";
+  static const String TBL_ALBUM = "tbl_album";
+  static const String TBL_FMETADATA = "tbl_fmetadata";
+  static const String TBL_PLAYLIST = "tbl_playlist";
+  static const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
+  static const String TBL_ALBUM_SONG = "tbl_album_song";
+  static const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
+  static const String TBL_LIKES = "tbl_likes";
+  static const String TBL_HISTORY = "tbl_history";
+  static const String TBL_BLACKLISTS = "tbl_blacklist";
+  static const String TBL_SETTINGS = "tbl_settings";
+  static const String SONG_ID = "song_id";
+  static const String ALBUM_ID = "album_id";
+  static const String PLAYLIST_ID = "playlist_id";
+  static const String ARTIST_ID = "artist_id";
 
   /// Migration 1, handles creating the base database for the earlier version
   static Future<void> _migration_1(Database db) async {
-
-
     await db.execute("PRAGMA foreign_keys = ON");
 
     logging.config("Creating $TBL_SETTINGS");
@@ -87,7 +74,6 @@ final class DatabaseMigrations {
         song_path VARCHAR UNIQUE NOT NULL
     ) 
     ''');
-
 
     logging.config("Creating $TBL_LIKES");
 
@@ -110,7 +96,6 @@ final class DatabaseMigrations {
     ''');
 
     logging.config("Creating $TBL_SONG");
-
 
     await db.execute('''
     CREATE TABLE $TBL_SONG (
@@ -170,7 +155,6 @@ final class DatabaseMigrations {
 
     logging.config("Creating $TBL_ALBUM_SONG");
 
-
     await db.execute('''
     CREATE TABLE $TBL_ALBUM_SONG (
         $ALBUM_ID INTEGER NOT NULL,
@@ -184,7 +168,6 @@ final class DatabaseMigrations {
     ''');
 
     logging.config("Creating $TBL_PLAYLIST_SONG");
-
 
     await db.execute('''
     CREATE TABLE $TBL_PLAYLIST_SONG (
@@ -201,7 +184,6 @@ final class DatabaseMigrations {
   }
 
   static Future<void> _migration_2(Database db) async {
-
     await db.execute('''
     CREATE TABLE $TBL_ARTIST (
         id INTEGER PRIMARY KEY,

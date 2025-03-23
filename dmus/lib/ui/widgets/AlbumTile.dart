@@ -1,5 +1,3 @@
-
-
 import 'package:dmus/ui/dialogs/Util.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +6,6 @@ import '../../core/data/DataEntity.dart';
 import 'ArtDisplay.dart';
 
 class AlbumTile extends StatelessWidget {
-
   final Playlist playlist;
 
   const AlbumTile({super.key, required this.playlist});
@@ -30,8 +27,9 @@ class AlbumTile extends StatelessWidget {
               ),
             ),
           ),
-          child: ArtDisplay(dataEntity: playlist,)
-      ),
+          child: ArtDisplay(
+            dataEntity: playlist,
+          )),
       onTap: () => openPlaylistPage(context, playlist),
       onLongPress: () => showPlaylistOrAlbumContextMenu(context, playlist),
     );

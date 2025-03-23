@@ -1,6 +1,6 @@
-import '/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+import '/generated/l10n.dart';
 import '../../core/Util.dart';
 import '../../core/data/DataEntity.dart';
 import '../../core/data/UIEnumSettings.dart';

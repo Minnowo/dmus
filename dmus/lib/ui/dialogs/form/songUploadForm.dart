@@ -1,5 +1,3 @@
-
-
 import 'package:dmus/ui/Util.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +5,6 @@ import '../../../core/Util.dart';
 import '../../../core/data/DataEntity.dart';
 import '../../../generated/l10n.dart';
 import '../picker/DataEntityPicker.dart';
-
 
 class SongUploadFormResult {
   final List<Song> songs;
@@ -20,8 +17,7 @@ class SongUploadForm extends StatefulWidget {
 
   const SongUploadForm({Key? key, this.editing}) : super(key: key);
 
-  const SongUploadForm.editExisting({Key? key, required this.editing})
-      : super(key: key);
+  const SongUploadForm.editExisting({Key? key, required this.editing}) : super(key: key);
 
   @override
   State<SongUploadForm> createState() => _SongUploadFormState();
@@ -67,12 +63,10 @@ class _SongUploadFormState extends State<SongUploadForm> {
       return;
     }
 
-    final SongUploadFormResult result = SongUploadFormResult(
-        songs: selectedSongs);
+    final SongUploadFormResult result = SongUploadFormResult(songs: selectedSongs);
 
     popNavigatorSafeWithArgs<SongUploadFormResult>(context, result);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +107,7 @@ class _SongUploadFormState extends State<SongUploadForm> {
                       ),
                       onDismissed: (_) {
                         setState(() {
-                          _stupidUniqueKeyForDismissible +=
-                              selectedSongs.length;
+                          _stupidUniqueKeyForDismissible += selectedSongs.length;
                           selectedSongs.removeAt(index);
                         });
                       },
@@ -169,6 +162,3 @@ class _SongUploadFormState extends State<SongUploadForm> {
     );
   }
 }
-
-
-
