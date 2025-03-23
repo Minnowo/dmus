@@ -51,9 +51,10 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
     getExternalStoragePermission().whenComplete(() => setState(() => buildFileCache()));
 
     ExternalPath.getExternalStorageDirectories().then((value) {
+    if(value!=null){
       for(final i in value) {
         _externalStorageRoots.add(i);
-      }
+      }}
 
       if(_externalStorageRoots.isEmpty) {
         MessagePublisher.publishSomethingWentWrong(S.current.noStorage);

@@ -47,7 +47,7 @@ dependencies:
 
   # for pathing
   path_provider: ^2.1.1
-  external_path: ^2.0.1
+  external_path: ^2.2.0
   path: ^1.8.3
   file_picker: ^8.1.2
 

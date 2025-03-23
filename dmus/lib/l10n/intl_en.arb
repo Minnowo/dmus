@@ -185,13 +185,14 @@
 	"wrongPassword": "wrong-password",
 	"userNotFound": "user-not-found",
 	"albums": "Albums",
+	"artists": "Artists",
 	"albumsAppear": "Albums will appear as you import music!",
+	"artistsAppear": "Artists will appear as you import music!",
 	"confirmRemoveFromBlacklist": "Are you sure you want to remove these files from the blacklist?",
 	"removeThem": "Remove them",
 	"currentlyPlaying": "Currently Playing",
 	"addToPlaylist": "ADD TO PLAYLIST",
 	"noImagePath": "No image path found.",
-
 
 	"songs": "Songs",
 	"basicInfoTextWithSep": "songs",
@@ -200,7 +201,6 @@
 
 	"watchDirectories": "Watch Directories",
 	"watchDirectoriesEmpty": "Watch directories will be checked when the app starts and automatically import music.",
-
 
 	"youtubeDownload": "YouTube Download",
 	"youtubeURL": "YouTube URL",
@@ -219,7 +219,6 @@
 	"fetchingVideoInformation": "Fetching Video Information...",
 	"download": "Download",
 	"convertingAudio": "Converting Audio...",
-	
 
 	"general": "General",
 	"addMusic": "Add Music",

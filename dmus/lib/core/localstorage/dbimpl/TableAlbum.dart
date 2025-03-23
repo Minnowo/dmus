@@ -40,7 +40,7 @@ final class TableAlbum {
             .name} "
             "WHERE ${TableFMetadata.albumCol} IS NOT NULL "
             "GROUP BY ${TableFMetadata.albumCol} "
-            "HAVING COUNT(${TableFMetadata.albumCol}) > 1;"
+            "HAVING COUNT(${TableFMetadata.albumCol}) >= 1;"
     );
 
     // inserts the songs into the album_songs table based on their album
@@ -56,7 +56,6 @@ final class TableAlbum {
             "JOIN ${TableFMetadata.name} f ON a.${TableAlbum
             .titleCol} = f.${TableFMetadata.albumCol} "
             // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
-            "ORDER BY f.${TableFMetadata.trackNumberCol};"
     );
   }
 
@@ -111,10 +110,12 @@ final class TableAlbum {
 
   /// Returns all albums which contain the given songs
   static Future<List<Album>> albumsWithSongs(List<Song> songs) async {
-
-    String sql = "SELECT ${TableAlbum.name}.${TableAlbum.idCol}, ${TableAlbum.name}.${TableAlbum.titleCol} FROM ${TableAlbumSong.name}"
-        " JOIN ${TableAlbum.name} ON ${TableAlbumSong.name}.${TableAlbumSong.albumIdCol} = ${TableAlbum.name}.${TableAlbum.idCol}"
-        " JOIN ${TableSong.name} ON ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+    String sql = "SELECT ${TableAlbum.name}.${TableAlbum.idCol}, ${TableAlbum.name}.${TableAlbum
+        .titleCol} FROM ${TableAlbumSong.name}"
+        " JOIN ${TableAlbum.name} ON ${TableAlbumSong.name}.${TableAlbumSong.albumIdCol} = ${TableAlbum
+        .name}.${TableAlbum.idCol}"
+        " JOIN ${TableSong.name} ON ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} = ${TableSong.name}.${TableSong
+        .idCol}"
         " WHERE ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} IN (${songs.map((e) => "?").join(",")})"
     ;
 
@@ -125,11 +126,10 @@ final class TableAlbum {
     List<Album> playlists = [];
     Set<int> seenId = {};
 
-    for(var e in playlistsResult) {
-
+    for (var e in playlistsResult) {
       int id = e[TableAlbum.idCol] as int;
 
-      if(seenId.contains(id)) {
+      if (seenId.contains(id)) {
         continue;
       }
 
@@ -137,7 +137,7 @@ final class TableAlbum {
 
       final _ = MyDataEntityCache.getFromCache(id);
 
-      if(_ != null && _ is Album) {
+      if (_ != null && _ is Album) {
         playlists.add(_);
         continue;
       }
@@ -195,7 +195,7 @@ final class TableAlbum {
         " JOIN ${TableSong.name} ON ${TableAlbumSong.name}.${TableAlbumSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
         " WHERE ${TableAlbumSong.name}.${TableAlbumSong.albumIdCol} = ?"
-        " ORDER BY ${TableAlbumSong.songIndexCol}"
+        " ORDER BY ${TableFMetadata.discNumberCol}, ${TableFMetadata.trackNumberCol}"
     ;
 
     final result = await db.rawQuery(sql, [albumId]);

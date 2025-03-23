@@ -23,7 +23,7 @@ final class DatabaseController {
   static Database? _database;
 
   /// The database version, used for migrations
-  static const int VERSION = 1;
+  static const int VERSION = 2;
 
   /// If true, the database is deleted before firsts connecting
   ///
@@ -76,12 +76,14 @@ final class DatabaseController {
 
   /// Creates the database from the migration history
   static Future<void> _createDatabase(Database db, int version) async {
+    logging.config("The database is being created");
     await DatabaseMigrations.runMigrations(db, 0, version);
   }
 
 
   /// Migrates the database from previous versions
   static Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    logging.config("The database is being upgraded, starting from $oldVersion until $newVersion");
     await DatabaseMigrations.runMigrations(db, oldVersion, newVersion);
   }
 

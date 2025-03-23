@@ -5,6 +5,7 @@ import 'package:dmus/core/audio/JustAudioController.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/data/provider/AlbumProvider.dart';
+import 'package:dmus/core/data/provider/ArtistProvider.dart';
 import 'package:dmus/core/data/provider/PlaylistProvider.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
 import 'package:dmus/core/data/provider/ThemeProvider.dart';
@@ -22,6 +23,7 @@ import 'package:dmus/ui/pages/NavigationPage.dart';
 import 'package:dmus/ui/pages/PlayListsPage.dart';
 import 'package:dmus/ui/pages/SearchPage.dart';
 import 'package:dmus/ui/pages/SongsPage.dart';
+import 'package:dmus/ui/pages/ArtistPage.dart';
 import 'package:dmus/ui/widgets/CurrentlyPlayingBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,6 +77,10 @@ class DMUSApp extends StatelessWidget {
 
       ChangeNotifierProvider<AlbumProvider>(
           create: (_) => AlbumProvider()
+      ),
+
+      ChangeNotifierProvider<ArtistProvider>(
+          create: (_) =>ArtistProvider()
       ),
 
       StreamProvider<PlayerSong>(
@@ -172,6 +178,7 @@ class _RootPageState extends State<RootPage> with WidgetsBindingObserver {
     SongsPage(),
     PlaylistsPage(),
     AlbumsPage(),
+    ArtistPage(),
     SearchPage(),
   ];
 

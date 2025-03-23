@@ -13,7 +13,8 @@ final class DatabaseMigrations {
 
   /// Maps the database version to the migration
   static final Map<int, Function> _migrations = {
-    1 : _migration_1
+    1 : _migration_1,
+    2 : _migration_2
   };
 
 
@@ -46,21 +47,27 @@ final class DatabaseMigrations {
     }
   }
 
+ static const String TBL_ARTIST = "tbl_artist";
+ static const String TBL_ARTIST_SONG = "tbl_artist_song";
+ static const String TBL_SONG = "tbl_song";
+ static const String TBL_ALBUM = "tbl_album";
+ static const String TBL_FMETADATA = "tbl_fmetadata";
+ static const String TBL_PLAYLIST = "tbl_playlist";
+ static const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
+ static const String TBL_ALBUM_SONG = "tbl_album_song";
+ static const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
+ static const String TBL_LIKES = "tbl_likes";
+ static const String TBL_HISTORY = "tbl_history";
+ static const String TBL_BLACKLISTS = "tbl_blacklist";
+ static const String TBL_SETTINGS = "tbl_settings";
+ static const String SONG_ID = "song_id";
+ static const String ALBUM_ID = "album_id";
+ static const String PLAYLIST_ID = "playlist_id";
+ static const String ARTIST_ID = "artist_id";
 
   /// Migration 1, handles creating the base database for the earlier version
   static Future<void> _migration_1(Database db) async {
 
-    const String TBL_SONG = "tbl_song";
-    const String TBL_ALBUM = "tbl_album";
-    const String TBL_FMETADATA = "tbl_fmetadata";
-    const String TBL_PLAYLIST = "tbl_playlist";
-    const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
-    const String TBL_ALBUM_SONG = "tbl_album_song";
-    const String TBL_PLAYLIST_SONG = "tbl_playlist_song";
-    const String TBL_LIKES = "tbl_likes";
-    const String TBL_HISTORY = "tbl_history";
-    const String TBL_BLACKLISTS = "tbl_blacklist";
-    const String TBL_SETTINGS = "tbl_settings";
 
     await db.execute("PRAGMA foreign_keys = ON");
 
@@ -81,7 +88,6 @@ final class DatabaseMigrations {
     ) 
     ''');
 
-    const String SONG_ID = "song_id";
 
     logging.config("Creating $TBL_LIKES");
 
@@ -164,7 +170,6 @@ final class DatabaseMigrations {
 
     logging.config("Creating $TBL_ALBUM_SONG");
 
-    const String ALBUM_ID = "album_id";
 
     await db.execute('''
     CREATE TABLE $TBL_ALBUM_SONG (
@@ -180,7 +185,6 @@ final class DatabaseMigrations {
 
     logging.config("Creating $TBL_PLAYLIST_SONG");
 
-    const String PLAYLIST_ID = "playlist_id";
 
     await db.execute('''
     CREATE TABLE $TBL_PLAYLIST_SONG (
@@ -196,4 +200,26 @@ final class DatabaseMigrations {
     ''');
   }
 
+  static Future<void> _migration_2(Database db) async {
+
+    await db.execute('''
+    CREATE TABLE $TBL_ARTIST (
+        id INTEGER PRIMARY KEY,
+        title VARCHAR NOT NULL
+    )
+    ''');
+
+    await db.execute('''
+    CREATE TABLE $TBL_ARTIST_SONG (
+        $ARTIST_ID INTEGER NOT NULL,
+        $SONG_ID INTEGER NOT NULL,
+        song_index INTEGER,
+        song_album VARCHAR,
+        FOREIGN KEY ($ARTIST_ID) REFERENCES $TBL_ARTIST(id) ON DELETE CASCADE,
+        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
+        CONSTRAINT ${ARTIST_ID}_fk FOREIGN KEY ($ARTIST_ID) REFERENCES $TBL_ARTIST(id),
+        CONSTRAINT ${SONG_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id)
+    )
+    ''');
+  }
 }

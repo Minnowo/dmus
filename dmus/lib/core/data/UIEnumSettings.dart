@@ -4,6 +4,7 @@
 enum SongListWidgetLead {
   leadWithArtwork,
   leadWithTrackNumber,
+  leadWithDiskNumberTrackNumber,
 }
 
 enum SongListWidgetTrail {

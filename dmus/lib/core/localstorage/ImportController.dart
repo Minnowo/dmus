@@ -5,6 +5,7 @@ import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableAlbum.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableArtist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
 import '/generated/l10n.dart';
 
@@ -48,6 +49,7 @@ final class ImportController {
 
   /// A pub for when the albums have been rebuilt
   static final _albumsRebuiltController = StreamController<void>.broadcast();
+  static final _artistRebuiltController = StreamController<void>.broadcast();
 
 
   static bool get reduceSnackBars {
@@ -93,6 +95,10 @@ final class ImportController {
   /// A pub for when the albums have been rebuilt
   static Stream<void> get onAlbumCacheRebuild {
     return _albumsRebuiltController.stream;
+  }
+
+  static Stream<void> get onArtistCacheRebuild {
+    return _artistRebuiltController.stream;
   }
 
 
@@ -159,6 +165,13 @@ final class ImportController {
     _albumsRebuiltController.add(null);
 
   }
+  static Future<void> rebuildArtists() async {
+
+    await TableArtist.generateArtists();
+
+    _artistRebuiltController.add(null);
+
+  }
 
 
   /// Finish importing and build the album cache
@@ -167,6 +180,7 @@ final class ImportController {
     if(_importCount < 1) return;
 
     await rebuildAlbums();
+    await rebuildArtists();
 
     _importCount = 0;
   }

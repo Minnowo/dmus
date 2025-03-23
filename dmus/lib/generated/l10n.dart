@@ -1819,12 +1819,28 @@ class S {
       args: [],
     );
   }
+  String get artists{
+    return Intl.message(
+      'Artists',
+      name: 'artists',
+      desc: '',
+      args: [],
+    );
+  }
 
   /// `Albums will appear as you import music!`
   String get albumsAppear {
     return Intl.message(
       'Albums will appear as you import music!',
       name: 'albumsAppear',
+      desc: '',
+      args: [],
+    );
+  }
+  String get artistsAppear {
+    return Intl.message(
+      'Artists will appear as you import music!',
+      name: 'artistsAppear',
       desc: '',
       args: [],
     );

@@ -161,7 +161,7 @@ class SelectedPlaylistPage extends StatelessWidget {
                           onTap: () => playSong(playlistContext, i) ,
                           onLongPress: () => SongContextDialog.showAsDialog(context, s, SongContextMode.normalMode),
                           leadWith: playlistContext.entityType ==
-                              EntityType.album ? SongListWidgetLead.leadWithTrackNumber : SongListWidgetLead.leadWithArtwork,
+                              EntityType.album ? SongListWidgetLead.leadWithTrackNumber: SongListWidgetLead.leadWithArtwork,
                           trailWith: SongListWidgetTrail.trailWithDuration,
                         );
                       }

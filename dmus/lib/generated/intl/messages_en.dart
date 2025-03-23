@@ -36,10 +36,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "albums": MessageLookupByLibrary.simpleMessage("Albums"),
         "albumsAppear": MessageLookupByLibrary.simpleMessage(
             "Albums will appear as you import music!"),
+    "artistsAppear": MessageLookupByLibrary.simpleMessage(
+        "Artists will appear as you import music!"),
         "allSongsDownloaded":
             MessageLookupByLibrary.simpleMessage("All songs downloaded"),
         "appearance": MessageLookupByLibrary.simpleMessage("Appearance"),
         "artist": MessageLookupByLibrary.simpleMessage("Artist"),
+    "artists": MessageLookupByLibrary.simpleMessage("Artists"),
         "author": MessageLookupByLibrary.simpleMessage("Author"),
         "authorName": MessageLookupByLibrary.simpleMessage("Author Name"),
         "backupDatabase":

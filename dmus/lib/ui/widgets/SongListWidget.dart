@@ -1,7 +1,3 @@
-
-
-
-
 import '/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +8,7 @@ import '../dialogs/context/SongContextDialog.dart';
 import '../lookfeel/CommonTheme.dart';
 import 'ArtDisplay.dart';
 
-
 class SongListWidget extends StatelessWidget {
-
   final Song song;
   final bool selected;
   final Future<bool?> Function(DismissDirection) confirmDismiss;
@@ -25,18 +19,17 @@ class SongListWidget extends StatelessWidget {
   final SongListWidgetLead leadWith;
   final SongListWidgetTrail trailWith;
 
-  const SongListWidget({
-    super.key,
-    required this.song,
-    required this.selected,
-    required this.confirmDismiss,
-    required this.onTap,
-    required this.leadWith,
-    required this.trailWith,
-    this.onLongPress,
-    this.background,
-    this.secondaryBackground
-  });
+  const SongListWidget(
+      {super.key,
+      required this.song,
+      required this.selected,
+      required this.confirmDismiss,
+      required this.onTap,
+      required this.leadWith,
+      required this.trailWith,
+      this.onLongPress,
+      this.background,
+      this.secondaryBackground});
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +58,8 @@ class SongListWidget extends StatelessWidget {
     );
   }
 
-  Widget getTrailWith(BuildContext context){
-    switch(trailWith){
-
+  Widget getTrailWith(BuildContext context) {
+    switch (trailWith) {
       case SongListWidgetTrail.trailWithDuration:
         return Text(formatDuration(song.duration));
 
@@ -78,19 +70,23 @@ class SongListWidget extends StatelessWidget {
             child: InkWell(
               onTap: () => SongContextDialog.showAsDialog(context, song, SongContextMode.normalMode),
               child: const Icon(Icons.more_vert),
-            )
-        );
+            ));
     }
   }
-  Widget getLeadWith(BuildContext context){
-    switch(leadWith) {
 
+  Widget getLeadWith(BuildContext context) {
+    switch (leadWith) {
       case SongListWidgetLead.leadWithArtwork:
         return SizedBox(
           width: THUMB_SIZE,
           child: ArtDisplay(dataEntity: song),
         );
       case SongListWidgetLead.leadWithTrackNumber:
+        return Text(song.metadata.trackNumber?.toString() ?? S.current.nA);
+      case SongListWidgetLead.leadWithDiskNumberTrackNumber:
+        if (song.metadata.discNumber != null && song.metadata.trackNumber != null) {
+          return Text("${song.metadata.discNumber}-${song.metadata.trackNumber}");
+        }
         return Text(song.metadata.trackNumber?.toString() ?? S.current.nA);
     }
   }
