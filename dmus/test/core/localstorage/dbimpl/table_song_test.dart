@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
@@ -139,6 +140,21 @@ void main() {
       expect(second, same(first));
       expect(second!.title, 'song.mp3');
     });
+
+    test('reflects the song\'s liked status, not just selectAllWithMetadata', () async {
+      final file = await createFakeSongFile(tempDir, 'song.mp3');
+      final songId = (await TableSong.insertSong(file))!;
+      final song = (await TableSong.selectFromId(songId))!;
+
+      await TableLikes.markSongLiked(song);
+      // markSongLiked doesn't mutate the Song object it's given, so force a
+      // fresh query instead of returning the (still unliked) cached instance.
+      MyDataEntityCache.clearForTesting();
+
+      final likedSong = await TableSong.selectFromId(songId);
+
+      expect(likedSong!.liked, isTrue);
+    });
   });
 
   group('TableSong.selectAllWithMetadata', () {
@@ -224,6 +240,16 @@ void main() {
       await TableSong.insertSong(await createFakeSongFile(tempDir, 'alpha.mp3'));
 
       expect(await TableSong.songsWhichMatch(['nonexistent']), isEmpty);
+    });
+
+    test('reflects the liked status of matched songs', () async {
+      final songId = (await TableSong.insertSong(await createFakeSongFile(tempDir, 'alpha.mp3')))!;
+      await TableLikes.markSongLiked((await TableSong.selectFromId(songId))!);
+      MyDataEntityCache.clearForTesting();
+
+      final results = await TableSong.songsWhichMatch(['alpha']);
+
+      expect(results.single.liked, isTrue);
     });
 
     test('matches songs by album even when the title does not match', () async {

@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
@@ -133,6 +135,17 @@ void main() {
       final songs = await TablePlaylist.selectPlaylistSongs(playlistId!);
 
       expect(songs.map((e) => e.id).toList(), songIds);
+    });
+
+    test('reflects the liked status of songs in the playlist', () async {
+      final songIds = await insertSongs(['a.mp3']);
+      final playlistId = await TablePlaylist.insertPlaylist('My Playlist', await songsFor(songIds));
+      await TableLikes.markSongLiked((await TableSong.selectFromId(songIds.single))!);
+      MyDataEntityCache.clearForTesting();
+
+      final songs = await TablePlaylist.selectPlaylistSongs(playlistId!);
+
+      expect(songs.single.liked, isTrue);
     });
   });
 

@@ -1,5 +1,7 @@
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableArtistSong.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
+import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 
 import '../../Util.dart';
@@ -69,7 +71,13 @@ final class TableArtist {
   static Future<Iterable<Song>> selectArtistSongs(int artistId) async {
     final db = await DatabaseController.database;
 
-    const String sql = "SELECT * FROM ${TableArtistSong.name}"
+    const String sql = "SELECT *, "
+        "CASE WHEN EXISTS ("
+        "SELECT 1 FROM ${TablePlaylistSong.name}"
+        " WHERE ${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId}"
+        " AND ${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        ") THEN 1 ELSE 0 END AS is_liked"
+        " FROM ${TableArtistSong.name}"
         " JOIN ${TableSong.name} ON ${TableArtistSong.name}.${TableArtistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
         " WHERE ${TableArtistSong.name}.${TableArtistSong.artistIdCol} = ?"

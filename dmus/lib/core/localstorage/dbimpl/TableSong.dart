@@ -121,9 +121,15 @@ final class TableSong {
 
     var db = await DatabaseController.database;
 
-    const String sql = "SELECT * FROM ${TableSong.name}"
+    const String sql = "SELECT *, "
+        "CASE WHEN EXISTS ("
+        "SELECT 1 FROM ${TablePlaylistSong.name}"
+        " WHERE ${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId}"
+        " AND ${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        ") THEN 1 ELSE 0 END AS is_liked"
+        " FROM ${TableSong.name}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
-        " WHERE ${TableSong.idCol} = ?";
+        " WHERE ${TableSong.name}.${TableSong.idCol} = ?";
 
     var result = (await db.rawQuery(sql, [songId])).firstOrNull;
 
@@ -237,7 +243,13 @@ final class TableSong {
 
     var db = await DatabaseController.database;
 
-    String sql = "SELECT * FROM ${TableSong.name}"
+    String sql = "SELECT *, "
+        "CASE WHEN EXISTS ("
+        "SELECT 1 FROM ${TablePlaylistSong.name}"
+        " WHERE ${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId}"
+        " AND ${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        ") THEN 1 ELSE 0 END AS is_liked"
+        " FROM ${TableSong.name}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
         " WHERE $sqlWhere";
 

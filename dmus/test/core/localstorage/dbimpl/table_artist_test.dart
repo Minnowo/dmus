@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableArtist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -104,6 +106,17 @@ void main() {
       final songs = await TableArtist.selectArtistSongs(artistId!);
 
       expect(songs.map((e) => e.id).toSet(), songIds.toSet());
+    });
+
+    test('reflects the liked status of songs by the artist', () async {
+      final songIds = await insertSongs(['a.mp3']);
+      final artistId = await TableArtist.insertArist('My Artist', await songsFor(songIds));
+      await TableLikes.markSongLiked((await TableSong.selectFromId(songIds.single))!);
+      MyDataEntityCache.clearForTesting();
+
+      final songs = await TableArtist.selectArtistSongs(artistId!);
+
+      expect(songs.single.liked, isTrue);
     });
   });
 

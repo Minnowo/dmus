@@ -114,7 +114,18 @@ final class TablePlaylist {
   static Future<Iterable<Song>> selectPlaylistSongs(int playlistId) async {
     final db = await DatabaseController.database;
 
-    const String sql = "SELECT * FROM ${TablePlaylistSong.name}"
+    // The EXISTS() subquery aliases tbl_playlist_song as LS ("liked songs")
+    // since the outer query already references tbl_playlist_song unaliased -
+    // without the alias the two would collide and the subquery's WHERE would
+    // resolve against the wrong (outer) row, the same bug fixed in
+    // TableSong.selectAllWithMetadata.
+    const String sql = "SELECT *, "
+        "CASE WHEN EXISTS ("
+        "SELECT 1 FROM ${TablePlaylistSong.name} LS"
+        " WHERE LS.${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId}"
+        " AND LS.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
+        ") THEN 1 ELSE 0 END AS is_liked"
+        " FROM ${TablePlaylistSong.name}"
         " JOIN ${TableSong.name} ON ${TablePlaylistSong.name}.${TablePlaylistSong.songIdCol} = ${TableSong.name}.${TableSong.idCol}"
         " JOIN ${TableFMetadata.name} ON ${TableSong.name}.${TableSong.idCol} = ${TableFMetadata.name}.${TableFMetadata.idCol}"
         " WHERE ${TablePlaylistSong.name}.${TablePlaylistSong.playlistIdCol} = ?"
