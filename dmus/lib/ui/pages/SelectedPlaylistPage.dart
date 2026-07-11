@@ -105,8 +105,9 @@ class SelectedPlaylistPage extends StatelessWidget {
                           onPressed: () => JustAudioController.instance.queuePlaylist(playlistContext)),
                       IconButton(
                           icon: const Icon(Icons.copy),
-                          onPressed: () => createPlaylistFrom(context, playlistContext.songs)
-                              .whenComplete(() => Navigator.pop(context))),
+                          onPressed: () => createPlaylistFrom(context, playlistContext.songs).whenComplete(() {
+                                if (context.mounted) Navigator.pop(context);
+                              })),
                       if (playlistContext.entityType != EntityType.album)
                         IconButton(icon: const Icon(Icons.edit), onPressed: () => _letUserUpdatePlaylist(context)),
                     ],
@@ -169,7 +170,9 @@ class SelectedPlaylistPage extends StatelessWidget {
           const SizedBox(height: 16),
           IconButton(
             onPressed: () {
-              editPlaylist(context, playlistContext).whenComplete(() => Navigator.pop(context));
+              editPlaylist(context, playlistContext).whenComplete(() {
+                if (context.mounted) Navigator.pop(context);
+              });
             },
             icon: const Icon(Icons.add_circle_sharp, size: 40),
           ),
@@ -180,7 +183,7 @@ class SelectedPlaylistPage extends StatelessWidget {
 
   void _letUserUpdatePlaylist(BuildContext context) {
     updateExistingPlaylist(context, playlistContext).then((value) {
-      if (value != null) {
+      if (value != null && context.mounted) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (ctx) => SelectedPlaylistPage(playlistContext: value)));
       }

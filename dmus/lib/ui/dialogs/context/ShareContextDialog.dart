@@ -124,6 +124,8 @@ class ShareContextDialog extends StatelessWidget {
 
     if (temp == null) return;
 
+    if (!context.mounted) return;
+
     popNavigatorSafe(context);
     await Share.shareXFiles([XFile(temp.path)]);
   }

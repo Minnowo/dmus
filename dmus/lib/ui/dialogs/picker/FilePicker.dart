@@ -56,6 +56,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
 
       if (_externalStorageRoots.isEmpty) {
         MessagePublisher.publishSomethingWentWrong(S.current.noStorage);
+        if (!context.mounted) return;
         popNavigatorSafe(context);
         return;
       }
