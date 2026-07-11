@@ -54,7 +54,7 @@ final class TableBlacklist {
 
   /// Adds the path to the blacklist
   static Future<void> addFileToBlacklist(File path) async {
-    addToBlacklist(path.absolute.path);
+    await addToBlacklist(path.absolute.path);
   }
 
   static Future<void> addToBlacklist(String path) async {

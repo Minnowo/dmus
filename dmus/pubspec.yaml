@@ -82,6 +82,12 @@ dev_dependencies:
   mockito: ^5.4.2
   build_runner: ^2.4.6
 
+  # native-sqlite-via-FFI database engine, used in place of the real sqflite
+  # platform channel when running `flutter test`
+  sqflite_common_ffi: ^2.3.3
+  path_provider_platform_interface: ^2.1.2
+  plugin_platform_interface: ^2.1.8
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: false
