@@ -17,12 +17,10 @@ ThemeData darkTheme() => ThemeData(
         primary: DARK2,
         secondary: LIGHT1,
         surface: DARK3,
-        background: DARK2,
         error: RED,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: Colors.white,
-        onBackground: Colors.white10,
         // only seen used in Switch so far
         onError: Colors.white,
         brightness: Brightness.dark,
@@ -42,7 +40,7 @@ ThemeData darkTheme() => ThemeData(
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.white,
-          side: BorderSide(width: 1, color: LIGHT1.withOpacity(0.5)),
+          side: BorderSide(width: 1, color: LIGHT1.withValues(alpha: 0.5)),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -106,7 +104,7 @@ ThemeData darkTheme() => ThemeData(
         foregroundColor: Colors.white,
       )),
       appBarTheme: const AppBarTheme(
-        color: DARK1,
+        backgroundColor: DARK1,
         elevation: 0.0,
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.w800,
@@ -127,36 +125,36 @@ ThemeData darkTheme() => ThemeData(
         color: Colors.white10,
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.disabled)) {
+        thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.disabled)) {
             return Colors.white30;
           }
           return DARK35;
         }),
-        trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.selected)) {
             return LIGHT1;
-          } else if (states.contains(MaterialState.disabled)) {
+          } else if (states.contains(WidgetState.disabled)) {
             return Colors.white30;
           }
           return DARK4;
         }),
       ),
       scrollbarTheme: ScrollbarThemeData(
-        thickness: MaterialStateProperty.all(4.0),
+        thickness: WidgetStateProperty.all(4.0),
         radius: const Radius.circular(2.0),
-        thumbColor: MaterialStateProperty.all(Colors.white12),
+        thumbColor: WidgetStateProperty.all(Colors.white12),
         interactive: true,
       ),
       listTileTheme: const ListTileThemeData(
         iconColor: Colors.white,
         contentPadding: EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
       ),
-      radioTheme: RadioThemeData(fillColor: MaterialStateProperty.resolveWith<Color>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+      radioTheme: RadioThemeData(fillColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return Colors.white30;
-          } else if (states.contains(MaterialState.selected)) {
+          } else if (states.contains(WidgetState.selected)) {
             return LIGHT1;
           }
           return Colors.white;
@@ -168,11 +166,11 @@ ThemeData darkTheme() => ThemeData(
         closeIconColor: Colors.white,
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
               return Colors.white30;
-            } else if (states.contains(MaterialState.selected)) {
+            } else if (states.contains(WidgetState.selected)) {
               return Colors.white30;
             }
             return Colors.white;

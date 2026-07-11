@@ -47,39 +47,44 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
 
     getExternalStoragePermission().whenComplete(() => setState(() => buildFileCache()));
 
-    ExternalPath.getExternalStorageDirectories().then((value) {
-      if (value != null) {
-        for (final i in value) {
-          _externalStorageRoots.add(i);
-        }
+    _loadExternalStorageRoots();
+  }
+
+  Future<void> _loadExternalStorageRoots() async {
+    final value = await ExternalPath.getExternalStorageDirectories();
+
+    if (value != null) {
+      for (final i in value) {
+        _externalStorageRoots.add(i);
       }
+    }
 
-      if (_externalStorageRoots.isEmpty) {
-        MessagePublisher.publishSomethingWentWrong(S.current.noStorage);
-        if (!context.mounted) return;
-        popNavigatorSafe(context);
-        return;
-      }
+    if (_externalStorageRoots.isEmpty) {
+      MessagePublisher.publishSomethingWentWrong(S.current.noStorage);
+      if (!mounted) return;
+      popNavigatorSafe(context);
+      return;
+    }
 
-      logging.info("last directory is $lastDirectory last dir depth is $lastDirectoryDepth");
+    logging.info("last directory is $lastDirectory last dir depth is $lastDirectoryDepth");
 
-      if (lastDirectory != null && Directory(lastDirectory!).existsSync()) {
-        _currentDirectory = lastDirectory;
-        _depth = lastDirectoryDepth;
-        buildFileCache();
-      } else if (_externalStorageRoots.length == 1) {
-        _currentDirectory = _externalStorageRoots.first;
-        _depth = 1;
-        buildFileCache();
-        lastDirectory = null;
-        lastDirectoryDepth = -1;
-      } else {
-        lastDirectory = null;
-        lastDirectoryDepth = -1;
-      }
+    if (lastDirectory != null && Directory(lastDirectory!).existsSync()) {
+      _currentDirectory = lastDirectory;
+      _depth = lastDirectoryDepth;
+      buildFileCache();
+    } else if (_externalStorageRoots.length == 1) {
+      _currentDirectory = _externalStorageRoots.first;
+      _depth = 1;
+      buildFileCache();
+      lastDirectory = null;
+      lastDirectoryDepth = -1;
+    } else {
+      lastDirectory = null;
+      lastDirectoryDepth = -1;
+    }
 
-      setState(() {});
-    });
+    if (!mounted) return;
+    setState(() {});
   }
 
   @override
@@ -116,7 +121,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
           ),
           SafeArea(
               child: Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Padding(
               padding: const EdgeInsets.all(HORIZONTAL_PADDING),
               child: TextField(

@@ -17,12 +17,10 @@ ThemeData lightTheme() => ThemeData(
         primary: LIGHT_THEME_LIGHT2,
         secondary: LIGHT_THEME_DARK1,
         surface: LIGHT_THEME_LIGHT3,
-        background: LIGHT_THEME_LIGHT2,
         error: RED,
         onPrimary: Colors.black,
         onSecondary: Colors.black,
         onSurface: Colors.black,
-        onBackground: Colors.white10,
         // only seen used in Switch so far
         onError: Colors.black,
         brightness: Brightness.light,
@@ -41,7 +39,7 @@ ThemeData lightTheme() => ThemeData(
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: Colors.black,
-          side: BorderSide(width: 1, color: LIGHT_THEME_DARK1.withOpacity(0.5)),
+          side: BorderSide(width: 1, color: LIGHT_THEME_DARK1.withValues(alpha: 0.5)),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -105,7 +103,7 @@ ThemeData lightTheme() => ThemeData(
         foregroundColor: Colors.black,
       )),
       appBarTheme: const AppBarTheme(
-        color: LIGHT_THEME_LIGHT1,
+        backgroundColor: LIGHT_THEME_LIGHT1,
         elevation: 0.0,
         titleTextStyle: TextStyle(
           color: Colors.black,
@@ -127,36 +125,36 @@ ThemeData lightTheme() => ThemeData(
         color: Colors.black12,
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.disabled)) {
+        thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.disabled)) {
             return Colors.black38;
           }
           return LIGHT_THEME_LIGHT35;
         }),
-        trackColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.selected)) {
             return LIGHT_THEME_DARK1;
-          } else if (states.contains(MaterialState.disabled)) {
+          } else if (states.contains(WidgetState.disabled)) {
             return Colors.black38;
           }
           return LIGHT_THEME_LIGHT4;
         }),
       ),
       scrollbarTheme: ScrollbarThemeData(
-        thickness: MaterialStateProperty.all(4.0),
+        thickness: WidgetStateProperty.all(4.0),
         radius: const Radius.circular(2.0),
-        thumbColor: MaterialStateProperty.all(Colors.black12),
+        thumbColor: WidgetStateProperty.all(Colors.black12),
         interactive: true,
       ),
       listTileTheme: const ListTileThemeData(
         iconColor: Colors.black,
         contentPadding: EdgeInsets.symmetric(horizontal: HORIZONTAL_PADDING),
       ),
-      radioTheme: RadioThemeData(fillColor: MaterialStateProperty.resolveWith<Color>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+      radioTheme: RadioThemeData(fillColor: WidgetStateProperty.resolveWith<Color>(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return Colors.black38;
-          } else if (states.contains(MaterialState.selected)) {
+          } else if (states.contains(WidgetState.selected)) {
             return LIGHT_THEME_DARK1;
           }
           return Colors.black;
@@ -168,11 +166,11 @@ ThemeData lightTheme() => ThemeData(
         closeIconColor: Colors.black,
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
               return Colors.black38;
-            } else if (states.contains(MaterialState.selected)) {
+            } else if (states.contains(WidgetState.selected)) {
               return LIGHT_THEME_LIGHT3;
             }
             return LIGHT_THEME_LIGHT2;

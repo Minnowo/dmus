@@ -15,7 +15,7 @@ class AlbumTile extends StatelessWidget {
     return InkWell(
       child: GridTile(
           footer: Container(
-            color: Colors.black.withOpacity(0.7), // Background color for the entire GridTileBar
+            color: Colors.black.withValues(alpha: 0.7), // Background color for the entire GridTileBar
             child: GridTileBar(
               title: Text(
                 playlist.title,

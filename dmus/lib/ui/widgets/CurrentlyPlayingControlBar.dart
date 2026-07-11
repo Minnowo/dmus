@@ -15,7 +15,7 @@ class CurrentlyPlayingControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
               children: [
                 Row(

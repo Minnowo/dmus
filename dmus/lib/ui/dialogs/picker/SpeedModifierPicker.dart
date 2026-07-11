@@ -31,7 +31,7 @@ class SpeedModifierPickerState extends State<SpeedModifierPicker> {
 
     await JustAudioController.instance.setPlaybackSpeed(d);
 
-    if (!context.mounted) return;
+    if (!mounted) return;
 
     popNavigatorSafe(context);
   }

@@ -25,7 +25,7 @@ class CurrentlyPlayingBar extends StatelessWidget {
     return Visibility(
         visible: !dontShow,
         child: Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Dismissible(
               key: ValueKey(_keyValue),
               confirmDismiss: handleSwipe,

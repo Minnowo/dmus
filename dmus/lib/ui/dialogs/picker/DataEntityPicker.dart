@@ -48,7 +48,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
           ),
           SafeArea(
               child: Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
