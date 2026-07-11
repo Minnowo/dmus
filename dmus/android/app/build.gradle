@@ -41,8 +41,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.dmus"
+        applicationId "cc.headpats.dmus"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -52,11 +51,28 @@ android {
         multiDexEnabled false
     }
 
+    signingConfigs {
+        release {
+            // Populated from env vars (see .github/workflows/release.yml) so the
+            // keystore/passwords never need to be committed. storeFile is left
+            // null when RELEASE_STORE_FILE isn't set OR doesn't point to a real
+            // file (the workflow always sets the env var, whether or not the
+            // keystore secret was actually provided), which the release
+            // buildType below falls back to debug signing for - keeps
+            // `flutter run --release` working with no signing setup at all.
+            def storeFilePath = System.getenv("RELEASE_STORE_FILE")
+            if (storeFilePath && file(storeFilePath).exists()) {
+                storeFile file(storeFilePath)
+                storePassword System.getenv("RELEASE_STORE_PASSWORD")
+                keyAlias System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release.storeFile != null ? signingConfigs.release : signingConfigs.debug
         }
     }
 }

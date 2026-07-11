@@ -1,0 +1,69 @@
+name: Build Release APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag for the release'
+        required: true
+      commit:
+        description: 'Commit hash if tag does not exist (defaults to the branch this workflow runs on)'
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build the builder Docker image
+        run: docker build -t dmus-builder:latest .
+
+      # The keystore is written inside dmus/android/ (already gitignored -
+      # see dmus/android/.gitignore's *.jks/*.keystore entries) so it's
+      # visible from the single dmus/ bind mount below without a second
+      # mount. Removed again in the "Clean up keystore" step regardless of
+      # build outcome.
+      - name: Decode keystore
+        env:
+          KEYSTORE_JKS_BASE64: ${{ secrets.KEYSTORE_JKS_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_JKS_BASE64" ]; then
+            echo "$KEYSTORE_JKS_BASE64" | base64 -d > dmus/android/release-signing.jks
+          else
+            echo "No KEYSTORE_JKS_BASE64 secret set - the release APK will be debug-signed."
+          fi
+
+      - name: Build release APK
+        env:
+          RELEASE_STORE_FILE: /mnt/android/release-signing.jks
+          RELEASE_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          docker run --rm \
+            -v "$(pwd)/dmus:/mnt" \
+            -e RELEASE_STORE_FILE="$RELEASE_STORE_FILE" \
+            -e RELEASE_STORE_PASSWORD="$RELEASE_STORE_PASSWORD" \
+            -e RELEASE_KEY_ALIAS="$RELEASE_KEY_ALIAS" \
+            -e RELEASE_KEY_PASSWORD="$RELEASE_KEY_PASSWORD" \
+            dmus-builder:latest \
+            bash -c "flutter pub get && flutter build apk --release"
+
+      - name: Clean up keystore
+        if: always()
+        run: rm -f dmus/android/release-signing.jks
+
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.tag }}
+          commit: ${{ github.event.inputs.commit }}
+          artifacts: "dmus/build/app/outputs/flutter-apk/*.apk"
+          artifactErrorsFailBuild: true
+          draft: true
