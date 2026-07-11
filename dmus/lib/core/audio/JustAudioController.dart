@@ -260,9 +260,9 @@ final class JustAudioController extends BaseAudioHandler {
   }
 
   @override
-  Future<void> skipToQueueItem(int i) async {
+  Future<void> skipToQueueItem(int index) async {
     if (!_isInit || _isDisposed) return;
-    _playQueue.jumpToIndex(i);
+    _playQueue.jumpToIndex(index);
     await playSong(_playQueue.current(), fillQ: true, jumpQ: false);
   }
 

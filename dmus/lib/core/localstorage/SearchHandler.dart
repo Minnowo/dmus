@@ -45,7 +45,7 @@ final class SearchHandler {
   ///
   /// This is a more advanced search than some of the individual functions above, as it also searching for playlists which contain matching songs
   static Future<List<DataEntity>> searchForText(String search) async {
-    List<String> terms = search.split("\s+").where((x) => x.isNotEmpty).toList();
+    List<String> terms = search.split(RegExp(r'\s+')).where((x) => x.isNotEmpty).toList();
 
     List<Song> s = await searchForSongs(terms);
     List<Playlist> p1 = await searchForPlaylists(terms);

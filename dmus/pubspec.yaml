@@ -38,6 +38,7 @@ dependencies:
 
   # dart lang
   collection: ^1.18.0
+  logging: ^1.3.0
 
   # for audio services
   audio_session: ^0.1.5

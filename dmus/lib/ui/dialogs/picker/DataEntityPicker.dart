@@ -42,7 +42,7 @@ abstract class _DataEntityPickerState<T extends DataEntity> extends State<Statef
             child: ListView(
               children: [
                 for (final tuple in items)
-                  if (tuple.isVisible) this.buildListItem(tuple),
+                  if (tuple.isVisible) buildListItem(tuple),
               ],
             ),
           ),

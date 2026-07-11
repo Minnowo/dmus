@@ -16,7 +16,7 @@ mixin class SelectionListPicker<T> {
       return;
     }
 
-    for (final s in text.toLowerCase().split("\s+")) {
+    for (final s in text.toLowerCase().split(RegExp(r'\s+'))) {
       for (final i in items) {
         i.isVisible = matcher(s, i.item);
       }

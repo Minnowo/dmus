@@ -10,13 +10,13 @@ class ConfirmDestructiveAction extends StatelessWidget {
   final Color? noTextColor;
 
   const ConfirmDestructiveAction({
-    Key? key,
+    super.key,
     required this.promptText,
     required this.yesText,
     required this.noText,
     this.yesTextColor,
     this.noTextColor,
-  }) : super(key: key);
+  });
 
   void _onYesPressed(BuildContext context) {
     popNavigatorSafeWithArgs(context, true);

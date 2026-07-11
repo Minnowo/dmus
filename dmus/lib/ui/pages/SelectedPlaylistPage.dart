@@ -20,7 +20,7 @@ class SelectedPlaylistPage extends StatelessWidget {
 
   final Playlist playlistContext;
 
-  const SelectedPlaylistPage({Key? key, required this.playlistContext}) : super(key: key);
+  const SelectedPlaylistPage({super.key, required this.playlistContext});
 
   @override
   Widget build(BuildContext context) {

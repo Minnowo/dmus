@@ -30,7 +30,7 @@ class FileSystemEntityX {
 }
 
 class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSystemEntityX> {
-  static String? lastDirectory = null;
+  static String? lastDirectory;
   static int lastDirectoryDepth = -1;
 
   final List<String> _externalStorageRoots = [];

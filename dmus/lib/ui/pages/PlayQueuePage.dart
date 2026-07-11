@@ -17,7 +17,7 @@ import '../Util.dart';
 import '../lookfeel/CommonTheme.dart';
 
 class PlayQueuePage extends StatelessWidget {
-  static String QUEUE_EMPTY_TEXT = S.current.queueEmpty;
+  static String queueEmptyText = S.current.queueEmpty;
 
   const PlayQueuePage({super.key});
 
@@ -75,7 +75,7 @@ class PlayQueuePage extends StatelessWidget {
       if (queue.isEmpty) {
         return Center(
           child: Text(
-            PlayQueuePage.QUEUE_EMPTY_TEXT,
+            PlayQueuePage.queueEmptyText,
             textAlign: TextAlign.center,
           ),
         );

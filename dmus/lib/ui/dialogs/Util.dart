@@ -145,7 +145,7 @@ void popShowShareDialog(BuildContext context, DataEntity toShare) {
   ShareContextDialog.showAsDialog(context, toShare);
 }
 
-void ShowShareDialog(BuildContext context, DataEntity toShare) {
+void showShareDialog(BuildContext context, DataEntity toShare) {
   ShareContextDialog.showAsDialog(context, toShare);
 }
 

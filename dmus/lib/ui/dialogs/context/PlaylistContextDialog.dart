@@ -14,7 +14,7 @@ import '../picker/ConfirmDestructiveAction.dart';
 class PlaylistContextDialog extends StatelessWidget {
   final Playlist playlistContext;
 
-  const PlaylistContextDialog({Key? key, required this.playlistContext}) : super(key: key);
+  const PlaylistContextDialog({super.key, required this.playlistContext});
 
   @override
   Widget build(BuildContext context) {

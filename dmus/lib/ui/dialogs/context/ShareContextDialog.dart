@@ -11,7 +11,7 @@ import '../../Util.dart';
 class ShareContextDialog extends StatelessWidget {
   final DataEntity dataEntity;
 
-  const ShareContextDialog({Key? key, required this.dataEntity}) : super(key: key);
+  const ShareContextDialog({super.key, required this.dataEntity});
 
   @override
   Widget build(BuildContext context) {

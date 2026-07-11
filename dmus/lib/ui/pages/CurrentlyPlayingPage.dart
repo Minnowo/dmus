@@ -123,7 +123,7 @@ class CurrentlyPlayingPage extends StatelessWidget {
                       icon: const Icon(Icons.playlist_add),
                       onPressed: () => selectPlaylistAndAddSong(context, songContext),
                     ),
-                    IconButton(icon: const Icon(Icons.share), onPressed: () => ShowShareDialog(context, songContext)),
+                    IconButton(icon: const Icon(Icons.share), onPressed: () => showShareDialog(context, songContext)),
                   ],
                 ),
                 CurrentlyPlayingControlBar(

@@ -3,7 +3,7 @@ import 'package:dmus/core/data/DataEntity.dart';
 final class MyDataEntityCache {
   MyDataEntityCache._();
 
-  static Map<int, DataEntity> _cache = {};
+  static final Map<int, DataEntity> _cache = {};
 
   /// Gets an item from the cache
   static DataEntity? getFromCache(int id) {

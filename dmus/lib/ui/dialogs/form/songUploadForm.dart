@@ -15,9 +15,9 @@ class SongUploadFormResult {
 class SongUploadForm extends StatefulWidget {
   final Playlist? editing;
 
-  const SongUploadForm({Key? key, this.editing}) : super(key: key);
+  const SongUploadForm({super.key, this.editing});
 
-  const SongUploadForm.editExisting({Key? key, required this.editing}) : super(key: key);
+  const SongUploadForm.editExisting({super.key, required this.editing});
 
   @override
   State<SongUploadForm> createState() => _SongUploadFormState();

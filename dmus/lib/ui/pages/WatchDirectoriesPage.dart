@@ -54,7 +54,7 @@ class WatchDirectoriesPage extends StatefulWidget {
 }
 
 class _WatchDirectoriesState extends State<WatchDirectoriesPage> {
-  List<String> _directoryPaths = [];
+  final List<String> _directoryPaths = [];
 
   @override
   void initState() {
