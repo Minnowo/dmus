@@ -82,8 +82,13 @@ ThemeData darkTheme() => ThemeData(
         ),
         titleLarge: TextStyle(fontSize: 18.0),
       ),
+      // selectionColor is set explicitly because the Material3 default derives it from
+      // colorScheme.primary, which is the same color as scaffoldBackgroundColor here,
+      // making selected text invisible
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: LIGHT2,
+        selectionColor: Color(0x66913AF1),
+        selectionHandleColor: LIGHT1,
       ),
       tabBarTheme: const TabBarThemeData(
         labelColor: Colors.white,
