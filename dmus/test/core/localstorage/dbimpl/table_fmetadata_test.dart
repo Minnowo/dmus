@@ -77,6 +77,31 @@ void main() {
     });
   });
 
+  group('TableFMetadata.selectExtraForSongId', () {
+    test('returns null when there is no metadata row for the song', () async {
+      final db = await DatabaseController.database;
+
+      final extra = await TableFMetadata.selectExtraForSongId(db, 999);
+
+      expect(extra, isNull);
+    });
+
+    test('returns null bpm/composer/isrc and an empty track artist for a file with no tags', () async {
+      final db = await DatabaseController.database;
+      final songId = await insertBareSong(db, '${tempDir.path}/song.mp3');
+      final file = await createFakeSongFile(tempDir, 'song.mp3');
+      await TableFMetadata.insertSongMetadataUnchecked(db, songId, file);
+
+      final extra = await TableFMetadata.selectExtraForSongId(db, songId);
+
+      expect(extra, isNotNull);
+      expect(extra!.bpm, isNull);
+      expect(extra.composer, isNull);
+      expect(extra.isrc, isNull);
+      expect(extra.trackArtist, '');
+    });
+  });
+
   group('TableFMetadata.fromMap', () {
     test('maps every column to the corresponding AudioMetadata field', () {
       final metadata = TableFMetadata.fromMap({

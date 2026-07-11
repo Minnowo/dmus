@@ -147,6 +147,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get diskNumber => 'Disk Number';
 
   @override
+  String get trackArtistName => 'Track Artist Name';
+
+  @override
+  String get bpm => 'BPM';
+
+  @override
+  String get composer => 'Composer';
+
+  @override
+  String get isrc => 'ISRC';
+
+  @override
+  String get musicBrainzInformation => 'MusicBrainz Information';
+
+  @override
+  String get recordingId => 'Recording Id';
+
+  @override
+  String get releaseId => 'Release Id';
+
+  @override
+  String get releaseGroupId => 'Release Group Id';
+
+  @override
+  String get releaseTrackId => 'Release Track Id';
+
+  @override
+  String get artistId => 'Artist Id';
+
+  @override
+  String get albumArtistId => 'Album Artist Id';
+
+  @override
+  String get workId => 'Work Id';
+
+  @override
+  String get acoustId => 'AcoustID';
+
+  @override
   String get authorName => 'Author Name';
 
   @override

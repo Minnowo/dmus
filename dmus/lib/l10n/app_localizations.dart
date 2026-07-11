@@ -370,6 +370,84 @@ abstract class AppLocalizations {
   /// **'Disk Number'**
   String get diskNumber;
 
+  /// No description provided for @trackArtistName.
+  ///
+  /// In en, this message translates to:
+  /// **'Track Artist Name'**
+  String get trackArtistName;
+
+  /// No description provided for @bpm.
+  ///
+  /// In en, this message translates to:
+  /// **'BPM'**
+  String get bpm;
+
+  /// No description provided for @composer.
+  ///
+  /// In en, this message translates to:
+  /// **'Composer'**
+  String get composer;
+
+  /// No description provided for @isrc.
+  ///
+  /// In en, this message translates to:
+  /// **'ISRC'**
+  String get isrc;
+
+  /// No description provided for @musicBrainzInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'MusicBrainz Information'**
+  String get musicBrainzInformation;
+
+  /// No description provided for @recordingId.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording Id'**
+  String get recordingId;
+
+  /// No description provided for @releaseId.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Id'**
+  String get releaseId;
+
+  /// No description provided for @releaseGroupId.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Group Id'**
+  String get releaseGroupId;
+
+  /// No description provided for @releaseTrackId.
+  ///
+  /// In en, this message translates to:
+  /// **'Release Track Id'**
+  String get releaseTrackId;
+
+  /// No description provided for @artistId.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist Id'**
+  String get artistId;
+
+  /// No description provided for @albumArtistId.
+  ///
+  /// In en, this message translates to:
+  /// **'Album Artist Id'**
+  String get albumArtistId;
+
+  /// No description provided for @workId.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Id'**
+  String get workId;
+
+  /// No description provided for @acoustId.
+  ///
+  /// In en, this message translates to:
+  /// **'AcoustID'**
+  String get acoustId;
+
   /// No description provided for @authorName.
   ///
   /// In en, this message translates to:

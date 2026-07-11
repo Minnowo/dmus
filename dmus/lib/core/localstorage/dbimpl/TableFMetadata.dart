@@ -187,6 +187,28 @@ final class TableFMetadata {
     return false;
   }
 
+  /// Selects the bpm/composer/isrc/track-artist/album-artist columns for the given songId
+  ///
+  /// Returns null if there is no metadata row for the song
+  static Future<CommonExtraMetadata?> selectExtraForSongId(DatabaseExecutor db, int songId) async {
+    final result = await db.query(name,
+        columns: [bpmCol, composerCol, isrcCol, trackArtistCol, albumArtistCol],
+        where: "$idCol = ?",
+        whereArgs: [songId]);
+
+    final row = result.firstOrNull;
+
+    if (row == null) return null;
+
+    return CommonExtraMetadata(
+      bpm: row[bpmCol] as int?,
+      composer: row[composerCol] as String?,
+      isrc: row[isrcCol] as String?,
+      trackArtist: row[trackArtistCol] as String?,
+      albumArtist: row[albumArtistCol] as String?,
+    );
+  }
+
   /// Returns a Metadata object from a map going from column names to their datatype
   ///
   /// This does not include the artCacheKeyCol column
