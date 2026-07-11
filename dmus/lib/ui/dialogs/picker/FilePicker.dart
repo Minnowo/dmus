@@ -89,8 +89,12 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: willPop,
+    return PopScope(
+      canPop: _depth <= 0,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        gotoParent();
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(S.current.pickFiles),
@@ -221,16 +225,6 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
     }
 
     return ritems;
-  }
-
-  Future<bool> willPop() async {
-    if (_depth <= 0) {
-      return true;
-    }
-
-    gotoParent();
-
-    return false;
   }
 
   void gotoParent() {
