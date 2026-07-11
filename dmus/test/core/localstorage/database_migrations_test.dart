@@ -49,6 +49,17 @@ void main() {
     DatabaseMigrations.TBL_ARTIST_SONG,
   };
 
+  const v3OnlyTables = {
+    DatabaseMigrations.TBL_MUSICBRAINZ,
+  };
+
+  const v3FMetadataColumns = {'bpm', 'composer', 'isrc'};
+
+  Future<Set<String>> columnNames(Database db, String table) async {
+    final rows = await db.rawQuery("PRAGMA table_info($table)");
+    return rows.map((e) => e['name'] as String).toSet();
+  }
+
   group('DatabaseMigrations.runMigrations', () {
     test('migrating 0 -> 1 creates exactly the version 1 tables', () async {
       final db = await openScratchDb();
@@ -82,6 +93,39 @@ void main() {
 
       final tables = await tableNames(db);
       expect(tables.containsAll(v2OnlyTables), isTrue);
+
+      final settingsRows = await db.query(DatabaseMigrations.TBL_SETTINGS);
+      expect(settingsRows, hasLength(1));
+    });
+
+    test('migrating 0 -> 3 creates every table, including version 3 additions', () async {
+      final db = await openScratchDb();
+
+      await DatabaseMigrations.runMigrations(db, 0, 3);
+
+      final tables = await tableNames(db);
+
+      expect(tables.containsAll(v1Tables), isTrue);
+      expect(tables.containsAll(v2OnlyTables), isTrue);
+      expect(tables.containsAll(v3OnlyTables), isTrue);
+
+      final fmetadataColumns = await columnNames(db, DatabaseMigrations.TBL_FMETADATA);
+      expect(fmetadataColumns.containsAll(v3FMetadataColumns), isTrue);
+    });
+
+    test('migrating 2 -> 3 adds the version 3 additions without disturbing existing ones', () async {
+      final db = await openScratchDb();
+      await DatabaseMigrations.runMigrations(db, 0, 2);
+
+      await db.insert(DatabaseMigrations.TBL_SETTINGS, {'settings_key': 'k', 'settings_value': 'v'});
+
+      await DatabaseMigrations.runMigrations(db, 2, 3);
+
+      final tables = await tableNames(db);
+      expect(tables.containsAll(v3OnlyTables), isTrue);
+
+      final fmetadataColumns = await columnNames(db, DatabaseMigrations.TBL_FMETADATA);
+      expect(fmetadataColumns.containsAll(v3FMetadataColumns), isTrue);
 
       final settingsRows = await db.query(DatabaseMigrations.TBL_SETTINGS);
       expect(settingsRows, hasLength(1));

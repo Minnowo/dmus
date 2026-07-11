@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableMusicBrainz.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 import '../../Util.dart';
+import '../FullMetadataReader.dart';
 
 /// Represents tbl_fmetadata in the database
 ///
@@ -53,6 +55,9 @@ final class TableFMetadata {
   static const String yearCol = "year";
   static const String durationMsCol = "duration_ms";
   static const String artCacheKeyCol = "art_cache_key";
+  static const String bpmCol = "bpm";
+  static const String composerCol = "composer";
+  static const String isrcCol = "isrc";
 
   /// Joins the track artists with this value before inserting into the database
   static const String trackArtistJoinValue = "\$;\$;";
@@ -65,14 +70,20 @@ final class TableFMetadata {
   static Future<bool> updateSongMetadataUnchecked(DatabaseExecutor db, int songId, File file) async {
     logging.info("Updating metadata for $file with id $songId");
 
-    AudioMetadata m;
+    FullSongMetadata full;
 
     try {
-      m = readMetadata(file, getImage: true);
+      full = readFullMetadata(file, getImage: true);
     } catch (e) {
-      m = AudioMetadata(file: file, title: path.basename(file.path));
+      full = FullSongMetadata(
+          metadata: AudioMetadata(file: file, title: path.basename(file.path)),
+          extra: const CommonExtraMetadata(),
+          musicBrainzIds: const MusicBrainzIds());
       logging.severe("Failed to read metadata", e);
     }
+
+    final m = full.metadata;
+    final extra = full.extra;
 
     Digest? cacheKey;
 
@@ -88,8 +99,8 @@ final class TableFMetadata {
           {
             titleCol: m.title ?? path.basename(file.path),
             albumCol: m.album,
-            albumArtistCol: m.artist,
-            trackArtistCol: "",
+            albumArtistCol: extra.albumArtist,
+            trackArtistCol: extra.trackArtist ?? "",
             genreCol: m.genres.join(GENRE_JOIN),
             mimetypeCol: "",
             bitrateCol: m.bitrate,
@@ -97,10 +108,16 @@ final class TableFMetadata {
             discNumberCol: m.discNumber,
             yearCol: m.year?.year ?? 0,
             durationMsCol: m.duration?.inMilliseconds ?? 0,
-            artCacheKeyCol: cacheKey?.bytes
+            artCacheKeyCol: cacheKey?.bytes,
+            bpmCol: extra.bpm,
+            composerCol: extra.composer,
+            isrcCol: extra.isrc,
           },
           where: "$idCol = ?",
           whereArgs: [songId]);
+
+      await TableMusicBrainz.setMusicBrainzIdsUnchecked(db, songId, full.musicBrainzIds);
+
       return true;
     } catch (e) {
       // ignore duplicate key errors
@@ -117,14 +134,20 @@ final class TableFMetadata {
   static Future<bool> insertSongMetadataUnchecked(DatabaseExecutor db, int songId, File file) async {
     logging.info("Inserting metadata for $file with id $songId");
 
-    AudioMetadata m;
+    FullSongMetadata full;
 
     try {
-      m = readMetadata(file, getImage: true);
+      full = readFullMetadata(file, getImage: true);
     } catch (e) {
-      m = AudioMetadata(file: file, title: path.basename(file.path));
+      full = FullSongMetadata(
+          metadata: AudioMetadata(file: file, title: path.basename(file.path)),
+          extra: const CommonExtraMetadata(),
+          musicBrainzIds: const MusicBrainzIds());
       logging.severe("Failed to read metadata", e);
     }
+
+    final m = full.metadata;
+    final extra = full.extra;
 
     Digest? cacheKey;
 
@@ -139,8 +162,8 @@ final class TableFMetadata {
         idCol: songId,
         titleCol: m.title ?? path.basename(file.path),
         albumCol: m.album,
-        albumArtistCol: m.artist,
-        trackArtistCol: "",
+        albumArtistCol: extra.albumArtist,
+        trackArtistCol: extra.trackArtist ?? "",
         genreCol: m.genres.join(GENRE_JOIN),
         mimetypeCol: "",
         bitrateCol: m.bitrate,
@@ -148,8 +171,14 @@ final class TableFMetadata {
         discNumberCol: m.discNumber,
         yearCol: m.year?.year ?? 0,
         durationMsCol: m.duration?.inMilliseconds ?? 0,
-        artCacheKeyCol: cacheKey?.bytes
+        artCacheKeyCol: cacheKey?.bytes,
+        bpmCol: extra.bpm,
+        composerCol: extra.composer,
+        isrcCol: extra.isrc,
       });
+
+      await TableMusicBrainz.setMusicBrainzIdsUnchecked(db, songId, full.musicBrainzIds);
+
       return true;
     } catch (e) {
       // ignore duplicate key errors

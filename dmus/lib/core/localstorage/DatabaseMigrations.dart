@@ -9,7 +9,7 @@ final class DatabaseMigrations {
   DatabaseMigrations._();
 
   /// Maps the database version to the migration
-  static final Map<int, Function> _migrations = {1: _migration_1, 2: _migration_2};
+  static final Map<int, Function> _migrations = {1: _migration_1, 2: _migration_2, 3: _migration_3};
 
   /// Runs the migrations to upgrade from the oldVersion to the newVersion
   ///
@@ -41,6 +41,7 @@ final class DatabaseMigrations {
   static const String TBL_SONG = "tbl_song";
   static const String TBL_ALBUM = "tbl_album";
   static const String TBL_FMETADATA = "tbl_fmetadata";
+  static const String TBL_MUSICBRAINZ = "tbl_musicbrainz";
   static const String TBL_PLAYLIST = "tbl_playlist";
   static const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
   static const String TBL_ALBUM_SONG = "tbl_album_song";
@@ -201,6 +202,37 @@ final class DatabaseMigrations {
         FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE,
         CONSTRAINT ${ARTIST_ID}_fk FOREIGN KEY ($ARTIST_ID) REFERENCES $TBL_ARTIST(id),
         CONSTRAINT ${SONG_ID}_fk FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id)
+    )
+    ''');
+  }
+
+  /// Migration 3, adds common tags that were previously dropped by the
+  /// unified metadata reader (bpm, composer, isrc) to $TBL_FMETADATA, and
+  /// adds $TBL_MUSICBRAINZ to hold MusicBrainz/AcoustID identifiers
+  ///
+  /// These identifiers group recordings/artists/releases by their stable id
+  /// rather than by their (possibly differently spelled/typo'd) text tags
+  static Future<void> _migration_3(Database db) async {
+    logging.config("Altering $TBL_FMETADATA to add bpm, composer, isrc");
+
+    await db.execute("ALTER TABLE $TBL_FMETADATA ADD COLUMN bpm INTEGER");
+    await db.execute("ALTER TABLE $TBL_FMETADATA ADD COLUMN composer VARCHAR");
+    await db.execute("ALTER TABLE $TBL_FMETADATA ADD COLUMN isrc VARCHAR");
+
+    logging.config("Creating $TBL_MUSICBRAINZ");
+
+    await db.execute('''
+    CREATE TABLE $TBL_MUSICBRAINZ (
+        $SONG_ID INTEGER PRIMARY KEY,
+        recording_id VARCHAR,
+        release_id VARCHAR,
+        release_group_id VARCHAR,
+        release_track_id VARCHAR,
+        artist_id VARCHAR,
+        album_artist_id VARCHAR,
+        work_id VARCHAR,
+        acoustid VARCHAR,
+        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
     )
     ''');
   }
