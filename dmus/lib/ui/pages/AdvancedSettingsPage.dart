@@ -22,204 +22,207 @@ class AdvancedSettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(S.current.advancedSettings),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                S.current.appearance,
-                style: TEXT_HEADER,
-              ),
-            ),
-            const BlueDivider(),
-            StatefulBuilder(
-                builder: (context, setState) => SwitchListTile(
-                      title: Text(S.current.darkMode),
-                      onChanged: (c) => setState(() => context.read<ThemeProvider>().setTheme(c)),
-                      value: context.read<ThemeProvider>().isDarkModeEnabled,
-                    )),
-            StatefulBuilder(
-              builder: (context, setState) => PopupMenuButton<SongListWidgetTrail>(
-                onSelected: (c) => setState(() {
-                  SettingsHandler.setSongsPageTrailWith(c);
-                  context.read<ThemeProvider>().notify();
-                }),
-                child: ListTile(
-                  title: Text(S.current.songsPageLITrail),
-                  trailing: Text("${songListWidgetTrailToInt(SettingsHandler.songPageTileTrailWith)}"),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  S.current.appearance,
+                  style: TEXT_HEADER,
                 ),
-                itemBuilder: (BuildContext context) {
-                  // Define the items in the menu
-                  return <PopupMenuEntry<SongListWidgetTrail>>[
-                    PopupMenuItem(
-                      value: SongListWidgetTrail.trailWithMenu,
-                      child: Text(S.current.trailMenu),
-                    ),
-                    PopupMenuItem(
-                      value: SongListWidgetTrail.trailWithDuration,
-                      child: Text(S.current.trailDuration),
-                    ),
-                  ];
-                },
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                S.current.random,
-                style: TEXT_HEADER,
-              ),
-            ),
-            const BlueDivider(),
-            StatefulBuilder(
-              builder: (context, setState) => PopupMenuButton<CurrentlyPlayingBarSwipe>(
-                onSelected: (c) => setState(() => SettingsHandler.setCurrentlyPlayingSwipeMode(c)),
-                child: ListTile(
-                  title: Text(S.current.playBarSwipeMode),
-                  trailing: Text("${currentlyPlayingBarSwipeToInt(SettingsHandler.currentlyPlayingSwipeMode)}"),
+              const BlueDivider(),
+              StatefulBuilder(
+                  builder: (context, setState) => SwitchListTile(
+                        title: Text(S.current.darkMode),
+                        onChanged: (c) => setState(() => context.read<ThemeProvider>().setTheme(c)),
+                        value: context.read<ThemeProvider>().isDarkModeEnabled,
+                      )),
+              StatefulBuilder(
+                builder: (context, setState) => PopupMenuButton<SongListWidgetTrail>(
+                  onSelected: (c) => setState(() {
+                    SettingsHandler.setSongsPageTrailWith(c);
+                    context.read<ThemeProvider>().notify();
+                  }),
+                  child: ListTile(
+                    title: Text(S.current.songsPageLITrail),
+                    trailing: Text("${songListWidgetTrailToInt(SettingsHandler.songPageTileTrailWith)}"),
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    // Define the items in the menu
+                    return <PopupMenuEntry<SongListWidgetTrail>>[
+                      PopupMenuItem(
+                        value: SongListWidgetTrail.trailWithMenu,
+                        child: Text(S.current.trailMenu),
+                      ),
+                      PopupMenuItem(
+                        value: SongListWidgetTrail.trailWithDuration,
+                        child: Text(S.current.trailDuration),
+                      ),
+                    ];
+                  },
                 ),
-                itemBuilder: (BuildContext context) {
-                  // Define the items in the menu
-                  return <PopupMenuEntry<CurrentlyPlayingBarSwipe>>[
-                    PopupMenuItem(
-                      value: CurrentlyPlayingBarSwipe.swipeToCancel,
-                      child: Text(S.current.swipeStop),
-                    ),
-                    PopupMenuItem(
-                      value: CurrentlyPlayingBarSwipe.swipeToNextPrevious,
-                      child: Text(S.current.swipeNext),
-                    ),
-                  ];
-                },
               ),
-            ),
-            StatefulBuilder(
-              builder: (context, setState) => PopupMenuButton<QueueFillMode>(
-                onSelected: (c) => setState(() => SettingsHandler.setQueueFillMode(c)),
-                child: ListTile(
-                  title: Text(S.current.queueMode),
-                  trailing: Text("${queueFillModeToInt(SettingsHandler.queueFillMode)}"),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  S.current.random,
+                  style: TEXT_HEADER,
                 ),
-                itemBuilder: (BuildContext context) {
-                  // Define the items in the menu
-                  return <PopupMenuEntry<QueueFillMode>>[
-                    PopupMenuItem(
-                      value: QueueFillMode.fillWithRandom,
-                      child: Text(S.current.fillRandom),
-                    ),
-                    PopupMenuItem(
-                      value: QueueFillMode.fillWithRandomPrioritySameArtist,
-                      child: Text(S.current.fillRandomArtistPriority),
-                    ),
-                    PopupMenuItem(
-                      value: QueueFillMode.neverGenerate,
-                      child: Text(S.current.neverFillQueue),
-                    ),
-                  ];
-                },
               ),
-            ),
-            StatefulBuilder(
-              builder: (context, setState) => PopupMenuButton<PlaylistQueueFillMode>(
-                onSelected: (c) => setState(() => SettingsHandler.setPlaylistQueueFillMode(c)),
-                child: ListTile(
-                  title: Text(S.current.playlistQueueMode),
-                  trailing: Text("${playlistQueueFillModeToInt(SettingsHandler.playlistQueueFillMode)}"),
+              const BlueDivider(),
+              StatefulBuilder(
+                builder: (context, setState) => PopupMenuButton<CurrentlyPlayingBarSwipe>(
+                  onSelected: (c) => setState(() => SettingsHandler.setCurrentlyPlayingSwipeMode(c)),
+                  child: ListTile(
+                    title: Text(S.current.playBarSwipeMode),
+                    trailing: Text("${currentlyPlayingBarSwipeToInt(SettingsHandler.currentlyPlayingSwipeMode)}"),
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    // Define the items in the menu
+                    return <PopupMenuEntry<CurrentlyPlayingBarSwipe>>[
+                      PopupMenuItem(
+                        value: CurrentlyPlayingBarSwipe.swipeToCancel,
+                        child: Text(S.current.swipeStop),
+                      ),
+                      PopupMenuItem(
+                        value: CurrentlyPlayingBarSwipe.swipeToNextPrevious,
+                        child: Text(S.current.swipeNext),
+                      ),
+                    ];
+                  },
                 ),
-                itemBuilder: (BuildContext context) {
-                  // Define the items in the menu
-                  return <PopupMenuEntry<PlaylistQueueFillMode>>[
-                    PopupMenuItem(
-                      value: PlaylistQueueFillMode.neverFill,
-                      child: Text(S.current.neverFillQueue),
-                    ),
-                    PopupMenuItem(
-                      value: PlaylistQueueFillMode.fillWithRandom,
-                      child: Text(S.current.fillRandom),
-                    ),
-                  ];
-                },
               ),
-            ),
-            StatefulBuilder(
-              builder: (context, setState) => PopupMenuButton<QueueAlgorithm>(
-                onSelected: (c) => setState(() => SettingsHandler.setQueueAlgorithm(c)),
-                child: ListTile(
-                  title: Text(S.current.queueAlgorithm),
-                  trailing: Text("${queueAlgorithmToInt(SettingsHandler.queueAlgorithm)}"),
+              StatefulBuilder(
+                builder: (context, setState) => PopupMenuButton<QueueFillMode>(
+                  onSelected: (c) => setState(() => SettingsHandler.setQueueFillMode(c)),
+                  child: ListTile(
+                    title: Text(S.current.queueMode),
+                    trailing: Text("${queueFillModeToInt(SettingsHandler.queueFillMode)}"),
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    // Define the items in the menu
+                    return <PopupMenuEntry<QueueFillMode>>[
+                      PopupMenuItem(
+                        value: QueueFillMode.fillWithRandom,
+                        child: Text(S.current.fillRandom),
+                      ),
+                      PopupMenuItem(
+                        value: QueueFillMode.fillWithRandomPrioritySameArtist,
+                        child: Text(S.current.fillRandomArtistPriority),
+                      ),
+                      PopupMenuItem(
+                        value: QueueFillMode.neverGenerate,
+                        child: Text(S.current.neverFillQueue),
+                      ),
+                    ];
+                  },
                 ),
-                itemBuilder: (BuildContext context) {
-                  // Define the items in the menu
-                  return <PopupMenuEntry<QueueAlgorithm>>[
-                    PopupMenuItem(
-                      value: QueueAlgorithm.random,
-                      child: Text(S.current.queueAlgorithmRandom),
-                    ),
-                    PopupMenuItem(
-                      value: QueueAlgorithm.smart,
-                      child: Text(S.current.queueAlgorithmSmart),
-                    ),
-                  ];
-                },
               ),
-            ),
-            StatefulBuilder(
-              builder: (context, setState) => ListTile(
-                title: Text(S.current.skipThresholdPercent),
-                subtitle: Slider(
-                  value: SettingsHandler.skipThresholdPercent.toDouble(),
-                  min: 0,
-                  max: 100,
-                  divisions: 20,
-                  label: "${SettingsHandler.skipThresholdPercent}%",
-                  onChanged: (v) => setState(() => SettingsHandler.setSkipThresholdPercent(v.round())),
+              StatefulBuilder(
+                builder: (context, setState) => PopupMenuButton<PlaylistQueueFillMode>(
+                  onSelected: (c) => setState(() => SettingsHandler.setPlaylistQueueFillMode(c)),
+                  child: ListTile(
+                    title: Text(S.current.playlistQueueMode),
+                    trailing: Text("${playlistQueueFillModeToInt(SettingsHandler.playlistQueueFillMode)}"),
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    // Define the items in the menu
+                    return <PopupMenuEntry<PlaylistQueueFillMode>>[
+                      PopupMenuItem(
+                        value: PlaylistQueueFillMode.neverFill,
+                        child: Text(S.current.neverFillQueue),
+                      ),
+                      PopupMenuItem(
+                        value: PlaylistQueueFillMode.fillWithRandom,
+                        child: Text(S.current.fillRandom),
+                      ),
+                    ];
+                  },
                 ),
-                trailing: Text("${SettingsHandler.skipThresholdPercent}%"),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                S.current.developer,
-                style: TEXT_HEADER,
+              StatefulBuilder(
+                builder: (context, setState) => PopupMenuButton<QueueAlgorithm>(
+                  onSelected: (c) => setState(() => SettingsHandler.setQueueAlgorithm(c)),
+                  child: ListTile(
+                    title: Text(S.current.queueAlgorithm),
+                    trailing: Text("${queueAlgorithmToInt(SettingsHandler.queueAlgorithm)}"),
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    // Define the items in the menu
+                    return <PopupMenuEntry<QueueAlgorithm>>[
+                      PopupMenuItem(
+                        value: QueueAlgorithm.random,
+                        child: Text(S.current.queueAlgorithmRandom),
+                      ),
+                      PopupMenuItem(
+                        value: QueueAlgorithm.smart,
+                        child: Text(S.current.queueAlgorithmSmart),
+                      ),
+                    ];
+                  },
+                ),
               ),
-            ),
-            const BlueDivider(),
-            ListTile(
-              leading: const Icon(Icons.refresh),
-              title: Text(S.current.refreshMetadata),
-              onTap: () => refreshMetadata(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.backup),
-              title: Text(S.current.backupDatabase),
-              onTap: () => backupDatabase(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.article),
-              title: Text(S.current.viewLogs),
-              onTap: () => animateOpenFromBottom(context, const LogViewerPage()),
-            ),
-            ListTile(
-              leading: const Icon(Icons.share),
-              title: Text(S.current.exportLogFile),
-              onTap: () => exportLogFile(context),
-            ),
-            ListTile(
-              leading: const Icon(Icons.notification_add),
-              title: Text(S.current.showSnackBar),
-              onTap: () => showSnackBarWithDuration(context, S.current.snackBarTest, longSnackBarDuration),
-            ),
-            ListTile(
-              leading: const Icon(Icons.notification_add),
-              title: Text(S.current.showErrorSnackBar),
-              onTap: () =>
-                  showSnackBarWithDuration(context, S.current.errorSnackBarTest, longSnackBarDuration, color: RED),
-            ),
-          ],
+              StatefulBuilder(
+                builder: (context, setState) => ListTile(
+                  title: Text(S.current.skipThresholdPercent),
+                  subtitle: Slider(
+                    value: SettingsHandler.skipThresholdPercent.toDouble(),
+                    min: 0,
+                    max: 100,
+                    divisions: 20,
+                    label: "${SettingsHandler.skipThresholdPercent}%",
+                    onChanged: (v) => setState(() => SettingsHandler.setSkipThresholdPercent(v.round())),
+                  ),
+                  trailing: Text("${SettingsHandler.skipThresholdPercent}%"),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  S.current.developer,
+                  style: TEXT_HEADER,
+                ),
+              ),
+              const BlueDivider(),
+              ListTile(
+                leading: const Icon(Icons.refresh),
+                title: Text(S.current.refreshMetadata),
+                onTap: () => refreshMetadata(context),
+              ),
+              ListTile(
+                leading: const Icon(Icons.backup),
+                title: Text(S.current.backupDatabase),
+                onTap: () => backupDatabase(context),
+              ),
+              ListTile(
+                leading: const Icon(Icons.article),
+                title: Text(S.current.viewLogs),
+                onTap: () => animateOpenFromBottom(context, const LogViewerPage()),
+              ),
+              ListTile(
+                leading: const Icon(Icons.share),
+                title: Text(S.current.exportLogFile),
+                onTap: () => exportLogFile(context),
+              ),
+              ListTile(
+                leading: const Icon(Icons.notification_add),
+                title: Text(S.current.showSnackBar),
+                onTap: () => showSnackBarWithDuration(context, S.current.snackBarTest, longSnackBarDuration),
+              ),
+              ListTile(
+                leading: const Icon(Icons.notification_add),
+                title: Text(S.current.showErrorSnackBar),
+                onTap: () =>
+                    showSnackBarWithDuration(context, S.current.errorSnackBarTest, longSnackBarDuration, color: RED),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );
