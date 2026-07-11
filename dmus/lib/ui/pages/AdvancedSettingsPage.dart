@@ -156,8 +156,26 @@ class AdvancedSettingsPage extends StatelessWidget {
                       value: QueueAlgorithm.random,
                       child: Text(S.current.queueAlgorithmRandom),
                     ),
+                    PopupMenuItem(
+                      value: QueueAlgorithm.smart,
+                      child: Text(S.current.queueAlgorithmSmart),
+                    ),
                   ];
                 },
+              ),
+            ),
+            StatefulBuilder(
+              builder: (context, setState) => ListTile(
+                title: Text(S.current.skipThresholdPercent),
+                subtitle: Slider(
+                  value: SettingsHandler.skipThresholdPercent.toDouble(),
+                  min: 0,
+                  max: 100,
+                  divisions: 20,
+                  label: "${SettingsHandler.skipThresholdPercent}%",
+                  onChanged: (v) => setState(() => SettingsHandler.setSkipThresholdPercent(v.round())),
+                ),
+                trailing: Text("${SettingsHandler.skipThresholdPercent}%"),
               ),
             ),
             Padding(

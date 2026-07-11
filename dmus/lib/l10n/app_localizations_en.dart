@@ -561,6 +561,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get queueAlgorithmRandom => 'Random';
 
   @override
+  String get queueAlgorithmSmart => 'Smart';
+
+  @override
+  String get skipThresholdPercent => 'Skip Threshold';
+
+  @override
   String get developer => 'Developer';
 
   @override

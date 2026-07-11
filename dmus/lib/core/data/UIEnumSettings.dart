@@ -28,6 +28,7 @@ enum PlaylistQueueFillMode {
 /// The algorithm used to pick/order songs when generating queue content
 enum QueueAlgorithm {
   random,
+  smart,
 }
 
 int songListWidgetTrailToInt(SongListWidgetTrail s) {

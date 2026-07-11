@@ -4,10 +4,13 @@ import 'dart:collection';
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:dmus/core/audio/ProviderData.dart';
+import 'package:dmus/core/audio/QueueHistoryTracker.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
 import 'package:dmus/core/data/QueueGeneration.dart';
 import 'package:dmus/core/data/UIEnumSettings.dart';
+import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/SettingsHandler.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableSongStats.dart';
 import 'package:just_audio/just_audio.dart' as ja;
 
 import '/generated/l10n.dart';
@@ -34,6 +37,10 @@ final class JustAudioController extends BaseAudioHandler {
   bool _currentIsNext = false;
   int _autoFillQueueWhen = FILL_QUEUE_NEVER;
   int _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
+
+  /// The song most recently loaded into the player, used to evaluate
+  /// whether it was skipped once playback moves away from it
+  Song? _currentlyLoadedSong;
 
   final _queueShuffledStream = StreamController<QueueShuffle>.broadcast();
   final _queueChangedStream = StreamController<QueueChanged>.broadcast();
@@ -110,7 +117,7 @@ final class JustAudioController extends BaseAudioHandler {
 
     switch (_shuffleOrder) {
       case ShuffleOrder.inOrder:
-        checkForFillQueueWith(null);
+        await checkForFillQueueWith(null);
         return await skipToNext();
       case ShuffleOrder.randomOrder:
         return await skipToRandom();
@@ -328,10 +335,10 @@ final class JustAudioController extends BaseAudioHandler {
         case QueueFillMode.neverGenerate:
           break;
         case QueueFillMode.fillWithRandom:
-          checkForFillQueueWith(null);
+          await checkForFillQueueWith(null);
           break;
         case QueueFillMode.fillWithRandomPrioritySameArtist:
-          checkForFillQueueWith(song);
+          await checkForFillQueueWith(song);
           break;
       }
     }
@@ -395,14 +402,53 @@ final class JustAudioController extends BaseAudioHandler {
           "${S.current.cannotPlaySongFile1} ${song.file} ${S.current.cannotPlaySongFile2}");
     }
 
+    final previousSong = _currentlyLoadedSong;
+    final previousPosition = _player.position;
+    final previousDuration = _player.duration;
+
     if (await _audioSession.setActive(true)) {
       _firePlayerSong(song);
       mediaItem.add(song.toMediaItem());
       await _player.setAudioSource(ja.AudioSource.file(song.file.path));
       await play();
+
+      _currentlyLoadedSong = song;
+      QueueHistoryTracker.instance.recordPlayed(song);
+
+      await _recordPlaybackTransitionStats(
+        previousSong: previousSong,
+        previousPosition: previousPosition,
+        previousDuration: previousDuration,
+        newSong: song,
+      );
     } else {
       MessagePublisher.publishSomethingWentWrong(S.current.cannotPlayAudio);
     }
+  }
+
+  /// Records playback stats for the transition away from [previousSong] (if
+  /// it was skipped, based on how far through it we were versus
+  /// [SettingsHandler.skipThresholdPercent]) and the start of [newSong]
+  Future<void> _recordPlaybackTransitionStats(
+      {required Song? previousSong,
+      required Duration previousPosition,
+      required Duration? previousDuration,
+      required Song newSong}) async {
+    final db = await DatabaseController.database;
+
+    if (previousSong != null && previousSong != newSong) {
+      final duration = previousDuration ?? previousSong.duration;
+
+      if (duration > Duration.zero) {
+        final percentPlayed = previousPosition.inMilliseconds / duration.inMilliseconds * 100;
+
+        if (percentPlayed < SettingsHandler.skipThresholdPercent) {
+          await TableSongStats.recordSkipped(db, previousSong.id);
+        }
+      }
+    }
+
+    await TableSongStats.recordPlayStarted(db, newSong.id);
   }
 
   Future<void> playSongAt(int index) async {
@@ -477,19 +523,19 @@ final class JustAudioController extends BaseAudioHandler {
     _autoFillQueueWhen = fillQueueWhen;
   }
 
-  void fillQueueRandom() {
-    QueueGeneration.fillRandomN(_playQueue, 10 + _autoFillQueueWhen * 2);
+  Future<void> fillQueueRandom() async {
+    await QueueGeneration.fillRandomN(_playQueue, 10 + _autoFillQueueWhen * 2);
   }
 
-  void fillQueueRandomN(int n) {
-    QueueGeneration.fillRandomN(_playQueue, n);
+  Future<void> fillQueueRandomN(int n) async {
+    await QueueGeneration.fillRandomN(_playQueue, n);
   }
 
-  void fillQueueRandomWithPriorityArtistOf(Song s, int n) {
-    QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, n);
+  Future<void> fillQueueRandomWithPriorityArtistOf(Song s, int n) async {
+    await QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, n);
   }
 
-  void checkForFillQueueWith(Song? s) {
+  Future<void> checkForFillQueueWith(Song? s) async {
     if (SettingsHandler.queueFillMode == QueueFillMode.neverGenerate) {
       logging.info("Refusing to fill the queue because of user settings!");
       return;
@@ -499,9 +545,9 @@ final class JustAudioController extends BaseAudioHandler {
 
     if (_playQueue.currentPosition + _autoFillQueueWhen > _playQueue.length) {
       if (s == null) {
-        QueueGeneration.fillRandomN(_playQueue, _autoFillQueueWhen * 2);
+        await QueueGeneration.fillRandomN(_playQueue, _autoFillQueueWhen * 2);
       } else {
-        QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, _autoFillQueueWhen * 2);
+        await QueueGeneration.fillWithRandomWithPrioritySameArtist(_playQueue, s, _autoFillQueueWhen * 2);
       }
     }
   }
@@ -523,6 +569,10 @@ final class JustAudioController extends BaseAudioHandler {
 
     if (index == _playQueue.currentPosition) {
       _currentIsNext = true;
+    } else if (index > _playQueue.currentPosition) {
+      // An upcoming (not yet played) song is being removed from the queue -
+      // treat that the same as a skip
+      unawaited(_recordUpcomingSongRemovedAsSkip(_playQueue.readQueue[index]));
     }
 
     _isPlayingLastPlaylist = INVALID_PLAYLIST_ID;
@@ -531,6 +581,15 @@ final class JustAudioController extends BaseAudioHandler {
 
     if (_playQueue.state == QueueState.end && song != null) {
       _firePlayerSong(song);
+    }
+  }
+
+  Future<void> _recordUpcomingSongRemovedAsSkip(Song song) async {
+    try {
+      final db = await DatabaseController.database;
+      await TableSongStats.recordSkipped(db, song.id);
+    } catch (e) {
+      logging.warning("Failed to record skip for removed queue song ${song.id}", e);
     }
   }
 

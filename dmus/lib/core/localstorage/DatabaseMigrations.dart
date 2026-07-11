@@ -9,7 +9,7 @@ final class DatabaseMigrations {
   DatabaseMigrations._();
 
   /// Maps the database version to the migration
-  static final Map<int, Function> _migrations = {1: _migration_1, 2: _migration_2, 3: _migration_3};
+  static final Map<int, Function> _migrations = {1: _migration_1, 2: _migration_2, 3: _migration_3, 4: _migration_4};
 
   /// Runs the migrations to upgrade from the oldVersion to the newVersion
   ///
@@ -42,6 +42,7 @@ final class DatabaseMigrations {
   static const String TBL_ALBUM = "tbl_album";
   static const String TBL_FMETADATA = "tbl_fmetadata";
   static const String TBL_MUSICBRAINZ = "tbl_musicbrainz";
+  static const String TBL_SONG_STATS = "tbl_song_stats";
   static const String TBL_PLAYLIST = "tbl_playlist";
   static const String TBL_WATCH_DIRECTORY = "tbl_watch_directory";
   static const String TBL_ALBUM_SONG = "tbl_album_song";
@@ -232,6 +233,24 @@ final class DatabaseMigrations {
         album_artist_id VARCHAR,
         work_id VARCHAR,
         acoustid VARCHAR,
+        FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
+    )
+    ''');
+  }
+
+  /// Migration 4, adds $TBL_SONG_STATS to hold local playback behaviour
+  /// (play count, skip count, last played) used by the "smart" queue
+  /// algorithm - kept separate from $TBL_FMETADATA since this data changes
+  /// on every play/skip rather than being read once from a file's tags
+  static Future<void> _migration_4(Database db) async {
+    logging.config("Creating $TBL_SONG_STATS");
+
+    await db.execute('''
+    CREATE TABLE $TBL_SONG_STATS (
+        $SONG_ID INTEGER PRIMARY KEY,
+        play_count INTEGER NOT NULL DEFAULT 0,
+        skip_count INTEGER NOT NULL DEFAULT 0,
+        last_played_at INTEGER,
         FOREIGN KEY ($SONG_ID) REFERENCES $TBL_SONG(id) ON DELETE CASCADE
     )
     ''');

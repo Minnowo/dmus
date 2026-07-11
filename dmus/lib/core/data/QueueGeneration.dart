@@ -11,7 +11,7 @@ final class QueueGeneration {
 
   static QueueGenerationAlgorithm get _algorithm => queueGenerationAlgorithmFor(SettingsHandler.queueAlgorithm);
 
-  static void fillRandomN(PlayQueue q, int n) {
+  static Future<void> fillRandomN(PlayQueue q, int n) async {
     if (SongsProvider.instance == null) {
       logging.warning("Cannot access SongsProvider, instance is null!");
       return;
@@ -24,10 +24,12 @@ final class QueueGeneration {
       return;
     }
 
-    q.addAllToQueue(_algorithm.selectSongs(s, n));
+    final context = QueueGenerationContext(alreadyQueued: q.readQueue, contextSong: q.current());
+
+    q.addAllToQueue(await _algorithm.selectSongs(s, n, context));
   }
 
-  static void fillWithRandomWithPrioritySameArtist(PlayQueue q, Song song, int n) {
+  static Future<void> fillWithRandomWithPrioritySameArtist(PlayQueue q, Song song, int n) async {
     if (SongsProvider.instance == null) {
       logging.warning("Cannot access SongsProvider, instance is null!");
       return;
@@ -41,10 +43,11 @@ final class QueueGeneration {
     }
 
     final algorithm = _algorithm;
+    final context = QueueGenerationContext(alreadyQueued: q.readQueue, contextSong: song);
 
-    q.addAllToQueue(algorithm.selectSongs(
-        s.where((element) => element != song && element.songArtist() == song.songArtist()).toList(), n));
-    q.addAllToQueue(algorithm.selectSongs(
-        s.where((element) => element != song && element.songArtist() != song.songArtist()).toList(), n));
+    q.addAllToQueue(await algorithm.selectSongs(
+        s.where((element) => element != song && element.songArtist() == song.songArtist()).toList(), n, context));
+    q.addAllToQueue(await algorithm.selectSongs(
+        s.where((element) => element != song && element.songArtist() != song.songArtist()).toList(), n, context));
   }
 }

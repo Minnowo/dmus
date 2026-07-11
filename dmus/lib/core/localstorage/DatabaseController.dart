@@ -19,7 +19,7 @@ final class DatabaseController {
   static Database? _database;
 
   /// The database version, used for migrations
-  static const int VERSION = 3;
+  static const int VERSION = 4;
 
   /// If true, the database is deleted before firsts connecting
   ///

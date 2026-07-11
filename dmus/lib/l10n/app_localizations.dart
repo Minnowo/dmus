@@ -1174,6 +1174,18 @@ abstract class AppLocalizations {
   /// **'Random'**
   String get queueAlgorithmRandom;
 
+  /// No description provided for @queueAlgorithmSmart.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart'**
+  String get queueAlgorithmSmart;
+
+  /// No description provided for @skipThresholdPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip Threshold'**
+  String get skipThresholdPercent;
+
   /// No description provided for @developer.
   ///
   /// In en, this message translates to:

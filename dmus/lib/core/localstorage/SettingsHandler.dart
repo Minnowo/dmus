@@ -20,6 +20,7 @@ final class SettingsHandler {
     _queueFillMode = queueFillModeFromInt(getInt(_queueFillModeKey, 0));
     _playlistQueueFillMode = playlistQueueFillModeFromInt(getInt(_playlistQueueFillModeKey, 0));
     _queueAlgorithm = queueAlgorithmFromInt(getInt(_queueAlgorithmKey, 0));
+    _skipThresholdPercent = getInt(_skipThresholdPercentKey, _defaultSkipThresholdPercent);
 
     logging.config("Loaded setting $_darkThemeKey as $_isDarkTheme");
     logging.config("Loaded setting $_songPageTileTrailWithKey as $_songPageTileTrailWith");
@@ -27,6 +28,7 @@ final class SettingsHandler {
     logging.config("Loaded setting $_queueFillModeKey as $_queueFillMode");
     logging.config("Loaded setting $_playlistQueueFillModeKey as $_playlistQueueFillMode");
     logging.config("Loaded setting $_queueAlgorithmKey as $_queueAlgorithm");
+    logging.config("Loaded setting $_skipThresholdPercentKey as $_skipThresholdPercent");
   }
 
   /// Saves all settings
@@ -126,5 +128,22 @@ final class SettingsHandler {
     logging.config("Setting $_queueAlgorithmKey to $algorithm");
     _queueAlgorithm = algorithm;
     TableSettings.persist(_queueAlgorithmKey, queueAlgorithmToInt(algorithm).toString());
+  }
+
+  static const String _skipThresholdPercentKey = "skip_threshold_percent";
+  static const int _defaultSkipThresholdPercent = 50;
+
+  /// A song is counted as "skipped" (for the smart queue algorithm) if
+  /// playback moves away from it before this percentage of its duration has
+  /// played
+  static int _skipThresholdPercent = _defaultSkipThresholdPercent;
+
+  static int get skipThresholdPercent => _skipThresholdPercent;
+
+  static void setSkipThresholdPercent(int percent) {
+    final clamped = percent.clamp(0, 100);
+    logging.config("Setting $_skipThresholdPercentKey to $clamped");
+    _skipThresholdPercent = clamped;
+    TableSettings.persist(_skipThresholdPercentKey, clamped.toString());
   }
 }

@@ -179,6 +179,8 @@
   "neverFillQueue": "Never Fill Queue",
   "queueAlgorithm": "Queue Algorithm",
   "queueAlgorithmRandom": "Random",
+  "queueAlgorithmSmart": "Smart",
+  "skipThresholdPercent": "Skip Threshold",
   "developer": "Developer",
   "backupDatabase": "Backup Database",
   "showSnackBar": "Show SnackBar",

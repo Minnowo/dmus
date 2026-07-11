@@ -55,6 +55,10 @@ void main() {
 
   const v3FMetadataColumns = {'bpm', 'composer', 'isrc'};
 
+  const v4OnlyTables = {
+    DatabaseMigrations.TBL_SONG_STATS,
+  };
+
   Future<Set<String>> columnNames(Database db, String table) async {
     final rows = await db.rawQuery("PRAGMA table_info($table)");
     return rows.map((e) => e['name'] as String).toSet();
@@ -126,6 +130,34 @@ void main() {
 
       final fmetadataColumns = await columnNames(db, DatabaseMigrations.TBL_FMETADATA);
       expect(fmetadataColumns.containsAll(v3FMetadataColumns), isTrue);
+
+      final settingsRows = await db.query(DatabaseMigrations.TBL_SETTINGS);
+      expect(settingsRows, hasLength(1));
+    });
+
+    test('migrating 0 -> 4 creates every table, including version 4 additions', () async {
+      final db = await openScratchDb();
+
+      await DatabaseMigrations.runMigrations(db, 0, 4);
+
+      final tables = await tableNames(db);
+
+      expect(tables.containsAll(v1Tables), isTrue);
+      expect(tables.containsAll(v2OnlyTables), isTrue);
+      expect(tables.containsAll(v3OnlyTables), isTrue);
+      expect(tables.containsAll(v4OnlyTables), isTrue);
+    });
+
+    test('migrating 3 -> 4 adds the version 4 additions without disturbing existing ones', () async {
+      final db = await openScratchDb();
+      await DatabaseMigrations.runMigrations(db, 0, 3);
+
+      await db.insert(DatabaseMigrations.TBL_SETTINGS, {'settings_key': 'k', 'settings_value': 'v'});
+
+      await DatabaseMigrations.runMigrations(db, 3, 4);
+
+      final tables = await tableNames(db);
+      expect(tables.containsAll(v4OnlyTables), isTrue);
 
       final settingsRows = await db.query(DatabaseMigrations.TBL_SETTINGS);
       expect(settingsRows, hasLength(1));
