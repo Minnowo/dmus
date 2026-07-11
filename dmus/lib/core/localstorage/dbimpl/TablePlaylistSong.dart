@@ -96,7 +96,7 @@ final class TablePlaylistSong {
     const sql =
         "SELECT song_index FROM ${TablePlaylistSong.name} WHERE ${TablePlaylistSong.playlistIdCol} = ? ORDER BY ${TablePlaylistSong.songIndexCol} DESC LIMIT 1";
 
-    final lastIndex = await db.rawQuery(sql, [songId]);
+    final lastIndex = await db.rawQuery(sql, [playlistId]);
 
     int index = 0;
 

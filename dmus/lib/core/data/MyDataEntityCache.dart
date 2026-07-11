@@ -1,9 +1,17 @@
 import 'package:dmus/core/data/DataEntity.dart';
+import 'package:meta/meta.dart';
 
 final class MyDataEntityCache {
   MyDataEntityCache._();
 
   static final Map<int, DataEntity> _cache = {};
+
+  /// Clears the cache. Only meant for resetting state between tests -
+  /// nothing in the app should need to wipe this at runtime
+  @visibleForTesting
+  static void clearForTesting() {
+    _cache.clear();
+  }
 
   /// Gets an item from the cache
   static DataEntity? getFromCache(int id) {

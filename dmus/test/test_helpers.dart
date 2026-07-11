@@ -1,9 +1,13 @@
 import 'dart:io';
+import 'dart:ui';
 
+import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/generated/l10n.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -27,11 +31,24 @@ class FakePathProviderPlatform extends Fake with MockPlatformInterfaceMixin impl
   Future<String?> getApplicationSupportPath() async => path;
 }
 
+/// Stands in for the real permission_handler platform channel. Always
+/// reports permissions as granted - ImageCacheController's cover-art lookup
+/// calls getExternalStoragePermission() unconditionally, and under
+/// `flutter test` there's no real platform to grant/deny anything.
+class FakePermissionHandlerPlatform extends Fake
+    with MockPlatformInterfaceMixin
+    implements PermissionHandlerPlatform {
+  @override
+  Future<PermissionStatus> checkPermissionStatus(Permission permission) async => PermissionStatus.granted;
+}
+
 bool _ffiInitialized = false;
 
-/// Initializes the FFI-backed sqflite engine (once per test process) and
-/// points path_provider at a fresh real temp directory, so
-/// DatabaseController/ImageCacheController work under plain `flutter test`.
+/// Initializes the FFI-backed sqflite engine (once per test process),
+/// points path_provider/permission_handler at fakes, and loads the S
+/// localization delegate, so DatabaseController/ImageCacheController/
+/// anything reading S.current (e.g. TablePlaylist.likedPlaylistName) works
+/// under plain `flutter test`.
 ///
 /// `flutter test` runs each test *file* in its own isolate/process, in
 /// parallel by default. DatabaseController always opens the same fixed
@@ -49,17 +66,24 @@ Future<Directory> setUpDbTest() async {
     _ffiInitialized = true;
   }
 
+  await S.initLocale(const Locale('en'));
+
   final tempDir = await Directory.systemTemp.createTemp('dmus_test_');
   await databaseFactory.setDatabasesPath(tempDir.path);
   PathProviderPlatform.instance = FakePathProviderPlatform(tempDir.path);
+  PermissionHandlerPlatform.instance = FakePermissionHandlerPlatform();
 
   return tempDir;
 }
 
 /// Closes and deletes the current test database, then eagerly reopens a
-/// fresh one so every test starts from a clean schema.
+/// fresh one so every test starts from a clean schema. Also clears
+/// MyDataEntityCache, since a fresh db restarts autoincrement ids from 1 -
+/// without clearing it, a Song/Playlist/Album cached under id 1 by one test
+/// would shadow a completely different row with the same reused id in the
+/// next test.
 ///
-/// The reopen can't be left lazy (i.e. left for whatever the next test
+/// The db reopen can't be left lazy (i.e. left for whatever the next test
 /// happens to call): DatabaseController's onOpen hook repopulates
 /// TableBlacklist's static in-memory cache, and a test that only exercises
 /// synchronous cache-reading methods (e.g. TableBlacklist.selectAll) would
@@ -75,6 +99,8 @@ Future<void> resetTestDatabase() async {
   final dbPath = path.join(await getDatabasesPath(), DatabaseController.databaseFilename);
 
   await deleteDatabase(dbPath);
+
+  MyDataEntityCache.clearForTesting();
 
   await DatabaseController.database;
 }

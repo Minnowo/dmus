@@ -39,6 +39,7 @@ dependencies:
   # dart lang
   collection: ^1.18.0
   logging: ^1.3.0
+  meta: ^1.15.0
 
   # for audio services
   audio_session: ^0.1.5
@@ -86,6 +87,7 @@ dev_dependencies:
   # platform channel when running `flutter test`
   sqflite_common_ffi: ^2.3.3
   path_provider_platform_interface: ^2.1.2
+  permission_handler_platform_interface: ^4.3.0
   plugin_platform_interface: ^2.1.8
 
 flutter_launcher_icons:

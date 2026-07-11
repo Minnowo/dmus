@@ -146,9 +146,9 @@ final class TableSong {
         CASE 
             WHEN EXISTS (
                 SELECT 1 
-                FROM ${TablePlaylistSong.name} 
-                WHERE ${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId} 
-                  AND ${TableSong.idCol} = TS.${TableSong.idCol}
+                FROM ${TablePlaylistSong.name}
+                WHERE ${TablePlaylistSong.playlistIdCol} = ${TablePlaylist.likedPlaylistId}
+                  AND ${TablePlaylistSong.songIdCol} = TS.${TableSong.idCol}
             )
             THEN 1 
             ELSE 0
