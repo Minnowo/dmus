@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dmus/core/localstorage/DatabaseMigrations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqflite.dart';
@@ -5,13 +7,23 @@ import 'package:sqflite/sqflite.dart';
 import '../../test_helpers.dart';
 
 void main() {
+  late Directory tempDir;
+  var scratchDbCount = 0;
+
   setUpAll(() async {
-    await setUpDbTest();
+    tempDir = await setUpDbTest();
   });
 
-  /// A fresh, isolated in-memory database for testing migrations directly,
-  /// independent of DatabaseController's shared test db file.
-  Future<Database> openScratchDb() => openDatabase(inMemoryDatabasePath);
+  /// A fresh, isolated database for testing migrations directly, independent
+  /// of DatabaseController's shared test db file. Each call gets its own
+  /// uniquely-named file rather than reusing inMemoryDatabasePath (":memory:")
+  /// - sqflite_common_ffi's isolate-based server doesn't give fully
+  /// independent databases for repeated opens of that same sentinel path
+  /// within one test file, so later tests were seeing earlier tests' tables.
+  Future<Database> openScratchDb() {
+    scratchDbCount++;
+    return openDatabase('${tempDir.path}/migrations_scratch_$scratchDbCount.db');
+  }
 
   Future<Set<String>> tableNames(Database db) async {
     final rows = await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
