@@ -37,3 +37,19 @@ Future<String?> pickDirectory() async {
 
   return selectedDirectory;
 }
+
+/// Opens a file picker to ask the user for a single database backup file
+///
+/// Returns null if the user does not pick a file / aborts
+Future<PlatformFile?> pickDatabaseFile() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['db'],
+  );
+
+  if (result == null || result.files.isEmpty) {
+    return null;
+  }
+
+  return result.files.first;
+}

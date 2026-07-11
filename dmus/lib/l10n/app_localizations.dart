@@ -1198,6 +1198,30 @@ abstract class AppLocalizations {
   /// **'Backup Database'**
   String get backupDatabase;
 
+  /// No description provided for @restoreDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Database'**
+  String get restoreDatabase;
+
+  /// No description provided for @restoreDatabaseConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to restore the database from a backup? This will overwrite your current library and cannot be undone.'**
+  String get restoreDatabaseConfirm;
+
+  /// No description provided for @restoredDatabaseRestartRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Database restored. Restart the app for the changes to take effect.'**
+  String get restoredDatabaseRestartRequired;
+
+  /// No description provided for @restoreDatabaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not restore database'**
+  String get restoreDatabaseFailed;
+
   /// No description provided for @viewLogs.
   ///
   /// In en, this message translates to:
@@ -1233,6 +1257,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No log file found'**
   String get noLogFileFound;
+
+  /// No description provided for @exportLogFileFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export log file'**
+  String get exportLogFileFailed;
+
+  /// No description provided for @wordWrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Word Wrap'**
+  String get wordWrap;
 
   /// No description provided for @showSnackBar.
   ///

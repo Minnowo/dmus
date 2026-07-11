@@ -200,6 +200,11 @@ class AdvancedSettingsPage extends StatelessWidget {
                 onTap: () => backupDatabase(context),
               ),
               ListTile(
+                leading: const Icon(Icons.restore),
+                title: Text(S.current.restoreDatabase),
+                onTap: () => restoreDatabase(context),
+              ),
+              ListTile(
                 leading: const Icon(Icons.article),
                 title: Text(S.current.viewLogs),
                 onTap: () => animateOpenFromBottom(context, const LogViewerPage()),

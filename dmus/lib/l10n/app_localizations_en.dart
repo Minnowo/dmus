@@ -573,6 +573,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupDatabase => 'Backup Database';
 
   @override
+  String get restoreDatabase => 'Restore Database';
+
+  @override
+  String get restoreDatabaseConfirm =>
+      'Are you sure you want to restore the database from a backup? This will overwrite your current library and cannot be undone.';
+
+  @override
+  String get restoredDatabaseRestartRequired => 'Database restored. Restart the app for the changes to take effect.';
+
+  @override
+  String get restoreDatabaseFailed => 'Could not restore database';
+
+  @override
   String get viewLogs => 'View Logs';
 
   @override
@@ -589,6 +602,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noLogFileFound => 'No log file found';
+
+  @override
+  String get exportLogFileFailed => 'Could not export log file';
+
+  @override
+  String get wordWrap => 'Word Wrap';
 
   @override
   String get showSnackBar => 'Show SnackBar';

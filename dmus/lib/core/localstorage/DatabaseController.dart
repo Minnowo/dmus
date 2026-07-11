@@ -97,4 +97,27 @@ final class DatabaseController {
       await database;
     }
   }
+
+  /// Overwrites the database with the given backup file
+  ///
+  /// The app needs to be restarted after this for the restored data to be used everywhere,
+  /// since providers and caches only load from the database once on startup
+  static Future<bool> restoreDatabase(File source) async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+
+    String databasePath = path.join(await getDatabasesPath(), databaseFilename);
+
+    try {
+      await source.copy(databasePath);
+      return true;
+    } catch (e) {
+      logging.warning(e);
+      return false;
+    } finally {
+      await database;
+    }
+  }
 }

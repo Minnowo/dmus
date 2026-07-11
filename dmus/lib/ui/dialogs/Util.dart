@@ -195,6 +195,35 @@ Future<void> backupDatabase(BuildContext context) async {
   });
 }
 
+Future<void> restoreDatabase(BuildContext context) async {
+  final picked = await pickDatabaseFile();
+
+  if (picked == null || picked.path == null) return;
+
+  if (!context.mounted) return;
+
+  final r = await showDialog(
+      context: context,
+      builder: (ctx) => ConfirmDestructiveAction(
+          promptText: S.current.restoreDatabaseConfirm,
+          yesText: S.current.restoreDatabase,
+          noText: S.current.cancel,
+          yesTextColor: RED,
+          noTextColor: null));
+
+  if (r == null || !r) return;
+
+  final success = await DatabaseController.restoreDatabase(File(picked.path!));
+
+  if (!context.mounted) return;
+
+  if (success) {
+    showSnackBarWithDuration(context, S.current.restoredDatabaseRestartRequired, longSnackBarDuration);
+  } else {
+    showSnackBarWithDuration(context, S.current.restoreDatabaseFailed, longSnackBarDuration, color: RED);
+  }
+}
+
 Future<void> exportLogFile(BuildContext context) async {
   final logPath = currentLogFilePath;
 
@@ -203,7 +232,21 @@ Future<void> exportLogFile(BuildContext context) async {
     return;
   }
 
-  await Share.shareXFiles([XFile(logPath)]);
+  try {
+    final result = await Share.shareXFiles([XFile(logPath)]);
+
+    logging.info("Log file share result: ${result.status}, ${result.raw}");
+
+    if (result.status == ShareResultStatus.unavailable && context.mounted) {
+      showSnackBarWithDuration(context, S.current.exportLogFileFailed, longSnackBarDuration, color: RED);
+    }
+  } catch (e) {
+    logging.warning("Failed to share log file: $e");
+
+    if (context.mounted) {
+      showSnackBarWithDuration(context, S.current.exportLogFileFailed, longSnackBarDuration, color: RED);
+    }
+  }
 }
 
 /// Selects any number of playlists and adds the given song to them
