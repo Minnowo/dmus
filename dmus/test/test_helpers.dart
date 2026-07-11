@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:dmus/core/localstorage/dbimpl/TableLikes.dart';
 import 'package:dmus/generated/l10n.dart';
 import 'package:mockito/mockito.dart';
 import 'package:path/path.dart' as path;
@@ -81,7 +82,8 @@ Future<Directory> setUpDbTest() async {
 /// MyDataEntityCache, since a fresh db restarts autoincrement ids from 1 -
 /// without clearing it, a Song/Playlist/Album cached under id 1 by one test
 /// would shadow a completely different row with the same reused id in the
-/// next test.
+/// next test. Also resets TableLikes.likedPlaylist, another static cache
+/// that would otherwise leak the Favorites playlist across tests.
 ///
 /// The db reopen can't be left lazy (i.e. left for whatever the next test
 /// happens to call): DatabaseController's onOpen hook repopulates
@@ -101,6 +103,7 @@ Future<void> resetTestDatabase() async {
   await deleteDatabase(dbPath);
 
   MyDataEntityCache.clearForTesting();
+  TableLikes.likedPlaylist = null;
 
   await DatabaseController.database;
 }
