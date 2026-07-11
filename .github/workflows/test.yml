@@ -1,0 +1,32 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: dmus
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # sqflite_common_ffi (used by the database tests) needs the native
+      # sqlite3 library on the machine running `flutter test`, separate from
+      # Android's bundled sqlite used at runtime on-device.
+      - name: Install libsqlite3
+        run: sudo apt-get update && sudo apt-get install -y libsqlite3-0
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.38.9
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
