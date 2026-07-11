@@ -41,11 +41,12 @@ Future<String?> pickDirectory() async {
 /// Opens a file picker to ask the user for a single database backup file
 ///
 /// Returns null if the user does not pick a file / aborts
+///
+/// Deliberately does not filter by extension: Android has no registered MIME type for `.db`
+/// files, and filtering FileType.custom by an extension with no known MIME type makes the
+/// underlying file_picker plugin fail before it even opens a picker
 Future<PlatformFile?> pickDatabaseFile() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.custom,
-    allowedExtensions: ['db'],
-  );
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
 
   if (result == null || result.files.isEmpty) {
     return null;

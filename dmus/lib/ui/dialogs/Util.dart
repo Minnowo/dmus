@@ -6,6 +6,7 @@ import 'package:dmus/ui/Settings.dart';
 import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
@@ -196,7 +197,18 @@ Future<void> backupDatabase(BuildContext context) async {
 }
 
 Future<void> restoreDatabase(BuildContext context) async {
-  final picked = await pickDatabaseFile();
+  final PlatformFile? picked;
+
+  try {
+    picked = await pickDatabaseFile();
+  } catch (e) {
+    logging.warning("Failed to pick a database file to restore: $e");
+
+    if (context.mounted) {
+      showSnackBarWithDuration(context, S.current.restoreDatabaseFailed, longSnackBarDuration, color: RED);
+    }
+    return;
+  }
 
   if (picked == null || picked.path == null) return;
 
