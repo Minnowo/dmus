@@ -1,4 +1,5 @@
 import 'package:dmus/core/localstorage/DatabaseController.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../data/DataEntity.dart';
 
@@ -25,7 +26,16 @@ final class TableAlbumSong {
   static Future<bool> setSongsInAlbum(int playlistId, List<Song> songs) async {
     var db = await DatabaseController.database;
 
-    await db.delete(
+    return await db.transaction((txn) => setSongsInAlbumTx(txn, playlistId, songs));
+  }
+
+  /// Adds the given songs to the given playlist using the given transaction
+  ///
+  /// Returns true always
+  ///
+  /// Throws DatabaseException
+  static Future<bool> setSongsInAlbumTx(Transaction txn, int playlistId, List<Song> songs) async {
+    await txn.delete(
       name,
       where: '$albumIdCol = ?',
       whereArgs: [playlistId],
@@ -34,7 +44,7 @@ final class TableAlbumSong {
     const String sql = "INSERT OR IGNORE INTO $name ($albumIdCol, $songIdCol, $songIndexCol) VALUES (?, ?, ?);";
 
     for (int i = 0; i < songs.length; i++) {
-      await db.rawInsert(sql, [playlistId, songs[i].id, i]);
+      await txn.rawInsert(sql, [playlistId, songs[i].id, i]);
     }
 
     return true;

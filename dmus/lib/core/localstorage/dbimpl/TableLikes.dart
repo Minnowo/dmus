@@ -18,14 +18,18 @@ final class TableLikes {
   static Future<void> reGenerateLikedPlaylist() async {
     final db = await DatabaseController.database;
 
-    await db.delete(TablePlaylist.name, where: "${TablePlaylist.idCol} = ${TablePlaylist.likedPlaylistId}");
+    List<int> likedSongIds = [];
 
-    await TablePlaylist.generateLikesPlaylist();
+    await db.transaction((txn) async {
+      await txn.delete(TablePlaylist.name, where: "${TablePlaylist.idCol} = ${TablePlaylist.likedPlaylistId}");
 
-    final results = await db.query(name);
+      await TablePlaylist.generateLikesPlaylistTx(txn);
 
-    await TablePlaylistSong.setSongsInPlaylistJustId(
-        TablePlaylist.likedPlaylistId, results.map((e) => e[songIdCol] as int).toList());
+      final results = await txn.query(name);
+      likedSongIds = results.map((e) => e[songIdCol] as int).toList();
+
+      await TablePlaylistSong.setSongsInPlaylistJustIdTx(txn, TablePlaylist.likedPlaylistId, likedSongIds);
+    });
 
     Playlist p = Playlist(id: TablePlaylist.likedPlaylistId, title: TablePlaylist.likedPlaylistName);
 
@@ -38,10 +42,12 @@ final class TableLikes {
   static Future<void> markSongLiked(Song song) async {
     final db = await DatabaseController.database;
 
-    await db.rawInsert("INSERT OR IGNORE INTO $name ($songIdCol) VALUES (?)", [song.id]);
+    await db.transaction((txn) async {
+      await txn.rawInsert("INSERT OR IGNORE INTO $name ($songIdCol) VALUES (?)", [song.id]);
 
-    await TablePlaylist.generateLikesPlaylist();
-    await TablePlaylistSong.appendSongToPlaylist(TablePlaylist.likedPlaylistId, song.id);
+      await TablePlaylist.generateLikesPlaylistTx(txn);
+      await TablePlaylistSong.appendSongToPlaylistTx(txn, TablePlaylist.likedPlaylistId, song.id);
+    });
 
     if (likedPlaylist == null) {
       await reGenerateLikedPlaylist();
@@ -55,10 +61,12 @@ final class TableLikes {
   static Future<void> markSongNotLiked(Song song) async {
     final db = await DatabaseController.database;
 
-    await db.delete(name, where: "$songIdCol = ?", whereArgs: [song.id]);
+    await db.transaction((txn) async {
+      await txn.delete(name, where: "$songIdCol = ?", whereArgs: [song.id]);
 
-    await TablePlaylist.generateLikesPlaylist();
-    await TablePlaylistSong.removeSongFromPlaylist(TablePlaylist.likedPlaylistId, song.id);
+      await TablePlaylist.generateLikesPlaylistTx(txn);
+      await TablePlaylistSong.removeSongFromPlaylistTx(txn, TablePlaylist.likedPlaylistId, song.id);
+    });
 
     if (likedPlaylist == null) {
       await reGenerateLikedPlaylist();

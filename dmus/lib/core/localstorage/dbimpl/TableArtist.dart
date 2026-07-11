@@ -25,27 +25,29 @@ final class TableArtist {
 
     final db = await DatabaseController.database;
 
-    await db.delete(name);
+    await db.transaction((txn) async {
+      await txn.delete(name);
 
-    // insert albums into the albums table from the metadata table
-    await db.rawQuery("INSERT INTO $name ($titleCol) "
-        "SELECT DISTINCT(${TableFMetadata.albumArtistCol}) FROM ${TableFMetadata.name} "
-        "WHERE ${TableFMetadata.albumArtistCol} IS NOT NULL "
-        "GROUP BY ${TableFMetadata.albumArtistCol} "
-        "HAVING COUNT(${TableFMetadata.albumArtistCol}) >= 1;");
+      // insert albums into the albums table from the metadata table
+      await txn.rawQuery("INSERT INTO $name ($titleCol) "
+          "SELECT DISTINCT(${TableFMetadata.albumArtistCol}) FROM ${TableFMetadata.name} "
+          "WHERE ${TableFMetadata.albumArtistCol} IS NOT NULL "
+          "GROUP BY ${TableFMetadata.albumArtistCol} "
+          "HAVING COUNT(${TableFMetadata.albumArtistCol}) >= 1;");
 
-    // inserts the songs into the album_songs table based on their album
-    await db.rawQuery(
-        "INSERT INTO ${TableArtistSong.name} (${TableArtistSong.artistIdCol}, ${TableArtistSong.songIdCol}, ${TableArtistSong.songIndexCol}, ${TableArtistSong.songAlbumCol}) "
-        "SELECT "
-        "a.${TableArtist.idCol}, "
-        "f.${TableFMetadata.idCol}, "
-        "f.${TableFMetadata.trackNumberCol}, "
-        "f.${TableFMetadata.albumCol} "
-        "FROM ${TableArtist.name} a "
-        "JOIN ${TableFMetadata.name} f ON a.${TableArtist.titleCol} = f.${TableFMetadata.albumArtistCol} "
-        // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
-        );
+      // inserts the songs into the album_songs table based on their album
+      await txn.rawQuery(
+          "INSERT INTO ${TableArtistSong.name} (${TableArtistSong.artistIdCol}, ${TableArtistSong.songIdCol}, ${TableArtistSong.songIndexCol}, ${TableArtistSong.songAlbumCol}) "
+          "SELECT "
+          "a.${TableArtist.idCol}, "
+          "f.${TableFMetadata.idCol}, "
+          "f.${TableFMetadata.trackNumberCol}, "
+          "f.${TableFMetadata.albumCol} "
+          "FROM ${TableArtist.name} a "
+          "JOIN ${TableFMetadata.name} f ON a.${TableArtist.titleCol} = f.${TableFMetadata.albumArtistCol} "
+          // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
+          );
+    });
   }
 
   static Future<int?> insertArist(String title, List<Song> songs) async {
@@ -55,11 +57,13 @@ final class TableArtist {
 
     final db = await DatabaseController.database;
 
-    final playlistId = await db.insert(name, {titleCol: title});
+    return await db.transaction((txn) async {
+      final playlistId = await txn.insert(name, {titleCol: title});
 
-    TableArtistSong.setSongsInArtist(playlistId, songs);
+      await TableArtistSong.setSongsInArtistTx(txn, playlistId, songs);
 
-    return playlistId;
+      return playlistId;
+    });
   }
 
   static Future<Iterable<Song>> selectArtistSongs(int artistId) async {

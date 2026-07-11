@@ -2,6 +2,7 @@ import 'package:dmus/core/data/MyDataEntityCache.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableSong.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '/generated/l10n.dart';
 import '../../Util.dart';
@@ -28,6 +29,11 @@ final class TablePlaylist {
   static Future<void> generateLikesPlaylist() async {
     final db = await DatabaseController.database;
 
+    await generateLikesPlaylistTx(db);
+  }
+
+  /// Creates the favorites playlist or does nothing, using the given transaction/executor
+  static Future<void> generateLikesPlaylistTx(DatabaseExecutor db) async {
     await db.rawInsert("INSERT OR IGNORE INTO ${TablePlaylist.name}($idCol, $titleCol) VALUES (?, ?)",
         [likedPlaylistId, likedPlaylistName]);
   }
@@ -51,11 +57,13 @@ final class TablePlaylist {
 
     final db = await DatabaseController.database;
 
-    final playlistId = await db.insert(name, {titleCol: title});
+    return await db.transaction((txn) async {
+      final playlistId = await txn.insert(name, {titleCol: title});
 
-    TablePlaylistSong.setSongsInPlaylist(playlistId, songs);
+      await TablePlaylistSong.setSongsInPlaylistTx(txn, playlistId, songs);
 
-    return playlistId;
+      return playlistId;
+    });
   }
 
   /// Updates a playlist
@@ -79,25 +87,25 @@ final class TablePlaylist {
 
     final db = await DatabaseController.database;
 
+    return await db.transaction((txn) async {
+      final exists = await txn.query(name, where: '$idCol = ?', whereArgs: [playlistId]);
 
+      if (exists.firstOrNull == null) {
+        logging.warning("Cannot update playlist which does not exist");
+        return null;
+      }
 
-    final exists = await db.query(name, where: '$idCol = ?', whereArgs: [playlistId]);
+      await txn.update(
+        name,
+        where: '$idCol = ?',
+        whereArgs: [playlistId],
+        {titleCol: title},
+      );
 
-    if (exists.firstOrNull == null) {
-      logging.warning("Cannot update playlist which does not exist");
-      return null;
-    }
+      await TablePlaylistSong.setSongsInPlaylistTx(txn, playlistId, songs);
 
-    await db.update(
-      name,
-      where: '$idCol = ?',
-      whereArgs: [playlistId],
-      {titleCol: title},
-    );
-    
-    TablePlaylistSong.setSongsInPlaylist(playlistId, songs);
-
-    return playlistId;
+      return playlistId;
+    });
   }
 
   /// Gets a Iterable<Song> for all the songs of the given playlistId

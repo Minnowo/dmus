@@ -24,26 +24,28 @@ final class TableAlbum {
   static Future<void> generateAlbums() async {
     final db = await DatabaseController.database;
 
-    await db.delete(name);
+    await db.transaction((txn) async {
+      await txn.delete(name);
 
-    // insert albums into the albums table from the metadata table
-    await db.rawQuery("INSERT INTO $name ($titleCol) "
-        "SELECT DISTINCT(${TableFMetadata.albumCol}) FROM ${TableFMetadata.name} "
-        "WHERE ${TableFMetadata.albumCol} IS NOT NULL "
-        "GROUP BY ${TableFMetadata.albumCol} "
-        "HAVING COUNT(${TableFMetadata.albumCol}) >= 1;");
+      // insert albums into the albums table from the metadata table
+      await txn.rawQuery("INSERT INTO $name ($titleCol) "
+          "SELECT DISTINCT(${TableFMetadata.albumCol}) FROM ${TableFMetadata.name} "
+          "WHERE ${TableFMetadata.albumCol} IS NOT NULL "
+          "GROUP BY ${TableFMetadata.albumCol} "
+          "HAVING COUNT(${TableFMetadata.albumCol}) >= 1;");
 
-    // inserts the songs into the album_songs table based on their album
-    await db.rawQuery(
-        "INSERT INTO ${TableAlbumSong.name} (${TableAlbumSong.albumIdCol}, ${TableAlbumSong.songIdCol}, ${TableAlbumSong.songIndexCol}) "
-        "SELECT "
-        "a.${TableAlbum.idCol}, "
-        "f.${TableFMetadata.idCol}, "
-        "f.${TableFMetadata.trackNumberCol} "
-        "FROM ${TableAlbum.name} a "
-        "JOIN ${TableFMetadata.name} f ON a.${TableAlbum.titleCol} = f.${TableFMetadata.albumCol} "
-        // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
-        );
+      // inserts the songs into the album_songs table based on their album
+      await txn.rawQuery(
+          "INSERT INTO ${TableAlbumSong.name} (${TableAlbumSong.albumIdCol}, ${TableAlbumSong.songIdCol}, ${TableAlbumSong.songIndexCol}) "
+          "SELECT "
+          "a.${TableAlbum.idCol}, "
+          "f.${TableFMetadata.idCol}, "
+          "f.${TableFMetadata.trackNumberCol} "
+          "FROM ${TableAlbum.name} a "
+          "JOIN ${TableFMetadata.name} f ON a.${TableAlbum.titleCol} = f.${TableFMetadata.albumCol} "
+          // "WHERE f.${TableFMetadata.trackNumberCol} IS NOT NULL "
+          );
+    });
   }
 
   /// Finds albums which match the given text, this does not search for songs in the album
@@ -153,11 +155,13 @@ final class TableAlbum {
 
     final db = await DatabaseController.database;
 
-    final playlistId = await db.insert(name, {titleCol: title});
+    return await db.transaction((txn) async {
+      final playlistId = await txn.insert(name, {titleCol: title});
 
-    TableAlbumSong.setSongsInAlbum(playlistId, songs);
+      await TableAlbumSong.setSongsInAlbumTx(txn, playlistId, songs);
 
-    return playlistId;
+      return playlistId;
+    });
   }
 
   /// Gets a Iterable<Song> for all the songs of the given playlistId

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:crypto/crypto.dart';
-import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
@@ -63,7 +62,7 @@ final class TableFMetadata {
   /// Does not check if the file exists
   ///
   /// Caches the songs embedded picture if exists
-  static Future<bool> updateSongMetadataUnchecked(Database db, int songId, File file) async {
+  static Future<bool> updateSongMetadataUnchecked(DatabaseExecutor db, int songId, File file) async {
     logging.info("Updating metadata for $file with id $songId");
 
     AudioMetadata m;
@@ -115,7 +114,7 @@ final class TableFMetadata {
   /// Does not check if the file exists
   ///
   /// Caches the songs embedded picture if exists
-  static Future<bool> insertSongMetadataUnchecked(Database db, int songId, File file) async {
+  static Future<bool> insertSongMetadataUnchecked(DatabaseExecutor db, int songId, File file) async {
     logging.info("Inserting metadata for $file with id $songId");
 
     AudioMetadata m;
@@ -134,8 +133,6 @@ final class TableFMetadata {
     } else {
       cacheKey = await ImageCacheController.findAndCacheCoverFromDirectory(file.parent);
     }
-
-    var db = await DatabaseController.database;
 
     try {
       await db.insert(name, {

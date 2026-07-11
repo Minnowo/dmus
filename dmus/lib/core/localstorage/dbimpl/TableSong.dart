@@ -49,7 +49,7 @@ final class TableSong {
   /// Returns the songId
   ///
   /// Throws Database Exception
-  static Future<int?> selectSongIdUnchecked(Database db, File path) async {
+  static Future<int?> selectSongIdUnchecked(DatabaseExecutor db, File path) async {
     var result = await db.query(name, columns: [idCol], where: "$songPathCol = ?", whereArgs: [path.absolute.path]);
 
     return (result.firstOrNull?[idCol]) as int?;
@@ -63,14 +63,28 @@ final class TableSong {
   ///
   /// Throws Database Exception
   static Future<int?> insertSong(File path) async {
+    var db = await DatabaseController.database;
+
+    return await db.transaction((txn) => insertSongTx(txn, path));
+  }
+
+  /// Inserts a song into the database using the given transaction/executor
+  ///
+  /// Use this (instead of [insertSong]) when the insert needs to be part of
+  /// a larger transaction, e.g. importing many songs in one batch
+  ///
+  /// Returns null if the file does not exist
+  ///
+  /// Returns the songId if added or already exists
+  ///
+  /// Throws Database Exception
+  static Future<int?> insertSongTx(DatabaseExecutor db, File path) async {
     // TODO: optimize this function to use 1 query
 
     if (!(await path.exists())) {
       logging.warning("Cannot insert song which does not exist");
       return null;
     }
-
-    var db = await DatabaseController.database;
 
     var existingSongId = await selectSongIdUnchecked(db, path);
 

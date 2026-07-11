@@ -21,6 +21,11 @@ import 'dbimpl/TableWatchDirectory.dart';
 final class ImportController {
   ImportController._();
 
+  /// The number of songs inserted per transaction when importing a batch of
+  /// files, so a big library scan does a handful of transactions instead of
+  /// one per file
+  static const int _importChunkSize = 250;
+
   static int _importCount = 0;
   static bool _supressSnackBars = false;
   static bool _silencePubs = false;
@@ -122,6 +127,8 @@ final class ImportController {
 
     final results = await db.query(TableSong.name);
 
+    final List<File> filesToReimport = [];
+
     for (final i in results) {
       final id = i[TableSong.idCol] as int;
       final path = i[TableSong.songPathCol] as String;
@@ -136,8 +143,10 @@ final class ImportController {
         continue;
       }
 
-      await importSong(filePath);
+      filesToReimport.add(filePath);
     }
+
+    await _importFilesChunked(filesToReimport);
   }
 
   /// Rebuilds the albums
@@ -196,6 +205,70 @@ final class ImportController {
 
     int? songId = await TableSong.insertSong(path);
 
+    await _finishImportedSong(path, songId);
+  }
+
+  /// Imports 0 or more songs from a list of files
+  ///
+  /// Process and adds the songs to the database
+  ///
+  /// This sends out events accordingly
+  static Future<void> importSongs(List<File> files) async {
+    if (files.length > 1) {
+      if (!_silencePubs) {
+        MessagePublisher.publishSnackbar(
+            SnackBarData(text: "${S.current.importingSongs1} ${files.length} ${S.current.importingSongs2}"));
+      }
+      _supressSnackBars = true;
+    }
+
+    logging.info(files);
+
+    await _importFilesChunked(files);
+
+    await endImports();
+
+    if (files.length > 3) {
+      _supressSnackBars = false;
+    }
+  }
+
+  /// Imports the given files in chunks of [_importChunkSize], each chunk
+  /// wrapped in a single transaction, so a big batch does a handful of
+  /// transactions instead of one per file. Blacklisted files are skipped.
+  ///
+  /// This sends out onSongImported events accordingly, once per completed
+  /// chunk rather than continuously per file
+  static Future<void> _importFilesChunked(List<File> files) async {
+    final db = await DatabaseController.database;
+
+    for (var start = 0; start < files.length; start += _importChunkSize) {
+      final end = (start + _importChunkSize < files.length) ? start + _importChunkSize : files.length;
+      final chunk = files.sublist(start, end);
+
+      final List<MapEntry<File, int?>> chunkResults = [];
+
+      await db.transaction((txn) async {
+        for (final f in chunk) {
+          // don't need to check if it exists because insertSongTx does
+          if (TableBlacklist.isBlacklisted(f.path)) continue;
+
+          logging.info("Importing $f...");
+
+          chunkResults.add(MapEntry(f, await TableSong.insertSongTx(txn, f)));
+        }
+      });
+
+      for (final entry in chunkResults) {
+        await _finishImportedSong(entry.key, entry.value);
+      }
+    }
+  }
+
+  /// Shared tail end of importing a single song: looks up the freshly
+  /// inserted song and fires the onSongImported event, or reports why it
+  /// couldn't
+  static Future<void> _finishImportedSong(File path, int? songId) async {
     if (songId == null) {
       logging.warning("Cannot import $path because it does not exist");
       if (!_silencePubs) {
@@ -217,33 +290,6 @@ final class ImportController {
     _importCount += 1;
 
     _songImportedController.add(s);
-  }
-
-  /// Imports 0 or more songs from a list of files
-  ///
-  /// Process and adds the songs to the database
-  ///
-  /// This sends out events accordingly
-  static Future<void> importSongs(List<File> files) async {
-    if (files.length > 1) {
-      if (!_silencePubs) {
-        MessagePublisher.publishSnackbar(
-            SnackBarData(text: "${S.current.importingSongs1} ${files.length} ${S.current.importingSongs2}"));
-      }
-      _supressSnackBars = true;
-    }
-
-    logging.info(files);
-
-    for (var f in files) {
-      await ImportController.importSong(f);
-    }
-
-    await endImports();
-
-    if (files.length > 3) {
-      _supressSnackBars = false;
-    }
   }
 
   /// Imports any audio files in the given directory

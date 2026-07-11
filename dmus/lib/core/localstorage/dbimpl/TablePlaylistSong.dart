@@ -77,6 +77,10 @@ final class TablePlaylistSong {
   static Future<void> removeSongFromPlaylist(int playlistId, int songId) async {
     var db = await DatabaseController.database;
 
+    await removeSongFromPlaylistTx(db, playlistId, songId);
+  }
+
+  static Future<void> removeSongFromPlaylistTx(DatabaseExecutor db, int playlistId, int songId) async {
     await db.delete(TablePlaylistSong.name,
         where: "${TablePlaylistSong.playlistIdCol} = ? AND ${TablePlaylistSong.songIdCol} = ?",
         whereArgs: [playlistId, songId]);
@@ -85,23 +89,23 @@ final class TablePlaylistSong {
   static Future<void> appendSongToPlaylist(int playlistId, int songId) async {
     var db = await DatabaseController.database;
 
-    await db.transaction((txn) async {
-      const sql =
+    await db.transaction((txn) => appendSongToPlaylistTx(txn, playlistId, songId));
+  }
+
+  static Future<void> appendSongToPlaylistTx(DatabaseExecutor db, int playlistId, int songId) async {
+    const sql =
         "SELECT song_index FROM ${TablePlaylistSong.name} WHERE ${TablePlaylistSong.playlistIdCol} = ? ORDER BY ${TablePlaylistSong.songIndexCol} DESC LIMIT 1";
 
-      final lastIndex = await txn.rawQuery(sql, [songId]);
+    final lastIndex = await db.rawQuery(sql, [songId]);
 
-      int index = 0;
+    int index = 0;
 
-      if (lastIndex.isNotEmpty) {
-        index = lastIndex.first[songIndexCol] as int;
-        index++;
-        logging.finest("Previous index was $index");
-      }
+    if (lastIndex.isNotEmpty) {
+      index = lastIndex.first[songIndexCol] as int;
+      index++;
+      logging.finest("Previous index was $index");
+    }
 
-      await txn.insert(name, {playlistIdCol: playlistId, songIdCol: songId, songIndexCol: index});
-    });
-
-    
+    await db.insert(name, {playlistIdCol: playlistId, songIdCol: songId, songIndexCol: index});
   }
 }
