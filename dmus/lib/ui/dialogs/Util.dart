@@ -7,7 +7,7 @@ import 'package:dmus/ui/dialogs/context/ShareContextDialog.dart';
 import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 
 import '../../../generated/l10n.dart';
 import '../../core/Util.dart';
@@ -172,7 +172,7 @@ Future<void> backupDatabase(BuildContext context) async {
   pickDirectory().then((value) async {
     if (value == null) return;
 
-    File databaseExport = File(Path.join(value, DatabaseController.databaseFilename));
+    File databaseExport = File(path.join(value, DatabaseController.databaseFilename));
 
     logging.info(databaseExport);
 

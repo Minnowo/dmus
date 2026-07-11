@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -43,7 +43,7 @@ Future<void> initLogging(Level l) async {
   try {
     final date = DateTime.now();
 
-    final logFile = File(Path.join(logPath.path, '${date.year}-${date.month}-${date.day}.log'));
+    final logFile = File(path.join(logPath.path, '${date.year}-${date.month}-${date.day}.log'));
 
     debugPrint("Logs will be written to $logFile");
 
@@ -164,8 +164,8 @@ String bytesToHex(List<int> bytes) {
 }
 
 /// Gets the file extension without the .
-String fileExtensionNoDot(String path) {
-  final p = Path.extension(path);
+String fileExtensionNoDot(String filePath) {
+  final p = path.extension(filePath);
 
   if (p.isEmpty) {
     return "";
@@ -175,8 +175,8 @@ String fileExtensionNoDot(String path) {
 }
 
 /// Gets the filename without the extension
-String filenameWithoutExtension(String path) {
-  final p = Path.basenameWithoutExtension(path);
+String filenameWithoutExtension(String filePath) {
+  final p = path.basenameWithoutExtension(filePath);
 
   if (p.isEmpty) {
     return "";

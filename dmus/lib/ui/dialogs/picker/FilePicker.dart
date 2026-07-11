@@ -7,7 +7,7 @@ import 'package:dmus/ui/dialogs/picker/SelectionListPicker.dart';
 import 'package:dmus/ui/lookfeel/CommonTheme.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 
 import '../../../core/Util.dart';
 import '../../../core/data/DataEntity.dart';
@@ -168,7 +168,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
   }
 
   bool systemFileMatches(String search, FileSystemEntityX e) {
-    return Path.basename(e.systemEntity.path).toLowerCase().contains(search);
+    return path.basename(e.systemEntity.path).toLowerCase().contains(search);
   }
 
   void filterDataEntities(String text) {
@@ -191,7 +191,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
       if (!i.item.isDir) {
         ritems.add(InkWell(
           child: ListTile(
-            title: Text(Path.basename(i.item.systemEntity.path)),
+            title: Text(path.basename(i.item.systemEntity.path)),
             selected: i.isSelected,
             selectedTileColor: Theme.of(context).colorScheme.inversePrimary,
           ),
@@ -208,7 +208,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
       ritems.add(InkWell(
         child: ListTile(
           leading: const Icon(Icons.folder),
-          title: Text(Path.basename(i.item.systemEntity.path)),
+          title: Text(path.basename(i.item.systemEntity.path)),
         ),
         onTap: () => setDirectory(i.item.systemEntity.path),
       ));
@@ -238,7 +238,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
       _currentDirectory = null;
       _depth = 0;
     } else {
-      _currentDirectory = Path.dirname(_currentDirectory!);
+      _currentDirectory = path.dirname(_currentDirectory!);
     }
 
     buildFileCache();
@@ -269,7 +269,7 @@ class _FilePickerState extends State<FilePicker> with SelectionListPicker<FileSy
           return 1;
         }
 
-        return compareNatural(Path.basename(a.item.systemEntity.path), Path.basename(b.item.systemEntity.path));
+        return compareNatural(path.basename(a.item.systemEntity.path), path.basename(b.item.systemEntity.path));
       });
     } catch (e) {
       logging.warning("Cannot access $_currentDirectory, $e");

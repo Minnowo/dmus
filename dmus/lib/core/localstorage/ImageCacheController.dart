@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/data/DataEntity.dart';
 import 'package:dmus/core/data/MessagePublisher.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 
 import '/generated/l10n.dart';
@@ -34,7 +34,7 @@ abstract class ImageCacheController {
 
     // logging.finest("Getting cached path from $hex");
 
-    return File(Path.join(appDir?.path ?? "", imageCacheDir, "${hex[0]}${hex[1]}", hex));
+    return File(path.join(appDir?.path ?? "", imageCacheDir, "${hex[0]}${hex[1]}", hex));
   }
 
   /// Converts the given SHA256 hash to a file location
@@ -142,13 +142,13 @@ abstract class ImageCacheController {
   }
 
   /// Copies a file into a temp directory with the given extension
-  static Future<File?> copyToTempWithExtension(File path, String tempNameExtension) async {
+  static Future<File?> copyToTempWithExtension(File srcFile, String tempNameExtension) async {
     try {
       Directory cache = await getTemporaryDirectory();
 
-      File tempFile = File(Path.join(cache.path, "${Path.basename(path.path)}.$tempNameExtension"));
+      File tempFile = File(path.join(cache.path, "${path.basename(srcFile.path)}.$tempNameExtension"));
 
-      await path.copy(tempFile.path);
+      await srcFile.copy(tempFile.path);
 
       return tempFile;
     } on MissingPlatformDirectoryException catch (e) {
@@ -190,7 +190,7 @@ abstract class ImageCacheController {
       var files = await dir
           .list(recursive: false)
           .where((event) => imageFileExtensions.contains(fileExtensionNoDot(event.path).toLowerCase()))
-          .where((event) => albumArtFilenames.contains(Path.basenameWithoutExtension(event.path).toLowerCase()))
+          .where((event) => albumArtFilenames.contains(path.basenameWithoutExtension(event.path).toLowerCase()))
           .map((event) => File(event.path))
           .toList();
 

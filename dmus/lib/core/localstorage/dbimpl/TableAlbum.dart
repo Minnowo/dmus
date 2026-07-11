@@ -68,10 +68,10 @@ final class TableAlbum {
     for (var e in playlistsResult) {
       int id = e[TableAlbum.idCol] as int;
 
-      final _ = MyDataEntityCache.getFromCache(id);
+      final cached = MyDataEntityCache.getFromCache(id);
 
-      if (_ != null && _ is Album) {
-        playlists.add(_);
+      if (cached != null && cached is Album) {
+        playlists.add(cached);
         continue;
       }
 
@@ -113,10 +113,10 @@ final class TableAlbum {
 
       seenId.add(id);
 
-      final _ = MyDataEntityCache.getFromCache(id);
+      final cached = MyDataEntityCache.getFromCache(id);
 
-      if (_ != null && _ is Album) {
-        playlists.add(_);
+      if (cached != null && cached is Album) {
+        playlists.add(cached);
         continue;
       }
 

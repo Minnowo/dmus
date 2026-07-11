@@ -4,7 +4,7 @@ import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dmus/core/localstorage/DatabaseController.dart';
 import 'package:dmus/core/localstorage/ImageCacheController.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 import '../../Util.dart';
@@ -71,7 +71,7 @@ final class TableFMetadata {
     try {
       m = readMetadata(file, getImage: true);
     } catch (e) {
-      m = AudioMetadata(file: file, title: Path.basename(file.path));
+      m = AudioMetadata(file: file, title: path.basename(file.path));
       logging.severe("Failed to read metadata", e);
     }
 
@@ -87,7 +87,7 @@ final class TableFMetadata {
       await db.update(
           name,
           {
-            titleCol: m.title ?? Path.basename(file.path),
+            titleCol: m.title ?? path.basename(file.path),
             albumCol: m.album,
             albumArtistCol: m.artist,
             trackArtistCol: "",
@@ -123,7 +123,7 @@ final class TableFMetadata {
     try {
       m = readMetadata(file, getImage: true);
     } catch (e) {
-      m = AudioMetadata(file: file, title: Path.basename(file.path));
+      m = AudioMetadata(file: file, title: path.basename(file.path));
       logging.severe("Failed to read metadata", e);
     }
 
@@ -140,7 +140,7 @@ final class TableFMetadata {
     try {
       await db.insert(name, {
         idCol: songId,
-        titleCol: m.title ?? Path.basename(file.path),
+        titleCol: m.title ?? path.basename(file.path),
         albumCol: m.album,
         albumArtistCol: m.artist,
         trackArtistCol: "",

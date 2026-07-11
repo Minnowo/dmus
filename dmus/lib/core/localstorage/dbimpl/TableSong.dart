@@ -8,7 +8,7 @@ import 'package:dmus/core/localstorage/dbimpl/TableFMetadata.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylist.dart';
 import 'package:dmus/core/localstorage/dbimpl/TablePlaylistSong.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 import '../../Util.dart';
@@ -157,8 +157,8 @@ final class TableSong {
   static Future<Song> fromMappedObjects(Map<String, Object?> e) async {
     AudioMetadata m = TableFMetadata.fromMap(e);
 
-    String path = e[TableSong.songPathCol] as String;
-    String title = Path.basename(path);
+    String songPath = e[TableSong.songPathCol] as String;
+    String title = path.basename(songPath);
     Duration duration = Duration.zero;
 
     if (m.title != null) {
@@ -171,7 +171,7 @@ final class TableSong {
 
     int id = e[TableSong.idCol] as int;
 
-    Song s = Song.withDuration(id: id, title: title, duration: duration, file: File(path), metadata: m);
+    Song s = Song.withDuration(id: id, title: title, duration: duration, file: File(songPath), metadata: m);
 
     if (e.containsKey("is_liked")) {
       s.liked = e["is_liked"] == 1 ? true : false;

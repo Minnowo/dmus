@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dmus/core/localstorage/DatabaseMigrations.dart';
 import 'package:dmus/core/localstorage/dbimpl/TableBlacklist.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 import '../Util.dart';
@@ -45,7 +45,7 @@ final class DatabaseController {
   static Future<Database> _initDatabase() async {
     logging.config("Database is being initialized");
 
-    String databasePath = Path.join(await getDatabasesPath(), databaseFilename);
+    String databasePath = path.join(await getDatabasesPath(), databaseFilename);
 
     logging.config("Database path is $databasePath");
 
@@ -78,17 +78,17 @@ final class DatabaseController {
   }
 
   /// Copies the database to the given path
-  static Future<bool> backupDatabase(File path) async {
+  static Future<bool> backupDatabase(File destination) async {
     if (_database != null) {
       await _database!.close();
     }
 
-    String databasePath = Path.join(await getDatabasesPath(), databaseFilename);
+    String databasePath = path.join(await getDatabasesPath(), databaseFilename);
 
     File databaseFile = File(databasePath);
 
     try {
-      await databaseFile.copy(path.path);
+      await databaseFile.copy(destination.path);
       return true;
     } catch (e) {
       logging.warning(e);

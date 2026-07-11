@@ -130,10 +130,10 @@ final class TablePlaylist {
     for (var e in playlistsResult) {
       int id = e[TablePlaylist.idCol] as int;
 
-      final _ = MyDataEntityCache.getFromCache(id);
+      final cached = MyDataEntityCache.getFromCache(id);
 
-      if (_ != null && _ is Playlist) {
-        playlists.add(_);
+      if (cached != null && cached is Playlist) {
+        playlists.add(cached);
         continue;
       }
 
@@ -205,10 +205,10 @@ final class TablePlaylist {
 
       seenId.add(id);
 
-      final _ = MyDataEntityCache.getFromCache(id);
+      final cached = MyDataEntityCache.getFromCache(id);
 
-      if (_ != null && _ is Playlist) {
-        playlists.add(_);
+      if (cached != null && cached is Playlist) {
+        playlists.add(cached);
         continue;
       }
 
@@ -247,10 +247,10 @@ final class TablePlaylist {
     for (var e in playlistsResult) {
       int id = e[TablePlaylist.idCol] as int;
 
-      final _ = MyDataEntityCache.getFromCache(id);
+      final cached = MyDataEntityCache.getFromCache(id);
 
-      if (_ != null && _ is Playlist) {
-        playlists.add(_);
+      if (cached != null && cached is Playlist) {
+        playlists.add(cached);
         continue;
       }
 
