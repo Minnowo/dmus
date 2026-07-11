@@ -24,5 +24,12 @@ linter:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 
+    # This codebase consistently uses PascalCase filenames (one class per file,
+    # file name matches class name) and SCREAMING_CASE for constants. That's an
+    # intentional, consistently-applied convention here, not drift, so these two
+    # rules are disabled rather than mass-renaming ~80 files and ~50 constants.
+    file_names: false
+    constant_identifier_names: false
+
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
