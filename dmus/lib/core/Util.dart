@@ -10,9 +10,15 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'data/DataEntity.dart';
 import 'data/FileOutput.dart';
+import 'data/LogBuffer.dart';
 
 /// The global logger instance
 final logging = Logger('DMUS');
+
+/// Path to the log file currently being written to
+///
+/// Null until [initLogging] has completed
+String? currentLogFilePath;
 
 const int maxInteger = 0x7FFFFFFFFFFFFFFF;
 const int minInteger = -0x8000000000000000;
@@ -47,6 +53,8 @@ Future<void> initLogging(Level l) async {
 
     debugPrint("Logs will be written to $logFile");
 
+    currentLogFilePath = logFile.path;
+
     final FileOutput fo = FileOutput(file: logFile);
 
     fo.init();
@@ -59,6 +67,7 @@ Future<void> initLogging(Level l) async {
       final formated = '${record.level.name}: ${record.time}: ${record.message}';
       debugPrint(formated);
       fo.output([formated]);
+      LogBuffer.add(formated);
     });
 
     logging.shout("Logging almost done");

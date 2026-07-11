@@ -8,6 +8,7 @@ import 'package:dmus/ui/dialogs/picker/ConfirmDestructiveAction.dart';
 import 'package:dmus/ui/dialogs/picker/DataEntityPicker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as path;
+import 'package:share_plus/share_plus.dart';
 
 import '../../../generated/l10n.dart';
 import '../../core/Util.dart';
@@ -192,6 +193,17 @@ Future<void> backupDatabase(BuildContext context) async {
       }
     }
   });
+}
+
+Future<void> exportLogFile(BuildContext context) async {
+  final logPath = currentLogFilePath;
+
+  if (logPath == null || !await File(logPath).exists()) {
+    showSnackBarWithDuration(context, S.current.noLogFileFound, longSnackBarDuration, color: RED);
+    return;
+  }
+
+  await Share.shareXFiles([XFile(logPath)]);
 }
 
 /// Selects any number of playlists and adds the given song to them

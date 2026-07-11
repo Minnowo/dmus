@@ -1198,6 +1198,42 @@ abstract class AppLocalizations {
   /// **'Backup Database'**
   String get backupDatabase;
 
+  /// No description provided for @viewLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'View Logs'**
+  String get viewLogs;
+
+  /// No description provided for @exportLogFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Log File'**
+  String get exportLogFile;
+
+  /// No description provided for @logViewer.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Viewer'**
+  String get logViewer;
+
+  /// No description provided for @noLogsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs yet'**
+  String get noLogsYet;
+
+  /// No description provided for @autoScroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Scroll'**
+  String get autoScroll;
+
+  /// No description provided for @noLogFileFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No log file found'**
+  String get noLogFileFound;
+
   /// No description provided for @showSnackBar.
   ///
   /// In en, this message translates to:

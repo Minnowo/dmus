@@ -573,6 +573,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupDatabase => 'Backup Database';
 
   @override
+  String get viewLogs => 'View Logs';
+
+  @override
+  String get exportLogFile => 'Export Log File';
+
+  @override
+  String get logViewer => 'Log Viewer';
+
+  @override
+  String get noLogsYet => 'No logs yet';
+
+  @override
+  String get autoScroll => 'Auto Scroll';
+
+  @override
+  String get noLogFileFound => 'No log file found';
+
+  @override
   String get showSnackBar => 'Show SnackBar';
 
   @override

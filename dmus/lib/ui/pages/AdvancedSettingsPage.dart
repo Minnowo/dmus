@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import '../../core/data/UIEnumSettings.dart';
 import '../../generated/l10n.dart';
 import '../dialogs/Util.dart';
+import '../lookfeel/Animations.dart';
 import '../lookfeel/CommonTheme.dart';
 import '../widgets/BlueDivider.dart';
+import 'LogViewerPage.dart';
 
 class AdvancedSettingsPage extends StatelessWidget {
   const AdvancedSettingsPage({super.key});
@@ -195,6 +197,16 @@ class AdvancedSettingsPage extends StatelessWidget {
               leading: const Icon(Icons.backup),
               title: Text(S.current.backupDatabase),
               onTap: () => backupDatabase(context),
+            ),
+            ListTile(
+              leading: const Icon(Icons.article),
+              title: Text(S.current.viewLogs),
+              onTap: () => animateOpenFromBottom(context, const LogViewerPage()),
+            ),
+            ListTile(
+              leading: const Icon(Icons.share),
+              title: Text(S.current.exportLogFile),
+              onTap: () => exportLogFile(context),
             ),
             ListTile(
               leading: const Icon(Icons.notification_add),
