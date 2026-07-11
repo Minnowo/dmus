@@ -1084,6 +1084,18 @@ abstract class AppLocalizations {
   /// **'Never Fill Queue'**
   String get neverFillQueue;
 
+  /// No description provided for @queueAlgorithm.
+  ///
+  /// In en, this message translates to:
+  /// **'Queue Algorithm'**
+  String get queueAlgorithm;
+
+  /// No description provided for @queueAlgorithmRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get queueAlgorithmRandom;
+
   /// No description provided for @developer.
   ///
   /// In en, this message translates to:

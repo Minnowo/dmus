@@ -1,19 +1,15 @@
-import 'dart:math';
-
 import 'package:dmus/core/audio/PlayQueue.dart';
 import 'package:dmus/core/data/provider/SongsProvider.dart';
+import 'package:dmus/core/localstorage/SettingsHandler.dart';
 
 import '../Util.dart';
 import 'DataEntity.dart';
+import 'QueueGenerationAlgorithm.dart';
 
 final class QueueGeneration {
   QueueGeneration._();
 
-  static Iterable<Song> getRandomOrdering(List<Song> s, int n) {
-    List<int> i = List.generate(s.length, (index) => index, growable: false)..shuffle();
-
-    return i.sublist(0, min(n, s.length)).map((e) => s[e]);
-  }
+  static QueueGenerationAlgorithm get _algorithm => queueGenerationAlgorithmFor(SettingsHandler.queueAlgorithm);
 
   static void fillRandomN(PlayQueue q, int n) {
     if (SongsProvider.instance == null) {
@@ -28,7 +24,7 @@ final class QueueGeneration {
       return;
     }
 
-    q.addAllToQueue(getRandomOrdering(s, n));
+    q.addAllToQueue(_algorithm.selectSongs(s, n));
   }
 
   static void fillWithRandomWithPrioritySameArtist(PlayQueue q, Song song, int n) {
@@ -44,9 +40,11 @@ final class QueueGeneration {
       return;
     }
 
-    q.addAllToQueue(getRandomOrdering(
+    final algorithm = _algorithm;
+
+    q.addAllToQueue(algorithm.selectSongs(
         s.where((element) => element != song && element.songArtist() == song.songArtist()).toList(), n));
-    q.addAllToQueue(getRandomOrdering(
+    q.addAllToQueue(algorithm.selectSongs(
         s.where((element) => element != song && element.songArtist() != song.songArtist()).toList(), n));
   }
 }

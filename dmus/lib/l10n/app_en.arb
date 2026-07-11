@@ -164,6 +164,8 @@
   "fillRandom": "Fill With Random",
   "fillRandomArtistPriority": "Fill With Random Priority Same Artist",
   "neverFillQueue": "Never Fill Queue",
+  "queueAlgorithm": "Queue Algorithm",
+  "queueAlgorithmRandom": "Random",
   "developer": "Developer",
   "backupDatabase": "Backup Database",
   "showSnackBar": "Show SnackBar",

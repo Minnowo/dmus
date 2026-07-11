@@ -142,6 +142,24 @@ class AdvancedSettingsPage extends StatelessWidget {
                 },
               ),
             ),
+            StatefulBuilder(
+              builder: (context, setState) => PopupMenuButton<QueueAlgorithm>(
+                onSelected: (c) => setState(() => SettingsHandler.setQueueAlgorithm(c)),
+                child: ListTile(
+                  title: Text(S.current.queueAlgorithm),
+                  trailing: Text("${queueAlgorithmToInt(SettingsHandler.queueAlgorithm)}"),
+                ),
+                itemBuilder: (BuildContext context) {
+                  // Define the items in the menu
+                  return <PopupMenuEntry<QueueAlgorithm>>[
+                    PopupMenuItem(
+                      value: QueueAlgorithm.random,
+                      child: Text(S.current.queueAlgorithmRandom),
+                    ),
+                  ];
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(

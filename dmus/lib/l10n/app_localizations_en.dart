@@ -516,6 +516,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get neverFillQueue => 'Never Fill Queue';
 
   @override
+  String get queueAlgorithm => 'Queue Algorithm';
+
+  @override
+  String get queueAlgorithmRandom => 'Random';
+
+  @override
   String get developer => 'Developer';
 
   @override

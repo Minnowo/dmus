@@ -19,12 +19,14 @@ final class SettingsHandler {
     _currentlyPlayingSwipeMode = currentlyPlayingBarSwipeFromInt(getInt(_currentlyPlayingSwipeModeKey, 0));
     _queueFillMode = queueFillModeFromInt(getInt(_queueFillModeKey, 0));
     _playlistQueueFillMode = playlistQueueFillModeFromInt(getInt(_playlistQueueFillModeKey, 0));
+    _queueAlgorithm = queueAlgorithmFromInt(getInt(_queueAlgorithmKey, 0));
 
     logging.config("Loaded setting $_darkThemeKey as $_isDarkTheme");
     logging.config("Loaded setting $_songPageTileTrailWithKey as $_songPageTileTrailWith");
     logging.config("Loaded setting $_currentlyPlayingSwipeModeKey as $_currentlyPlayingSwipeMode");
     logging.config("Loaded setting $_queueFillModeKey as $_queueFillMode");
     logging.config("Loaded setting $_playlistQueueFillModeKey as $_playlistQueueFillMode");
+    logging.config("Loaded setting $_queueAlgorithmKey as $_queueAlgorithm");
   }
 
   /// Saves all settings
@@ -112,5 +114,17 @@ final class SettingsHandler {
     logging.config("Setting $_playlistQueueFillModeKey to $trailWith");
     _playlistQueueFillMode = trailWith;
     TableSettings.persist(_playlistQueueFillModeKey, playlistQueueFillModeToInt(trailWith).toString());
+  }
+
+  static const String _queueAlgorithmKey = "queue_algorithm";
+
+  static QueueAlgorithm _queueAlgorithm = QueueAlgorithm.random;
+
+  static QueueAlgorithm get queueAlgorithm => _queueAlgorithm;
+
+  static void setQueueAlgorithm(QueueAlgorithm algorithm) {
+    logging.config("Setting $_queueAlgorithmKey to $algorithm");
+    _queueAlgorithm = algorithm;
+    TableSettings.persist(_queueAlgorithmKey, queueAlgorithmToInt(algorithm).toString());
   }
 }

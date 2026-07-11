@@ -25,6 +25,11 @@ enum PlaylistQueueFillMode {
   fillWithRandom,
 }
 
+/// The algorithm used to pick/order songs when generating queue content
+enum QueueAlgorithm {
+  random,
+}
+
 int songListWidgetTrailToInt(SongListWidgetTrail s) {
   return SongListWidgetTrail.values.indexOf(s);
 }
@@ -55,4 +60,12 @@ int playlistQueueFillModeToInt(PlaylistQueueFillMode s) {
 
 PlaylistQueueFillMode playlistQueueFillModeFromInt(int s) {
   return PlaylistQueueFillMode.values[s.clamp(0, PlaylistQueueFillMode.values.length - 1)];
+}
+
+int queueAlgorithmToInt(QueueAlgorithm s) {
+  return QueueAlgorithm.values.indexOf(s);
+}
+
+QueueAlgorithm queueAlgorithmFromInt(int s) {
+  return QueueAlgorithm.values[s.clamp(0, QueueAlgorithm.values.length - 1)];
 }

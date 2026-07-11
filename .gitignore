@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio,linux,windows,macos,java,kotlin,flutter,dart
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio,linux,windows,macos,java,kotlin,flutter,dart
 
+dmus/flutter_l10n.out.txt
+dmus/flutter_buildlog.out.txt
+dmus/flutter_analyze.out.txt
+dmus/flutter_test.out.txt
+
 *.flac
 *.wav
 *.mp3
