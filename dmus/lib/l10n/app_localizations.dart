@@ -1360,6 +1360,18 @@ abstract class AppLocalizations {
   /// **'Batch blocking songs finished'**
   String get blockingSongsFinished;
 
+  /// No description provided for @blockingSongsProgress1.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get blockingSongsProgress1;
+
+  /// No description provided for @blockingSongsProgress2.
+  ///
+  /// In en, this message translates to:
+  /// **'songs'**
+  String get blockingSongsProgress2;
+
   /// No description provided for @confirmRemoveFromBlacklist.
   ///
   /// In en, this message translates to:

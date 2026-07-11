@@ -172,13 +172,20 @@ final class ImportController {
     _importCount = 0;
   }
 
-  /// Deletes the song from the database
-  static Future<void> deleteSong(Song s) async {
+  /// Deletes the song from the database without rebuilding the album/artist
+  /// caches, so callers deleting many songs at once can rebuild once at the end
+  /// instead of once per song
+  static Future<void> _deleteSongNoRebuild(Song s) async {
     await TableSong.deleteSongById(s.id);
 
     MyDataEntityCache.deleteFromCache(s.id);
 
     _songDeletedController.add(s);
+  }
+
+  /// Deletes the song from the database
+  static Future<void> deleteSong(Song s) async {
+    await _deleteSongNoRebuild(s);
 
     await rebuildAlbums();
     await rebuildArtists();
@@ -188,6 +195,34 @@ final class ImportController {
   static Future<void> blockSong(Song s) async {
     await TableBlacklist.addToBlacklist(s.file.path);
     await deleteSong(s);
+  }
+
+  /// The number of songs processed between progress updates when blocking a batch of songs
+  static const int blockProgressInterval = 25;
+
+  /// Adds 0 or more songs to the blacklist and deletes them from the database
+  ///
+  /// The album/artist caches are only rebuilt once at the end, rather than once per song,
+  /// since that rebuild is by far the most expensive part of blocking a large batch of songs
+  ///
+  /// [onProgress] is called every [blockProgressInterval] songs, and once more at the end,
+  /// with the number of songs processed so far, so the ui can show progress
+  static Future<void> blockSongs(List<Song> songs, {void Function(int done, int total)? onProgress}) async {
+    for (var i = 0; i < songs.length; i++) {
+      final s = songs[i];
+
+      await TableBlacklist.addToBlacklist(s.file.path);
+      await _deleteSongNoRebuild(s);
+
+      final done = i + 1;
+
+      if (onProgress != null && (done % blockProgressInterval == 0 || done == songs.length)) {
+        onProgress(done, songs.length);
+      }
+    }
+
+    await rebuildAlbums();
+    await rebuildArtists();
   }
 
   /// Imports a song from a file

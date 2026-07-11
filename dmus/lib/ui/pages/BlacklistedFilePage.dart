@@ -152,10 +152,15 @@ class _BlacklistedFilePageState extends State<BlacklistedFilePage> {
 
     MessagePublisher.publishSnackbar(SnackBarData(text: S.current.blockingSongs));
 
-    for (final i in songs) {
-      await ImportController.blockSong(i);
-      _blacklistedFiles.add(SelectableDataItem(i.file.absolute.path, false, true));
-    }
+    final songsList = songs.toList();
+
+    await ImportController.blockSongs(
+      songsList,
+      onProgress: (done, total) => MessagePublisher.publishSnackbar(
+          SnackBarData(text: "${S.current.blockingSongsProgress1} $done/$total ${S.current.blockingSongsProgress2}")),
+    );
+
+    _blacklistedFiles.addAll(songsList.map((i) => SelectableDataItem(i.file.absolute.path, false, true)));
 
     MessagePublisher.publishSnackbar(SnackBarData(text: S.current.blockingSongsFinished));
 

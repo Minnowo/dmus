@@ -580,7 +580,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to restore the database from a backup? This will overwrite your current library and cannot be undone.';
 
   @override
-  String get restoredDatabaseRestartRequired => 'Database restored. Restart the app for the changes to take effect.';
+  String get restoredDatabaseRestartRequired =>
+      'Database restored. Restart the app for the changes to take effect.';
 
   @override
   String get restoreDatabaseFailed => 'Could not restore database';
@@ -654,6 +655,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blockingSongsFinished => 'Batch blocking songs finished';
+
+  @override
+  String get blockingSongsProgress1 => 'Blocked';
+
+  @override
+  String get blockingSongsProgress2 => 'songs';
 
   @override
   String get confirmRemoveFromBlacklist =>

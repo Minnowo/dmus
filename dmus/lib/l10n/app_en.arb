@@ -210,6 +210,8 @@
   "artistsAppear": "Artists will appear as you import music!",
   "blockingSongs": "Batch blocking songs...",
   "blockingSongsFinished": "Batch blocking songs finished",
+  "blockingSongsProgress1": "Blocked",
+  "blockingSongsProgress2": "songs",
   "confirmRemoveFromBlacklist": "Are you sure you want to remove these files from the blacklist?",
   "removeThem": "Remove them",
   "currentlyPlaying": "Currently Playing",
